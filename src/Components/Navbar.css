@@ -2,33 +2,53 @@
   display: flex;
   justify-content: space-between; 
   align-items: center; 
+  border: 2px black;
+  width: 100%;
+  
 }
 .container-fluid button {
   margin-left: 10px;
 }
 h2{
-     margin-right: 100px; 
-     color: white;
-
+  color: white;
+  font-size: 2rem;
+  border: 2px solid white;
+  
 }
 .navbar {
+  border: 2px solid black;
   position: fixed; 
   top: 0;
   left: 0;
   width: 100%;
   height: 80px;
-  padding: 0 20px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  background-color: #7D3C98;
+  background-color: var(--primary-color);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
-button {
-  background-color: #7D3C98 !important;
+.buttons-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 1rem;
+  gap: 1rem;
+}
+.buttons-container .button {
+  background-color: var(--primary-color) !important;
   color: white;
   vertical-align: middle;
+  background: none;
+  padding: 0.5rem;
+  border-radius: 100%;
+}
+
+@media screen and (max-width: 980px ) {
+  .buttons-container{
+    flex-direction: column;
+  }
 }
