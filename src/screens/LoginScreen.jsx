@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
-import "./styles/LoginScreen.css";
+import "../styles/LoginScreen.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function LoginScreen() {
@@ -44,7 +44,6 @@ function LoginScreen() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            {/* {errores.email && <p className="error">{errores.email}</p>} */}
             <p className={`error ${errores.email ? "active" : ""}`}>{errores.email || " "}</p>
           </div>
 
@@ -60,7 +59,6 @@ function LoginScreen() {
             <span className="toggle" onClick={toggleContraseña}>
               {mostrarContraseña ? <FaEyeSlash/> : <FaEye/>}
             </span>
-            {/* {errores.contraseña && <p className="error">{errores.contraseña}</p>} */}
             <p className={`error ${errores.contraseña ? "active" : ""}`}>{errores.contraseña || " "}</p>
           </div>
 
@@ -78,5 +76,5 @@ function LoginScreen() {
   );
 }
 
-export default Login;
+export default LoginScreen;
 
