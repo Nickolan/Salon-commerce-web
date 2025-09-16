@@ -10,9 +10,9 @@ function App() {
   return (
     <div style={{ "--primary-color": "#6A0DAD", "--second-color": "#7B2FF7", "--background-color": "#f3f3fe" }}>
       <Routes>
-        <Route path="/" element={<> <HomeScreen/> </>} />
+        <Route path="/" element={<> <HomeScreen/><Footer/> </>} />
       </Routes>
-      <Footer/>
+
     </div>
   )
 }
