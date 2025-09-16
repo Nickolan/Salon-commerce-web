@@ -1,8 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
+
+  const [mostrarContraseña, setMostrarContraseña] = useState(false);
+
+  const toggleContraseña = () => {
+    setMostrarContraseña(!mostrarContraseña);
+  };
+
   return (
     <div className="login-page">
       <div className="login-container">
@@ -18,13 +25,16 @@ function Login() {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group password-group">
             <input
-              type="password"
-              name="password"
+              type={mostrarContraseña ? "text" : "password"}
+              name="contraseña"
               placeholder="Contraseña"
               required
             />
+            <span className="toggle" onClick={toggleContraseña}>
+              {mostrarContraseña ? "🙈" : "👁️"}
+            </span>
           </div>
 
           <button type="submit" className="btn-primary">
