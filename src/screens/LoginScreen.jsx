@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
-import "./Login.css";
+import "./styles/LoginScreen.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-function Login() {
+function LoginScreen() {
 
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
