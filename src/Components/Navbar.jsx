@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 
 function Navbar() {
-  const [user, setUser] = useState({ icon: "https://i.pravatar.cc/300" }) //ACA SE PUEDE CAMBIAR POR null PARA VER QUE PASA SI EL USUARIO NO ESTA LOGUEADO;
+  const [user, setUser] = useState(true) //ACA SE PUEDE CAMBIAR POR null PARA VER QUE PASA SI EL USUARIO NO ESTA LOGUEADO;
 
   return (
     <Fragment>
@@ -13,12 +13,12 @@ function Navbar() {
         <div className="container-fluid d-flex  align-items-center justify-content.between">
           <h2 className="navbar-brand">Focus Room</h2>
 
-          <div className="buttons-container d-flex align-items-center gap-2 ms-auto">
-            <button className="button lang-btn" onClick={() => alert("Por ahora, solo está disponible el idioma español.")}>
+          <div className=" buttons-container d-flex align-items-center gap-2 ms-auto">
+            <button className=" Bandera button lang-btn" onClick={() => alert("Por ahora, solo está disponible el idioma español.")}>
               <img
                 src="https://upload.wikimedia.org/wikipedia/en/9/9a/Flag_of_Spain.svg"
                 alt="Español"
-                style={{ width: "25px" }}
+                style={{ width: "50px", height: "30px" }}
               />
             </button>
             <Link to="/">
@@ -30,12 +30,17 @@ function Navbar() {
               </Link>
 
             ) : (
-              <Link to="/">
-                <button className="boton_imagen" ><img
-                  src={user.icon}
+              <Link to="/" className="usuario_link">
+                <div className="datos_de_usuario">
+                <img 
+                  src="https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
                   alt="Usuario"
-                  style={{ width: "35px", borderRadius: "50%" }}
-                /></button>
+                  className="imagen_de_usuario"
+                />
+                <span className="nombre_de_usuario">
+                  Rafael Navarro
+                </span>
+                </div>
               </Link>
             )}
           </div>
