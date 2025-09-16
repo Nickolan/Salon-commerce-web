@@ -23,7 +23,7 @@ body {
   padding: 2.5rem 1.875rem;
   width: 100%;
   max-width: 21.875rem;
-  height: 28.125rem;
+  height: 29rem;
   box-shadow: 0 0 0.95rem rgba(0,0,0,0.1);
   text-align: center;
   display: flex;
@@ -77,11 +77,13 @@ h1 {
 
 .password-group {
     position: relative;
+    width: 100%;
 }
 
 .password-group input {
-    width: 90%;
-    padding-right: 2rem;
+    width: 100%;
+    padding-right: 2.5rem;
+    box-sizing: border-box;
 }
 
 .password-group .toggle {
@@ -91,6 +93,27 @@ h1 {
     transform: translateY(-50%);
     cursor: pointer;
     font-size: 1rem;
+    color: var(--primary-color);
+    transition: color 0.2s ease-in-out;
+    padding-bottom: 1rem;
+}
+
+.password-group .toggle:hover {
+  color: var(--second-color);
+}
+
+.form-group .error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  text-align: left;
+  width: 100%;
+  height: 1rem;
+  visibility: hidden;
+}
+
+.form-group .error.active {
+  visibility: visible;
 }
 
 .btn-primary {
