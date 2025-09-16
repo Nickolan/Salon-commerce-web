@@ -1,0 +1,35 @@
+.sidebar {
+    background-color: #fff;
+    border: 1px solid #6A0DAD; 
+    border-radius: 10px;
+    color: #6A0DAD;
+    width: 294px;
+    height: auto; 
+    min-height: 865px; 
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto; 
+}
+
+
+.side-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.side-links a {
+    color: #6A0DAD;
+    text-decoration: none; 
+    font-weight: bold; 
+}
+
+.link-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.link-item img.logo {
+    width: 24px; 
+    height: 24px;
+}
