@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Route, Routes } from "react-router-dom";
 import HomeScreen from './screens/HomeScreen';
 import Navbar from './components/Navbar/Navbar';
-import Footer from './components/Footer/footer';
+import Footer from './components/Footer.jsx/Footer';
 
 function App() {
   const [count, setCount] = useState(0);
