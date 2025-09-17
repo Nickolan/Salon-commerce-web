@@ -1,0 +1,87 @@
+.container-fluid {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  border: 2px black;
+  width: 100%;
+  
+}
+.container-fluid button {
+  margin-left: 10px;
+}
+h2{
+  color: white;
+  font-size: 2rem;
+  margin-left: 1rem;
+
+  
+}
+.navbar {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: var(--primary-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+.buttons-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 1rem;
+  gap: 1rem;
+}
+.buttons-container .button {
+  background-color: var(--primary-color) !important;
+  color: white;
+    border-width: 2px;
+  border-style: solid;
+  border-color: white;
+  vertical-align: middle;
+  background: none;
+  padding: 0.5rem;
+  border-radius: 5%;
+
+}
+.datos_de_usuario{
+  display: flex;
+  align-items: center ; 
+  flex-direction: row;
+
+}
+.Bandera{
+  border: none !important
+}
+.usuario_link{
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.imagen_de_usuario{
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  height: 40px;
+  background-color: var(--primary-color);
+  
+}
+.nombre_de_usuario{
+  color: white;
+  font-size: large;
+  margin-left: 0.5rem; 
+
+}
+
+@media screen and (max-width: 980px ) {
+  .buttons-container{
+    flex-direction: column;
+  }
+}
