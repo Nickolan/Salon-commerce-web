@@ -5,7 +5,7 @@ import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 // import Registrar from './components/Registrar/Registrar'
 
-import Footer from './components/Footer.jsx/Footer';
+import Footer from './components/Footer/Footer';
 
 
 function App() {
