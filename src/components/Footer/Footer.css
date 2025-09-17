@@ -1,6 +1,6 @@
 /* Estilo general del footer */
 .footer {
-    background-color: #6A0DAD; /* Un morado vibrante */
+    background-color: var(--primary-color); /* Un morado vibrante */
     color: white;
     padding: 20px 0;
     margin-top: auto; /* Empuja el footer al final de la página */
