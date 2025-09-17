@@ -1,0 +1,148 @@
+/* Clase de utilidad para ocultar elementos visualmente pero mantenerlos accesibles */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Contenedor Principal --- */
+.login-page {
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  height: 100vh;
+}
+
+.login-container {
+  background-color: #fff;
+  border: 0.13rem solid var(--primary-color);
+  border-radius: 1.25rem;
+  padding: 2.5rem; /* Padding uniforme */
+  width: 100%;
+  max-width: 25rem; /* Un poco más de ancho máximo */
+  box-shadow: 0 0 0.95rem rgba(0, 0, 0, 0.1);
+  text-align: center;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 3rem; /* Espaciado uniforme entre h1, form y links */
+}
+
+.login-container h1 {
+  color: var(--primary-color);
+  font-size: 1.7rem;
+  margin: 0; /* Reseteamos margen para que 'gap' controle el espacio */
+}
+
+/* --- Formulario --- */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Espaciado uniforme entre los inputs y el botón */
+}
+
+.form-group {
+  position: relative; /* Posición relativa para el mensaje de error */
+  text-align: left;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 5px; 
+  border: none;
+  border-bottom: 2px solid var(--primary-color);
+  background-color: transparent;
+  font-size: 1rem;
+  outline: none;
+  color: var(--primary-color);
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+}
+
+.form-group input::placeholder {
+  font-style: italic;
+  font-size: 1rem;
+  color: rgba(106, 13, 173, 0.3); 
+}
+
+/* --- Grupo de Contraseña y Toggle --- */
+.password-group input {
+  padding-right: 2.5rem; /* Espacio para el icono del ojo */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 0.5rem;
+  top: 10px; /* Alineado con el padding del input */
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  padding: 0; /* Reseteo de padding para el botón */
+}
+
+.toggle-password:hover {
+  color: var(--second-color);
+}
+
+/* --- Mensajes de Error --- */
+.form-group .error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  min-height: 1rem; /* Ocupa espacio para evitar saltos en el layout */
+  visibility: hidden; /* Oculto por defecto */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.form-group .error.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* --- Botón Principal y Links --- */
+.btn-primary {
+  width: 100%;
+  padding: 0.88rem;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  /* margin-top ya no es necesario gracias a 'gap' */
+}
+
+.btn-primary:hover {
+  background-color: var(--second-color);
+}
+
+.btn-primary:active {
+  background-color: #8734C9;
+}
+
+.login-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Espaciado consistente */
+  margin-top: 0.5rem; /* Pequeño margen superior para separar del formulario */
+}
+
+.login-links a {
+  color: var(--primary-color);
+  text-decoration: none; /* Mejor sin subrayado por defecto */
+  font-weight: normal;
+}
+
+.login-links a:hover {
+  text-decoration: underline; /* Subrayado solo al pasar el mouse */
+}
