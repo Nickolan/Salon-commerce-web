@@ -1,7 +1,6 @@
 :root {
   --font-main: system-ui, Avenir, Helvetica, Arial, sans-serif;
-
-  --color-background: #242424;
+  --color-background: #f4f4f9;
   --color-text: rgba(255, 255, 255, 0.87);
   --color-primary: #646cff;
   --color-primary-hover: #535bf2;
