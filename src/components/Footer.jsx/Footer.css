@@ -1,0 +1,130 @@
+/* Estilo general del footer */
+.footer {
+    background-color: #6A0DAD; /* Un morado vibrante */
+    color: white;
+    padding: 20px 0;
+    margin-top: auto; /* Empuja el footer al final de la página */
+    width: 100%;
+    /* Un borde superior es a menudo más sutil y elegante que un borde completo */
+    border-top: 2px solid #333;
+}
+
+/* Contenedor principal dentro del footer */
+.footer-container {
+    max-width: 1200px; /* Limita el ancho para pantallas grandes */
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px; /* Un poco más de padding lateral */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+/* Enlaces del footer */
+.footer-links {
+    display: flex;
+    gap: 25px; /* Espacio entre los enlaces */
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #ddd; /* Un blanco más suave al pasar el mouse */
+    text-decoration: underline;
+}
+
+/* Texto de Copyright */
+.copyright {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    text-align: center;
+    /* Evita que el texto se parta en varias líneas fácilmente */
+    white-space: nowrap; 
+}
+
+/* Contenedor de botones de redes sociales */
+.social-buttons {
+    display: flex;
+    gap: 15px; /* Espacio entre botones */
+}
+
+/* Estilo individual de cada botón social */
+.social-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* Círculos se ven mejor para íconos */
+    width: 40px;
+    height: 40px;
+    color: white; /* El color del ícono SVG será blanco */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    text-decoration: none;
+}
+
+/* Estilo para los íconos SVG dentro de los botones */
+.social-btn svg {
+    font-size: 20px; /* Controla el tamaño del ícono */
+}
+
+.social-btn:hover {
+    transform: scale(1.15); /* Efecto de zoom al pasar el mouse */
+}
+
+/* Colores específicos para cada red social */
+.social-btn.twitter {
+    background-color: #1DA1F2;
+}
+
+.social-btn.facebook {
+    background-color: #1877F2;
+}
+
+.social-btn.instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+
+
+/* --- Media Queries para Responsividad --- */
+
+/* Para tablets y pantallas medianas */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column; /* Apila los elementos verticalmente */
+        gap: 20px; /* Espacio entre los elementos apilados */
+    }
+
+    /* El copyright puede ir primero en el orden visual en móvil si se desea */
+    .copyright {
+        order: 2;
+    }
+    .footer-links {
+        order: 1;
+    }
+    .social-buttons {
+        order: 3;
+    }
+}
+
+/* Para móviles pequeños */
+@media (max-width: 480px) {
+    .footer-links {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .copyright {
+        font-size: 0.8rem;
+    }
+
+    .social-btn {
+        width: 38px;
+        height: 38px;
+    }
+}
