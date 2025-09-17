@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 
 function Navbar() {
-  const [user, setUser] = useState(null) //ACA SE PUEDE CAMBIAR POR null PARA VER QUE PASA SI EL USUARIO NO ESTA LOGUEADO;
+  const [user, setUser] = useState(true) //ACA SE PUEDE CAMBIAR POR null PARA VER QUE PASA SI EL USUARIO NO ESTA LOGUEADO;
 
   return (
     <Fragment>

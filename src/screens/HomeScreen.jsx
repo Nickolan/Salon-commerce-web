@@ -7,7 +7,7 @@ const HomeScreen = () => {
     
   }
   return (
-    <div>
+    <div className='screen-wrapper'>
       <h1>hola</h1>
     </div>
   )

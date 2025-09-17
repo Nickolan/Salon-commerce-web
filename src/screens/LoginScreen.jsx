@@ -37,7 +37,6 @@ function LoginScreen() {
         
         <form className="login-form" onSubmit={handleSubmit} noValidate>
           <div className="form-group">
-            {/* Añadido para accesibilidad */}
             <label htmlFor="email" className="sr-only">Correo Electrónico</label>
             <input
               type="email"
@@ -53,7 +52,6 @@ function LoginScreen() {
           </div>
 
           <div className="form-group password-group">
-            {/* Añadido para accesibilidad */}
             <label htmlFor="contraseña" className="sr-only">Contraseña</label>
             <input
               type={mostrarContraseña ? "text" : "password"}
