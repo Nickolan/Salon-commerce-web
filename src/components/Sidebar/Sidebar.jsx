@@ -8,8 +8,8 @@ import VentasLogo from "../../assets/img/Ventas-logo.png";
 
 const Sidebar = () => {
     return (
-        <sidebar className="sidebar">
-            <a href="#">Mi Perfil</a>
+        <div className="sidebar">
+            <a href="/">Mi Perfil</a>
             <div className="sidebar-container">
                 <div className="side-links">
                     <div className="link-item">
@@ -34,7 +34,7 @@ const Sidebar = () => {
                     </div>
                 </div>
             </div>
-        </sidebar>
+        </div>
     );
 };
 

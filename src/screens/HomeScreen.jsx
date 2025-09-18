@@ -1,5 +1,6 @@
 import React from 'react'
 import '../styles/HomeScreen.css'
+import Sidebar from '../components/Sidebar/Sidebar'
 
 const HomeScreen = () => {
 
@@ -8,7 +9,7 @@ const HomeScreen = () => {
   }
   return (
     <div>
-      
+      <Sidebar/>
     </div>
   )
 }
