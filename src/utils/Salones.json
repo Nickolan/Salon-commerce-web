@@ -1,0 +1,50 @@
+[
+  {
+    "id_salon": 101,
+    "id_publicador": 1,
+    "nombre": "Salón de Estudio Moderno",
+    "descripcion": "Espacio ideal para grupos de estudio, con excelente iluminación y equipamiento multimedia.",
+    "precio_por_hora": 2500.0,
+    "capacidad": 10,
+    "ubicacion": "Calle Falsa 123, Buenos Aires",
+    "fotos": [
+      "http://ejemplo.com/salon1_foto1.jpg",
+      "http://ejemplo.com/salon1_foto2.jpg"
+    ],
+    "equipamientos_json": {
+      "wifi": true,
+      "proyector": true,
+      "pizarra": true
+    },
+    "reglas": [
+      "No comer dentro del salón",
+      "Mantener el silencio"
+    ],
+    "estado_publicacion": "aprobada",
+    "fecha_creacion": "2025-09-21T09:00:00Z",
+    "fecha_ultima_modificacion": "2025-09-22T10:30:00Z"
+  },
+  {
+    "id_salon": 102,
+    "id_publicador": 1,
+    "nombre": "Sala de Reuniones Privada",
+    "descripcion": "Pequeña sala para reuniones o tutorías, muy tranquila.",
+    "precio_por_hora": 1500.0,
+    "capacidad": 4,
+    "ubicacion": "Avenida Siempre Viva 742, Buenos Aires",
+    "fotos": [
+      "http://ejemplo.com/salon2_foto1.jpg"
+    ],
+    "equipamientos_json": {
+      "wifi": true,
+      "pizarra": true
+    },
+    "reglas": [
+      "Prohibido fumar",
+      "No se permite el ingreso de mascotas"
+    ],
+    "estado_publicacion": "aprobada",
+    "fecha_creacion": "2025-09-22T11:00:00Z",
+    "fecha_ultima_modificacion": null
+  }
+]
