@@ -5,9 +5,7 @@ import Navbar from './Components/Navbar';
 
 import LoginScreen from './screens/LoginScreen';
 // import Registrar from './components/Registrar/Registrar'
-
 import Footer from './components/Footer/Footer';
-
 import RegistroScreen from "./screens/RegistroScreen";
 
 function App() {

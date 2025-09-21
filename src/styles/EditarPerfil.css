@@ -1,0 +1,137 @@
+.EditProfile-page {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.EditProfile-page h1 {
+  text-align: center;
+  color: #6A0DAD;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.profile-container {
+  display: flex;
+  gap: 2rem;
+}
+
+.Left-container,
+.Right-container {
+  flex: 1;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.form-group label:not(.sr-only) {
+  display: block;
+  color: #6A0DAD;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+
+.registro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-group .logo {
+  position: absolute;
+  right: 12px;
+  top: 50%; 
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select {
+  width: 100%;
+  padding: 12px 35px 8px 12px; 
+  border: none;
+  border-bottom: 2px solid #6A0DAD;
+  border-radius: 0;
+  background-color: transparent;
+  font-size: 1rem;
+  outline: none;
+  color: #6A0DAD;
+  transition: border-color 0.3s;
+  margin-top: 0.5rem;
+}
+
+
+.form-group input:focus,
+.form-group select:focus {
+  border-bottom-color: #5a0c9a; 
+}
+
+.form-group .logo {
+  position: absolute;
+  right: 12px;
+  top: 50%; 
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+
+.error {
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  display: none;
+}
+
+.error.active {
+  display: block;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.submit-btn {
+  background-color: #6A0DAD;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+  }
+
+  .EditProfile-page {
+    padding: 1rem;
+  }
+}
