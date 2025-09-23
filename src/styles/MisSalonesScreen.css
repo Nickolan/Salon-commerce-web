@@ -57,7 +57,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.01rem;
-    flex: 1;
+    flex: 1; /* para que ocupe siempre el espacio completo de la card al ampliarse o achicarse */
 }
 
 .card-izquierda svg {
@@ -121,7 +121,7 @@
     color: var(--primary-color);
     padding: 0;
     margin: 0;
-    line-height: 1;
+    line-height: 1; /* saca el espacio extra y se ajusta exacto al tamaño del icono */
     transition: all 0.3s ease;
 }
 
@@ -133,7 +133,6 @@
 .botones button:active {
     transform: scale(0.95);
     opacity: 0.8;
-    border: none;
 }
 
 .estado-publicacion {

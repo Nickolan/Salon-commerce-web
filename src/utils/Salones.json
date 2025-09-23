@@ -1,7 +1,7 @@
 [
   {
     "id_salon": 101,
-    "id_publicador": 1,
+    "id_publicador": 0,
     "nombre": "Salón de Estudio Moderno",
     "descripcion": "Espacio ideal para grupos de estudio, con excelente iluminación y equipamiento multimedia.",
     "precio_por_hora": 2500.0,
@@ -46,5 +46,137 @@
     "estado_publicacion": "Aprobada",
     "fecha_creacion": "2025-09-22T11:00:00Z",
     "fecha_ultima_modificacion": null
+  },
+  {
+    "id_salon": 103,
+    "id_publicador": 2,
+    "nombre": "Auditorio Central",
+    "descripcion": "Amplio auditorio con escenario y proyector, ideal para conferencias o presentaciones.",
+    "precio_por_hora": 5000.0,
+    "capacidad": 120,
+    "ubicacion": "Avenida Felicidad 444, Buenos Aires",
+    "fotos": [
+      "http://ejemplo.com/salon3_foto1.jpg"
+    ],
+    "equipamientos_json": {
+      "wifi": true,
+      "pizarra": true,
+      "proyector": true,
+      "aire_acondicionado": true
+    },
+    "reglas": [
+      "No se permite fumar",
+      "Mantener el volumen bajo",
+      "Prohibido el consumo de bebidas alcohólicas"
+    ],
+    "estado_publicacion": "Aprobada",
+    "fecha_creacion": "2025-09-23T09:30:00Z",
+    "fecha_ultima_modificacion": null
+  },
+  {
+    "id_salon": 104,
+    "id_publicador": 3,
+    "nombre": "Sala Creativa",
+    "descripcion": "Espacio cómodo y luminoso para talleres, brainstorming y actividades creativas.",
+    "precio_por_hora": 2000.0,
+    "capacidad": 10,
+    "ubicacion": "Boulevard Innovación 456, Buenos Aires",
+    "fotos": [
+      "http://ejemplo.com/salon4_foto1.jpg"
+    ],
+    "equipamientos_json": {
+      "wifi": true,
+      "pizarra": true,
+      "proyector": false,
+      "aire_acondicionado": true
+    },
+    "reglas": [
+      "No se permite fumar",
+      "Cuidar el mobiliario",
+      "Mantener limpio el espacio"
+    ],
+    "estado_publicacion": "Pendiente",
+    "fecha_creacion": "2025-09-23T10:15:00Z",
+    "fecha_ultima_modificacion": null
+  },
+  {
+    "id_salon": 105,
+    "id_publicador": 4,
+    "nombre": "Terraza Panorámica",
+    "descripcion": "Terraza al aire libre con vista a la ciudad, perfecta para eventos sociales y after office.",
+    "precio_por_hora": 3500.0,
+    "capacidad": 50,
+    "ubicacion": "Av. Libertador 900, Buenos Aires",
+    "fotos": [
+      "http://ejemplo.com/salon5_foto1.jpg"
+    ],
+    "equipamientos_json": {
+      "wifi": true,
+      "pizarra": false,
+      "proyector": false,
+      "aire_acondicionado": false
+    },
+    "reglas": [
+      "Horario máximo hasta las 23 hs",
+      "No se permite música en vivo",
+      "Prohibido fumar fuera de las áreas designadas"
+    ],
+    "estado_publicacion": "Aprobada",
+    "fecha_creacion": "2025-09-23T12:00:00Z",
+    "fecha_ultima_modificacion": null
+  },
+  {
+    "id_salon": 106,
+    "id_publicador": 5,
+    "nombre": "Estudio Fotográfico",
+    "descripcion": "Espacio equipado con luces y fondos, ideal para sesiones fotográficas o grabaciones.",
+    "precio_por_hora": 2500.0,
+    "capacidad": 8,
+    "ubicacion": "Calle Arte 221, Palermo, Buenos Aires",
+    "fotos": [
+      "http://ejemplo.com/salon6_foto1.jpg"
+    ],
+    "equipamientos_json": {
+      "wifi": true,
+      "pizarra": false,
+      "proyector": false,
+      "aire_acondicionado": true
+    },
+    "reglas": [
+      "No ingresar con alimentos ni bebidas",
+      "Cuidar los equipos de iluminación",
+      "Se debe reservar con 48 hs de anticipación"
+    ],
+    "estado_publicacion": "Pendiente",
+    "fecha_creacion": "2025-09-23T13:15:00Z",
+    "fecha_ultima_modificacion": null
+  },
+  {
+    "id_salon": 107,
+    "id_publicador": 6,
+    "nombre": "Salón de Fiestas Infantiles",
+    "descripcion": "Colorido espacio con juegos y decoración temática, pensado para cumpleaños de niños.",
+    "precio_por_hora": 4000.0,
+    "capacidad": 60,
+    "ubicacion": "Av. Rivadavia 3450, Caballito, Buenos Aires",
+    "fotos": [
+      "http://ejemplo.com/salon7_foto1.jpg"
+    ],
+    "equipamientos_json": {
+      "wifi": false,
+      "pizarra": false,
+      "proyector": false,
+      "aire_acondicionado": true
+    },
+    "reglas": [
+      "Responsabilidad de los adultos por los niños",
+      "No está permitido el ingreso de mascotas",
+      "Uso exclusivo para eventos infantiles"
+    ],
+    "estado_publicacion": "Rechazada",
+    "fecha_creacion": "2025-09-23T14:00:00Z",
+    "fecha_ultima_modificacion": null
   }
+
+
 ]

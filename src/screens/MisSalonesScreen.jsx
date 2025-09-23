@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { Link } from "react-router-dom";
 import BarraBusqueda from '../Components/BarraBusqueda/BarraBusqueda';
-import "../styles/MisSalones.css";
+import "../styles/MisSalonesScreen.css";
 import Salones from "../utils/Salones.json";
 import { FiEdit, FiXCircle, FiUsers, FiMapPin, FiDollarSign } from "react-icons/fi";
 
@@ -56,7 +56,7 @@ const MisSalonesScreen = () => {
                                     <p className='salon-nombre'>{salon.nombre}</p>
                                     <p className='salon-caracteristica'>
                                          - {salon.capacidad}
-                                        <FiUsers style={{marginRight: '0.2rem'}} className='icono'/>
+                                        <FiUsers className='icono'/>
                                     </p>
                                 </div>
                                 <p className='salon-caracteristica'>
