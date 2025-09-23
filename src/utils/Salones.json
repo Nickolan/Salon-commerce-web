@@ -20,7 +20,7 @@
       "No comer dentro del salón",
       "Mantener el silencio"
     ],
-    "estado_publicacion": "aprobada",
+    "estado_publicacion": "Aprobada",
     "fecha_creacion": "2025-09-21T09:00:00Z",
     "fecha_ultima_modificacion": "2025-09-22T10:30:00Z"
   },
@@ -43,7 +43,7 @@
       "Prohibido fumar",
       "No se permite el ingreso de mascotas"
     ],
-    "estado_publicacion": "aprobada",
+    "estado_publicacion": "Aprobada",
     "fecha_creacion": "2025-09-22T11:00:00Z",
     "fecha_ultima_modificacion": null
   }
