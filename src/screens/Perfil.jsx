@@ -1,47 +1,69 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Para la navegación
 import "../styles/Perfil.css";
+import LinkEditar from "../assets/img/Link-editar.png";
+import LautaroLogo from "../assets/img/Lautaro-logo.png";
+import usuarios from "../utils/Usuarios.json";
 
 const Perfil = () => {
+  const usuario = usuarios.find(u => u.id_usuario === 4);
+  const navigate = useNavigate();
+
+  const handleEditarClick = () => {
+    navigate("/editar");
+  };
+
   return (
     <div className='Profile-page'>
-        <span className="nombre_de_usuario">
-          Lautaro Joel Ferreria
-        </span>
+      <span className="nombre_de_usuario">
+        <img src={LautaroLogo} className='logo' alt="logo" />
+        {usuario.nombre} {usuario.apellido}
+        <div
+          className="editar-button"
+          onClick={handleEditarClick}
+        >
+          <img src={LinkEditar} className='logo-editar' alt="editar" />
+          <span className="editar-texto">Editar</span>
+        </div>
+      </span>
+      <div className='containers-wrapper'>
         <div className='Left-container'>
-            <div>
-                <h2>Información Personal
-                    
-                </h2>
-            </div>
-            <div>
-                <h2>nombre
-                    Lautaro Joel Ferreria
-                </h2>
-            </div>
-            <div>
-                <h2>
-                    DNI 
-                    46621231
-                </h2>
-            </div>
-            <div>
-                <h2>
-                    Ciudad 
-                    Luján de Cuyo
-                </h2>
-            </div>
-            <div>
-                <h2>
-                    Provincia
-                    Mendoza
-                </h2>
-            </div>
+          <h2>Información Personal</h2>
+          <div>
+            <label htmlFor="nombre">Nombre Completo</label>
+            <h3>{usuario.nombre} {usuario.apellido}</h3>
+          </div>
+          <div>
+            <label htmlFor="dni">DNI</label>
+            <h3>{usuario.dni}</h3>
+          </div>
+          <div>
+            <label htmlFor="ciudad">Ciudad</label>
+            <h3>{usuario.ciudad}</h3>
+          </div>
+          <div>
+            <label htmlFor="provincia">Provincia</label>
+            <h3>{usuario.provincia}</h3>
+          </div>
         </div>
         <div className='Right-container'>
-            
+          <h2>Datos de la Cuenta</h2>
+          <div>
+            <label htmlFor="email">Correo Electrónico</label>
+            <h3>{usuario.email}</h3>
+          </div>
+          <div>
+            <label htmlFor="telefono">Teléfono</label>
+            <h3>{usuario.telefono}</h3>
+          </div>
+          <div>
+            <label htmlFor="nombre_usuario">Nombre de Usuario</label>
+            <h3>{usuario.nombre_usuario}</h3>
+          </div>
         </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Perfil
+export default Perfil;

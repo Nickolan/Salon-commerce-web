@@ -1,0 +1,11 @@
+[
+  {
+    "id_cancelacion": 2001,
+    "id_reserva": 1002,
+    "fecha_cancelacion": "2025-09-25T09:00:00Z",
+    "motivo": "Cambio de planes personales",
+    "canelado_por": "usuario",
+    "monto_reembolsado": 1500,
+    "politica_aplicada": "total"
+  }
+]

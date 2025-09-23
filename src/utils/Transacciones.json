@@ -1,0 +1,15 @@
+[
+  {
+    "id_transaccion": 5001,
+    "id_reserva": 1001,
+    "monto_pagado": 5000.0,
+    "metodo_pago": "Tarjeta de crédito",
+    "estado_transaccion": "aprobado",
+    "fecha_transaccion": "2025-09-23T14:05:00Z",
+    "detalles_pago": {
+      "tarjeta": "Visa",
+      "ultimos_4_digitos": "1234",
+      "titular": "María Gómez"
+    }
+  }
+]

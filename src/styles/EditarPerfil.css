@@ -1,8 +1,8 @@
 .EditProfile-page {
   padding: 2rem;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  background-color: #f9f9f9;
+  background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -14,29 +14,35 @@
   font-size: 2rem;
 }
 
-.profile-container {
+.containers-wrapper {
   display: flex;
-  gap: 2rem;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
 }
 
-.Left-container,
-.Right-container {
-  flex: 1;
-  background-color: white;
+.Left-container {
+  width: 35%;
   padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: transparent;
+  border: #FFFF;
 }
 
-.form-group label:not(.sr-only) {
-  display: block;
+.Right-container {
+  width: 40%;
+  padding: 1.5rem;
+  background-color: transparent;
+  border: #FFFF;
+}
+
+.Left-container h2,
+.Right-container h2 {
+  font-size: 20px;
+  font-weight: bold;
   color: #6A0DAD;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
+  margin-top: 0;
+  text-align: left; 
 }
-
-
 .registro-form {
   display: flex;
   flex-direction: column;
@@ -44,25 +50,29 @@
 }
 
 .form-group {
-  position: relative;
+  margin-bottom: 1rem;
 }
 
-.form-group .logo {
-  position: absolute;
-  right: 12px;
-  top: 50%; 
-  transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
+.form-group label {
+  display: block;
+  color: #6A0DAD;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group input[type="tel"],
 .form-group select {
-  width: 100%;
-  padding: 12px 35px 8px 12px; 
+  flex: 1;
+  padding: 12px 45px 12px 12px;
   border: none;
   border-bottom: 2px solid #6A0DAD;
   border-radius: 0;
@@ -71,25 +81,35 @@
   outline: none;
   color: #6A0DAD;
   transition: border-color 0.3s;
-  margin-top: 0.5rem;
 }
-
 
 .form-group input:focus,
 .form-group select:focus {
   border-bottom-color: #5a0c9a; 
 }
 
-.form-group .logo {
+.input-container .logo {
   position: absolute;
   right: 12px;
-  top: 50%; 
+  top: 50%;
   transform: translateY(-50%);
-  width: 30px;
-  height: 30px;
   cursor: pointer;
+  z-index: 2;
+  max-height: 50%;
+  max-width: 50%;
+}
+.form-group input:disabled,
+.form-group select:disabled {
+  border-bottom: 2px solid #ccc;
+  color: #666;
+  background-color: #fff;
 }
 
+.form-group input:not(:disabled),
+.form-group select:not(:disabled) {
+  border-bottom: 2px solid #6A0DAD;
+  color: #6A0DAD;
+}
 
 .error {
   color: #e74c3c;
@@ -102,36 +122,41 @@
   display: block;
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.submit-btn {
+.btn-guardar {
   background-color: #6A0DAD;
-  color: white;
+  color: #ffff;
   border: none;
-  padding: 12px 20px;
+  padding: 12px 30px;
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-top: 1rem;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 200px;
+  align-self: center;
+}
+
+.btn-guardar:hover {
+  background-color: #5a0c9a;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
 }
 
 @media (max-width: 768px) {
   .profile-container {
     flex-direction: column;
   }
-
-  .EditProfile-page {
-    padding: 1rem;
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0;
   }
 }
