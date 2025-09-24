@@ -141,3 +141,10 @@
     color: var(--primary-color);
     font-weight: bold;
 }
+
+.scroll-down-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
