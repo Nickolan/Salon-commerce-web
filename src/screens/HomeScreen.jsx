@@ -1,14 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles/HomeScreen.css'
 
 const HomeScreen = () => {
 
-  function name(params) {
-    
-  }
   return (
     <div className='screen-wrapper'>
-      <h1>hola</h1>
+     <h1>Hola</h1>
     </div>
   )
 }

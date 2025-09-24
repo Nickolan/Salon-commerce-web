@@ -21,7 +21,7 @@ function Navbar() {
                 style={{ width: "50px", height: "30px" }}
               />
             </button>
-            <Link to="/">
+            <Link to="/publicar">
               <div className="button">Registra tu salón</div>
             </Link>
             {!user ? (

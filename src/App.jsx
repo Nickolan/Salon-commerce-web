@@ -9,9 +9,9 @@ import LoginScreen from './screens/LoginScreen';
 import Footer from './components/Footer/Footer';
 
 import RegistroScreen from "./screens/RegistroScreen";
+import NuevoSalonScreen from './screens/NuevoSalonScreen';
 
 function App() {
-  const [count, setCount] = useState(0);
   return (
     <div style={{ "--primary-color": "#6A0DAD", "--second-color": "#7B2FF7", "--background-color": "#f3f3fe" }}>
        
@@ -19,6 +19,7 @@ function App() {
         <Route path="/" element={<><Navbar user={null} /><HomeScreen/><Footer/></>} />
         <Route path="/login" element={<> <LoginScreen/> </>} />
         <Route path="/registro" element={<> <RegistroScreen/> </>} />
+        <Route path="/publicar" element={<> <NuevoSalonScreen/> </>} />
       </Routes>
     </div>
   );
