@@ -14,46 +14,47 @@
   font-size: 2rem;
 }
 
-.containers-wrapper {
+.EditProfile-page .containers-wrapper {
   display: flex;
   gap: 20px;
   justify-content: center;
   width: 100%;
 }
 
-.Left-container {
+.EditProfile-page .Left-container {
   width: 35%;
   padding: 1.5rem;
   background-color: transparent;
   border: #FFFF;
 }
 
-.Right-container {
+.EditProfile-page .Right-container {
   width: 40%;
   padding: 1.5rem;
   background-color: transparent;
   border: #FFFF;
 }
 
-.Left-container h2,
-.Right-container h2 {
+.EditProfile-page .Left-container h2,
+.EditProfile-page .Right-container h2 {
   font-size: 20px;
   font-weight: bold;
   color: #6A0DAD;
   margin-top: 0;
   text-align: left; 
 }
-.registro-form {
+
+.EditProfile-page .registro-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.form-group {
+.EditProfile-page .form-group {
   margin-bottom: 1rem;
 }
 
-.form-group label {
+.EditProfile-page .form-group label {
   display: block;
   color: #6A0DAD;
   font-size: 0.9rem;
@@ -61,16 +62,16 @@
   font-weight: 500;
 }
 
-.input-container {
+.EditProfile-page .input-container {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="tel"],
-.form-group select {
+.EditProfile-page .form-group input[type="text"],
+.EditProfile-page .form-group input[type="email"],
+.EditProfile-page .form-group input[type="tel"],
+.EditProfile-page .form-group select {
   flex: 1;
   padding: 12px 45px 12px 12px;
   border: none;
@@ -83,46 +84,48 @@
   transition: border-color 0.3s;
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.EditProfile-page .form-group input:focus,
+.EditProfile-page .form-group select:focus {
   border-bottom-color: #5a0c9a; 
 }
 
-.input-container .logo {
+.EditProfile-page .input-container .logo {
   position: absolute;
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   z-index: 2;
-  max-height: 50%;
-  max-width: 50%;
+  width: 20px; 
+  height: 20px;
+  object-fit: contain;
 }
-.form-group input:disabled,
-.form-group select:disabled {
+
+.EditProfile-page .form-group input:disabled,
+.EditProfile-page .form-group select:disabled {
   border-bottom: 2px solid #ccc;
   color: #666;
   background-color: #fff;
 }
 
-.form-group input:not(:disabled),
-.form-group select:not(:disabled) {
+.EditProfile-page .form-group input:not(:disabled),
+.EditProfile-page .form-group select:not(:disabled) {
   border-bottom: 2px solid #6A0DAD;
   color: #6A0DAD;
 }
 
-.error {
+.EditProfile-page .error {
   color: #e74c3c;
   font-size: 0.8rem;
   margin-top: 5px;
   display: none;
 }
 
-.error.active {
+.EditProfile-page .error.active {
   display: block;
 }
 
-.btn-guardar {
+.EditProfile-page .btn-guardar {
   background-color: #6A0DAD;
   color: #ffff;
   border: none;
@@ -137,25 +140,65 @@
   align-self: center;
 }
 
-.btn-guardar:hover {
+.EditProfile-page .btn-guardar:hover {
   background-color: #5a0c9a;
 }
 
-.form-row {
+.EditProfile-page .form-row {
   display: flex;
   gap: 15px;
 }
 
-.form-row .form-group {
+.EditProfile-page .form-row .form-group {
   flex: 1;
 }
 
+.EditProfile-page .input-purple {
+    border-bottom: 2px solid #6A0DAD !important;
+    color: #6A0DAD !important;
+}
+
+.EditProfile-page .input-gray {
+    border-bottom: 2px solid #ccc !important;
+    color: #666 !important;
+}
+
+.EditProfile-page .email-purple {
+    color: #6A0DAD;
+    margin: 0;
+}
+
+.EditProfile-page .btn-guardar-div {
+    background-color: #6A0DAD;
+    color: #ffff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 200px;
+    text-align: center;
+    display: block;
+}
+
+.EditProfile-page .btn-guardar-div:hover {
+    background-color: #5a0c9a;
+}
+
 @media (max-width: 768px) {
-  .profile-container {
+  .EditProfile-page .containers-wrapper {
     flex-direction: column;
   }
   
-  .form-row {
+  .EditProfile-page .Left-container,
+  .EditProfile-page .Right-container {
+    width: 100%;
+  }
+  
+  .EditProfile-page .form-row {
     flex-direction: column;
     gap: 0;
   }

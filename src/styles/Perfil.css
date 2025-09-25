@@ -6,7 +6,7 @@
   color: #333;
 }
 
-.nombre_de_usuario {
+.Profile-page .nombre_de_usuario {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
@@ -20,13 +20,13 @@
   box-sizing: border-box;
 }
 
-.nombre_de_usuario > .logo {
+.Profile-page .nombre_de_usuario > .logo {
   width: 30px;
   height: 30px;
   margin-right: 10px;
 }
 
-.editar-button {
+.Profile-page .editar-button {
   position: absolute;
   right: 0;
   top: 50%;
@@ -37,68 +37,70 @@
   gap: 8px;
   padding: 8px 12px;
   background-color: #6A0DAD;
+  color: #FFFFFF;
   border-radius: 4px;
   cursor: pointer;
+  text-decoration: none;
 }
 
-.editar-button:hover {
+.Profile-page .editar-button:hover {
   opacity: 0.9;
 }
 
-.logo-editar {
+.Profile-page .logo-editar {
   width: 16px;
   height: 16px;
 }
 
-.editar-texto {
-  color: #FFFF;
+.Profile-page .editar-texto {
+  color: #FFFFFF; 
   font-size: 14px;
   font-weight: bold;
 }
 
-.containers-wrapper {
+.Profile-page .containers-wrapper {
   display: flex;
   gap: 20px;
   justify-content: center;
 }
 
-.Left-container {
+.Profile-page .Left-container {
   flex: 0.3;
   padding: 1.5rem;
   background-color: transparent;
-  border: #FFFF;
 }
 
-.Right-container {
+.Profile-page .Right-container {
   flex: 0.4;
   padding: 1.5rem;
   background-color: transparent;
-  border: #FFFF;
 }
 
-.Left-container h2,
-.Right-container h2 {
+/* CORREGIDO: Selectores para los h2 */
+.Profile-page .Left-container h2,
+.Profile-page .Right-container h2 {
   text-align: left;
   margin-left: 0;
   padding-left: 0;
   width: 100%;
+  color: #6A0DAD;
+  font-size: 20px; 
+  font-weight: bold; 
+  margin-bottom: 15px; 
 }
 
-.Left-container,
-.Right-container {
-  text-align: left;
-}
-
-label {
+.Profile-page label {
   display: block;
   margin-top: 10px;
   font-weight: bold;
   color: #6A0DAD;
 }
 
-h3 {
+.Profile-page h3 {
   margin: 5px 0;
-  color: #6A0DAD;
+  color: #6A0DAD; 
   font-size: 16px;
   font-weight: normal;
+  background-color: transparent; 
+  padding: 5px 0;
 }

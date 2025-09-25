@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import "../styles/EditarPerfil.css";
 import { useNavigate } from "react-router-dom";
 import EditarLogo from "../assets/img/Editar-logo.png";
 import usuariosData from "../utils/Usuarios.json";
 
 const EditarPerfil = () => {
-    const usuarioActual = usuariosData.find(user => user.id_usuario === 4);
+
+    const usuarioActual = getUsuarioActual();
     
     const [formData, setFormData] = useState({
         nombre: usuarioActual?.nombre || "",
@@ -17,16 +18,24 @@ const EditarPerfil = () => {
         telefono: usuarioActual?.telefono || "",
         nombreUsuario: usuarioActual?.nombre_usuario || "",
     });
-
     const [camposEditables, setCamposEditables] = useState({
         nombre: false,
         apellido: false,
         DNI: false,
         ciudad: false,
         Provincia: false,
-        email: false,
         telefono: false,
         nombreUsuario: false
+    });
+
+    const [coloresCampos, setColoresCampos] = useState({
+        nombre: 'purple', 
+        apellido: 'purple',
+        DNI: 'purple',
+        ciudad: 'purple',
+        Provincia: 'purple',
+        telefono: 'purple',
+        nombreUsuario: 'purple'
     });
 
     const [errores, setErrores] = useState({});
@@ -47,6 +56,14 @@ const EditarPerfil = () => {
             ...prev,
             [campo]: !prev[campo]
         }));
+        setColoresCampos(prev => ({
+            ...prev,
+            [campo]: prev[campo] === 'purple' ? 'gray' : 'purple'
+        }));
+    };
+
+    const getInputClassName = (campo) => {
+        return coloresCampos[campo] === 'purple' ? 'input-purple' : 'input-gray';
     };
 
     const handleChange = (e) => {
@@ -60,35 +77,12 @@ const EditarPerfil = () => {
         }
     };
 
-    const guardarEnJSON = (datosActualizados) => {
-        const usuariosActualizados = [...usuariosData];
-        const index = usuariosActualizados.findIndex(user => user.id_usuario === 4);
-        
-        if (index !== -1) {
-            usuariosActualizados[index] = {
-                ...usuariosActualizados[index],
-                nombre: datosActualizados.nombre,
-                apellido: datosActualizados.apellido,
-                dni: datosActualizados.DNI,
-                ciudad: datosActualizados.ciudad,
-                provincia: datosActualizados.Provincia,
-                email: datosActualizados.email,
-                telefono: datosActualizados.telefono,
-                nombre_usuario: datosActualizados.nombreUsuario
-            };
-            console.log("Datos actualizados para guardar:", usuariosActualizados[index]);
-            
-            return true;
-        }
-        return false;
-    };
-
     const handleSubmit = (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
+
         const { nombre, apellido, DNI, Provincia, ciudad, email, telefono, nombreUsuario } = formData;
         let nuevosErrores = {};
-
-        // Validaciones
+        // Validaciones 
         if (!nombre.trim()) nuevosErrores.nombre = "El nombre es obligatorio";
         if (!apellido.trim()) nuevosErrores.apellido = "El apellido es obligatorio";
         if (!DNI.trim()) nuevosErrores.DNI = "El DNI es obligatorio";
@@ -100,12 +94,9 @@ const EditarPerfil = () => {
         if (!nombreUsuario.trim()) nuevosErrores.nombreUsuario = "El nombre de usuario es obligatorio";
 
         setErrores(nuevosErrores);
-
         if (Object.keys(nuevosErrores).length === 0) {
-            console.log("Formulario válido:", formData);
-            const guardadoExitoso = guardarEnJSON(formData);
-            
-            if (guardadoExitoso) {
+            const exito = guardarEnJSON(formData);
+            if (exito) {
                 alert("Perfil actualizado correctamente");
                 navigate("/perfil");
             } else {
@@ -115,12 +106,7 @@ const EditarPerfil = () => {
     };
 
     if (!usuarioActual) {
-        return (
-            <div className="EditProfile-page">
-                <h1>Error: Usuario no encontrado</h1>
-                <p>No se pudo cargar la información del usuario.</p>
-            </div>
-        );
+        return <div className="EditProfile-page"><h1>Error: Usuario no encontrado</h1></div>;
     }
 
     return (
@@ -129,32 +115,32 @@ const EditarPerfil = () => {
             <div className="containers-wrapper">
                 <div className="Left-container">
                     <form className="registro-form" onSubmit={handleSubmit} noValidate>
-                        
                         <div className="form-row">
                             <div className="form-group">
-                            <label htmlFor="nombre">Nombre</label>
-                            <div className="input-container">
-                                <input
-                                    type="text"
-                                    id="nombre"
-                                    name="nombre"
-                                    placeholder="Ej: Lautaro"
-                                    value={formData.nombre}
-                                    onChange={handleChange}
-                                    disabled={!camposEditables.nombre}
-                                    required
-                                />
-                                <img 
-                                    src={EditarLogo} 
-                                    className="logo" 
-                                    alt="Editar" 
-                                    onClick={() => toggleEdicion("nombre")}
-                                />
+                                <label htmlFor="nombre">Nombre</label>
+                                <div className="input-container">
+                                    <input
+                                        type="text"
+                                        id="nombre"
+                                        name="nombre"
+                                        placeholder="Ej: Lautaro"
+                                        value={formData.nombre}
+                                        onChange={handleChange}
+                                        disabled={!camposEditables.nombre}
+                                        required
+                                        className={getInputClassName('nombre')}
+                                    />
+                                    <img 
+                                        src={EditarLogo} 
+                                        className="logo" 
+                                        alt="Editar" 
+                                        onClick={() => toggleEdicion('nombre')}
+                                    />
+                                </div>
+                                <p className={`error ${errores.nombre ? "active" : ""}`}>
+                                    {errores.nombre}
+                                </p>
                             </div>
-                            <p className={`error ${errores.nombre ? "active" : ""}`}>
-                                {errores.nombre}
-                            </p>
-                        </div>
 
                             <div className="form-group">
                                 <label htmlFor="apellido">Apellido</label>
@@ -168,12 +154,13 @@ const EditarPerfil = () => {
                                         onChange={handleChange}
                                         disabled={!camposEditables.apellido}
                                         required
+                                        className={getInputClassName('apellido')}
                                     />
                                     <img 
                                         src={EditarLogo} 
                                         className="logo" 
                                         alt="Editar" 
-                                        onClick={() => toggleEdicion("apellido")}
+                                        onClick={() => toggleEdicion('apellido')}
                                     />
                                 </div>
                                 <p className={`error ${errores.apellido ? "active" : ""}`}>
@@ -186,51 +173,52 @@ const EditarPerfil = () => {
                             <label htmlFor="DNI">DNI</label>
                             <div className="input-container">
                                 <input
-                                  type="text"
-                                  id="DNI"
-                                  name="DNI"
-                                  placeholder="DNI"
-                                  value={formData.DNI}
-                                  onChange={handleChange}
-                                  disabled={!camposEditables.DNI}
-                                  required
-                              />
+                                    type="text"
+                                    id="DNI"
+                                    name="DNI"
+                                    placeholder="DNI"
+                                    value={formData.DNI}
+                                    onChange={handleChange}
+                                    disabled={!camposEditables.DNI}
+                                    required
+                                    className={getInputClassName('DNI')}
+                                />
                                 <img 
                                     src={EditarLogo} 
                                     className="logo" 
                                     alt="Editar" 
-                                    onClick={() => toggleEdicion("DNI")}
-                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => toggleEdicion('DNI')}
                                 />
                             </div>
                             <p className={`error ${errores.DNI ? "active" : ""}`}>
                                 {errores.DNI}
                             </p>
                         </div>
-                          <div className="form-group">
-                          <label htmlFor="ciudad">Ciudad</label>
-                          <div className="input-container">
+
+                        <div className="form-group">
+                            <label htmlFor="ciudad">Ciudad</label>
+                            <div className="input-container">
                                 <input
-                                type="text"
-                                id="ciudad"
-                                name="ciudad"
-                                placeholder="Ciudad"
-                                value={formData.ciudad}
-                                onChange={handleChange}
-                                disabled={!camposEditables.ciudad}
-                                required
+                                    type="text"
+                                    id="ciudad"
+                                    name="ciudad"
+                                    placeholder="Ciudad"
+                                    value={formData.ciudad}
+                                    onChange={handleChange}
+                                    disabled={!camposEditables.ciudad}
+                                    required
+                                    className={getInputClassName('ciudad')}
                                 />
-                              <img 
-                                  src={EditarLogo} 
-                                  className="logo" 
-                                  alt="Editar" 
-                                  onClick={() => toggleEdicion("ciudad")}
-                                  style={{ cursor: 'pointer' }}
-                              />
-                          </div>
-                          <p className={`error ${errores.ciudad ? "active" : ""}`}>
-                              {errores.ciudad}
-                          </p>
+                                <img 
+                                    src={EditarLogo} 
+                                    className="logo" 
+                                    alt="Editar" 
+                                    onClick={() => toggleEdicion('ciudad')}
+                                />
+                            </div>
+                            <p className={`error ${errores.ciudad ? "active" : ""}`}>
+                                {errores.ciudad}
+                            </p>
                         </div>
 
                         <div className="form-group">
@@ -243,21 +231,21 @@ const EditarPerfil = () => {
                                     onChange={handleChange}
                                     disabled={!camposEditables.Provincia}
                                     required
+                                    className={getInputClassName('Provincia')}
                                 >
-                                <option value="">Selecciona una provincia</option>
-                                {provinciasArgentinas.map((provincia, index) => (
-                                    <option key={index} value={provincia}>
-                                        {provincia}
-                                    </option>
-                                ))}
-                              </select>
-                              <img 
-                                  src={EditarLogo} 
-                                  className="logo" 
-                                  alt="Editar" 
-                                  onClick={() => toggleEdicion("Provincia")}
-                                  style={{ cursor: 'pointer' }}
-                              />                            
+                                    <option value="">Selecciona una provincia</option>
+                                    {provinciasArgentinas.map((provincia, index) => (
+                                        <option key={index} value={provincia}>
+                                            {provincia}
+                                        </option>
+                                    ))}
+                                </select>
+                                <img 
+                                    src={EditarLogo} 
+                                    className="logo" 
+                                    alt="Editar" 
+                                    onClick={() => toggleEdicion('Provincia')}
+                                />                            
                             </div>
                             <p className={`error ${errores.Provincia ? "active" : ""}`}>
                                 {errores.Provincia}
@@ -265,28 +253,13 @@ const EditarPerfil = () => {
                         </div>
                     </form>
                 </div>
+
                 <div className="Right-container">
                     <form className="registro-form" onSubmit={handleSubmit} noValidate>
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
                             <div className="input-container">
-                                <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="Email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                disabled={!camposEditables.email}
-                                required
-                                />
-                                <img 
-                                    src={EditarLogo} 
-                                    className="logo" 
-                                    alt="Editar" 
-                                    onClick={() => toggleEdicion("email")}
-                                    style={{ cursor: 'pointer' }}
-                                />                          
+                                <h3 className="email-purple">{usuarioActual.email}</h3>                         
                             </div>
                             <p className={`error ${errores.email ? "active" : ""}`}>
                                 {errores.email}
@@ -297,21 +270,21 @@ const EditarPerfil = () => {
                             <label htmlFor="telefono">Teléfono</label>
                             <div className="input-container">
                                 <input
-                                type="text"
-                                id="telefono"
-                                name="telefono"
-                                placeholder="Teléfono"
-                                value={formData.telefono}
-                                onChange={handleChange}
-                                disabled={!camposEditables.telefono}
-                                required
+                                    type="text"
+                                    id="telefono"
+                                    name="telefono"
+                                    placeholder="Teléfono"
+                                    value={formData.telefono}
+                                    onChange={handleChange}
+                                    disabled={!camposEditables.telefono}
+                                    required
+                                    className={getInputClassName('telefono')}
                                 />
                                 <img 
                                     src={EditarLogo} 
                                     className="logo" 
                                     alt="Editar" 
-                                    onClick={() => toggleEdicion("telefono")}
-                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => toggleEdicion('telefono')}
                                 />                            
                             </div>
                             <p className={`error ${errores.telefono ? "active" : ""}`}>
@@ -322,26 +295,34 @@ const EditarPerfil = () => {
                         <div className="form-group">
                             <label htmlFor="nombreUsuario">Nombre de Usuario</label>
                             <div className="input-container">
-                            <input
-                                type="text"
-                                id="nombreUsuario"
-                                name="nombreUsuario"
-                                placeholder="Nombre de Usuario"
-                                value={formData.nombreUsuario}
-                                onChange={handleChange}
-                                disabled={!camposEditables.nombreUsuario}
-                                required
-                            />
-                            <img 
-                                src={EditarLogo} 
-                                className="logo" 
-                                alt="Editar" 
-                                onClick={() => toggleEdicion("nombreUsuario")}
-                                style={{ cursor: 'pointer' }}
-                            />
+                                <input
+                                    type="text"
+                                    id="nombreUsuario"
+                                    name="nombreUsuario"
+                                    placeholder="Nombre de Usuario"
+                                    value={formData.nombreUsuario}
+                                    onChange={handleChange}
+                                    disabled={!camposEditables.nombreUsuario}
+                                    required
+                                    className={getInputClassName('nombreUsuario')}
+                                />
+                                <img 
+                                    src={EditarLogo} 
+                                    className="logo" 
+                                    alt="Editar" 
+                                    onClick={() => toggleEdicion('nombreUsuario')}
+                                />
+                            </div>
                             <p className={`error ${errores.nombreUsuario ? "active" : ""}`}>
                                 {errores.nombreUsuario}
                             </p>
+                        </div>
+                        <div className="form-group">
+                            <div 
+                                className="btn-guardar-div" 
+                                onClick={handleSubmit}
+                            >
+                                Guardar Cambios
                             </div>
                         </div>
                     </form>
