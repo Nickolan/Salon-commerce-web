@@ -27,11 +27,10 @@
 
 .card-salon {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: stretch;
     border: 0.05rem solid var(--primary-color);
     border-radius: 0.8rem;
-    padding: 0.5rem;
     background-color: #fff;
     color: var(--primary-color);
     overflow: hidden; /* para que todo lo que salga de la card se borre (sirve para la foto) */
@@ -39,10 +38,10 @@
 
 .card-imagen-wrapper {
     width: 12rem;
-    height: 6rem;
     flex-shrink: 0; /* el contenedor de la imagen se mantiene fijo para no desvirtuar la posición de la demás info */
     border-radius: 0.5rem; 
     overflow: hidden;
+    display: flex;
 }
 
 .card-imagen-wrapper img {
@@ -55,6 +54,7 @@
 
 .card-izquierda {
     display: flex;
+    padding: 1rem;
     flex-direction: column;
     gap: 0.01rem;
     flex: 1; /* para que ocupe siempre el espacio completo de la card al ampliarse o achicarse */

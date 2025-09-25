@@ -5,6 +5,8 @@ import "../styles/MisSalonesScreen.css";
 import Salones from "../utils/Salones.json";
 import { FiEdit, FiXCircle, FiUsers, FiMapPin, FiDollarSign } from "react-icons/fi";
 
+const USUARIO_ACTUAL = 2; //simulación de un usuario
+
 const MisSalonesScreen = () => {
     
     const [salones, setSalones] = useState(Salones);
@@ -17,8 +19,9 @@ const MisSalonesScreen = () => {
         setSalonBuscado(query);
     };
 
-    const salonesFiltrados = salones.filter( salon => 
-        normalizarTexto(salon.nombre).includes(normalizarTexto(salonBuscado))
+    const salonesFiltrados = salones
+        .filter( salon => salon.id_publicador === USUARIO_ACTUAL)
+        .filter(salon => normalizarTexto(salon.nombre).includes(normalizarTexto(salonBuscado))
     ); //para recorrer todos los salones y que retorne solo los que cumplan con la normalización del texto
 
     const handleCancelar = (id) => {
@@ -34,7 +37,7 @@ const MisSalonesScreen = () => {
             <BarraBusqueda 
                 placeholder='Buscar salón...' 
                 onSearch={handleSearch} 
-                totalSalones={salones.length} 
+                totalSalones={salonesFiltrados.length} 
             />
 
             <div className='listado-salones'>

@@ -8,8 +8,8 @@
     "capacidad": 10,
     "ubicacion": "Calle Falsa 123, Buenos Aires",
     "fotos": [
-      "http://ejemplo.com/salon1_foto1.jpg",
-      "http://ejemplo.com/salon1_foto2.jpg"
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "equipamientos_json": {
       "wifi": true,
@@ -33,7 +33,7 @@
     "capacidad": 4,
     "ubicacion": "Avenida Siempre Viva 742, Buenos Aires",
     "fotos": [
-      "http://ejemplo.com/salon2_foto1.jpg"
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "equipamientos_json": {
       "wifi": true,
@@ -56,7 +56,7 @@
     "capacidad": 120,
     "ubicacion": "Avenida Felicidad 444, Buenos Aires",
     "fotos": [
-      "http://ejemplo.com/salon3_foto1.jpg"
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "equipamientos_json": {
       "wifi": true,
@@ -75,14 +75,14 @@
   },
   {
     "id_salon": 104,
-    "id_publicador": 3,
+    "id_publicador": 2,
     "nombre": "Sala Creativa",
     "descripcion": "Espacio cómodo y luminoso para talleres, brainstorming y actividades creativas.",
     "precio_por_hora": 2000.0,
     "capacidad": 10,
     "ubicacion": "Boulevard Innovación 456, Buenos Aires",
     "fotos": [
-      "http://ejemplo.com/salon4_foto1.jpg"
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "equipamientos_json": {
       "wifi": true,
@@ -101,14 +101,14 @@
   },
   {
     "id_salon": 105,
-    "id_publicador": 4,
+    "id_publicador": 2,
     "nombre": "Terraza Panorámica",
     "descripcion": "Terraza al aire libre con vista a la ciudad, perfecta para eventos sociales y after office.",
     "precio_por_hora": 3500.0,
     "capacidad": 50,
     "ubicacion": "Av. Libertador 900, Buenos Aires",
     "fotos": [
-      "http://ejemplo.com/salon5_foto1.jpg"
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "equipamientos_json": {
       "wifi": true,
@@ -127,14 +127,14 @@
   },
   {
     "id_salon": 106,
-    "id_publicador": 5,
+    "id_publicador": 2,
     "nombre": "Estudio Fotográfico",
     "descripcion": "Espacio equipado con luces y fondos, ideal para sesiones fotográficas o grabaciones.",
     "precio_por_hora": 2500.0,
     "capacidad": 8,
     "ubicacion": "Calle Arte 221, Palermo, Buenos Aires",
     "fotos": [
-      "http://ejemplo.com/salon6_foto1.jpg"
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "equipamientos_json": {
       "wifi": true,
@@ -153,14 +153,14 @@
   },
   {
     "id_salon": 107,
-    "id_publicador": 6,
+    "id_publicador": 2,
     "nombre": "Salón de Fiestas Infantiles",
     "descripcion": "Colorido espacio con juegos y decoración temática, pensado para cumpleaños de niños.",
     "precio_por_hora": 4000.0,
     "capacidad": 60,
     "ubicacion": "Av. Rivadavia 3450, Caballito, Buenos Aires",
     "fotos": [
-      "http://ejemplo.com/salon7_foto1.jpg"
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "equipamientos_json": {
       "wifi": false,
