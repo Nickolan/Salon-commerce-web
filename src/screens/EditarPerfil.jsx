@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
 import "../styles/EditarPerfil.css";
 import { useNavigate } from "react-router-dom";
-import EditarLogo from "../assets/img/Editar-logo.png";
 import usuariosData from "../utils/Usuarios.json";
+import { LiaEditSolid } from "react-icons/lia";
+import { IoSaveOutline } from "react-icons/io5";
 
 const EditarPerfil = () => {
+    const getUsuarioActual = () => {
+        try {
+            const usuariosGuardados = JSON.parse(localStorage.getItem('usuariosData'));
+            if (usuariosGuardados) {
+                return usuariosGuardados.find(user => user.id_usuario === 4);
+            }
+        } catch (error) {
+            console.error("Error al cargar datos:", error);
+        }
+        return usuariosData.find(user => user.id_usuario === 4);
+    };
 
     const usuarioActual = getUsuarioActual();
-    
+
     const [formData, setFormData] = useState({
         nombre: usuarioActual?.nombre || "",
         apellido: usuarioActual?.apellido || "",
@@ -104,7 +116,7 @@ const EditarPerfil = () => {
             }
         }
     };
-
+    
     if (!usuarioActual) {
         return <div className="EditProfile-page"><h1>Error: Usuario no encontrado</h1></div>;
     }
@@ -119,24 +131,30 @@ const EditarPerfil = () => {
                             <div className="form-group">
                                 <label htmlFor="nombre">Nombre</label>
                                 <div className="input-container">
-                                    <input
-                                        type="text"
-                                        id="nombre"
-                                        name="nombre"
-                                        placeholder="Ej: Lautaro"
-                                        value={formData.nombre}
-                                        onChange={handleChange}
-                                        disabled={!camposEditables.nombre}
-                                        required
-                                        className={getInputClassName('nombre')}
-                                    />
-                                    <img 
-                                        src={EditarLogo} 
-                                        className="logo" 
-                                        alt="Editar" 
+                                <input
+                                    type="text"
+                                    id="nombre"
+                                    name="nombre"
+                                    placeholder="Ej: Lautaro"
+                                    value={formData.nombre}
+                                    onChange={handleChange}
+                                    disabled={!camposEditables.nombre}
+                                    required
+                                    className={getInputClassName('nombre')}
+                                />
+                                {camposEditables.nombre ? (
+                                    <IoSaveOutline
+                                        className="logo"
                                         onClick={() => toggleEdicion('nombre')}
                                     />
+                                ) : (
+                                    <LiaEditSolid
+                                        className="logo"
+                                        onClick={() => toggleEdicion('nombre')}
+                                    />
+                                )}
                                 </div>
+
                                 <p className={`error ${errores.nombre ? "active" : ""}`}>
                                     {errores.nombre}
                                 </p>
@@ -156,12 +174,17 @@ const EditarPerfil = () => {
                                         required
                                         className={getInputClassName('apellido')}
                                     />
-                                    <img 
-                                        src={EditarLogo} 
-                                        className="logo" 
-                                        alt="Editar" 
-                                        onClick={() => toggleEdicion('apellido')}
-                                    />
+                                    {camposEditables.apellido ? (
+                                        <IoSaveOutline
+                                            className="logo"
+                                            onClick={() => toggleEdicion('apellido')}
+                                        />
+                                    ) : (
+                                        <LiaEditSolid
+                                            className="logo"
+                                            onClick={() => toggleEdicion('apellido')}
+                                        />
+                                    )}
                                 </div>
                                 <p className={`error ${errores.apellido ? "active" : ""}`}>
                                     {errores.apellido}
@@ -183,12 +206,17 @@ const EditarPerfil = () => {
                                     required
                                     className={getInputClassName('DNI')}
                                 />
-                                <img 
-                                    src={EditarLogo} 
-                                    className="logo" 
-                                    alt="Editar" 
-                                    onClick={() => toggleEdicion('DNI')}
-                                />
+                                {camposEditables.DNI ? (
+                                        <IoSaveOutline
+                                            className="logo"
+                                            onClick={() => toggleEdicion('DNI')}
+                                        />
+                                    ) : (
+                                        <LiaEditSolid
+                                            className="logo"
+                                            onClick={() => toggleEdicion('DNI')}
+                                        />
+                                    )}
                             </div>
                             <p className={`error ${errores.DNI ? "active" : ""}`}>
                                 {errores.DNI}
@@ -209,12 +237,17 @@ const EditarPerfil = () => {
                                     required
                                     className={getInputClassName('ciudad')}
                                 />
-                                <img 
-                                    src={EditarLogo} 
-                                    className="logo" 
-                                    alt="Editar" 
-                                    onClick={() => toggleEdicion('ciudad')}
-                                />
+                                {camposEditables.ciudad ? (
+                                        <IoSaveOutline
+                                            className="logo"
+                                            onClick={() => toggleEdicion('ciudad')}
+                                        />
+                                    ) : (
+                                        <LiaEditSolid
+                                            className="logo"
+                                            onClick={() => toggleEdicion('ciudad')}
+                                        />
+                                    )}
                             </div>
                             <p className={`error ${errores.ciudad ? "active" : ""}`}>
                                 {errores.ciudad}
@@ -240,12 +273,17 @@ const EditarPerfil = () => {
                                         </option>
                                     ))}
                                 </select>
-                                <img 
-                                    src={EditarLogo} 
-                                    className="logo" 
-                                    alt="Editar" 
-                                    onClick={() => toggleEdicion('Provincia')}
-                                />                            
+                                {camposEditables.Provincia ? (
+                                        <IoSaveOutline
+                                            className="logo"
+                                            onClick={() => toggleEdicion('Provincia')}
+                                        />
+                                    ) : (
+                                        <LiaEditSolid
+                                            className="logo"
+                                            onClick={() => toggleEdicion('Provincia')}
+                                        />
+                                    )}                            
                             </div>
                             <p className={`error ${errores.Provincia ? "active" : ""}`}>
                                 {errores.Provincia}
@@ -280,12 +318,17 @@ const EditarPerfil = () => {
                                     required
                                     className={getInputClassName('telefono')}
                                 />
-                                <img 
-                                    src={EditarLogo} 
-                                    className="logo" 
-                                    alt="Editar" 
-                                    onClick={() => toggleEdicion('telefono')}
-                                />                            
+                                {camposEditables.telefono ? (
+                                        <IoSaveOutline
+                                            className="logo"
+                                            onClick={() => toggleEdicion('telefono')}
+                                        />
+                                    ) : (
+                                        <LiaEditSolid
+                                            className="logo"
+                                            onClick={() => toggleEdicion('telefono')}
+                                        />
+                                    )}                            
                             </div>
                             <p className={`error ${errores.telefono ? "active" : ""}`}>
                                 {errores.telefono}
@@ -306,12 +349,17 @@ const EditarPerfil = () => {
                                     required
                                     className={getInputClassName('nombreUsuario')}
                                 />
-                                <img 
-                                    src={EditarLogo} 
-                                    className="logo" 
-                                    alt="Editar" 
-                                    onClick={() => toggleEdicion('nombreUsuario')}
-                                />
+                                {camposEditables.nombreUsuario ? (
+                                        <IoSaveOutline
+                                            className="logo"
+                                            onClick={() => toggleEdicion('nombreUsuario')}
+                                        />
+                                    ) : (
+                                        <LiaEditSolid
+                                            className="logo"
+                                            onClick={() => toggleEdicion('nombreUsuario')}
+                                        />
+                                    )} 
                             </div>
                             <p className={`error ${errores.nombreUsuario ? "active" : ""}`}>
                                 {errores.nombreUsuario}

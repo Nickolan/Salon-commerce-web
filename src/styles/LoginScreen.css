@@ -1,5 +1,5 @@
 /* Clase de utilidad para ocultar elementos visualmente pero mantenerlos accesibles */
-.sr-only {
+.login-page .sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -20,7 +20,7 @@
   height: 100vh;
 }
 
-.login-container {
+.login-page .login-container {
   background-color: #fff;
   border: 0.13rem solid var(--primary-color);
   border-radius: 1.25rem;
@@ -35,25 +35,25 @@
   gap: 3rem; /* Espaciado uniforme entre h1, form y links */
 }
 
-.login-container h1 {
+.login-page .login-container h1 {
   color: var(--primary-color);
   font-size: 1.7rem;
   margin: 0; /* Reseteamos margen para que 'gap' controle el espacio */
 }
 
 /* --- Formulario --- */
-.login-form {
+.login-page .login-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem; /* Espaciado uniforme entre los inputs y el botón */
 }
 
-.form-group {
+.login-page .form-group {
   position: relative; /* Posición relativa para el mensaje de error */
   text-align: left;
 }
 
-.form-group input {
+.login-page .form-group input {
   width: 100%;
   padding: 10px 5px; 
   border: none;
@@ -65,18 +65,18 @@
   box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
 }
 
-.form-group input::placeholder {
+.login-page .form-group input::placeholder {
   font-style: italic;
   font-size: 1rem;
   color: rgba(106, 13, 173, 0.3); 
 }
 
 /* --- Grupo de Contraseña y Toggle --- */
-.password-group input {
+.login-page .password-group input {
   padding-right: 2.5rem; /* Espacio para el icono del ojo */
 }
 
-.toggle-password {
+.login-page .toggle-password {
   position: absolute;
   right: 0.5rem;
   top: 10px; /* Alineado con el padding del input */
@@ -88,12 +88,12 @@
   padding: 0; /* Reseteo de padding para el botón */
 }
 
-.toggle-password:hover {
+.login-page .toggle-password:hover {
   color: var(--second-color);
 }
 
 /* --- Mensajes de Error --- */
-.form-group .error {
+.login-page .form-group .error {
   color: red;
   font-size: 0.8rem;
   margin-top: 0.3rem;

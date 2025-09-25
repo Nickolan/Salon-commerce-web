@@ -7,7 +7,19 @@ import usuariosData from "../utils/Usuarios.json";
 
 const Perfil = () => {
     const navigate = useNavigate();
-    const [usuario, setUsuario] = useState(null);
+    const getUsuarioActual = () => {
+        try {
+            const usuariosGuardados = JSON.parse(localStorage.getItem('usuariosData'));
+            if (usuariosGuardados) {
+                return usuariosGuardados.find(u => u.id_usuario === 4);
+            }
+        } catch (error) {
+            console.error("Error al cargar datos:", error);
+        }
+        return usuariosData.find(u => u.id_usuario === 4);
+    };
+
+    const usuario = getUsuarioActual();
 
     const handleEditarClick = () => {
         navigate("/editar");

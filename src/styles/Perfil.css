@@ -76,7 +76,7 @@
   background-color: transparent;
 }
 
-/* CORREGIDO: Selectores para los h2 */
+
 .Profile-page .Left-container h2,
 .Profile-page .Right-container h2 {
   text-align: left;
@@ -92,7 +92,7 @@
 .Profile-page label {
   display: block;
   margin-top: 10px;
-  font-weight: bold;
+  font-weight:700;
   color: #6A0DAD;
 }
 
