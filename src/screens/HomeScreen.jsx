@@ -1,6 +1,6 @@
 import React from 'react'
 import '../styles/HomeScreen.css'
-
+import Carrusel from '../Components/Carrusel/Carrusel.jsx';
 import ItemSalonSimple from '../Components/ItemSalonSimple/ItemSalonSimple.jsx';
 import Salones from '../utils/Salones.json';
 import Reservas from '../utils/Reservas.json';
@@ -14,7 +14,8 @@ const HomeScreen = () => {
   return (
     <div className='screen-wrapper'>
       <h1>hola</h1>
-      {Salones.map(salon => (
+      <Carrusel>
+        {Salones.map(salon => (
         <ItemSalonSimple 
           key={salon.id_salon}
           id_salon={salon.id_salon}
@@ -25,6 +26,7 @@ const HomeScreen = () => {
           resenias={Resenias}
         />
       ))}
+      </Carrusel>
     </div>
   )
 }
