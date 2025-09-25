@@ -4,7 +4,7 @@ import "./ItemSalonSimple.css"
 import { useNavigate } from "react-router-dom";
 import Favoritos from "../../utils/Favoritos.json"
 
-// const USUARIO_ACTUAL = 2; 
+const USUARIO_ACTUAL = 2; 
 
 const ItemSalonSimple = ({ id_salon, nombre, precio, imagen, reservas, resenias }) => {
 
