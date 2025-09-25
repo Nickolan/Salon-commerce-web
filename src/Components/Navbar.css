@@ -9,7 +9,7 @@
   margin-left: 10px;
 }
 h2{
-  color: white;
+  color: white  !important;
   font-size: 2rem;
   margin-left: 1rem;
 
@@ -73,7 +73,7 @@ h2{
   
 }
 .nombre_de_usuario{
-  color: white;
+  color: white ;
   font-size: large;
   margin-left: 0.5rem; 
 

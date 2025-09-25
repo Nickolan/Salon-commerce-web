@@ -8,7 +8,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer">
+    <footer className="footer fixed-bottom">
       <div className="footer-container">
         <div className="footer-links">
           {/* Es mejor usar rutas relativas o completas en lugar de '#' */}

@@ -3,12 +3,14 @@ import { Route, Routes } from "react-router-dom";
 import HomeScreen from './screens/HomeScreen';
 import Navbar from './Components/Navbar';
 
+
 import LoginScreen from './screens/LoginScreen';
 // import Registrar from './components/Registrar/Registrar'
 
 import Footer from './components/Footer/Footer';
 
 import RegistroScreen from "./screens/RegistroScreen";
+import Reservacionesrec from './Components/reservaciones_recibidas/reservacionesrec';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,6 +21,7 @@ function App() {
         <Route path="/" element={<><Navbar user={null} /><HomeScreen/><Footer/></>} />
         <Route path="/login" element={<> <LoginScreen/> </>} />
         <Route path="/registro" element={<> <RegistroScreen/> </>} />
+        <Route path="/mis_ventas" element={<><Navbar user={null} /><Reservacionesrec/><Footer/></>}></Route>
       </Routes>
     </div>
   );
