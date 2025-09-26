@@ -150,3 +150,82 @@ h1 {
   font-weight: normal;
 }
 
+/* Estilos responsivos para celulares modernos */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 2rem 1rem;
+    width: 90%;
+    height: auto; 
+    gap: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  .login-form input {
+    font-size: 0.9rem;
+    padding: 8px 0 8px 5px;
+  }
+
+  .password-group .toggle {
+    font-size: 0.9rem;
+    right: 0.3rem;
+  }
+
+  .btn-primary {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+  }
+
+  .login-links {
+    gap: 1rem;
+  }
+
+  .login-links a {
+    font-size: 0.9rem;
+  }
+
+  /* Estilos para celulares aún más pequeños */
+@media (max-width: 360px), (max-height: 570px) {
+  .login-container {
+    width: 95%;
+    height: auto; 
+    padding: 1.8rem 1rem;
+    gap: 1rem;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+  }
+
+  .login-form input {
+    font-size: 0.85rem;
+    padding: 7px 0 7px 5px;
+  }
+
+  .password-group .toggle {
+    font-size: 0.85rem;
+    right: 0.3rem;
+  }
+
+  .btn-primary {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
+
+  .login-links {
+    gap: 0.8rem;
+  }
+
+  .login-links a {
+    font-size: 0.85rem;
+  }
+
+  /* Ajuste extra: evitar scroll horizontal */
+  body, .login-page {
+    overflow-x: hidden;
+  }
+}
+
+}
