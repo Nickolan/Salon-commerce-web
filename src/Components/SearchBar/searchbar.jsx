@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { FaLocationDot } from 'react-icons/fa6';
 import { BsFillPersonFill } from 'react-icons/bs';
-function Searchbar() {
+
+function Searchbar({onBuscar}) {
   const [ubicacion,setUbicacion]=useState("");
   const [personas,setPersonas]=useState("1");
   const Buscar= ()=>{   
@@ -16,7 +17,7 @@ function Searchbar() {
       alert("Ingrese una cantidad mínima de personas");
       return;
     }
-    alert(`Buscando en: ${ubicacion} para un mínimo de ${personas} personas`);
+    onBuscar(ubicacion, parseInt(personas));
   }
   return (
     <Fragment>
