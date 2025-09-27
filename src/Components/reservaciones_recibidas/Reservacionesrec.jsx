@@ -5,10 +5,18 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import  "./reservacionesrec.css"
+import reservasData from "../../utils/Reservas.json";
 import { AiOutlineDownCircle } from 'react-icons/ai';
+import { AiOutlineUpCircle } from 'react-icons/ai';
 
 function Reservacionesrec() {
-
+const [visibleCount, setVisibleCount] = useState(3);
+const expandirse = ()=>{
+setVisibleCount(reservasData.length);
+};
+const reducir =()=>{
+setVisibleCount(3);
+};
 
   return (
     <Fragment>
@@ -31,40 +39,31 @@ function Reservacionesrec() {
                   </table>
                 <table className=" table text-center tabla1">
                   <tbody>
-                   <tr>
-                    <td> Lautaro Ferreria </td>
-                    <td>Check and Home-Study Room</td>
-                    <td>03/09/2025</td>
-                    <td>08:00</td>
-                    <td>11:00</td>
-                    <td>Reservado</td>
-                    <td>123</td>
+                    {reservasData.slice(0,visibleCount).map((reserva, index ) => (
+                   <tr key={index}>
+                    <td> {reserva.cliente} </td>
+                    <td>{reserva.id_salon}</td>
+                    <td>{reserva.fecha_reserva}</td>
+                    <td>{reserva.hora_inicio}</td>
+                    <td>{reserva.hora_fin}</td>
+                    <td>{reserva.estado_reserva}</td>
+                    <td>{reserva.id_reserva}</td>
                   </tr>
-                   <tr>
-                    <td> Lautaro Ferreria </td>
-                    <td>Check and Home-Study Room</td>
-                    <td>03/09/2025</td>
-                    <td>08:00</td>
-                    <td>11:00</td>
-                    <td>Confirmado</td>
-                    <td>125</td>
-                  </tr>
-                   <tr>
-                    <td> Lautaro Ferreria </td>
-                    <td>Check and Home-Study Room</td>
-                    <td>03/09/2025</td>
-                    <td>08:00</td>
-                    <td>11:00</td>
-                    <td>Reservado</td>
-                    <td>128</td>
-                   </tr>
+                  ))}
+                  
                   </tbody>
                 </table>
                 </div>
             </div>
-
-           <div className="text-center ">
-            <button><AiOutlineDownCircle className="fs-1" /></button>
+ 
+           <div className="text-center botones_expansion">
+            {visibleCount < reservasData.length ? (
+              <button  onClick={expandirse}><AiOutlineDownCircle className="fs-1" /></button>
+            ) : (
+             <button onClick={reducir}>
+              <AiOutlineUpCircle className="fs-1 " /> 
+             </button>
+            )}
            </div>
         </div>
     </Fragment>

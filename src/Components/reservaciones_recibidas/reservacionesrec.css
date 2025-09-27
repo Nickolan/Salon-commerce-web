@@ -6,6 +6,9 @@
     table-layout: fixed;
    
 }
+.botones_expansion{
+    margin-bottom: 90px;
+}
 .nombres_de_filas{
     margin-bottom: 1rem;
 }
