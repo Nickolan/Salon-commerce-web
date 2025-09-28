@@ -11,11 +11,11 @@
       "http://ejemplo.com/salon1_foto1.jpg",
       "http://ejemplo.com/salon1_foto2.jpg"
     ],
-    "equipamientos_json": {
-      "wifi": true,
-      "proyector": true,
-      "pizarra": true
-    },
+    "equipamientos_json": [
+      "wifi",
+      "proyector",
+      "pizarra"
+    ],
     "reglas": [
       "No comer dentro del salón",
       "Mantener el silencio"
@@ -35,10 +35,10 @@
     "fotos": [
       "http://ejemplo.com/salon2_foto1.jpg"
     ],
-    "equipamientos_json": {
-      "wifi": true,
-      "pizarra": true
-    },
+    "equipamientos_json": [
+      "wifi",
+      "pizarra"
+    ],
     "reglas": [
       "Prohibido fumar",
       "No se permite el ingreso de mascotas"

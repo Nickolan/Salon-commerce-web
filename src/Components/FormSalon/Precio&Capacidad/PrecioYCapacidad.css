@@ -1,0 +1,13 @@
+.cobro-gestion{
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    padding-left: 1rem;
+}
+
+.cobro-gestion span{
+    display: flex;
+    align-self: flex-start;
+    opacity: 0.8;
+    color: var(--primary-color);
+}

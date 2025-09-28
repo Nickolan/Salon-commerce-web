@@ -1,0 +1,89 @@
+.resumen-container {
+  font-family: Arial, sans-serif;
+  color: #4b0082;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.resumen-container h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.resumen-container .descripcion {
+  background: #faf5ff;
+  border: 2px solid #7d2ae8;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.resumen-container .dato {
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
+  font-size: 15px;
+}
+
+.resumen-container .dato .icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.resumen-container h3 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.tag {
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tag.regla {
+  background-color: #7d2ae8;
+  color: white;
+}
+
+.tag.equipamiento {
+  border: 2px solid #7d2ae8;
+  color: #4b0082;
+  background: white;
+}
+
+.empty {
+  color: #888;
+  font-style: italic;
+}
+
+.fotos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.fotos-grid img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border: 2px solid #7d2ae8;
+  border-radius: 8px;
+}
+
+.disponibilidad-resumen p {
+  margin: 4px 0;
+  font-size: 14px;
+}

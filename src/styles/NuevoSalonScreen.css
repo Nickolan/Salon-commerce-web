@@ -2,6 +2,107 @@
  padding: 1rem;   
 }
 
+.form-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  border: 2px solid black;
+}
+
+.form-content .form-zone{
+  padding: 1rem;
+  min-width: 55%;
+  max-width: 75%;
+  border: 2px solid black;
+}
+
+.zone-row{
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: space-evenly;
+}
+
+.form-content .form-zone .section-zone{
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-content .form-zone .section-zone >div{
+  align-items: center;
+  display: flex;
+  
+}
+
+.form-content .form-zone .section-zone h3 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.form-content .form-zone .section-zone label {
+  color: var(--primary-color);
+}
+
+.form-content .form-zone .section-zone input[type="text"], input[type="number"] {
+  background-color: var(--background-color);
+  border: none;
+  border-bottom: 3px solid var(--primary-color);
+  margin: 0 1rem;
+  padding: 0.7rem;
+  font-size: 1rem;
+  color: var(--primary-color); 
+
+  
+}
+
+.form-content .form-zone .section-zone input[type="checkbox"] {
+  background-color: var(--background-color);
+  border-bottom: 3px solid var(--primary-color);
+  margin: 0 1rem;
+  padding: 0.7rem;
+  font-size: 1rem;
+  color: var(--primary-color); 
+
+  
+}
+#miCheckbox{
+  appearance: none; /* Oculta el input nativo */
+  -webkit-appearance: none; /* Para navegadores antiguos */
+  -moz-appearance: none; /* Para Firefox */
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--primary-color);
+  background: #fff;
+  cursor: pointer;
+}
+
+#miCheckbox:checked{
+  background: var(--primary-color);
+}
+
+
+.form-content .form-zone .section-zone svg {
+  color: var(--primary-color);
+
+}
+
+
+
+.form-content .form-zone .section-zone textarea {
+  background: none;
+  background-color: var(--background-color);
+  border: 3px solid var(--primary-color);
+  border-radius: 0.2rem;
+  margin: 0 1rem;
+  padding: 0.7rem;
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+
 .stepper{
     display: flex;
     justify-content: space-between;
@@ -32,12 +133,13 @@
     transition: color 0.4s ease;
     z-index: 2;
     padding: 0 15px;
+    font-size: 1rem;
 }
 
 .stepper .step::before {
   content: "";
-  width: 30px;
-  height: 30px;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   background-color: var(--grey, #666);
   border: 2px solid var(--grey, #666);
@@ -53,3 +155,4 @@
   background-color: var(--primary-color);
   border-color: var(--primary-color);
 }
+

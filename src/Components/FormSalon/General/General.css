@@ -5,10 +5,23 @@
     margin-top: 15px;
 }
 
-.photo-previews .image-container{
+.photo-previews .image-container, .image-container-ref{
     position: relative;
     width: 120px;
     height: 120px;
+}
+
+.photo-previews .image-container-ref{
+    border: 3px dotted var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+}
+
+.photo-previews .image-container-ref svg{
+    font-size: 2rem;
 }
 
 .photo-previews .image-container img{
