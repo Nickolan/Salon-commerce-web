@@ -9,6 +9,7 @@ import LoginScreen from './screens/LoginScreen';
 import Footer from './components/Footer/Footer';
 
 import RegistroScreen from "./screens/RegistroScreen";
+import TerminosYCondicionesScreen from './screens/TerminosYCondicionesScreen';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,6 +20,8 @@ function App() {
         <Route path="/" element={<><Navbar user={null} /><HomeScreen/><Footer/></>} />
         <Route path="/login" element={<> <LoginScreen/> </>} />
         <Route path="/registro" element={<> <RegistroScreen/> </>} />
+
+        <Route path="/terminos&condiciones" element={<><Navbar user={null} /> <TerminosYCondicionesScreen/><Footer/> </>} />
       </Routes>
     </div>
   );
