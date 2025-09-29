@@ -20,7 +20,7 @@ const BarraBusqueda = ({placeholder="Buscar...", onSearch, totalSalones=0}) => {
                     placeholder={placeholder}
                 />
             </form>
-            <span className="total-salones">{totalSalones} salones</span>
+            <span className="total-salones">{totalSalones}</span>
         </div>
     )
 
