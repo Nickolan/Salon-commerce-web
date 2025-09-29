@@ -27,10 +27,11 @@ const Carrusel = ({ children }) => {
         touchMove: true,
         // define el cambio de algunos settings en base al tamaño de la pantalla (breakpoint) por px
         responsive: [
-            {breakpoint: 1024, settings: {slidesToShow: 3}},
-            {breakpoint: 600, settings: {slidesToShow: 2}},
-            {breakpoint: 250, settings: {slidesToShow: 1}},
+            { breakpoint: 1200, settings: { slidesToShow: 3 } },
+            { breakpoint: 768, settings: { slidesToShow: 2 } },
+            { breakpoint: 480, settings: { slidesToShow: 1 } },
         ],
+
     }
 
     return (
