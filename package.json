@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@react-google-maps/api": "^2.20.7",
-    "icons": "^1.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-google-autocomplete": "^2.7.5",
