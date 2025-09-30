@@ -22,7 +22,6 @@ function Navbar() {
               <img
                 src="https://upload.wikimedia.org/wikipedia/en/9/9a/Flag_of_Spain.svg"
                 alt="Español"
-                style={{ width: "40px", height: "25px" }}
               />
             </button>
 
