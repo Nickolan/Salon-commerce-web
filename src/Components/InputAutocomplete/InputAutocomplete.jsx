@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Autocomplete from 'react-google-autocomplete';
+import './InputAutocomplete.css'
+import { FiMapPin } from "react-icons/fi";
 
 const InputAutocomplete = ({ placeholder, onPlaceSelected}) => {
 
@@ -21,6 +23,7 @@ const InputAutocomplete = ({ placeholder, onPlaceSelected}) => {
         placeholder={placeholder || ''}
         className="autocomplete-input"
       />
+      <FiMapPin />
     </div>
   );
 };

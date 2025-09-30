@@ -1,5 +1,8 @@
 import React from "react";
 import "./Resumen.css";
+import { FaRegMap } from "react-icons/fa";
+import { MdOutlineAttachMoney } from "react-icons/md";
+import { GoPeople } from "react-icons/go";
 
 const Resumen = ({ formData, reglas, equipamientoSeleccionado, photos, disponibilidad }) => {
   return (
@@ -12,13 +15,13 @@ const Resumen = ({ formData, reglas, equipamientoSeleccionado, photos, disponibi
 
       {/* Dirección */}
       <div className="dato">
-        <span className="icon">📍</span>
+        <FaRegMap />
         <span>{formData.direccion || "Dirección no especificada"}</span>
       </div>
 
       {/* Precio */}
       <div className="dato">
-        <span className="icon">💲</span>
+        <MdOutlineAttachMoney />
         <span>
           <strong>{formData.precio_por_hora || 0}</strong> x hora
         </span>
@@ -26,7 +29,7 @@ const Resumen = ({ formData, reglas, equipamientoSeleccionado, photos, disponibi
 
       {/* Capacidad */}
       <div className="dato">
-        <span className="icon">👥</span>
+        <GoPeople />
         <span>{formData.capacidad || 0} personas de capacidad</span>
       </div>
 

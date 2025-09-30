@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import InputAutocomplete from '../../InputAutocomplete/InputAutocomplete';
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-
+import './Ubicacion.css'
 const containerStyle = {
   width: "100%",
   height: "100%",
@@ -11,12 +11,20 @@ const defaultCenter = {
   lat: -33.45694,
   lng: -70.64827,
 };
-const Ubicacion = ({ isLoaded }) => {
+const Ubicacion = ({ isLoaded, salon, handleChange }) => {
 
   const mapRef = useRef();
 
   const onPlaceSelected = (data, details) => {
     const location = details?.geometry?.location;
+    const e = {
+      target: {
+        name: "direccion",
+        value: location,
+        type: "text"
+      }
+    }
+    handleChange(e)
 
     const lat =
       typeof location?.lat === "function"
@@ -38,16 +46,19 @@ const Ubicacion = ({ isLoaded }) => {
 
 
   return (
-    <div>
-      <h1>Ubicacion</h1>
-      <div>
+    <div className='form-zone'>
+      <div className='section-zone'>
 
-      <InputAutocomplete
-        placeholder="Dirección..."
-        onPlaceSelected={(data, details) =>
-          onPlaceSelected(data, details)
-        }
-        />
+      <h3>Ubicación</h3>
+      </div>
+      <div className='input-container'>
+
+        <InputAutocomplete
+          placeholder="Ingresa tu dirección"
+          onPlaceSelected={(data, details) =>
+            onPlaceSelected(data, details)
+          }
+          />
         </div>
 
       <div>

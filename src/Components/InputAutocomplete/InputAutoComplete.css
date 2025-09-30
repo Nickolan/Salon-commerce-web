@@ -1,0 +1,20 @@
+.autocomplete-container{
+    display: flex;
+    border: 2px solid var(--primary-color);
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    flex-direction: row;
+    background-color: white;
+}
+
+.autocomplete-container input{
+    display: flex;
+    height: 100%;
+    width: 80%;
+    border: none;
+    font-size: 1.5rem;
+}
+
+.autocomplete-container svg{
+}

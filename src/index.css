@@ -10,7 +10,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
   color: var(--color-text);
   background-color: var(--color-background);
 
@@ -71,7 +70,8 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  color: var(--color-text);
+  color: white;
+  background-color: var(--primary-color);
   cursor: pointer;
   transition: border-color 0.25s;
 }

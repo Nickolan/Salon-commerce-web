@@ -6,6 +6,7 @@ import PrecioYCapacidad from '../Components/FormSalon/Precio&Capacidad/PrecioYCa
 import EquipamientoYReglas from '../Components/FormSalon/Equipamiento&Reglas/EquipamientoYReglas';
 import Disponibilidad from '../Components/FormSalon/Disponibilidad/Disponibilidad';
 import Resumen from '../Components/FormSalon/Resumen/Resumen';
+import { AgregarSalon } from '../utils/FuncionesSalon';
 
 const NuevoSalonScreen = () => {
   // Se realizara todo en una sola pantalla, se cambiara el componente segun el paso actual
@@ -15,7 +16,11 @@ const NuevoSalonScreen = () => {
     nombre: "",
     descripcion: "",
     precio_por_hora: "",
-    capacidad: 1
+    capacidad: 1,
+    direccion: "",
+    latitud: null,
+    longitud: null,
+    estado: "borrador"
   })
   const [photos, setPhotos] = useState([]);
   const [reglas, setReglas] = useState([]);
@@ -32,12 +37,15 @@ const NuevoSalonScreen = () => {
 
 
   const handleNext = () => {
+   
     setStep((prev) => prev + 1)
+   
   }
 
   const handleBack = () => {
     setStep((prev) => prev - 1);
   };
+
 
   const handlePhotoChange = (e) => {
     // Convertimos el FileList a un array.
@@ -77,13 +85,35 @@ const NuevoSalonScreen = () => {
         <div className={`step ${step >= 6 ? "active" : ""}`}>Resumen</div>
       </div>
 
+      <div className="navigation-buttons">
+        {step > 1 && (
+          <button onClick={handleBack} disabled={loading} className="btn-back">
+            Atrás
+          </button>
+        )}
+        {step < 6 && (
+          <button onClick={handleNext} disabled={loading} className="btn-next">
+            Siguiente
+          </button>
+        )}
+        {step === 6 && (
+          <button
+            disabled={loading}
+            className="btn-publish"
+            onClick={() => AgregarSalon(formData, photos, reglas, equipamientoSeleccionado, disponibilidad)}
+          >
+            Publicar
+          </button>
+        )}
+      </div>
+
       <div className="form-content">
         {
           step == 1 && <General salon={formData} photos={photos} handleChange={handleChange} handlePhotoChange={handlePhotoChange} removePhoto={removePhoto} />
         }
 
         {
-          step == 2 && <Ubicacion />
+          step == 2 && <Ubicacion salon={formData} handleChange={handleChange} />
         }
 
         {
@@ -118,26 +148,7 @@ const NuevoSalonScreen = () => {
 
       </div>
 
-      <div className="navigation-buttons">
-        {step > 1 && (
-          <button onClick={handleBack} disabled={loading} className="btn-back">
-            Atrás
-          </button>
-        )}
-        {step < 6 && (
-          <button onClick={handleNext} disabled={loading} className="btn-next">
-            Siguiente
-          </button>
-        )}
-        {step === 6 && (
-          <button
-            disabled={loading}
-            className="btn-publish"
-          >
-            Publicar Evento
-          </button>
-        )}
-      </div>
+      
     </div>
   )
 }
