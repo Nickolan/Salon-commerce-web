@@ -49,7 +49,7 @@ h2{
 .buttons-container .button {
   background-color: var(--primary-color) !important;
   color: white;
-    border-width: 2px;
+  border-width: 2px;
   border-style: solid;
   border-color: white;
   vertical-align: middle;
@@ -68,11 +68,27 @@ h2{
   gap: 0.5rem;
 }
 .Bandera {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none !important;
-  background: transparent;
+  background: transparent !important;
+  padding: 0; 
+  margin: 0;
   cursor: pointer;
-  padding: 0;
 }
+
+.Bandera:focus {
+  outline: none;
+}
+
+.Bandera img {
+  display: block;
+  object-fit: cover;
+  width: 2.5rem; 
+  height: 1.6rem;
+}
+
 .usuario_link{
   align-items: center;
   display: flex;
@@ -93,19 +109,88 @@ h2{
   transition: 0.3s;
 }
 
-@media screen and (max-width: 700px) {
-  .nombre_de_usuario {
-    display: none; /* solo avatar */
+.hamburger {
+  font-size: 1.5rem;
+  background: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: none;
+  position: relative;
+  z-index: 1500;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%; 
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+  z-index: 1400;
+}
+
+.dropdown-menu a {
+  padding: 0.6rem 1rem;
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.dropdown-menu a:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.desktop-only {
+  display: flex;
+}
+.mobile-only {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .desktop-only {
+    display: none; 
   }
 
-  .button {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.85rem; /* achicamos un poco */
+  .mobile-only {
+    display: block;
+  }
+
+  .imagen_de_usuario {
+    display: none; 
+  }
+
+  .buttons-container {
+    position: relative; 
+    gap: 0.4rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.4rem;
   }
 
   .Bandera img {
-    width: 35px;
-    height: 22px; /* ligeramente más pequeña */
+    width: 2rem; 
+    height: 1.2rem;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .Bandera img {
+    width: 1.8rem; 
+    height: 1.1rem;
+  }
+}
+
+
 
