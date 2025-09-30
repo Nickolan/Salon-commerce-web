@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import "../styles/Perfil.css";
-import LinkEditar from "../assets/img/Link-editar.png";
 import LautaroLogo from "../assets/img/Lautaro-logo.png";
 import usuariosData from "../utils/Usuarios.json";
+import { LiaEditSolid } from "react-icons/lia";
 
 const Perfil = () => {
     const navigate = useNavigate();
@@ -39,7 +39,7 @@ const Perfil = () => {
                 <img src={LautaroLogo} className='logo' alt="logo" />
                 {usuario.nombre} {usuario.apellido}
                 <div className="editar-button" onClick={handleEditarClick}>
-                    <img src={LinkEditar} className='logo-editar' alt="editar" />
+                    <LiaEditSolid className='logo-editar' /> {/* Ícono de edición */}
                     <span className="editar-texto">Editar</span>
                 </div>
             </span>

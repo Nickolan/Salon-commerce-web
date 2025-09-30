@@ -1,8 +1,12 @@
 import React from 'react';
 import '../styles/HomeScreen.css';
-import Salon1Logo from "../assets/img/Salon1-logo.png";
+import salonesData from "../utils/salones.json";
 
 const HomeScreen = () => {
+  const mejorPuntuado = salonesData.filter(salon => salon.precio_por_hora === 5000.0);
+  const cercaDti = salonesData.filter(salon => salon.precio_por_hora === 3500.0);
+  const vistoRecien = salonesData.filter(salon => salon.precio_por_hora === 1500.0);
+
   return (
     <div className='screen-wrapper'>
       <div className='title'>
@@ -13,25 +17,46 @@ const HomeScreen = () => {
         <div className='logo-group'>
           <h3>Los mejores puntuados</h3>
           <div className='logos-row'>
-            <img src={Salon1Logo} className='logo' alt="editar"/>
-            <img src={Salon1Logo} className='logo' alt="editar"/>
-            <img src={Salon1Logo} className='logo' alt="editar"/>
+            {mejorPuntuado.map((salon) =>
+              Array(3).fill(0).map((_, index) => (
+                <img
+                  key={`${salon.id_salon}-${index}`}
+                  src={salon.fotos[0]}
+                  className='logo'
+                  alt={salon.nombre}
+                />
+              ))
+            )}
           </div>
         </div>
         <div className='logo-group'>
           <h3>Cerca de ti</h3>
           <div className='logos-row'>
-            <img src={Salon1Logo} className='logo' alt="editar"/>
-            <img src={Salon1Logo} className='logo' alt="editar"/>
-            <img src={Salon1Logo} className='logo' alt="editar"/>
+            {cercaDti.map((salon) =>
+              Array(3).fill(0).map((_, index) => (
+                <img
+                  key={`${salon.id_salon}-${index}`}
+                  src={salon.fotos[0]}
+                  className='logo'
+                  alt={salon.nombre}
+                />
+              ))
+            )}
           </div>
         </div>
         <div className='logo-group'>
           <h3>Visto recientemente</h3>
           <div className='logos-row'>
-            <img src={Salon1Logo} className='logo' alt="editar"/>
-            <img src={Salon1Logo} className='logo' alt="editar"/>
-            <img src={Salon1Logo} className='logo' alt="editar"/>
+            {vistoRecien.map((salon) =>
+              Array(3).fill(0).map((_, index) => (
+                <img
+                  key={`${salon.id_salon}-${index}`}
+                  src={salon.fotos[0]}
+                  className='logo'
+                  alt={salon.nombre}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>

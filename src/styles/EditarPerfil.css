@@ -145,15 +145,6 @@
   background-color: #5a0c9a;
 }
 
-.EditProfile-page .form-row {
-  display: flex;
-  gap: 15px;
-}
-
-.EditProfile-page .form-row .form-group {
-  flex: 1;
-}
-
 .EditProfile-page .input-purple {
     border-bottom: 2px solid #6A0DAD !important;
     color: #6A0DAD !important;
@@ -199,8 +190,4 @@
     width: 100%;
   }
   
-  .EditProfile-page .form-row {
-    flex-direction: column;
-    gap: 0;
-  }
 }

@@ -127,69 +127,66 @@ const EditarPerfil = () => {
             <div className="containers-wrapper">
                 <div className="Left-container">
                     <form className="registro-form" onSubmit={handleSubmit} noValidate>
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="nombre">Nombre</label>
-                                <div className="input-container">
+                        <div className="form-group">
+                            <label htmlFor="nombre">Nombre</label>
+                            <div className="input-container">
+                            <input
+                                type="text"
+                                id="nombre"
+                                name="nombre"
+                                placeholder="Ej: Lautaro"
+                                value={formData.nombre}
+                                onChange={handleChange}
+                                disabled={!camposEditables.nombre}
+                                required
+                                className={getInputClassName('nombre')}
+                            />
+                            {camposEditables.nombre ? (
+                                <IoSaveOutline
+                                    className="logo"
+                                    onClick={() => toggleEdicion('nombre')}
+                                />
+                            ) : (
+                                <LiaEditSolid
+                                    className="logo"
+                                    onClick={() => toggleEdicion('nombre')}
+                                />
+                            )}
+                            </div>
+                            <p className={`error ${errores.nombre ? "active" : ""}`}>
+                                {errores.nombre}
+                            </p>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="apellido">Apellido</label>
+                            <div className="input-container">
                                 <input
                                     type="text"
-                                    id="nombre"
-                                    name="nombre"
-                                    placeholder="Ej: Lautaro"
-                                    value={formData.nombre}
+                                    id="apellido"
+                                    name="apellido"
+                                    placeholder="Ej: Ferreria"
+                                    value={formData.apellido}
                                     onChange={handleChange}
-                                    disabled={!camposEditables.nombre}
+                                    disabled={!camposEditables.apellido}
                                     required
-                                    className={getInputClassName('nombre')}
+                                    className={getInputClassName('apellido')}
                                 />
-                                {camposEditables.nombre ? (
+                                {camposEditables.apellido ? (
                                     <IoSaveOutline
                                         className="logo"
-                                        onClick={() => toggleEdicion('nombre')}
+                                        onClick={() => toggleEdicion('apellido')}
                                     />
                                 ) : (
                                     <LiaEditSolid
                                         className="logo"
-                                        onClick={() => toggleEdicion('nombre')}
+                                        onClick={() => toggleEdicion('apellido')}
                                     />
                                 )}
-                                </div>
-
-                                <p className={`error ${errores.nombre ? "active" : ""}`}>
-                                    {errores.nombre}
-                                </p>
                             </div>
-
-                            <div className="form-group">
-                                <label htmlFor="apellido">Apellido</label>
-                                <div className="input-container">
-                                    <input
-                                        type="text"
-                                        id="apellido"
-                                        name="apellido"
-                                        placeholder="Ej: Ferreria"
-                                        value={formData.apellido}
-                                        onChange={handleChange}
-                                        disabled={!camposEditables.apellido}
-                                        required
-                                        className={getInputClassName('apellido')}
-                                    />
-                                    {camposEditables.apellido ? (
-                                        <IoSaveOutline
-                                            className="logo"
-                                            onClick={() => toggleEdicion('apellido')}
-                                        />
-                                    ) : (
-                                        <LiaEditSolid
-                                            className="logo"
-                                            onClick={() => toggleEdicion('apellido')}
-                                        />
-                                    )}
-                                </div>
-                                <p className={`error ${errores.apellido ? "active" : ""}`}>
-                                    {errores.apellido}
-                                </p>
-                            </div>
+                            <p className={`error ${errores.apellido ? "active" : ""}`}>
+                                {errores.apellido}
+                            </p>    
                         </div>
 
                         <div className="form-group">
