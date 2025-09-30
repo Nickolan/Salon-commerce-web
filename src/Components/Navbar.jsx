@@ -30,7 +30,7 @@ function Navbar() {
               </Link>
 
             ) : (
-              <Link to="/" className="usuario_link">
+              <Link to="/perfil" className="usuario_link">
                 <div className="datos_de_usuario">
                 <img 
                   src="https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"

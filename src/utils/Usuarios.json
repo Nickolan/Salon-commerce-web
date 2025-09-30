@@ -46,5 +46,21 @@
     "es_administrador": true,
     "fecha_creacion": "2025-09-22T12:45:00Z",
     "correo_verificador": true
+  },
+  {
+    "id_usuario":4,
+    "nombre": "Lautaro ",
+    "apellido": "Ferreria",
+    "dni": 46621231,
+    "telefono": "+5492613064536",
+    "nombre_usuario": "FERRERIALAUTARO2022111150217",
+    "ciudad": "Luján de Cuyo",
+    "provincia": "Mendoza",
+    "email": "lautiferreria@gmail.com",
+    "contrasenia": "aguanteBoca_4",
+    "es_publicador": true,
+    "es_administrador": false,
+    "fecha_creacion": "2025-09-22T12:45:00Z",
+    "correo_verificador": true
   }
 ]
