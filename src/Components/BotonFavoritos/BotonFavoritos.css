@@ -1,0 +1,45 @@
+.salon-card-fav-btn {
+    position: absolute;
+    top: 0.2rem;
+    right: 0.2rem;
+    width: 1.4rem;
+    height: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    pointer-events: auto;
+}
+
+.salon-card-fav-btn svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.salon-card-fav-btn.-true svg {
+    color: var(--primary-color);
+}
+
+.salon-card-fav-btn.-false svg {
+    color: var(--primary-color);
+}
+
+.salon-card-fav-btn:hover {
+    transform: scale(1.2);
+}
+
+.salon-card-fav-btn:active {
+    transform: scale(0.9);
+}
+
+.salon-card-fav-btn:focus {
+    outline: none;
+}

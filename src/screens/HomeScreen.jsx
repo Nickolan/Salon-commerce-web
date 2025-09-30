@@ -1,6 +1,10 @@
-import React from 'react';
-import '../styles/HomeScreen.css';
+import React from 'react'
+import '../styles/HomeScreen.css'
+import Carrusel from '../Components/Carrusel/Carrusel.jsx';
+import ItemSalonSimple from '../Components/ItemSalonSimple/ItemSalonSimple.jsx';
 import salonesData from "../utils/salones.json";
+import Reservas from '../utils/Reservas.json';
+import Resenias from '../utils/Resenias.json';
 
 const HomeScreen = () => {
   const mejorPuntuado = salonesData.filter(salon => salon.precio_por_hora === 5000.0);
@@ -17,6 +21,7 @@ const HomeScreen = () => {
         <div className='logo-group'>
           <h3>Los mejores puntuados</h3>
           <div className='logos-row'>
+            <Carrusel> 
             {mejorPuntuado.map((salon) =>
               Array(3).fill(0).map((_, index) => (
                 <img
@@ -27,11 +32,13 @@ const HomeScreen = () => {
                 />
               ))
             )}
+            </Carrusel> 
           </div>
         </div>
         <div className='logo-group'>
           <h3>Cerca de ti</h3>
           <div className='logos-row'>
+            <Carrusel>
             {cercaDti.map((salon) =>
               Array(3).fill(0).map((_, index) => (
                 <img
@@ -42,6 +49,7 @@ const HomeScreen = () => {
                 />
               ))
             )}
+            </Carrusel>
           </div>
         </div>
         <div className='logo-group'>
