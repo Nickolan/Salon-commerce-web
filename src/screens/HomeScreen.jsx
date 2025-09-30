@@ -1,6 +1,6 @@
 import React from 'react'
 import '../styles/HomeScreen.css'
-import Sidebar from '../components/Sidebar/Sidebar'
+import Sidebar from '../Components/Sidebar/Sidebar'
 
 const HomeScreen = () => {
 
@@ -10,6 +10,7 @@ const HomeScreen = () => {
   return (
     <div>
       <Sidebar/>
+      <h2>hola</h2>
     </div>
   )
 }
