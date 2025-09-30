@@ -1,14 +1,14 @@
-.navbar .container-fluid {
+.container-fluid {
   display: flex;
   justify-content: space-between; 
   align-items: center; 
   width: 100%;
   
 }
-.navbar .container-fluid button {
+.container-fluid button {
   margin-left: 10px;
 }
-.navbar h2{
+h2{
   color: white;
   font-size: 2rem;
   margin-left: 1rem;
@@ -20,7 +20,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 85px;
+  height: 80px;
 
   display: flex;
   align-items: center;
@@ -30,14 +30,14 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
-.navbar .buttons-container{
+.buttons-container{
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-right: 1rem;
   gap: 1rem;
 }
-.navbar .buttons-container .button {
+.buttons-container .button {
   background-color: var(--primary-color) !important;
   color: white;
     border-width: 2px;
@@ -49,22 +49,22 @@
   border-radius: 5%;
 
 }
-.navbar .datos_de_usuario{
+.datos_de_usuario{
   display: flex;
   align-items: center ; 
   flex-direction: row;
 
 }
-.navbar .Bandera{
+.Bandera{
   border: none !important
 }
-.navbar .usuario_link{
+.usuario_link{
   align-items: center;
   display: flex;
   gap: 0.5rem;
 }
 
-.navbar .imagen_de_usuario{
+.imagen_de_usuario{
   width: 40px;
   border-radius: 50%;
   object-fit: cover;
@@ -72,7 +72,7 @@
   background-color: var(--primary-color);
   
 }
-.navbar .nombre_de_usuario{
+.nombre_de_usuario{
   color: white;
   font-size: large;
   margin-left: 0.5rem; 
@@ -80,7 +80,7 @@
 }
 
 @media screen and (max-width: 980px ) {
-  .navbar .buttons-container{
+  .buttons-container{
     flex-direction: column;
   }
 }

@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { Route, Routes } from "react-router-dom";
 import HomeScreen from './screens/HomeScreen';
 import Navbar from './Components/Navbar';
-import EditarPerfil from './screens/EditarPerfil';
-import Perfil from './screens/Perfil';
+
 import LoginScreen from './screens/LoginScreen';
 // import Registrar from './components/Registrar/Registrar'
+
 import Footer from './components/Footer/Footer';
+
 import RegistroScreen from "./screens/RegistroScreen";
 
 function App() {
@@ -18,8 +19,6 @@ function App() {
         <Route path="/" element={<><Navbar user={null} /><HomeScreen/><Footer/></>} />
         <Route path="/login" element={<> <LoginScreen/> </>} />
         <Route path="/registro" element={<> <RegistroScreen/> </>} />
-        <Route path="/editar" element={<> <EditarPerfil/> </>} />
-        <Route path='/perfil' element={<> <Perfil/></>}/>
       </Routes>
     </div>
   );

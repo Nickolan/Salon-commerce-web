@@ -40,7 +40,7 @@
 }
 
 /* Texto de Copyright */
-.footer .copyright {
+.copyright {
     font-size: 0.9rem;
     opacity: 0.9;
     text-align: center;
@@ -49,13 +49,13 @@
 }
 
 /* Contenedor de botones de redes sociales */
-.footer .social-buttons {
+.social-buttons {
     display: flex;
     gap: 15px; /* Espacio entre botones */
 }
 
 /* Estilo individual de cada botón social */
-.footer .social-btn {
+.social-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -68,24 +68,24 @@
 }
 
 /* Estilo para los íconos SVG dentro de los botones */
-.footer .social-btn svg {
+.social-btn svg {
     font-size: 20px; /* Controla el tamaño del ícono */
 }
 
-.footer .social-btn:hover {
+.social-btn:hover {
     transform: scale(1.15); /* Efecto de zoom al pasar el mouse */
 }
 
 /* Colores específicos para cada red social */
-.footer .social-btn.twitter {
+.social-btn.twitter {
     background-color: #1DA1F2;
 }
 
-.footer  .social-btn.facebook {
+.social-btn.facebook {
     background-color: #1877F2;
 }
 
-.footer  .social-btn.instagram {
+.social-btn.instagram {
     background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
 }
 
@@ -100,13 +100,13 @@
     }
 
     /* El copyright puede ir primero en el orden visual en móvil si se desea */
-    .footer .copyright {
+    .copyright {
         order: 2;
     }
-    .footer .footer-links {
+    .footer-links {
         order: 1;
     }
-    .footer .social-buttons {
+    .social-buttons {
         order: 3;
     }
 }
@@ -119,11 +119,11 @@
         align-items: center;
     }
 
-    .footer .copyright {
+    .copyright {
         font-size: 0.8rem;
     }
 
-    .footer .social-btn {
+    .social-btn {
         width: 38px;
         height: 38px;
     }
