@@ -4,9 +4,9 @@
 }
 
 .screen-wrapper .title {
-  width: 100vw; /* Ocupa todo el ancho de la pantalla */
-  margin-left: -2rem; 
-  margin-right: -2rem; 
+  width: 100vw;
+  margin-left: -2rem;
+  margin-right: -2rem;
   background-color: #6A0DAD;
   color: #fff;
   padding: 2rem;
@@ -18,9 +18,8 @@
   text-align: left;
   align-items: flex-start;
   padding-left: 4rem;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
-
 
 .screen-wrapper .title h1 {
   font-size: 2rem;
@@ -50,18 +49,42 @@
 .screen-wrapper .logos-row {
   display: flex;
   justify-content: flex-start;
-  gap: 1rem; 
+  gap: 1rem;
   margin-bottom: 1.5rem;
-  flex-wrap: wrap; 
-  width: 100%; 
-  padding: 0 2rem; /* Padding lateral relativo */
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 0 2rem;
 }
 
 .screen-wrapper .logo {
-  width: 20%; 
-  max-width: 120px; /* Máximo ancho en píxeles para evitar que sean demasiado grandes */
-  height: auto; 
+  width: 20%;
+  max-width: 120px;
+  height: auto;
   margin: 0.5rem;
   object-fit: cover;
 }
 
+/* Estilos del carrusel */
+.carrusel-container {
+  padding: 20px 0;
+}
+
+.slick-slide > div {
+  height: 9.5rem;
+  padding: 10px;
+}
+
+.slick-slide img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.slick-dots {
+  bottom: -50px;
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: #6A0DAD;
+}

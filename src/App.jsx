@@ -6,7 +6,6 @@ import EditarPerfil from './screens/EditarPerfil';
 import Perfil from './screens/Perfil';
 import LoginScreen from './screens/LoginScreen';
 // import Registrar from './components/Registrar/Registrar'
-import LoginScreen from './screens/LoginScreen';
 
 import Footer from './components/Footer/Footer';
 import RegistroScreen from "./screens/RegistroScreen";

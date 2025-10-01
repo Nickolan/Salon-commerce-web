@@ -1,8 +1,8 @@
-import React from 'react'
-import '../styles/HomeScreen.css'
+import React from 'react';
+import '../styles/HomeScreen.css';
 import Carrusel from '../Components/Carrusel/Carrusel.jsx';
 import ItemSalonSimple from '../Components/ItemSalonSimple/ItemSalonSimple.jsx';
-import salonesData from "../utils/salones.json";
+import salonesData from "../utils/Salones.json";
 import Reservas from '../utils/Reservas.json';
 import Resenias from '../utils/Resenias.json';
 
@@ -10,6 +10,11 @@ const HomeScreen = () => {
   const mejorPuntuado = salonesData.filter(salon => salon.precio_por_hora === 5000.0);
   const cercaDti = salonesData.filter(salon => salon.precio_por_hora === 3500.0);
   const vistoRecien = salonesData.filter(salon => salon.precio_por_hora === 1500.0);
+
+  // Función para repetir cada salón 5 veces, si no solo sale una imagen 
+  const repetirSalones = (salones) => {
+    return salones.flatMap(salon => Array(5).fill(salon))
+  };
 
   return (
     <div className='screen-wrapper'>
@@ -20,52 +25,69 @@ const HomeScreen = () => {
       <div className='subtitulos'>
         <div className='logo-group'>
           <h3>Los mejores puntuados</h3>
-          <div className='logos-row'>
-            <Carrusel> 
-            {mejorPuntuado.map((salon) =>
-              Array(3).fill(0).map((_, index) => (
-                <img
-                  key={`${salon.id_salon}-${index}`}
-                  src={salon.fotos[0]}
-                  className='logo'
-                  alt={salon.nombre}
+          <Carrusel>
+            {repetirSalones(mejorPuntuado).map((salon, index) => (
+              <div key={`${salon.id_salon}-${index}`}>
+                <ItemSalonSimple
+                  id_salon={salon.id_salon}
+                  nombre={salon.nombre}
+                  precio={salon.precio_por_hora}
+                  imagen={salon.fotos[0]}
+                  reservas={Reservas.filter(reserva => reserva.id_salon === salon.id_salon)}
+                  resenias={Resenias.filter(resenia =>
+                    Reservas.some(reserva =>
+                      reserva.id_salon === salon.id_salon &&
+                      reserva.id_reserva === resenia.id_reserva
+                    )
+                  )}
                 />
-              ))
-            )}
-            </Carrusel> 
-          </div>
+              </div>
+            ))}
+          </Carrusel>
         </div>
         <div className='logo-group'>
           <h3>Cerca de ti</h3>
-          <div className='logos-row'>
-            <Carrusel>
-            {cercaDti.map((salon) =>
-              Array(3).fill(0).map((_, index) => (
-                <img
-                  key={`${salon.id_salon}-${index}`}
-                  src={salon.fotos[0]}
-                  className='logo'
-                  alt={salon.nombre}
+          <Carrusel>
+            {repetirSalones(cercaDti).map((salon, index) => (
+              <div key={`${salon.id_salon}-${index}`}>
+                <ItemSalonSimple
+                  id_salon={salon.id_salon}
+                  nombre={salon.nombre}
+                  precio={salon.precio_por_hora}
+                  imagen={salon.fotos[0]}
+                  reservas={Reservas.filter(reserva => reserva.id_salon === salon.id_salon)}
+                  resenias={Resenias.filter(resenia =>
+                  Reservas.some(reserva =>
+                    reserva.id_salon === salon.id_salon &&
+                    reserva.id_reserva === resenia.id_reserva
+                  )
+                )}
                 />
-              ))
-            )}
-            </Carrusel>
-          </div>
+              </div>
+            ))}
+          </Carrusel>
         </div>
         <div className='logo-group'>
           <h3>Visto recientemente</h3>
-          <div className='logos-row'>
-            {vistoRecien.map((salon) =>
-              Array(3).fill(0).map((_, index) => (
-                <img
-                  key={`${salon.id_salon}-${index}`}
-                  src={salon.fotos[0]}
-                  className='logo'
-                  alt={salon.nombre}
+          <Carrusel>
+            {repetirSalones(vistoRecien).map((salon, index) => (
+              <div key={`${salon.id_salon}-${index}`}>
+                <ItemSalonSimple
+                  id_salon={salon.id_salon}
+                  nombre={salon.nombre}
+                  precio={salon.precio_por_hora}
+                  imagen={salon.fotos[0]}
+                  reservas={Reservas.filter(reserva => reserva.id_salon === salon.id_salon)}
+                  resenias={Resenias.filter(resenia =>
+                  Reservas.some(reserva =>
+                    reserva.id_salon === salon.id_salon &&
+                    reserva.id_reserva === resenia.id_reserva
+                  )
+                )}
                 />
-              ))
-            )}
-          </div>
+              </div>
+            ))}
+          </Carrusel>
         </div>
       </div>
     </div>
