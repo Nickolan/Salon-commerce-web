@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
-import InputAutocomplete from '../../InputAutocomplete/InputAutocomplete';
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-import './Ubicacion.css'
+import React, { useRef, useState } from "react";
+import { GoogleMap, Marker, StandaloneSearchBox } from "@react-google-maps/api";
+import "./Ubicacion.css";
+
 const containerStyle = {
   width: "100%",
   height: "100%",
@@ -11,71 +11,85 @@ const defaultCenter = {
   lat: -33.45694,
   lng: -70.64827,
 };
+
 const Ubicacion = ({ isLoaded, salon, handleChange }) => {
-
   const mapRef = useRef();
+  const inputRef = useRef();
+  const [coords, setCoords] = useState({
+    lat: salon.latitud || defaultCenter.lat,
+    lng: salon.longitud || defaultCenter.lng,
+  });
+  const [direccionInput, setDireccionInput] = useState(salon.direccion || "");
 
-  const onPlaceSelected = (data, details) => {
-    const location = details?.geometry?.location;
-    const e = {
-      target: {
-        name: "direccion",
-        value: location,
-        type: "text"
-      }
+  const handlePlaceChanged = async () => {
+    const [place] = inputRef.current.getPlaces();
+
+    if (place && place.geometry?.location) {
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+      const direccionFormateada = place.formatted_address;
+
+      setDireccionInput(direccionFormateada);
+      setCoords({ lat, lng });
+      mapRef.current?.panTo({ lat, lng });
+
+      // ✅ Ahora sí: actualizamos el formData del padre
+      handleChange({
+  target: { name: "direccion", value: direccionFormateada, type: "text" },
+});
+handleChange({
+  target: { name: "latitud", value: lat, type: "number" },
+});
+handleChange({
+  target: { name: "longitud", value: lng, type: "number" },
+});
+
+
     }
-    handleChange(e)
-
-    const lat =
-      typeof location?.lat === "function"
-        ? location.lat()
-        : Number(location?.lat);
-
-    const lng =
-      typeof location?.lng === "function"
-        ? location.lng()
-        : Number(location?.lng);
-
-    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
-      console.error("❌ Coordenadas inválidas:", { lat, lng, location });
-      return;
-    }
-
-    mapRef.current?.panTo({ lat, lng });
-  }
-
+  };
 
   return (
-    <div className='form-zone'>
-      <div className='section-zone'>
-
-      <h3>Ubicación</h3>
+    <div className="form-zone">
+      <div className="section-zone">
+        <h3>Ubicación</h3>
       </div>
-      <div className='input-container'>
 
-        <InputAutocomplete
-          placeholder="Ingresa tu dirección"
-          onPlaceSelected={(data, details) =>
-            onPlaceSelected(data, details)
-          }
+      <div className="input-container">
+        <StandaloneSearchBox
+          onLoad={(ref) => (inputRef.current = ref)}
+          onPlacesChanged={handlePlaceChanged}
+          options={{
+            componentRestrictions: { country: "cl" }, // 🇨🇱 Chile (puedes cambiarlo a "ar" o quitarlo)
+            fields: ["formatted_address", "geometry", "name", "place_id"],
+            types: ["geocode"], // calles y direcciones
+          }}
+        >
+          <input
+            type="text"
+            className="autocomplete-input"
+            required
+            placeholder="Ingresa una calle, ciudad o lugar"
+            value={direccionInput}
+            onChange={(e) => setDireccionInput(e.target.value)}
           />
-        </div>
+        </StandaloneSearchBox>
+      </div>
 
-      <div>
+      <div className="map-container">
         {isLoaded && (
           <GoogleMap
             mapContainerStyle={containerStyle}
-            center={defaultCenter}
-            zoom={12}
-            onLoad={(map) => {
-              mapRef.current = map;
-            }}
+            center={coords}
+            zoom={14}
+            onLoad={(map) => (mapRef.current = map)}
           >
+            {/* 🔹 marcador que se actualiza con la dirección */}
+            <Marker position={coords} />
           </GoogleMap>
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Ubicacion
+export default Ubicacion;

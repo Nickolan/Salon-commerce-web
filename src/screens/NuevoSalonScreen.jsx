@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import General from '../Components/FormSalon/General/General';
 import '../styles/NuevoSalonScreen.css'
 import Ubicacion from '../Components/FormSalon/Ubicacion/Ubicacion';
@@ -8,7 +8,7 @@ import Disponibilidad from '../Components/FormSalon/Disponibilidad/Disponibilida
 import Resumen from '../Components/FormSalon/Resumen/Resumen';
 import { AgregarSalon } from '../utils/FuncionesSalon';
 
-const NuevoSalonScreen = () => {
+const NuevoSalonScreen = ({isLoaded}) => {
   // Se realizara todo en una sola pantalla, se cambiara el componente segun el paso actual
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false)
@@ -67,12 +67,18 @@ const NuevoSalonScreen = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  };
+  const { name, value, type, checked } = e.target;
+  setFormData((prev) => ({
+    ...prev,
+    [name]: type === "checkbox" ? checked : value ?? "",
+  }));
+};
+
+
+  useEffect(() => {
+    console.log(formData);
+    
+  },[formData])
 
   return (
     <div className='form-full-screen'>
@@ -113,7 +119,7 @@ const NuevoSalonScreen = () => {
         }
 
         {
-          step == 2 && <Ubicacion salon={formData} handleChange={handleChange} />
+          step == 2 && <Ubicacion isLoaded={isLoaded} salon={formData} handleChange={handleChange} />
         }
 
         {
