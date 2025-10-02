@@ -5,5 +5,40 @@
     "calificacion": 4.5,
     "comentario": "El salón es muy cómodo y el proyector funciona perfecto. ¡Volvería a reservar!",
     "fecha_creacion": "2025-10-01T15:00:00Z"
+  },
+  {
+    "id_resenia": 3002,
+    "id_reserva": 1003,
+    "calificacion": 3.0,
+    "comentario": "Bien pero el aire acondicionado no funcionaba.",
+    "fecha_creacion": "2025-10-02T12:00:00Z"
+  },
+  {
+    "id_resenia": 3003,
+    "id_reserva": 1004,
+    "calificacion": 5.0,
+    "comentario": "Excelente sala creativa, muy luminosa.",
+    "fecha_creacion": "2025-10-03T16:00:00Z"
+  },
+  {
+    "id_resenia": 3004,
+    "id_reserva": 1005,
+    "calificacion": 4.0,
+    "comentario": "La terraza tiene una vista increíble.",
+    "fecha_creacion": "2025-10-04T21:00:00Z"
+  },
+  {
+    "id_resenia": 3005,
+    "id_reserva": 1006,
+    "calificacion": 3.5,
+    "comentario": "Estudio fotográfico correcto, algunas luces fallaban.",
+    "fecha_creacion": "2025-10-05T13:00:00Z"
+  },
+  {
+    "id_resenia": 3006,
+    "id_reserva": 1007,
+    "calificacion": 4.2,
+    "comentario": "Salón de fiestas bien ambientado y seguro.",
+    "fecha_creacion": "2025-10-06T14:00:00Z"
   }
 ]

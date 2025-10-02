@@ -1,0 +1,52 @@
+.carrusel-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #F3E8FB;
+  border-radius: 0.65rem;
+}
+
+.carrusel-item {
+  padding: 0.65rem;
+}
+
+/* puntitos inactivos */
+.slick-dots li button:before {
+  color: var(--second-color) !important;
+  font-size: 0.75rem; 
+}
+
+/* puntito activo */
+.slick-dots li.slick-active button:before {
+  color: var(--primary-color) !important;
+  font-size: 0.85rem; 
+}
+
+/* flechas izquierda (prev) y derecha (next) */
+.slick-prev, .slick-next {
+  width: 2.5rem;
+  height: 2.5rem;
+  z-index: 10;
+  transition: transform 0.2s ease;
+  color: var(--primary-color);
+}
+
+
+/* flechas al presionar */
+.slick-prev:before, .slick-next:before {
+  color: var(--second-color);
+  font-size: 1.75rem;
+  text-shadow: 0.065rem 0.065rem 0.125rem rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* flechas al paso del cursor */
+.slick-prev:hover:before,
+.slick-next:hover:before {
+  color: var(--primary-color); 
+  transform: scale(1.3);
+}
+
+
+
+
