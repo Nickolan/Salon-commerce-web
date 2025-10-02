@@ -52,7 +52,6 @@ function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
   }
   return (
     <div className='screen-wrapper'>
-      <h1>hola</h1>
       <Searchbar onBuscar={handleBuscar} />
       <h2>Lugares encontrados:</h2>
       {lugares.length === 0 ? (

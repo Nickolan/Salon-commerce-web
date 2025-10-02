@@ -54,8 +54,8 @@ h1 {
 a {
   font-weight: 500;
   color: var(--color-primary);
-  text-decoration: none; 
   transition: color 0.2s ease;
+  text-decoration: none; 
 }
 
 a:hover {
