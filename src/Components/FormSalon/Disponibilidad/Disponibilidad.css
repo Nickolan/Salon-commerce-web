@@ -1,0 +1,54 @@
+.disponibilidad-container {
+  border: 2px solid #7d2ae8;
+  border-radius: 8px;
+  padding: 12px;
+  width: 60%;
+  display: inline-block;
+}
+
+.disponibilidad-container table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.disponibilidad-container th,
+.disponibilidad-container td {
+  text-align: center;
+  padding: 8px;
+  font-family: Arial, sans-serif;
+  color: #4b0082;
+}
+
+.disponibilidad-container th {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.disponibilidad-container td:first-child {
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+
+.disponibilidad-container input[type="checkbox"] {
+  width: 1.5rem;
+  height: 1.5rem;
+  accent-color: #7d2ae8; /* Púrpura */
+  cursor: pointer;
+}
+
+.disponibilidad-container select {
+  padding: 4px 8px;
+  border: 2px solid #7d2ae8;
+  border-radius: 6px;
+  background-color: white;
+  color: #4b0082;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.disponibilidad-container select:disabled {
+  background-color: #f0f0f0;
+  color: #aaa;
+  border-color: #ccc;
+}

@@ -1,0 +1,50 @@
+.photo-previews{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.photo-previews .image-container, .image-container-ref{
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.photo-previews .image-container-ref{
+    border: 3px dotted var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+}
+
+.photo-previews .image-container-ref svg{
+    font-size: 2rem;
+}
+
+.photo-previews .image-container img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+}
+
+.photo-previews .image-container button{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    padding: 0;
+}

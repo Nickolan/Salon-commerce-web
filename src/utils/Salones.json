@@ -14,11 +14,11 @@
       "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
-    "equipamientos_json": {
-      "wifi": true,
-      "proyector": true,
-      "pizarra": true
-    },
+    "equipamientos_json": [
+      "wifi",
+      "proyector",
+      "pizarra"
+    ],
     "reglas": [
       "No comer dentro del salón",
       "Mantener el silencio"
@@ -41,10 +41,10 @@
     "fotos": [
       "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
-    "equipamientos_json": {
-      "wifi": true,
-      "pizarra": true
-    },
+    "equipamientos_json": [
+      "wifi",
+      "pizarra"
+    ],
     "reglas": [
       "Prohibido fumar",
       "No se permite el ingreso de mascotas"
