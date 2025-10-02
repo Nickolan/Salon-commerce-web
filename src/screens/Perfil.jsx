@@ -4,6 +4,7 @@ import "../styles/Perfil.css";
 import LautaroLogo from "../assets/img/Lautaro-logo.png";
 import usuariosData from "../utils/Usuarios.json";
 import { LiaEditSolid } from "react-icons/lia";
+import Sidebar from '../components/Sidebar/Sidebar';
 
 const Perfil = () => {
     const navigate = useNavigate();
@@ -35,14 +36,17 @@ const Perfil = () => {
 
     return (
         <div className='Profile-page'>
+            <Sidebar/> 
+            <div className='titulo'>
             <span className="nombre_de_usuario">
                 <img src={LautaroLogo} className='logo' alt="logo" />
                 {usuario.nombre} {usuario.apellido}
                 <div className="editar-button" onClick={handleEditarClick}>
-                    <LiaEditSolid className='logo-editar' /> {/* Ícono de edición */}
+                    <LiaEditSolid className='logo-editar' /> 
                     <span className="editar-texto">Editar</span>
                 </div>
             </span>
+            
             <div className='containers-wrapper'>
                 <div className='Left-container'>
                     <h2>Información Personal</h2>
@@ -78,6 +82,7 @@ const Perfil = () => {
                         <h3>{usuario.nombre_usuario}</h3>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     );

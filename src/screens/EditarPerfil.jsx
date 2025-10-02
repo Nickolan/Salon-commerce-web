@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import usuariosData from "../utils/Usuarios.json";
 import { LiaEditSolid } from "react-icons/lia";
 import { IoSaveOutline } from "react-icons/io5";
+import Sidebar from '../components/Sidebar/Sidebar';
 
 const EditarPerfil = () => {
     const getUsuarioActual = () => {
@@ -123,6 +124,8 @@ const EditarPerfil = () => {
 
     return (
         <div className="EditProfile-page">
+            <Sidebar/>
+            <div className='titulo'>
             <h1>Editar Perfil</h1>
             <div className="containers-wrapper">
                 <div className="Left-container">
@@ -372,6 +375,7 @@ const EditarPerfil = () => {
                         </div>
                     </form>
                 </div>
+            </div>
             </div>
         </div>
     );

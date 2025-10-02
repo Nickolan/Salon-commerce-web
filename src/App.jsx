@@ -19,8 +19,8 @@ function App() {
         <Route path="/" element={<><Navbar user={null} /><HomeScreen/> <Footer/></>} />
         <Route path="/login" element={<> <LoginScreen/> </>} />
         <Route path="/registro" element={<> <RegistroScreen/> </>} />
-        <Route path="/editar" element={<> <EditarPerfil/> </>} />
-        <Route path='/perfil' element={<> <Perfil/></>}/>
+        <Route path="/editar" element={<><Navbar user={null}/> <EditarPerfil/> <Footer/></>} />
+        <Route path='/perfil' element={<><Navbar user={null}/> <Perfil/> <Footer/></>}/>
       </Routes>
     </div>
   );

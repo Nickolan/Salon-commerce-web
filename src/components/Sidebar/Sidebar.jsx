@@ -1,45 +1,45 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
-import CerrarSesionLogo from "../../assets/img/CerrarSesion-logo.png";
-import FavoritoLogo from "../../assets/img/Favorito-logo.png";
-import ReservasLogo from "../../assets/img/Reservas-logo.png";
-import SalonesLogo from "../../assets/img/Salones-logo.png";
-import VentasLogo from "../../assets/img/Ventas-logo.png";
+import { IoLogOutOutline } from "react-icons/io5";
+import { FaRegHeart } from "react-icons/fa";
+import { IoLockClosedOutline } from "react-icons/io5";
+import { IoMdCard } from "react-icons/io";
+import { LuHouse } from "react-icons/lu";
 
 const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <>
-      <button
+      <div
         className="sidebar-toggle mobile-only"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
         ☰
-      </button>
+      </div>
 
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-        <a href="/">Mi Perfil</a>
+        <a href="/perfil">Mi Perfil</a>
         <div className="sidebar-container">
           <div className="side-links">
             <div className="link-item">
-              <img src={ReservasLogo} alt="Mis Reservas" className="logo" />
+              <IoLockClosedOutline alt="Mis Reservas" className="logo" />
               <a href="/">Mis Reservas</a>
             </div>
             <div className="link-item">
-              <img src={FavoritoLogo} alt="Favoritos" className="logo" />
+              <FaRegHeart alt="Favoritos" className="logo" />
               <a href="/">Favoritos</a>
             </div>
             <div className="link-item">
-              <img src={SalonesLogo} alt="Mis Salones" className="logo" />
+              <LuHouse alt="Mis Salones" className="logo" />
               <a href="/">Mis Salones</a>
             </div>
             <div className="link-item">
-              <img src={VentasLogo} alt="Mis Ventas" className="logo" />
+              <IoMdCard alt="Mis Ventas" className="logo" />
               <a href="/">Mis Ventas</a>
             </div>
             <div className="link-item logout">
-              <img src={CerrarSesionLogo} alt="Cerrar Sesión" className="logo" />
+              <IoLogOutOutline alt="Cerrar Sesion" className="logos"/>
               <a href="/">Cerrar Sesión</a>
             </div>
           </div>

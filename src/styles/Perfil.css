@@ -1,28 +1,40 @@
 .Profile-page {
   font-family: Arial, sans-serif;
-  max-width: 900px;
   margin: 0 auto;
-  padding: 20px;
+  margin-left: 18%;
+  justify-content: center;
+  max-width: calc(100% - 18%);
+  padding: 15px;
   color: #333;
+  display: flex;
+  flex-direction: row; 
+  padding-left: 0;
+}
+
+.Profile-page .titulo {
+  margin-left: 0;   
+  padding-left: 0; 
+  width: 100%;
 }
 
 .Profile-page .nombre_de_usuario {
+  padding-left: 7rem;
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: bold;
   color: #6A0DAD;
   position: relative;
-  text-align: left; 
+  text-align: center;
+  justify-content: flex-start; 
   width: 100%;
-  padding-left: 15%; 
   box-sizing: border-box;
 }
 
-.Profile-page .nombre_de_usuario > .logo {
-  width: 30px;
-  height: 30px;
+.Profile-page .nombre_de_usuario  .logo {
+  width: 40px;
+  height: 40px;
   margin-right: 10px;
 }
 

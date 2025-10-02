@@ -11,9 +11,8 @@ const HomeScreen = () => {
   const cercaDti = salonesData.filter(salon => salon.precio_por_hora === 3500.0);
   const vistoRecien = salonesData.filter(salon => salon.precio_por_hora === 1500.0);
 
-  // Función para repetir cada salón 5 veces, si no solo sale una imagen 
   const repetirSalones = (salones) => {
-    return salones.flatMap(salon => Array(5).fill(salon))
+    return salones.flatMap(salon => Array(5).fill(salon));
   };
 
   return (
@@ -22,6 +21,7 @@ const HomeScreen = () => {
         <h1>¿Quiéres reservar un salón para ti?</h1>
         <h2>¡Encuentra los mejores salones para reservar aquí!</h2>
       </div>
+
       <div className='subtitulos'>
         <div className='logo-group'>
           <h3>Los mejores puntuados</h3>
@@ -57,11 +57,11 @@ const HomeScreen = () => {
                   imagen={salon.fotos[0]}
                   reservas={Reservas.filter(reserva => reserva.id_salon === salon.id_salon)}
                   resenias={Resenias.filter(resenia =>
-                  Reservas.some(reserva =>
-                    reserva.id_salon === salon.id_salon &&
-                    reserva.id_reserva === resenia.id_reserva
-                  )
-                )}
+                    Reservas.some(reserva =>
+                      reserva.id_salon === salon.id_salon &&
+                      reserva.id_reserva === resenia.id_reserva
+                    )
+                  )}
                 />
               </div>
             ))}
@@ -79,11 +79,11 @@ const HomeScreen = () => {
                   imagen={salon.fotos[0]}
                   reservas={Reservas.filter(reserva => reserva.id_salon === salon.id_salon)}
                   resenias={Resenias.filter(resenia =>
-                  Reservas.some(reserva =>
-                    reserva.id_salon === salon.id_salon &&
-                    reserva.id_reserva === resenia.id_reserva
-                  )
-                )}
+                    Reservas.some(reserva =>
+                      reserva.id_salon === salon.id_salon &&
+                      reserva.id_reserva === resenia.id_reserva
+                    )
+                  )}
                 />
               </div>
             ))}

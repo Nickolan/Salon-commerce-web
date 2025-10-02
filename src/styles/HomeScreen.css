@@ -26,6 +26,11 @@
   margin-bottom: 0.5rem;
 }
 
+
+.screen-wrapper .subtitulos{
+  flex: 1;
+}
+
 .screen-wrapper .title h2 {
   font-size: 1.3rem;
   font-weight: normal;
