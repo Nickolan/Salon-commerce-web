@@ -8,6 +8,7 @@ import salonesData from './utils/Salones.json'
 import Footer from './components/Footer/Footer';
 
 import RegistroScreen from "./screens/RegistroScreen";
+import TerminosYCondicionesScreen from './screens/TerminosYCondicionesScreen';
 import Reservacionesrec from './Components/reservaciones_recibidas/reservacionesrec';
 import Searchbar from './Components/SearchBar/searchbar';
 import ItemSalonDetallado from './Components/Item-salon-detallado/ItemSalonDetallado';
@@ -22,8 +23,8 @@ function App() {
         <Route path="/" element={<><Navbar user={null} /><HomeScreen/> <Footer/></>} />
         <Route path="/login" element={<> <LoginScreen/> </>} />
         <Route path="/registro" element={<> <RegistroScreen/> </>} />
+        <Route path="/terminos&condiciones" element={<><Navbar user={null} /> <TerminosYCondicionesScreen/><Footer/> </>} />
         <Route path="/mis-salones" element={<> <Navbar user={null}/> <MisSalonesScreen/> <Footer/> </>}/>
-
         <Route path="/mis_ventas" element={<><Navbar user={null} /><Reservacionesrec/><Footer/></>}></Route>
       </Routes>
     </div>
