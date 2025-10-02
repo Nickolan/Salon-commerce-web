@@ -23,7 +23,7 @@ function ItemSalonDetallado({salon}) {
       </div>
       <div className="precio">
         <span>{salon.precio_por_hora}$</span>
-        <small>precio por hora</small>
+        <small>Precio por hora</small>
       </div>
       </div>
       
