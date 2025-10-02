@@ -1,5 +1,17 @@
 [
   {
+    "cliente":"Lautaro Ferreria",
+    "id_reserva": 1001,
+    "id_salon": 101,
+    "id_arrendatario": 2,
+    "fecha_reserva": "2025-10-01",
+    "hora_inicio": "10:00:00",
+    "hora_fin": "12:00:00",
+    "estado_reserva": "confirmada",
+    "fecha_creacion": "2025-09-23T14:00:00Z"
+  },
+   {
+    "cliente":"Lautaro Ferreria",
     "id_reserva": 1001,
     "id_salon": 101,
     "id_arrendatario": 2,
@@ -10,6 +22,97 @@
     "fecha_creacion": "2025-09-23T14:00:00Z"
   },
   {
+    "cliente":"Lautaro Ferreria",
+    "id_reserva": 1001,
+    "id_salon": 101,
+    "id_arrendatario": 2,
+    "fecha_reserva": "2025-10-01",
+    "hora_inicio": "10:00:00",
+    "hora_fin": "12:00:00",
+    "estado_reserva": "confirmada",
+    "fecha_creacion": "2025-09-23T14:00:00Z"
+  },
+  {
+    "cliente":"Lautaro Ferreria",
+    "id_reserva": 1001,
+    "id_salon": 101,
+    "id_arrendatario": 2,
+    "fecha_reserva": "2025-10-01",
+    "hora_inicio": "10:00:00",
+    "hora_fin": "12:00:00",
+    "estado_reserva": "confirmada",
+    "fecha_creacion": "2025-09-23T14:00:00Z"
+  },
+  {
+    "cliente":"Lautaro Ferreria",
+    "id_reserva": 1001,
+    "id_salon": 101,
+    "id_arrendatario": 2,
+    "fecha_reserva": "2025-10-01",
+    "hora_inicio": "10:00:00",
+    "hora_fin": "12:00:00",
+    "estado_reserva": "confirmada",
+    "fecha_creacion": "2025-09-23T14:00:00Z"
+  },
+  {
+    "cliente":"Lautaro Ferreria",
+    "id_reserva": 1001,
+    "id_salon": 101,
+    "id_arrendatario": 2,
+    "fecha_reserva": "2025-10-01",
+    "hora_inicio": "10:00:00",
+    "hora_fin": "12:00:00",
+    "estado_reserva": "confirmada",
+    "fecha_creacion": "2025-09-23T14:00:00Z"
+  },
+  {
+    "cliente":"Lautaro Ferreria",
+    "id_reserva": 1001,
+    "id_salon": 101,
+    "id_arrendatario": 2,
+    "fecha_reserva": "2025-10-01",
+    "hora_inicio": "10:00:00",
+    "hora_fin": "12:00:00",
+    "estado_reserva": "confirmada",
+    "fecha_creacion": "2025-09-23T14:00:00Z"
+  },
+  {
+    "cliente":"Lautaro Ferreria",
+    "id_reserva": 1001,
+    "id_salon": 101,
+    "id_arrendatario": 2,
+    "fecha_reserva": "2025-10-01",
+    "hora_inicio": "10:00:00",
+    "hora_fin": "12:00:00",
+    "estado_reserva": "confirmada",
+    "fecha_creacion": "2025-09-23T14:00:00Z"
+  },
+  {
+    "cliente":"Lautaro Ferreria",
+    "id_reserva": 1001,
+    "id_salon": 101,
+    "id_arrendatario": 2,
+    "fecha_reserva": "2025-10-01",
+    "hora_inicio": "10:00:00",
+    "hora_fin": "12:00:00",
+    "estado_reserva": "confirmada",
+    "fecha_creacion": "2025-09-23T14:00:00Z"
+  },
+  {
+    "cliente":"Lautaro Ferreria",
+
+    "id_reserva": 1001,
+    "id_salon": 101,
+    "id_arrendatario": 2,
+    "fecha_reserva": "2025-10-01",
+    "hora_inicio": "10:00:00",
+    "hora_fin": "12:00:00",
+    "estado_reserva": "confirmada",
+    "fecha_creacion": "2025-09-23T14:00:00Z"
+  },
+  {
+    "cliente":"Lautaro Ferreria",
+
     "id_reserva": 1002,
     "id_salon": 102,
     "id_arrendatario": 2,
