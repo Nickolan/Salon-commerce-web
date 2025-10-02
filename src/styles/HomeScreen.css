@@ -1,6 +1,97 @@
 .screen-wrapper{
-    margin-top: 8%;
+    margin-top: 5%;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.screen-wrapper .title {
+  width: 100vw;
+  margin-left: -2rem;
+  margin-right: -2rem;
+  background-color: #6A0DAD;
+  color: #fff;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  align-items: flex-start;
+  padding-left: 4rem;
+  box-sizing: border-box;
+}
+
+.screen-wrapper .title h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+
+.screen-wrapper .subtitulos{
+  flex: 1;
+}
+
+.screen-wrapper .title h2 {
+  font-size: 1.3rem;
+  font-weight: normal;
+}
+
+.screen-wrapper .logo-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.screen-wrapper .logo-group h3 {
+  color: #6A0DAD;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  padding-left: 2%;
+  text-align: left;
+}
+
+.screen-wrapper .logos-row {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 0 2rem;
+}
+
+.screen-wrapper .logo {
+  width: 20%;
+  max-width: 120px;
+  height: auto;
+  margin: 0.5rem;
+  object-fit: cover;
+}
+
+/* Estilos del carrusel */
+.carrusel-container {
+  padding: 20px 0;
+}
+
+.slick-slide > div {
+  height: 9.5rem;
+  padding: 10px;
+}
+
+.slick-slide img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.slick-dots {
+  bottom: -50px;
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: #6A0DAD;
 }

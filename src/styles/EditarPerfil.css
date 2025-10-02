@@ -1,0 +1,197 @@
+.EditProfile-page {
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row; 
+  margin-top: 5%;
+}
+
+.edit-wrapper {
+  flex: 1;
+}
+
+.EditProfile-page h1 {
+  text-align: center; 
+  color: #6A0DAD;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.EditProfile-page .containers-wrapper {
+  display: flex;
+  gap: 80px;
+  justify-content: center;
+  width: 100%;
+}
+
+.EditProfile-page .Left-container {
+  width: 35%;
+  padding: 1.5rem;
+  background-color: transparent;
+  border: none;
+}
+
+.EditProfile-page .Right-container {
+  width: 40%;
+  padding: 1.5rem;
+  background-color: transparent;
+  border: none;
+}
+
+.EditProfile-page .Left-container h2,
+.EditProfile-page .Right-container h2 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #6A0DAD;
+  margin-top: 0;
+  text-align: left; 
+}
+
+.EditProfile-page .registro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.EditProfile-page .form-group {
+  margin-bottom: 1rem;
+}
+
+.EditProfile-page .form-group label {
+  display: block;
+  color: #6A0DAD;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.EditProfile-page .input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.EditProfile-page .form-group input[type="text"],
+.EditProfile-page .form-group input[type="email"],
+.EditProfile-page .form-group input[type="tel"],
+.EditProfile-page .form-group select {
+  flex: 1;
+  padding: 12px 45px 12px 12px;
+  border: none;
+  border-bottom: 2px solid #6A0DAD;
+  border-radius: 0;
+  background-color: transparent;
+  font-size: 1rem;
+  outline: none;
+  color: #6A0DAD;
+  transition: border-color 0.3s;
+}
+
+.EditProfile-page .form-group input:focus,
+.EditProfile-page .form-group select:focus {
+  border-bottom-color: #5a0c9a; 
+}
+
+.EditProfile-page .input-container .logo {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  color: var(--primary-color); 
+}
+
+.EditProfile-page .form-group input:disabled,
+.EditProfile-page .form-group select:disabled {
+  border-bottom: 2px solid #ccc;
+  color: #666;
+  background-color: #fff;
+}
+
+.EditProfile-page .form-group input:not(:disabled),
+.EditProfile-page .form-group select:not(:disabled) {
+  border-bottom: 2px solid #6A0DAD;
+  color: #6A0DAD;
+}
+
+.EditProfile-page .error {
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  display: none;
+}
+
+.EditProfile-page .error.active {
+  display: block;
+}
+
+.EditProfile-page .btn-guardar {
+  background-color: #6A0DAD;
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 200px;
+  align-self: center;
+}
+
+.EditProfile-page .btn-guardar:hover {
+  background-color: #5a0c9a;
+}
+
+.EditProfile-page .input-purple {
+  border-bottom: 2px solid #6A0DAD !important;
+  color: #6A0DAD !important;
+}
+
+.EditProfile-page .input-gray {
+  border-bottom: 2px solid #ccc !important;
+  color: #666 !important;
+}
+
+.EditProfile-page .email-purple {
+  color: #6A0DAD;
+  margin: 0;
+}
+
+.EditProfile-page .btn-guardar-div {
+  background-color: #6A0DAD;
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 200px;
+  text-align: center;
+  display: block;
+}
+
+.EditProfile-page .btn-guardar-div:hover {
+  background-color: #5a0c9a;
+}
+
+@media (max-width: 768px) {
+  .EditProfile-page .containers-wrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .EditProfile-page .Left-container,
+  .EditProfile-page .Right-container {
+    width: 100%;
+    padding: 1rem;
+  }
+}

@@ -1,0 +1,94 @@
+/* Layout principal: Sidebar + Contenido */
+.profile-wrapper {
+  display: flex;
+  min-height: 80vh;
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin-top: 5%;
+}
+
+/* Sidebar ya tiene sus propios estilos */
+.profile-wrapper .profile-content {
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Título */
+.profile-wrapper .titulo {
+  margin-bottom: 20px;
+}
+
+.profile-wrapper .nombre_de_usuario {
+  display: flex;
+  align-items: center;
+  font-size: 32px;
+  font-weight: bold;
+  color: #6A0DAD;
+  position: relative;
+}
+
+/* Botón Editar */
+.profile-wrapper .editar-button {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: #6A0DAD;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.profile-wrapper .editar-button:hover {
+  opacity: 0.9;
+}
+
+.profile-wrapper .logo-editar {
+  width: 16px;
+  height: 16px;
+}
+
+.profile-wrapper .editar-texto {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Info containers */
+.profile-wrapper .containers-wrapper {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.profile-wrapper .Left-container,
+.profile-wrapper .Right-container {
+  flex: 1;
+  min-width: 250px;
+  padding: 1.5rem;
+}
+
+.profile-wrapper .Left-container h2,
+.profile-wrapper .Right-container h2 {
+  color: #6A0DAD;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* 👇 scoped: ya no afecta al resto */
+.profile-wrapper label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 700;
+  color: #6A0DAD;
+}
+
+.profile-wrapper h3 {
+  margin: 5px 0;
+  color: #6A0DAD;
+  font-size: 16px;
+  font-weight: normal;
+  padding: 5px 0;
+}

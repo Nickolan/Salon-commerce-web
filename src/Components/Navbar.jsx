@@ -9,9 +9,11 @@ function Navbar() {
 
   return (
     <Fragment>
-      <nav className="navbar  navbar-light  fixed-top">
+      <nav className="navbar ">
         <div className="container-fluid d-flex  align-items-center justify-content.between">
-          <h2>Focus Room</h2>
+          <Link to={'/'}>
+            <h2>Focus Room</h2>
+          </Link>
 
           <div className=" buttons-container d-flex align-items-center gap-2 ms-auto">
             <button className=" Bandera button lang-btn" onClick={() => alert("Por ahora, solo está disponible el idioma español.")}>
@@ -30,7 +32,7 @@ function Navbar() {
               </Link>
 
             ) : (
-              <Link to="/" className="usuario_link">
+              <Link to="/perfil" className="usuario_link">
                 <div className="datos_de_usuario">
                 <img 
                   src="https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
