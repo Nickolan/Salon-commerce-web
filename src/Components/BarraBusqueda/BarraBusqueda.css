@@ -1,0 +1,53 @@
+.barra-busqueda-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.form-barraBusqueda {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 0.05rem solid var(--primary-color);
+    border-radius: 1rem;
+    padding: 0.4rem 0.8rem;
+    width: 100%;
+    max-width: 25rem;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.form-barraBusqueda input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 0.9rem;
+    background-color: transparent;
+    color: var(--primary-color);
+}
+
+.form-barraBusqueda input::placeholder {
+    color: rgba(106, 13, 173, 0.5);
+    font-style: italic;
+}
+
+.form-barraBusqueda svg {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.total-salones {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.total-salones::after {
+  content: " salones";
+}
+
+@media (max-width: 520px) {
+  .total-salones::after {
+    content: "";
+  }
+}

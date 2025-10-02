@@ -2,12 +2,9 @@ import { useState } from 'react';
 import { Route, Routes } from "react-router-dom";
 import HomeScreen from './screens/HomeScreen';
 import Navbar from './Components/Navbar';
-
-import salonesData from './utils/Salones.json'
-
-// import Registrar from './components/Registrar/Registrar'
 import LoginScreen from './screens/LoginScreen';
-
+import MisSalonesScreen from './screens/MisSalonesScreen'
+import salonesData from './utils/Salones.json'
 import Footer from './components/Footer/Footer';
 
 import RegistroScreen from "./screens/RegistroScreen";
@@ -25,6 +22,8 @@ function App() {
         <Route path="/" element={<><Navbar user={null} /><HomeScreen/> <Footer/></>} />
         <Route path="/login" element={<> <LoginScreen/> </>} />
         <Route path="/registro" element={<> <RegistroScreen/> </>} />
+        <Route path="/mis-salones" element={<> <Navbar user={null}/> <MisSalonesScreen/> <Footer/> </>}/>
+
         <Route path="/mis_ventas" element={<><Navbar user={null} /><Reservacionesrec/><Footer/></>}></Route>
       </Routes>
     </div>

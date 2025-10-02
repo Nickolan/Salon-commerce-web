@@ -1,0 +1,247 @@
+.pagina-misSalones {
+    padding: 2rem;
+    padding-top: 6rem;
+}
+
+.titulo {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.listado-salones {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2.1rem;
+}
+
+.sin-resultados {
+  color: var(--primary-color);
+  font-weight: bold;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.card-salon {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    border: 0.05rem solid var(--primary-color);
+    border-radius: 0.8rem;
+    background-color: #fff;
+    color: var(--primary-color);
+    overflow: hidden; /* para que todo lo que salga de la card se borre (sirve para la foto) */
+}
+
+.card-imagen-wrapper {
+    width: 12rem;
+    flex-shrink: 0; /* el contenedor de la imagen se mantiene fijo para no desvirtuar la posición de la demás info */
+    border-radius: 0.5rem; 
+    overflow: hidden;
+    display: flex;
+}
+
+.card-imagen-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ajusta la imagen para adaptarse al espacio del contenedor */
+    display: block;
+}
+
+
+.card-izquierda {
+    display: flex;
+    padding: 1rem;
+    flex-direction: column;
+    gap: 0.01rem;
+    flex: 1; /* para que ocupe siempre el espacio completo de la card al ampliarse o achicarse */
+}
+
+.card-izquierda svg {
+    vertical-align: middle;
+    color: var(--primary-color);
+}
+
+.card-izquierda p {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.salon-nombre-capacidad {
+    display: flex;
+    font-weight: bold;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.salon-nombre {
+    font-weight: bold;
+}
+
+.salon-caracteristica {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.icono {
+    vertical-align: middle;
+    color: var(--primary-color);
+    font-size: 1rem;
+    margin-right: 0.2rem;
+}
+
+.card-derecha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+.botones {
+    display: flex;
+    gap: 1rem;
+}
+
+.botones button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    padding: 0;
+    margin: 0;
+    line-height: 1; /* saca el espacio extra y se ajusta exacto al tamaño del icono */
+    transition: all 0.3s ease;
+}
+
+.botones button:hover {
+    color: var(--second-color);
+    transform: scale(1.2);
+}
+
+.botones button:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+    outline: none;
+    border: none;
+}
+
+.estado-publicacion {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* estilos para tables o pantallas medianas */
+@media (max-width: 900px) {
+  .pagina-misSalones {
+    padding: 1.5rem;
+    padding-top: 5rem;
+  }
+
+  .titulo {
+    font-size: 1.7rem;
+  }
+
+  .salon-nombre-capacidad {
+    font-size: 1.1rem;
+  }
+}
+
+/* estilos para celulares modernos */
+@media (max-width: 600px) {
+  .pagina-misSalones {
+    padding: 1rem;
+    padding-top: 4rem;
+  }
+
+  .titulo {
+    font-size: 1.5rem;
+  }
+
+  .card-salon {
+    flex-direction: column; 
+    align-items: flex-start;
+  }
+
+  .card-imagen-wrapper {
+    width: 100%; 
+    height: 180px; 
+  }
+
+  .card-imagen-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-izquierda {
+    padding: 0.8rem;
+    gap: 0.4rem;
+  }
+
+  .salon-nombre-capacidad {
+    flex-direction: column; 
+    align-items: flex-start;
+    font-size: 1rem;
+  }
+
+  .salon-caracteristica {
+    font-size: 0.9rem;
+  }
+
+  .card-derecha {
+    flex-direction: row; 
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.8rem 1rem;
+  }
+
+  .botones {
+    gap: 0.8rem;
+  }
+
+  .botones button {
+    font-size: 1.4rem;
+  }
+
+  .estado-publicacion {
+    font-size: 0.85rem;
+  }
+}
+
+/* estilos para celulares chicos */
+@media (max-width: 360px) {
+  .titulo {
+    font-size: 1.3rem;
+  }
+
+  .card-imagen-wrapper {
+    height: 150px;
+  }
+
+  .salon-nombre-capacidad {
+    font-size: 0.9rem;
+  }
+
+  .salon-caracteristica {
+    font-size: 0.8rem;
+  }
+
+  .botones button {
+    font-size: 1.2rem;
+  }
+}
+
