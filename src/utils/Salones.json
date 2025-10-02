@@ -1,7 +1,9 @@
 [
   {
     "id_salon": 101,
+    "imagen":"https://maison.20minutes.fr/wp-content/uploads/2022/12/3-deux-canapes-imposants-pour-un-salon-xxl-plus-cosy-westwing.jpg",
     "id_publicador": 1,
+    "resenia":4.9,
     "nombre": "Salón de Estudio Moderno",
     "descripcion": "Espacio ideal para grupos de estudio, con excelente iluminación y equipamiento multimedia.",
     "precio_por_hora": 2500.0,
@@ -27,6 +29,9 @@
   {
     "id_salon": 102,
     "id_publicador": 1,
+
+    "resenia":4.9,
+    "imagen":"https://maison.20minutes.fr/wp-content/uploads/2022/12/3-deux-canapes-imposants-pour-un-salon-xxl-plus-cosy-westwing.jpg",
     "nombre": "Sala de Reuniones Privada",
     "descripcion": "Pequeña sala para reuniones o tutorías, muy tranquila.",
     "precio_por_hora": 1500.0,

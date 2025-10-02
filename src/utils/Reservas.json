@@ -100,6 +100,7 @@
   },
   {
     "cliente":"Lautaro Ferreria",
+
     "id_reserva": 1001,
     "id_salon": 101,
     "id_arrendatario": 2,
@@ -111,6 +112,7 @@
   },
   {
     "cliente":"Lautaro Ferreria",
+
     "id_reserva": 1002,
     "id_salon": 102,
     "id_arrendatario": 2,
