@@ -1,0 +1,21 @@
+.tabla1{
+    border-bottom: var(--primary-color) solid 0.1rem;
+    border-top: var(--primary-color) solid 0.1rem; 
+    border-left: var(--primary-color) solid 0.1rem;
+    border-right: var(--primary-color) solid 0.1rem;
+    table-layout: fixed;
+   
+}
+.botones_expansion{
+    margin-bottom: 90px;
+}
+.nombres_de_filas{
+    margin-bottom: 1rem;
+}
+.titulo{
+    color:var(--primary-color) !important;
+}
+.tabla1 th,
+.tabla1 td{
+    color:var(--primary-color) ;
+}

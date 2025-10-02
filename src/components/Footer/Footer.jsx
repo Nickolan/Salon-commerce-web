@@ -2,18 +2,22 @@ import React from 'react';
 import './Footer.css';
 // Importa los íconos que necesitas de react-icons
 import { FaTwitter, FaFacebookF, FaInstagram } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   // Obtenemos el año actual dinámicamente
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer">
+    <footer className="footer fixed-bottom">
       <div className="footer-container">
         <div className="footer-links">
           {/* Es mejor usar rutas relativas o completas en lugar de '#' */}
           <a href="/contacto">Contáctanos</a>
           <a href="/politica-de-privacidad">Política de Privacidad</a>
+          <Link to={"/terminos&condiciones"}>
+            <span>Terminos y Condiciones</span>
+          </Link>
         </div>
         
         <p className="copyright">© {currentYear} Focus Room. Todos los derechos reservados.</p>

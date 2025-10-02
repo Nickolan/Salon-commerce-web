@@ -11,7 +11,7 @@ function Navbar() {
     <Fragment>
       <nav className="navbar  navbar-light  fixed-top">
         <div className="container-fluid d-flex  align-items-center justify-content.between">
-          <h2 className="navbar-brand">Focus Room</h2>
+          <h2>Focus Room</h2>
 
           <div className=" buttons-container d-flex align-items-center gap-2 ms-auto">
             <button className=" Bandera button lang-btn" onClick={() => alert("Por ahora, solo está disponible el idioma español.")}>
