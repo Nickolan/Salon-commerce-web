@@ -1,5 +1,7 @@
+
 import React, { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import BotonFavoritos from "../BotonFavoritos/BotonFavoritos";
 import "./ItemSalonSimple.css"
 import { useNavigate } from "react-router-dom";
 import Favoritos from "../../utils/Favoritos.json"
@@ -27,6 +29,11 @@ const ItemSalonSimple = ({ id_salon, nombre, precio, imagen, reservas, resenias 
             // si no está vacío significa que el usuario ya interactuó previamente, por ende, ya sus favoritos están guardados en el localStorage, solo se setea false o true esFavorito según como esté guardado
         }
     }, [id_salon]);
+
+
+const ItemSalonSimple = ({ id_salon, nombre, precio, imagen, reservas, resenias }) => {
+
+    const navigate = useNavigate();
 
     const handleCardClick = () => {
         navigate(`/detalle-salon/${id_salon}`);
@@ -63,6 +70,7 @@ const ItemSalonSimple = ({ id_salon, nombre, precio, imagen, reservas, resenias 
                 >
                     {esFavorito ? <FaHeart/> : <FaRegHeart/>}
                 </button>
+                <BotonFavoritos id_salon={id_salon}/>
             </div>
             <div className="salon-card-info-izq">
                 <p className="salon-card-info-nombre">{nombre}</p>
