@@ -14,6 +14,7 @@ import NuevoSalonScreen from './screens/NuevoSalonScreen';
 import TerminosYCondicionesScreen from './screens/TerminosYCondicionesScreen';
 import Reservacionesrec from './Components/reservaciones_recibidas/reservacionesrec';
 import MisSalonesScreen from './screens/MisSalonesScreen';
+import DetallesSalon from './screens/DetallesSalon';
 import Chatbot from './Components/ChatBot/Chatbot';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/mis_ventas" element={<><Navbar user={null}/><Reservacionesrec/> <Chatbot/><Footer/></>}/>
         <Route path="/perfil" element={<><Navbar user={null}/><Perfil/><Footer/> <Chatbot/></>}/>
         <Route path='/editar-perfil' element={<><Navbar user={null}/><EditarPerfil/> <Chatbot/><Footer/></>}/>
+        <Route path="/salon_detalles" element={<><Navbar user={null} /> <DetallesSalon/> <Chatbot/><Footer/></>} />
       </Routes>
     </div>
   );

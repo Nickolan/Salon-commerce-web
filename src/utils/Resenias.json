@@ -40,5 +40,41 @@
     "calificacion": 4.2,
     "comentario": "Salón de fiestas bien ambientado y seguro.",
     "fecha_creacion": "2025-10-06T14:00:00Z"
+  },
+  {
+    "id_resenia": 3007,
+    "id_reserva": 1008,
+    "id_usuario": 2001,
+    "nombre_usuario": "María González",
+    "calificacion": 4.8,
+    "comentario": "Increíble atención y el salón está impecable. Perfecto para reuniones ejecutivas.",
+    "fecha_creacion": "2025-10-07T10:30:00Z"
+  },
+  {
+    "id_resenia": 3008,
+    "id_reserva": 1009,
+    "id_usuario": 2002,
+    "nombre_usuario": "Carlos Rodríguez",
+    "calificacion": 4.0,
+    "comentario": "Buen espacio para talleres, aunque faltaban algunos enchufes.",
+    "fecha_creacion": "2025-10-08T16:45:00Z"
+  },
+  {
+    "id_resenia": 3009,
+    "id_reserva": 1010,
+    "id_usuario": 2003,
+    "nombre_usuario": "Ana Martínez",
+    "calificacion": 5.0,
+    "comentario": "El mejor salón que he usado. La iluminación natural es espectacular.",
+    "fecha_creacion": "2025-10-09T09:15:00Z"
+  },
+  {
+    "id_resenia": 3010,
+    "id_reserva": 1011,
+    "id_usuario": 2004,
+    "nombre_usuario": "David López",
+    "calificacion": 3.8,
+    "comentario": "Buen precio pero el wifi era algo lento. En general buena experiencia.",
+    "fecha_creacion": "2025-10-10T14:20:00Z"
   }
 ]
