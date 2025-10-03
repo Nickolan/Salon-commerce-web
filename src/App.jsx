@@ -14,6 +14,7 @@ import NuevoSalonScreen from './screens/NuevoSalonScreen';
 import TerminosYCondicionesScreen from './screens/TerminosYCondicionesScreen';
 import Reservacionesrec from './Components/reservaciones_recibidas/reservacionesrec';
 import MisSalonesScreen from './screens/MisSalonesScreen';
+import Chatbot from './Components/ChatBot/Chatbot';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -28,17 +29,17 @@ function App() {
     <div style={{ "--primary-color": "#6A0DAD", "--second-color": "#7B2FF7", "--background-color": "#f3f3fe" }}>
        
       <Routes>
-        <Route path="/" element={<><Navbar user={null} /><HomeScreen/> <Footer/></>} />
+        <Route path="/" element={<><Navbar user={null} /><HomeScreen/> <Chatbot/> <Footer/></>} />
         <Route path="/login" element={<> <LoginScreen/> </>} />
         <Route path="/registro" element={<> <RegistroScreen/> </>} />
 
-        <Route path="/publicar" element={<><NuevoSalonScreen isLoaded={isLoaded}/> </>} />
+        <Route path="/publicar" element={<><NuevoSalonScreen isLoaded={isLoaded}/><Chatbot/></>} />
 
-        <Route path="/terminos&condiciones" element={<><Navbar user={null} /> <TerminosYCondicionesScreen/><Footer/></>} />
-        <Route path="/mis-salones" element={<> <Navbar user={null}/> <MisSalonesScreen/> <Footer/> </>}/>
-        <Route path="/mis_ventas" element={<><Navbar user={null}/><Reservacionesrec/><Footer/></>}/>
-        <Route path="/perfil" element={<><Navbar user={null}/><Perfil/><Footer/></>}/>
-        <Route path='/editar-perfil' element={<><Navbar user={null}/><EditarPerfil/><Footer/></>}/>
+        <Route path="/terminos&condiciones" element={<><Navbar user={null} /> <TerminosYCondicionesScreen/> <Chatbot/><Footer/></>} />
+        <Route path="/mis-salones" element={<> <Navbar user={null}/> <MisSalonesScreen/> <Chatbot/> <Footer/> </>}/>
+        <Route path="/mis_ventas" element={<><Navbar user={null}/><Reservacionesrec/> <Chatbot/><Footer/></>}/>
+        <Route path="/perfil" element={<><Navbar user={null}/><Perfil/><Footer/> <Chatbot/></>}/>
+        <Route path='/editar-perfil' element={<><Navbar user={null}/><EditarPerfil/> <Chatbot/><Footer/></>}/>
       </Routes>
     </div>
   );
