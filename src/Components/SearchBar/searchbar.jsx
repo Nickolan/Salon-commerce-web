@@ -5,8 +5,9 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { FaLocationDot } from 'react-icons/fa6';
 import { BsFillPersonFill } from 'react-icons/bs';
 
-function Searchbar({onBuscar}) {
+function Searchbar() {
   const [ubicacion,setUbicacion]=useState("");
+  const [lugares, setLugares] = useState([]); //lista de lugares
   const [personas,setPersonas]=useState("1");
   const Buscar= ()=>{   
     if (!ubicacion.trim()){
@@ -18,6 +19,44 @@ function Searchbar({onBuscar}) {
       return;
     }
     onBuscar(ubicacion, parseInt(personas));
+  }
+
+  const onBuscar = (ubicacion, personasMin) => {
+    if (!ubicacion.trim()) return;
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder.geocode({ address: ubicacion }, (results, status) => {
+      if (status === 'OK' && results[0]) {
+        const { lat, lng } = results[0].geometry.location;
+
+
+        const resultados = salonesData.filter(salon => {
+          const distancia = calcularDistanciaKm(lat, lng, salon.lat, salon.lng);
+          return distancia <= 5 && salon.capacidad >= personasMin;
+        });
+
+
+        if (resultados.length === 0) {
+          alert('No se encontraron salones cercanos en esa ubicación.');
+        }
+
+        setLugares(resultados);
+      } else {
+        alert('No se pudo encontrar la ubicación.');
+      }
+    });
+  };
+  
+  
+  function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
+    const R = 6371; // radio de la Tierra en km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
   }
   return (
     <Fragment>
