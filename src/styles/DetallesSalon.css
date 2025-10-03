@@ -22,19 +22,24 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  font-size: 12px;
+}
+.detalles-Salon h2{
+  font-size: 14px ;
 }
 
 .detalles-Salon .titulo-izquierda h1 {
-  margin: 0 0 8px 0; /* Solo margin-bottom para separar de la dirección */
-  font-size: 24px;
+  margin: 0 0 8px 0; 
   color: #6A0DAD;
-  /* Quita estas propiedades de emergencia */
   visibility: visible;
   opacity: 1;
   display: block;
   position: relative;
   z-index: 1;
+  font-size: 36px;
+}
+
+.detalles-Salon .h1{
+  font-size: 24px;
 }
 
 .detalles-Salon .titulo-derecha {
@@ -43,7 +48,6 @@
   align-items: flex-end;
   gap: 10px;
   min-width: 120px;
-  /* Añade esto para alineación vertical */
   margin-top: 0;
 }
 
@@ -51,7 +55,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 0; /* Cambia de 8px a 0 */
+  margin-top: 0;
   flex-wrap: wrap;
 }
 
@@ -124,146 +128,9 @@
   overflow: visible;
 }
 
-.detalles-Salon .detalles-secundarios {
-  display: flex;
-  flex-direction: column; 
-  gap: 20px; 
-  width: 100%;
-}
-/* equipamiento y reglas */
-.detalles-Salon .equipamiento {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  align-items: center;
-}
-
-.detalles-Salon .equipamiento h3 {
-  background-color: #fff;
-  padding: 2.5px 5px;
-  border-radius: 20px;
-  margin: 0;
-  white-space: nowrap;
-  color: #6A0DAD;
-  font-weight: normal;
-  border: 2px solid #6A0DAD;
-  font-size: 10px;
-}
-
-.detalles-Salon .reglas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  align-items: center;
-}
-
-.detalles-Salon .reglas h3 {
-  background-color: #6A0DAD;
-  padding: 2.5px 5px;
-  border-radius: 20px;
-  margin: 0;
-  white-space: nowrap;
-  color: #fff;
-  font-weight: normal;
-  font-size: 10px;
-}
-
 .detalles-Salon .icon,
 .detalles-Salon .logo,
 .detalles-Salon .estrella {
   color: #6A0DAD;
   font-size: 18px;
-}
-/* descripcion */
-.detalles-Salon .descripcion{
-  color: #6A0DAD;
-  border: 2px solid #6A0DAD;
-  background-color: #FFFFFF;
-  border-radius: 25px; 
-  padding: 20px; 
-  margin: 10px 0;
-  min-height: auto; 
-  height: auto;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.detalles-Salon .descripcion p {
-  margin: 0;
-  line-height: 1.5;
-  word-wrap: break-word; 
-}
-
-.detalles-Salon .imagen img {
-    min-width: 28rem;
-    max-height: 9rem;
-    width: auto;
-    height: auto;
-    display: block;
-}
-
-/* Opiniones */
-.detalles-Salon .opiniones-destacadas {
-  width: 100%;
-}
-
-.detalles-Salon .opiniones-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columnas en una fila */
-  gap: 15px; /* Reducir gap para que quepan */
-  margin-top: 20px;
-  max-width: 100%; /* Quitar el max-width anterior */
-}
-
-.detalles-Salon .opinion-card {
-  background-color: #6A0DAD;
-  border-radius: 20px; 
-  padding: 15px;
-  color: white;
-  position: relative;
-  min-height: 120px;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%; 
-  width: 100%;
-  box-sizing: border-box;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-}
-
-.detalles-Salon .opinion-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 10px;
-}
-
-.detalles-Salon .usuario-nombre {
-  font-weight: bold;
-  font-size: 14px; 
-  flex: 1;
-  margin-right: 8px;
-}
-
-.detalles-Salon .opinion-numero {
-  background-color: #fff;
-  color: #6A0DAD;
-  border-radius: 15%;
-  width: 25px; 
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 12px;
-  flex-shrink: 0;
-}
-
-.detalles-Salon .opinion-comentario {
-  margin: 0;
-  line-height: 1.3;
-  font-size: 12px; /* Reducir tamaño de fuente */
-  flex: 1;
 }
