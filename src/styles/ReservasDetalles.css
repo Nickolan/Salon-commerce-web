@@ -1,0 +1,98 @@
+.detalles-reservas {
+  margin-top: 5%;
+  padding: 20px;
+}
+
+.detalles-reservas .titulo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #6A0DAD;
+}
+
+.detalles-reservas .titulo h1 {
+  margin: 0;
+}
+
+.detalles-reservas .icon {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.detalles-reservas .salon-card {
+  display: flex;
+  width: 90vw; 
+  max-width: 1200px; 
+  margin: 20px auto; 
+  border: 1px solid #6A0DAD;
+  border-radius: 10px;
+  padding: 15px;
+  gap: 20px;
+  background-color: #f9f9f9;
+}
+
+.detalles-reservas .salon-izquierda {
+  flex: 2; 
+}
+
+.detalles-reservas .salon-izquierda h3 {
+  margin-top: 0;
+  color: #6A0DAD;
+}
+
+.detalles-reservas .salon-ubicacion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.detalles-reservas .salon-ubicacion .map-icon {
+  color: #6A0DAD;
+}
+
+.detalles-reservas .salon-derecha {
+  flex: 1;
+}
+
+.detalles-reservas .salon-derecha .salon-imagen {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.detalles-reservas .cards-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.detalles-reservas .card-estado, .card-vendedor, .card-info {
+  flex: 1;
+  border: 1px solid #6A0DAD;
+  border-radius: 10px;
+  padding: 15px;
+  background-color: #f9f9f9;
+}
+
+.detalles-reservas .card-estado h4, .card-vendedor h4, .card-info h4 {
+  margin-top: 0;
+  color: #6A0DAD;
+}
+
+.detalles-reservas .horas {
+  display: flex;
+  gap: 10px;
+}
+
+.detalles-reservas .ver-comprobante {
+  color: #6A0DAD;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.detalles-reservas .ver-comprobante:hover {
+  text-decoration: underline;
+}
