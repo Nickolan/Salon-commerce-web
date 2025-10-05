@@ -1,175 +1,142 @@
 [
   {
-    "cliente":"Lautaro Ferreria",
-    "id_reserva": 1001,
-    "id_salon": 101,
-    "id_arrendatario": 2,
-    "fecha_reserva": "2025-10-01",
-    "hora_inicio": "10:00:00",
-    "hora_fin": "12:00:00",
+    "id_reserva": 101,
+    "salon": {
+      "id_salon": 201,
+      "nombre": "Salón Elegancia",
+      "direccion": "Av. San Martín 123, Ciudad, Mendoza",
+      "publicador": {
+        "id_usuario": 2,
+        "nombre": "Carlos Díaz"
+      }
+    },
+    "arrendatario": {
+      "id_usuario": 1,
+      "nombre": "Ana",
+      "apellido": "Gómez",
+      "email": "ana.gomez@email.com"
+    },
+    "fecha_reserva": "2025-11-20",
+    "hora_inicio": "19:00:00",
+    "hora_fin": "23:00:00",
     "estado_reserva": "confirmada",
-    "fecha_creacion": "2025-09-23T14:00:00Z"
-  },
-   {
-    "cliente":"Lautaro Ferreria",
-    "id_reserva": 1001,
-    "id_salon": 101,
-    "id_arrendatario": 2,
-    "fecha_reserva": "2025-10-01",
-    "hora_inicio": "10:00:00",
-    "hora_fin": "12:00:00",
-    "estado_reserva": "confirmada",
-    "fecha_creacion": "2025-09-23T14:00:00Z"
-  },
-  {
-    "cliente":"Lautaro Ferreria",
-    "id_reserva": 1001,
-    "id_salon": 101,
-    "id_arrendatario": 2,
-    "fecha_reserva": "2025-10-01",
-    "hora_inicio": "10:00:00",
-    "hora_fin": "12:00:00",
-    "estado_reserva": "confirmada",
-    "fecha_creacion": "2025-09-23T14:00:00Z"
-  },
-  {
-    "cliente":"Lautaro Ferreria",
-    "id_reserva": 1001,
-    "id_salon": 101,
-    "id_arrendatario": 2,
-    "fecha_reserva": "2025-10-01",
-    "hora_inicio": "10:00:00",
-    "hora_fin": "12:00:00",
-    "estado_reserva": "confirmada",
-    "fecha_creacion": "2025-09-23T14:00:00Z"
+    "fecha_creacion": "2025-10-01T11:30:00.000Z",
+    "transacciones": [
+      {
+        "id_transaccion": 501,
+        "monto_pagado": 20000.00,
+        "metodo_pago": "Tarjeta de Crédito",
+        "estado_transaccion": "aprobado",
+        "fecha_transaccion": "2025-10-01T11:32:00.000Z"
+      }
+    ],
+    "cancelacion": null,
+    "resenia": null
   },
   {
-    "cliente":"Lautaro Ferreria",
-    "id_reserva": 1001,
-    "id_salon": 101,
-    "id_arrendatario": 2,
-    "fecha_reserva": "2025-10-01",
-    "hora_inicio": "10:00:00",
-    "hora_fin": "12:00:00",
-    "estado_reserva": "confirmada",
-    "fecha_creacion": "2025-09-23T14:00:00Z"
+    "id_reserva": 102,
+    "salon": {
+      "id_salon": 202,
+      "nombre": "Jardín Secreto",
+      "direccion": "Callejón de las Rosas 45, Chacras de Coria, Mendoza",
+      "publicador": {
+        "id_usuario": 2,
+        "nombre": "Carlos Díaz"
+      }
+    },
+    "arrendatario": {
+      "id_usuario": 1,
+      "nombre": "Ana",
+      "apellido": "Gómez",
+      "email": "ana.gomez@email.com"
+    },
+    "fecha_reserva": "2025-09-30",
+    "hora_inicio": "14:00:00",
+    "hora_fin": "20:00:00",
+    "estado_reserva": "completada",
+    "fecha_creacion": "2025-09-10T18:00:00.000Z",
+    "transacciones": [
+      {
+        "id_transaccion": 502,
+        "monto_pagado": 45000.00,
+        "metodo_pago": "MercadoPago",
+        "estado_transaccion": "aprobado",
+        "fecha_transaccion": "2025-09-10T18:05:15.000Z"
+      }
+    ],
+    "cancelacion": null,
+    "resenia": {
+      "id_resenia": 601,
+      "calificacion": 5,
+      "comentario": "¡El lugar es increíble! Mucho más lindo que en las fotos. Carlos, el dueño, fue muy atento. Súper recomendable.",
+      "fecha_creacion": "2025-10-01T15:00:00.000Z"
+    }
   },
   {
-    "cliente":"Lautaro Ferreria",
-    "id_reserva": 1001,
-    "id_salon": 101,
-    "id_arrendatario": 2,
-    "fecha_reserva": "2025-10-01",
-    "hora_inicio": "10:00:00",
+    "id_reserva": 103,
+    "salon": {
+      "id_salon": 201,
+      "nombre": "Salón Elegancia",
+      "direccion": "Av. San Martín 123, Ciudad, Mendoza",
+      "publicador": {
+        "id_usuario": 2,
+        "nombre": "Carlos Díaz"
+      }
+    },
+    "arrendatario": {
+      "id_usuario": 4,
+      "nombre": "Laura",
+      "apellido": "Nuñez",
+      "email": "laura.nunez@email.com"
+    },
+    "fecha_reserva": "2025-12-10",
+    "hora_inicio": "09:00:00",
     "hora_fin": "12:00:00",
-    "estado_reserva": "confirmada",
-    "fecha_creacion": "2025-09-23T14:00:00Z"
-  },
-  {
-    "cliente":"Lautaro Ferreria",
-    "id_reserva": 1001,
-    "id_salon": 101,
-    "id_arrendatario": 2,
-    "fecha_reserva": "2025-10-01",
-    "hora_inicio": "10:00:00",
-    "hora_fin": "12:00:00",
-    "estado_reserva": "confirmada",
-    "fecha_creacion": "2025-09-23T14:00:00Z"
-  },
-  {
-    "cliente":"Lautaro Ferreria",
-    "id_reserva": 1001,
-    "id_salon": 101,
-    "id_arrendatario": 2,
-    "fecha_reserva": "2025-10-01",
-    "hora_inicio": "10:00:00",
-    "hora_fin": "12:00:00",
-    "estado_reserva": "confirmada",
-    "fecha_creacion": "2025-09-23T14:00:00Z"
-  },
-  {
-    "cliente":"Lautaro Ferreria",
-    "id_reserva": 1001,
-    "id_salon": 101,
-    "id_arrendatario": 2,
-    "fecha_reserva": "2025-10-01",
-    "hora_inicio": "10:00:00",
-    "hora_fin": "12:00:00",
-    "estado_reserva": "confirmada",
-    "fecha_creacion": "2025-09-23T14:00:00Z"
-  },
-  {
-    "cliente":"Lautaro Ferreria",
-
-    "id_reserva": 1001,
-    "id_salon": 101,
-    "id_arrendatario": 2,
-    "fecha_reserva": "2025-10-01",
-    "hora_inicio": "10:00:00",
-    "hora_fin": "12:00:00",
-    "estado_reserva": "confirmada",
-    "fecha_creacion": "2025-09-23T14:00:00Z"
-  },
-  {
-    "cliente":"Lautaro Ferreria",
-
-    "id_reserva": 1002,
-    "id_salon": 102,
-    "id_arrendatario": 2,
-    "fecha_reserva": "2025-10-05",
-    "hora_inicio": "15:00:00",
-    "hora_fin": "17:00:00",
     "estado_reserva": "cancelada",
-    "fecha_creacion": "2025-09-24T16:30:00Z"
+    "fecha_creacion": "2025-10-02T09:00:00.000Z",
+    "transacciones": [
+      {
+        "id_transaccion": 503,
+        "monto_pagado": 15000.00,
+        "metodo_pago": "Tarjeta de Débito",
+        "estado_transaccion": "aprobado",
+        "fecha_transaccion": "2025-10-02T09:01:30.000Z"
+      }
+    ],
+    "cancelacion": {
+      "id_cancelacion": 701,
+      "fecha_cancelacion": "2025-10-25T10:00:00.000Z",
+      "motivo": "Me surgió un viaje de trabajo inesperado y no podré asistir al evento.",
+      "cancelado_por": "usuario",
+      "monto_reembolsado": 15000.00,
+      "politica_aplicada": "total"
+    },
+    "resenia": null
   },
-  { 
-    "id_reserva": 1003, 
-    "id_salon": 103, 
-    "id_arrendatario": 3, 
-    "fecha_reserva": "2025-10-02", 
-    "hora_inicio": "09:00:00", 
-    "hora_fin": "11:00:00", 
-    "estado_reserva": "confirmada", 
-    "fecha_creacion": "2025-09-25T10:00:00Z" 
-  },
-  { 
-    "id_reserva": 1004, 
-    "id_salon": 104, 
-    "id_arrendatario": 2, 
-    "fecha_reserva": "2025-10-03", 
-    "hora_inicio": "14:00:00", 
-    "hora_fin": "16:00:00", 
-    "estado_reserva": "confirmada", 
-    "fecha_creacion": "2025-09-25T12:00:00Z" 
-  },
-  { 
-    "id_reserva": 1005, 
-    "id_salon": 105, 
-    "id_arrendatario": 4, 
-    "fecha_reserva": "2025-10-04", 
-    "hora_inicio": "18:00:00", 
-    "hora_fin": "20:00:00", 
-    "estado_reserva": "confirmada", 
-    "fecha_creacion": "2025-09-25T15:00:00Z" 
-  },
-  { 
-    "id_reserva": 1006, 
-    "id_salon": 106, 
-    "id_arrendatario": 2, 
-    "fecha_reserva": "2025-10-05", 
-    "hora_inicio": "10:00:00", 
-    "hora_fin": "12:00:00", 
-    "estado_reserva": "confirmada", 
-    "fecha_creacion": "2025-09-26T09:00:00Z" 
-  },
-  { 
-    "id_reserva": 1007, 
-    "id_salon": 107, 
-    "id_arrendatario": 5, 
-    "fecha_reserva": "2025-10-06", 
-    "hora_inicio": "11:00:00", 
-    "hora_fin": "13:00:00", 
-    "estado_reserva": "confirmada", 
-    "fecha_creacion": "2025-09-26T11:00:00Z" 
+  {
+    "id_reserva": 104,
+    "salon": {
+      "id_salon": 202,
+      "nombre": "Jardín Secreto",
+      "direccion": "Callejón de las Rosas 45, Chacras de Coria, Mendoza",
+      "publicador": {
+        "id_usuario": 2,
+        "nombre": "Carlos Díaz"
+      }
+    },
+    "arrendatario": {
+      "id_usuario": 4,
+      "nombre": "Laura",
+      "apellido": "Nuñez",
+      "email": "laura.nunez@email.com"
+    },
+    "fecha_reserva": "2025-12-24",
+    "hora_inicio": "21:00:00",
+    "hora_fin": "03:00:00",
+    "estado_reserva": "creada",
+    "fecha_creacion": "2025-10-05T18:30:00.000Z",
+    "transacciones": [],
+    "cancelacion": null,
+    "resenia": null
   }
 ]

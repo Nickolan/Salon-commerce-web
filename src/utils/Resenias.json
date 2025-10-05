@@ -1,44 +1,56 @@
 [
   {
-    "id_resenia": 3001,
-    "id_reserva": 1001,
+    "id_resenia": 601,
+    "reserva": {
+      "id_reserva": 102,
+      "fecha_reserva": "2025-09-30",
+      "arrendatario": {
+        "id_usuario": 1,
+        "nombre_usuario": "anagomez"
+      },
+      "salon": {
+        "id_salon": 202,
+        "nombre": "Jardín Secreto"
+      }
+    },
+    "calificacion": 5,
+    "comentario": "¡El lugar es increíble! Mucho más lindo que en las fotos. Carlos, el dueño, fue muy atento. Súper recomendable para cualquier festejo familiar.",
+    "fecha_creacion": "2025-10-01T15:00:00.000Z"
+  },
+  {
+    "id_resenia": 602,
+    "reserva": {
+      "id_reserva": 106, 
+      "fecha_reserva": "2025-09-15",
+      "arrendatario": {
+        "id_usuario": 4,
+        "nombre_usuario": "lauranu"
+      },
+      "salon": {
+        "id_salon": 201,
+        "nombre": "Salón Elegancia"
+      }
+    },
     "calificacion": 4.5,
-    "comentario": "El salón es muy cómodo y el proyector funciona perfecto. ¡Volvería a reservar!",
-    "fecha_creacion": "2025-10-01T15:00:00Z"
+    "comentario": "Muy buen salón para eventos de trabajo. El proyector y el sonido funcionaron perfecto. Le bajo media estrella porque el estacionamiento es algo chico.",
+    "fecha_creacion": "2025-09-16T11:00:00.000Z"
   },
   {
-    "id_resenia": 3002,
-    "id_reserva": 1003,
-    "calificacion": 3.0,
-    "comentario": "Bien pero el aire acondicionado no funcionaba.",
-    "fecha_creacion": "2025-10-02T12:00:00Z"
-  },
-  {
-    "id_resenia": 3003,
-    "id_reserva": 1004,
-    "calificacion": 5.0,
-    "comentario": "Excelente sala creativa, muy luminosa.",
-    "fecha_creacion": "2025-10-03T16:00:00Z"
-  },
-  {
-    "id_resenia": 3004,
-    "id_reserva": 1005,
-    "calificacion": 4.0,
-    "comentario": "La terraza tiene una vista increíble.",
-    "fecha_creacion": "2025-10-04T21:00:00Z"
-  },
-  {
-    "id_resenia": 3005,
-    "id_reserva": 1006,
-    "calificacion": 3.5,
-    "comentario": "Estudio fotográfico correcto, algunas luces fallaban.",
-    "fecha_creacion": "2025-10-05T13:00:00Z"
-  },
-  {
-    "id_resenia": 3006,
-    "id_reserva": 1007,
-    "calificacion": 4.2,
-    "comentario": "Salón de fiestas bien ambientado y seguro.",
-    "fecha_creacion": "2025-10-06T14:00:00Z"
+    "id_resenia": 603,
+    "reserva": {
+      "id_reserva": 107,
+      "fecha_reserva": "2025-10-04",
+      "arrendatario": {
+        "id_usuario": 1,
+        "nombre_usuario": "anagomez"
+      },
+      "salon": {
+        "id_salon": 204,
+        "nombre": "Quincho Rústico 'El Descanso'"
+      }
+    },
+    "calificacion": 4,
+    "comentario": "Pasamos un domingo genial. El quincho es muy cómodo y tiene todo lo necesario para un buen asado. Volveremos.",
+    "fecha_creacion": "2025-10-05T19:40:25.000Z"
   }
 ]
