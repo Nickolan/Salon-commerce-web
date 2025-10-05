@@ -2,14 +2,22 @@
     border: solid 1px var(--primary-color);
     display: flex;
     align-items: center;
-    width: 50%;
+    width: 95%;
     height: 180px;
     color: var(--primary-color);
     border-radius: 8px;
     overflow: hidden;
 }
+
 .titulo{
     font-size:23px;
+}
+.imagen-wrapper {
+  position: relative;
+  width: 200px;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
 }
 .imagen_salon {
   width: 200px;   

@@ -3,13 +3,18 @@ import "./ItemSalonDetallado.css"
 import { FaMap } from 'react-icons/fa';
 import { FaUserGroup } from 'react-icons/fa6';
 import { FaShoppingCart } from 'react-icons/fa';
+import BotonFavoritos from "../BotonFavoritos/BotonFavoritos";
 
 function ItemSalonDetallado({salon}) {
  
   return ( 
     <Fragment>
      <div className="caja">
-      <img src={salon.imagen} alt={salon.nombre} className="imagen_salon" />
+        <div className="imagen-wrapper">
+          <img src={salon.imagen} alt={salon.nombre} className="imagen_salon" />
+          <BotonFavoritos id_salon={salon.id_salon}/> 
+        </div>
+  
       <div className="info_principal">
         <h3 className="titulo">{salon.nombre}</h3>
          <p><FaMap /> {salon.ubicacion}</p>
