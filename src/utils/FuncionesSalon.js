@@ -1,6 +1,6 @@
 import Salones from './Salones.json'
 
-export async function AgregarSalon(salon, photos, reglas, equipamientoSeleccionado, disponibilidad) {
+export async function AgregarSalonLocal(salon, photos, reglas, equipamientoSeleccionado, disponibilidad) {
     // verificacion
     const {nombre, descripcion, precio_por_hora, capacidad, direccion, latitud, longitud} = salon
 
@@ -12,7 +12,7 @@ export async function AgregarSalon(salon, photos, reglas, equipamientoSelecciona
     Salones.push(salon)
 }
 
-export async function AgregarSalon(salon, photos, reglas, equipamiento, disponibilidad) {
+export async function AgregarSalonApi(salon, photos, reglas, equipamiento, disponibilidad) {
     const { nombre, descripcion, precio_por_hora, capacidad, ...restoSalon } = salon;
 
     // 1. Filtrar solo los días que están marcados como disponibles.
