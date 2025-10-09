@@ -15,6 +15,8 @@ import TerminosYCondicionesScreen from './screens/TerminosYCondicionesScreen';
 import Reservacionesrec from './Components/reservaciones_recibidas/reservacionesrec';
 import MisSalonesScreen from './screens/MisSalonesScreen';
 import Chatbot from './Components/ChatBot/Chatbot';
+import ReservarScreen from './screens/ReservarScreen';
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -40,6 +42,8 @@ function App() {
         <Route path="/mis_ventas" element={<><Navbar user={null}/><Reservacionesrec/> <Chatbot/><Footer/></>}/>
         <Route path="/perfil" element={<><Navbar user={null}/><Perfil/><Footer/> <Chatbot/></>}/>
         <Route path='/editar-perfil' element={<><Navbar user={null}/><EditarPerfil/> <Chatbot/><Footer/></>}/>
+        <Route path='/reservar' element={<><Navbar user={null}/><ReservarScreen/> <Chatbot/><Footer/></>}/>
+        {/* <Route path='/reservar/:id_salon' element={<><Navbar user={null}/><ReservarScreen/> <Chatbot/><Footer/></>}/> */}
       </Routes>
     </div>
   );

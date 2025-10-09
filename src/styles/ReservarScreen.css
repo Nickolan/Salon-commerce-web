@@ -1,0 +1,97 @@
+.reservar-container {
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: 5rem 0 2rem 2rem; /* 👈 margen arriba para no tapar navbar */
+  text-align: left;
+}
+
+.reservar-titulo {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: var(--primary-color) !important;
+  text-align: left;
+}
+
+.reservar-form {
+  display: flex;
+  justify-content: flex-start; 
+}
+
+.reservar-inputs {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end; /* 👈 ahora todos alineados por el input */
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  text-align: left;
+  flex: 1;
+  min-width: 150px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--primary-color) !important;
+}
+
+.form-control {
+  border: 1px solid var(--primary-color) !important;
+  color: var(--primary-color) !important;
+  height: 42px; /* 👈 misma altura que botón */
+}
+
+.form-control option {
+  color: var(--primary-color);
+}
+
+.form-control:focus {
+  border-color: var(--second-color) !important;
+  box-shadow: 0 0 4px var(--second-color) !important;
+}
+
+/* arreglar icono del select */
+select.form-control {
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+  -moz-appearance: auto !important;
+}
+
+/* Date input icon */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(36%) sepia(97%) saturate(500%) hue-rotate(260deg);
+  cursor: pointer;
+}
+
+.form-control::placeholder {
+  color: var(--primary-color) !important;
+  font-style: normal !important;
+}
+
+.form-control {
+  background-color: #e0f0ff !important; /* celeste claro */
+}
+
+.btn-aplicar {
+  background-color: var(--primary-color, #6A0DAD);
+  color: white !important;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.1s ease, background 0.3s ease;
+  height: 42px; /* 👈 igual que los inputs */
+}
+
+.btn-aplicar:hover {
+  background-color: var(--second-color, #7B2FF7);
+}
+
+.btn-aplicar:active {
+  transform: scale(0.95); /* se achica un poquito */
+}
