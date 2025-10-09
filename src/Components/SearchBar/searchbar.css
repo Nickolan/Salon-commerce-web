@@ -10,6 +10,7 @@
  border-radius: 12%;
  color:var(--primary-color);
  display: flex;
+ position: relative;
  align-items: center;
  padding: 0.3rem 0.5rem;
   border-radius: 10px;
@@ -33,9 +34,12 @@
 .barra_buscar{
     background-color: var(--primary-color);
     font-weight:500;
-    justify-content: center;  
     border-radius: 10px;
     padding: 0.4rem 1rem;
+    font-size: 1.2rem;;
+    display: flex;          
+    justify-content: center; 
+    align-items: center;  
     width: 14%;
     align-items: center;      
 }
@@ -53,10 +57,13 @@
   background: white;
   border: 1px solid #ccc;
   position: absolute;
+  top: 100%;   /* justo debajo del input */
+  left: 0;
   width: 100%;
   z-index: 10;
   max-height: 200px;
   overflow-y: auto;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
 }
 
 .sugerencias-lista li {

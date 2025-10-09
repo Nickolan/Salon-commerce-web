@@ -15,8 +15,8 @@ import Reservacionesrec from './Components/reservaciones_recibidas/reservaciones
 import Searchbar from './Components/SearchBar/searchbar';
 import ItemSalonDetallado from './Components/Item-salon-detallado/ItemSalonDetallado';
 import ResultadosScreen from './screens/ResultadosScreen';
-import Sidebarfiltros from './Components/Sidebarfiltros/SIdebarfiltros';
-
+import Sidebarfiltros from './Components/Sidebarfiltros/Sidebarfiltros';
+import SalonDetalleScreen from "./screens/SalonDetalleScreen";
 function App() {
   const [count, setCount] = useState(0);
    const salon = salonesData[0];
@@ -32,6 +32,7 @@ function App() {
       <Routes>
         <Route path="/" element={<><Navbar user={null} /><HomeScreen/> <Footer/></>} />
         <Route path="/login" element={<> <LoginScreen/> </>} />
+        <Route path="/salon/:id" element={<><Navbar user={null}/> <SalonDetalleScreen/> <Footer/></>} />
         <Route path="/registro" element={<> <RegistroScreen/> </>} />
         <Route path="/resultados" element={<> <Navbar user={null} /> <ResultadosScreen/> <Footer/> </>} />
         <Route path="/publicar" element={<> <NuevoSalonScreen isLoaded={isLoaded}/> </>} />
