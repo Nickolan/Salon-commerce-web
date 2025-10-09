@@ -1,0 +1,193 @@
+.datos-pago-sidebar {
+  position: relative;
+  width: 400px;
+  height: auto;
+  min-height: calc(100vh - 120px);
+  background-color: white;
+  padding: 2rem;
+  overflow-y: auto;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #6A0DAD;
+  margin-top: 0;
+  flex: 0 0 400px; 
+}
+
+.datos-pago-sidebar .sidebar-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.datos-pago-sidebar .sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.datos-pago-sidebar .sidebar-header h2 {
+  color: #6A0DAD;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.datos-pago-sidebar .close-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #6A0DAD;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.datos-pago-sidebar .close-button:hover {
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+.datos-pago-sidebar .info-superior {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #6A0DAD;
+}
+
+.datos-pago-sidebar .info-superior .fecha {
+  font-weight: 500;
+}
+
+.datos-pago-sidebar .info-superior .separador {
+  color: #6A0DAD;
+  font-weight: bold;
+}
+
+.datos-pago-sidebar .info-superior .transaccion {
+  font-weight: 600;
+}
+
+.datos-pago-sidebar .linea-separadora-central {
+  height: 2px;
+  background-color: #6A0DAD;
+  margin: 2rem 0;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.datos-pago-sidebar .detalles-pago {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; 
+}
+
+.detalle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+
+.datos-pago-sidebar .detalle-item.servicio .detalle-label,
+.datos-pago-sidebar .detalle-item.servicio .detalle-valor,
+.datos-pago-sidebar .detalle-label,
+.datos-pago-sidebar .detalle-valor {
+  color: #6A0DAD; 
+}
+
+.datos-pago-sidebar .detalle-label {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.datos-pago-sidebar .detalle-valor {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.datos-pago-sidebar .metodo-pago-derecha {
+  text-align: right; 
+  margin: 0.1rem 0;
+  padding-right: 0;
+}
+
+.datos-pago-sidebar .metodo-pago-derecha .metodo-texto {
+  color: #6A0DAD; 
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.datos-pago-sidebar .detalle-item.total {
+  border-top: 2px solid #6A0DAD;
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.datos-pago-sidebar .detalle-item.total .detalle-label {
+  font-size: 1.1rem;
+}
+
+.datos-pago-sidebar .detalle-item.total .detalle-valor {
+  font-size: 1.1rem;
+}
+
+.datos-pago-sidebar .sin-transaccion {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+.datos-pago-sidebar .sin-transaccion p {
+  margin: 0.5rem 0;
+}
+
+
+@media (max-width: 768px) {
+  .pagina-contenedor {
+    flex-direction: column;
+    margin-top: 60px;
+    padding: 0 15px;
+  }
+  
+  .pagina-contenedor.con-sidebar .detalles-reservas,
+  .pagina-contenedor:not(.con-sidebar) .detalles-reservas {
+    flex: 1;
+    max-width: 100%;
+  }
+  
+  .datos-pago-sidebar {
+    width: 100%;
+    flex: 1;
+    padding: 1rem;
+    border-left: none;
+    border-top: 4px solid #6A0DAD;
+    margin-top: 20px;
+  }
+  
+  .datos-pago-sidebar .linea-separadora-central {
+    width: 90%;
+  }
+  
+  .datos-pago-sidebar .detalle-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .datos-pago-sidebar .detalle-item.total {
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .datos-pago-sidebar .metodo-pago-derecha {
+    text-align: left; 
+  }
+}

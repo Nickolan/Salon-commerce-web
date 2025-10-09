@@ -1,50 +1,191 @@
 [
   {
     "id_usuario": 1,
-    "nombre": "Juan",
-    "apellido": "Pérez",
-    "dni": 12345678,
-    "telefono": "+5491155551234",
-    "nombre_usuario": "juanperez",
-    "ciudad": "Buenos Aires",
-    "provincia": "Buenos Aires",
-    "email": "juan.perez@example.com",
+    "nombre": "Ana",
+    "apellido": "Gómez",
+    "dni": 38123456,
+    "telefono": "+542615551234",
+    "nombre_usuario": "anagomez",
+    "ciudad": "Mendoza",
+    "provincia": "Mendoza",
+    "email": "ana.gomez@email.com",
     "contrasenia": "hashed_password_1",
-    "es_publicador": true,
+    "es_publicador": false,
     "es_administrador": false,
-    "fecha_creacion": "2025-09-20T10:00:00Z",
-    "correo_verificador": true
+    "fecha_creacion": "2025-09-15T10:00:00.000Z",
+    "correo_verificador": true,
+    "salones": [],
+    "reservas": [
+      {
+        "id_reserva": 101,
+        "salon": {
+          "id_salon": 201,
+          "nombre": "Salón Elegancia",
+          "precio_por_hora": 5000,
+          "capacidad": 100,
+          "direccion": "Av. San Martín 123",
+          "fotos": ["https://ejemplo.com/salon_elegancia_1.jpg", "https://ejemplo.com/salon_elegancia_2.jpg"]
+        },
+        "fecha_reserva": "2025-11-20",
+        "hora_inicio": "19:00:00",
+        "hora_fin": "23:00:00",
+        "estado_reserva": "confirmada",
+        "fecha_creacion": "2025-10-01T11:30:00.000Z"
+      },
+      {
+        "id_reserva": 102,
+        "salon": {
+          "id_salon": 202,
+          "nombre": "Jardín Secreto",
+          "precio_por_hora": 7500,
+          "capacidad": 150,
+          "direccion": "Callejón de las Rosas 45",
+          "fotos": ["https://ejemplo.com/jardin_secreto_1.jpg"]
+        },
+        "fecha_reserva": "2025-09-30",
+        "hora_inicio": "14:00:00",
+        "hora_fin": "20:00:00",
+        "estado_reserva": "completada",
+        "fecha_creacion": "2025-09-10T18:00:00.000Z"
+      }
+    ],
+    "favoritos": [
+      {
+        "id_favorito": 301,
+        "salon": {
+          "id_salon": 203,
+          "nombre": "Loft Urbano Moderno",
+          "precio_por_hora": 4500,
+          "capacidad": 80,
+          "direccion": "Sarmiento 890, Piso 5",
+          "fotos": ["https://ejemplo.com/loft_urbano_1.jpg", "https://ejemplo.com/loft_urbano_2.jpg"]
+        },
+        "fecha_agregado": "2025-09-28T14:00:00.000Z"
+      }
+    ]
   },
   {
     "id_usuario": 2,
-    "nombre": "María",
-    "apellido": "Gómez",
-    "dni": 23456789,
-    "telefono": "+5491166665678",
-    "nombre_usuario": "mariagomez",
-    "ciudad": "Córdoba",
-    "provincia": "Córdoba",
-    "email": "maria.gomez@example.com",
+    "nombre": "Carlos",
+    "apellido": "Díaz",
+    "dni": 34987654,
+    "telefono": "+542615555678",
+    "nombre_usuario": "carlosdiaz_publicador",
+    "ciudad": "Godoy Cruz",
+    "provincia": "Mendoza",
+    "email": "carlos.diaz@email.com",
     "contrasenia": "hashed_password_2",
-    "es_publicador": false,
+    "es_publicador": true,
     "es_administrador": false,
-    "fecha_creacion": "2025-09-21T11:30:00Z",
-    "correo_verificador": true
+    "fecha_creacion": "2025-08-20T14:30:00.000Z",
+    "correo_verificador": true,
+    "salones": [
+      {
+        "id_salon": 201,
+        "nombre": "Salón Elegancia",
+        "descripcion": "Un espacio sofisticado y moderno, ideal para eventos corporativos y conferencias. Equipado con la última tecnología audiovisual.",
+        "precio_por_hora": 5000,
+        "capacidad": 100,
+        "direccion": "Av. San Martín 123",
+        "latitud": -32.8894,
+        "longitud": -68.8458,
+        "fotos": ["https://ejemplo.com/salon_elegancia_1.jpg", "https://ejemplo.com/salon_elegancia_2.jpg"],
+        "equipamientos": ["Proyector HD", "Sistema de sonido", "Wi-Fi de alta velocidad", "Pizarra interactiva", "Aire acondicionado"],
+        "reglas": ["No fumar en el interior", "Respetar la capacidad máxima", "El horario de música alta finaliza a las 02:00 AM"],
+        "estado_publicacion": "aprobada",
+        "fecha_creacion": "2025-08-22T10:00:00.000Z",
+        "fecha_ultima_modificacion": "2025-09-10T15:20:00.000Z"
+      },
+      {
+        "id_salon": 202,
+        "nombre": "Jardín Secreto",
+        "descripcion": "Un oasis en la ciudad. Perfecto para bodas, bautismos y eventos al aire libre. Cuenta con una gran piscina y áreas verdes.",
+        "precio_por_hora": 7500,
+        "capacidad": 150,
+        "direccion": "Callejón de las Rosas 45",
+        "latitud": -32.9100,
+        "longitud": -68.8300,
+        "fotos": ["https://ejemplo.com/jardin_secreto_1.jpg", "https://ejemplo.com/jardin_secreto_2.jpg", "https://ejemplo.com/jardin_secreto_3.jpg"],
+        "equipamientos": ["Piscina", "Parrilla / Asador", "Juegos para niños", "Estacionamiento privado", "Grupo electrógeno"],
+        "reglas": ["El uso de la piscina es bajo responsabilidad del arrendatario", "No se permiten mascotas"],
+        "estado_publicacion": "aprobada",
+        "fecha_creacion": "2025-09-01T12:00:00.000Z",
+        "fecha_ultima_modificacion": "2025-09-05T18:45:00.000Z"
+      }
+    ],
+    "reservas": [],
+    "favoritos": []
   },
   {
     "id_usuario": 3,
-    "nombre": "Pedro",
-    "apellido": "Rodríguez",
-    "dni": 34567890,
-    "telefono": "+5491177779012",
-    "nombre_usuario": "pedroadmin",
+    "nombre": "Admin",
+    "apellido": "Sys",
+    "dni": null,
+    "telefono": "+542615559999",
+    "nombre_usuario": "admin_master",
     "ciudad": "Mendoza",
     "provincia": "Mendoza",
-    "email": "pedro.rodriguez@example.com",
-    "contrasenia": "hashed_password_3",
+    "email": "admin@plataforma.com",
+    "contrasenia": "hashed_admin_password",
     "es_publicador": false,
     "es_administrador": true,
-    "fecha_creacion": "2025-09-22T12:45:00Z",
-    "correo_verificador": true
+    "fecha_creacion": "2025-01-01T00:00:00.000Z",
+    "correo_verificador": true,
+    "salones": [],
+    "reservas": [],
+    "favoritos": []
+  },
+  {
+    "id_usuario": 4,
+    "nombre": "Laura",
+    "apellido": "Nuñez",
+    "dni": 40555666,
+    "telefono": "+542615551122",
+    "nombre_usuario": "lauranu",
+    "ciudad": "Luján de Cuyo",
+    "provincia": "Mendoza",
+    "email": "laura.nunez@email.com",
+    "contrasenia": "hashed_password_4",
+    "es_publicador": true,
+    "es_administrador": false,
+    "fecha_creacion": "2025-09-05T19:00:00.000Z",
+    "correo_verificador": true,
+    "salones": [
+      {
+        "id_salon": 203,
+        "nombre": "Loft Urbano Moderno",
+        "descripcion": "Espacio con estilo industrial, techos altos y grandes ventanales. Ideal para fiestas, cumpleaños y producciones fotográficas.",
+        "precio_por_hora": 4500,
+        "capacidad": 80,
+        "direccion": "Sarmiento 890, Piso 5",
+        "latitud": -32.8850,
+        "longitud": -68.8400,
+        "fotos": ["https://ejemplo.com/loft_urbano_1.jpg", "https://ejemplo.com/loft_urbano_2.jpg"],
+        "equipamientos": ["Barra de tragos", "Luces de fiesta", "Máquina de humo", "Equipo de DJ"],
+        "reglas": ["Música permitida hasta las 04:00 AM", "Se requiere depósito de seguridad"],
+        "estado_publicacion": "borrador",
+        "fecha_creacion": "2025-09-25T16:00:00.000Z",
+        "fecha_ultima_modificacion": "2025-10-02T11:10:00.000Z"
+      }
+    ],
+    "reservas": [
+      {
+        "id_reserva": 103,
+        "salon": {
+          "id_salon": 201,
+          "nombre": "Salón Elegancia",
+          "precio_por_hora": 5000,
+          "capacidad": 100,
+          "direccion": "Av. San Martín 123",
+          "fotos": ["https://ejemplo.com/salon_elegancia_1.jpg"]
+        },
+        "fecha_reserva": "2025-12-10",
+        "hora_inicio": "09:00:00",
+        "hora_fin": "12:00:00",
+        "estado_reserva": "cancelada",
+        "fecha_creacion": "2025-10-02T09:00:00.000Z"
+      }
+    ],
+    "favoritos": []
   }
 ]

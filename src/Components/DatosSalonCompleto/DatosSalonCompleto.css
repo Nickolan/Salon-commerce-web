@@ -20,15 +20,81 @@
 }
 
 .datosSalonCompleto .mapa-ubicacion {
-  border-radius: 25%; 
+  border-radius: 10px; 
   overflow: hidden;
+  height: 300px;
+  position: relative;
 }
 
-.datosSalonCompleto .mapa-imagen {
+.datosSalonCompleto .mapa-contenedor {
   width: 100%;
-  height: 220px;
-  object-fit: contain;
-  display: block;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.datosSalonCompleto .mapa-cargando, 
+.datosSalonCompleto .mapa-error-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  background-color: #fff3cd;
+  border: 2px dashed #ffc107;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  color: #856404;
+}
+
+.datosSalonCompleto .mapa-error-placeholder .error-icon {
+  font-size: 48px;
+  color: #ffc107;
+  margin-bottom: 15px;
+}
+
+.datosSalonCompleto .mapa-error-placeholder h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #856404;
+}
+
+.datosSalonCompleto .mapa-error-placeholder p {
+  margin: 0 0 15px 0;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.datosSalonCompleto .mapa-error-placeholder .error-details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #fff;
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: 1px solid #ffc107;
+}
+
+.datosSalonCompleto .mapa-error-placeholder .map-icon {
+  color: #6A0DAD;
+}
+
+.datosSalonCompleto .mapa-cargando-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  background-color: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  color: #6c757d;
+}
+
+.datosSalonCompleto .gm-style iframe + div {
+  border-radius: 10px;
 }
 
 .datosSalonCompleto .info-ubicacion {
@@ -37,7 +103,8 @@
   gap: 10px;
   padding: 15px;
   background-color: #f8f8f8;
-  border-top: 1px solid #e0e0e0;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
 }
 
 .datosSalonCompleto .ubicacion-icono {
@@ -52,6 +119,7 @@
   background-color: #fff;
   min-height: auto; 
   height: auto;
+  border: 2px solid #6A0DAD;
 }
 
 .datosSalonCompleto .precio-texto {
@@ -132,7 +200,6 @@
   font-size: 12px;
 }
 
-/* Descripción */
 .datosSalonCompleto .descripcion {
   color: #6A0DAD;
   border: 2px solid #6A0DAD;
@@ -153,6 +220,101 @@
   font-size: 15px;
 }
 
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #6A0DAD;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.imagen-placeholder {
+  width: 100%;
+  height: 250px;
+  background-color: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-style: italic;
+}
+
+
+.mapa-error-placeholder,
+.mapa-cargando-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  background-color: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.mapa-error-placeholder {
+  background-color: #fff3cd;
+  border-color: #ffc107;
+  color: #856404;
+}
+
+.mapa-error-placeholder .error-icon {
+  font-size: 48px;
+  color: #ffc107;
+  margin-bottom: 15px;
+}
+
+/* Estilos para el contenedor del mapa nativo */
+#map-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+/* Asegurar que el mapa se vea correctamente */
+.mapa-contenedor {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+/* Mejorar los placeholders */
+.mapa-cargando-placeholder,
+.mapa-error-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.mapa-cargando-placeholder {
+  background-color: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  color: #6c757d;
+}
+
+.mapa-error-placeholder {
+  background-color: #fff3cd;
+  border: 2px dashed #ffc107;
+  color: #856404;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .datosSalonCompleto .contenedor-principal {
     flex-direction: column;
@@ -166,5 +328,28 @@
   
   .datosSalonCompleto .imagen-salon img {
     height: 200px;
+  }
+  
+  .datosSalonCompleto .mapa-ubicacion {
+    height: 250px;
+  }
+  
+  .datosSalonCompleto .mapa-cargando, 
+  .datosSalonCompleto .mapa-error {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .datosSalonCompleto .mapa-ubicacion {
+    height: 200px;
+  }
+  
+  .datosSalonCompleto .mapa-cargando, 
+  .datosSalonCompleto .mapa-error {
+    height: 200px;
+    font-size: 14px;
+    padding: 0 15px;
+    text-align: center;
   }
 }

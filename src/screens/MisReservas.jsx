@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import BarraBusqueda from '../Components/BarraBusqueda/BarraBusqueda';
 import Salones from "../utils/Salones.json";
 import Reservas from "../utils/Reservas.json";
+import Transacciones from "../utils/Transacciones.json";
 import ItemReserva from '../components/ItemReserva/ItemReserva';
 import "../styles/MisReservas.css";
 
@@ -36,10 +37,12 @@ const MisReservas = () => {
     const handleSearch = (query) => {
         setSalonBuscado(query);
     };
+    const reservasConTransacciones = Transacciones.map(transaccion => transaccion.reserva.id_reserva);
+    const reservasFiltradas = reservas.filter(reserva => 
+        reservasConTransacciones.includes(reserva.id_reserva)
+    );
 
-    const reservasDesdeDecimo = reservas.slice(9);
-
-    const reservasUnicas = [...new Map(reservasDesdeDecimo.map(reserva =>
+    const reservasUnicas = [...new Map(reservasFiltradas.map(reserva =>
         [reserva.id_reserva, reserva]
     )).values()];
 

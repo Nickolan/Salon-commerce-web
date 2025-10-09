@@ -32,7 +32,7 @@ const ItemReserva = ({ reserva, salon, estado, formatearFecha, formatearHora }) 
       <div className='card-derecha'>
         <div className='button-container'>
           <Link
-            to="/reservas_detalles"
+            to={`/reservas_detalles/${reserva.id_reserva}`}
             state={{
               estado: estado,
               fecha: formatearFecha(reserva.fecha_reserva),

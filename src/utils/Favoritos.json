@@ -1,20 +1,58 @@
 [
   {
-    "id_favorito": 4001,
-    "id_usuario": 2,
-    "id_salon": 101,
-    "fecha_agregado": "2025-09-26T18:00:00Z"
+    "id_favorito": 301,
+    "usuario": {
+      "id_usuario": 1,
+      "nombre_usuario": "anagomez",
+      "nombre": "Ana",
+      "apellido": "Gómez"
+    },
+    "salon": {
+      "id_salon": 203,
+      "nombre": "Loft Urbano Moderno",
+      "direccion": "Sarmiento 890, Piso 5, Ciudad, Mendoza",
+      "fotos": [
+        "https://ejemplo.com/loft_urbano_1.jpg",
+        "https://ejemplo.com/loft_urbano_2.jpg"
+      ]
+    },
+    "fecha_agregado": "2025-09-28T14:00:00.000Z"
   },
-  { 
-    "id_favorito": 4002, 
-    "id_usuario": 2, 
-    "id_salon": 103, 
-    "fecha_agregado": "2025-09-27T11:00:00Z" 
+  {
+    "id_favorito": 302,
+    "usuario": {
+      "id_usuario": 4,
+      "nombre_usuario": "lauranu",
+      "nombre": "Laura",
+      "apellido": "Nuñez"
+    },
+    "salon": {
+      "id_salon": 202,
+      "nombre": "Jardín Secreto",
+      "direccion": "Callejón de las Rosas 45, Chacras de Coria, Mendoza",
+      "fotos": [
+        "https://ejemplo.com/jardin_secreto_1.jpg",
+        "https://ejemplo.com/jardin_secreto_2.jpg"
+      ]
+    },
+    "fecha_agregado": "2025-10-01T19:25:10.000Z"
   },
-  { 
-    "id_favorito": 4003, 
-    "id_usuario": 2, 
-    "id_salon": 105, 
-    "fecha_agregado": "2025-09-28T09:00:00Z" 
+  {
+    "id_favorito": 303,
+    "usuario": {
+      "id_usuario": 1,
+      "nombre_usuario": "anagomez",
+      "nombre": "Ana",
+      "apellido": "Gómez"
+    },
+    "salon": {
+      "id_salon": 201,
+      "nombre": "Salón Elegancia",
+      "direccion": "Av. San Martín 123, Ciudad, Mendoza",
+      "fotos": [
+        "https://ejemplo.com/salon_elegancia_1.jpg"
+      ]
+    },
+    "fecha_agregado": "2025-10-04T11:50:00.000Z"
   }
 ]
