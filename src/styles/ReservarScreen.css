@@ -1,9 +1,35 @@
 .reservar-container {
+  flex: 0 0 70%;
   padding: 2rem;
-  border-radius: 12px;
-  max-width: 800px;
-  margin: 5rem 0 2rem 2rem; /* 👈 margen arriba para no tapar navbar */
+  border-radius: 0.75rem;
+  max-width: 50rem;
+  /* margin: 5rem 0 2rem 2rem; */
   text-align: left;
+}
+
+/* 📌 Layout */
+.reservar-layout {
+  display: flex;
+  gap: 2rem;
+  margin: 3rem;
+  padding-top: 5rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.reservar-left {
+  flex: 0 0 70%;
+}
+
+.reservar-right {
+  flex: 0 0 30%;
+  background-color: #f9f9f9;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-left: 2rem;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  height: fit-content;
+  margin: 5rem 0 2rem 2rem;
 }
 
 .reservar-titulo {
@@ -11,6 +37,11 @@
   margin-bottom: 2rem;
   color: var(--primary-color) !important;
   text-align: left;
+}
+
+/* 👇 este reemplaza el style inline */
+.titulo-pago {
+  margin-top: 3rem;
 }
 
 .reservar-form {
@@ -21,7 +52,7 @@
 .reservar-inputs {
   display: flex;
   gap: 1rem;
-  align-items: flex-end; /* 👈 ahora todos alineados por el input */
+  align-items: flex-end;
   flex-wrap: wrap;
 }
 
@@ -31,7 +62,7 @@
   font-size: 0.9rem;
   text-align: left;
   flex: 1;
-  min-width: 150px;
+  min-width: 9.375rem; /* 150px */
 }
 
 .form-group label {
@@ -40,9 +71,15 @@
 }
 
 .form-control {
-  border: 1px solid var(--primary-color) !important;
+  border: 0.063rem solid var(--primary-color) !important; /* 1px */
   color: var(--primary-color) !important;
-  height: 42px; /* 👈 misma altura que botón */
+  height: 2.625rem; /* 42px */
+  background-color: #e0f0ff !important;
+}
+
+.form-control::placeholder {
+  color: var(--primary-color) !important;
+  font-style: normal !important;
 }
 
 .form-control option {
@@ -51,41 +88,24 @@
 
 .form-control:focus {
   border-color: var(--second-color) !important;
-  box-shadow: 0 0 4px var(--second-color) !important;
+  box-shadow: 0 0 0.25rem var(--second-color) !important; /* 4px */
 }
 
-/* arreglar icono del select */
-select.form-control {
-  appearance: auto !important;
-  -webkit-appearance: auto !important;
-  -moz-appearance: auto !important;
+.option-disabled {
+  color: gray !important;
 }
 
-/* Date input icon */
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(36%) sepia(97%) saturate(500%) hue-rotate(260deg);
-  cursor: pointer;
-}
-
-.form-control::placeholder {
-  color: var(--primary-color) !important;
-  font-style: normal !important;
-}
-
-.form-control {
-  background-color: #e0f0ff !important; /* celeste claro */
-}
-
+/* botón */
 .btn-aplicar {
   background-color: var(--primary-color, #6A0DAD);
   color: white !important;
   border: none;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   padding: 0.6rem 1.2rem;
   cursor: pointer;
   font-weight: bold;
   transition: transform 0.1s ease, background 0.3s ease;
-  height: 42px; /* 👈 igual que los inputs */
+  height: 2.625rem; /* igual que los inputs */
 }
 
 .btn-aplicar:hover {
@@ -93,5 +113,121 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .btn-aplicar:active {
-  transform: scale(0.95); /* se achica un poquito */
+  transform: scale(0.95);
 }
+
+.btn-aplicar:disabled {
+  background-color: #cccccc !important;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-aplicar:disabled:hover {
+  background-color: #cccccc !important;
+}
+
+.reservar-boton-pago {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.payment-section {
+  text-align: left;
+  margin-top: 3rem;
+}
+
+.payment-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.payment-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+}
+
+.payment-text {
+  color: var(--primary-color) !important;
+  font-weight: 600;
+  user-select: none;
+}
+
+/* radio personalizado */
+.payment-label input[type="radio"] {
+  width: 1.25rem; /* 20px */
+  height: 1.25rem;
+  border: 0.125rem solid var(--primary-color); /* 2px */
+  border-radius: 50%;
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  transition: all 0.2s ease;
+}
+
+.payment-label input[type="radio"]::after {
+  content: "";
+  width: 0.75rem;  /* 12px */
+  height: 0.75rem;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s ease;
+}
+
+.payment-label input[type="radio"]:checked::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.payment-label input[type="radio"]:not(:disabled):hover {
+  border-color: var(--second-color);
+}
+
+.payment-label input[type="radio"]:disabled {
+  border-color: gray;
+  cursor: not-allowed;
+}
+
+/* 📌 Derecha */
+.detalle-container {
+  flex: 0 0 30%;
+  background: #f8f9fa;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  color: var(--primary-color);
+  height: fit-content;
+}
+
+.detalle-titulo {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.detalle-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.8rem 0;
+  font-size: 1rem;
+}
+
+.detalle-row.bold {
+  font-weight: 700;
+}
+
+.detalle-divider {
+  width: 70%;
+  margin: 1rem auto;
+  border: 1px solid var(--primary-color);
+}
+
+

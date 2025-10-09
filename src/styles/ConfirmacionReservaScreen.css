@@ -1,0 +1,61 @@
+.confirmacion-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  gap: 1.5rem;
+  background-color: var(--background-color, #f3f3fe);
+  padding: 2rem;
+}
+
+.confirmacion-icono {
+  font-size: 5rem;
+  color: #28a745; /* verde positivo */
+}
+
+.confirmacion-icono-fallo {
+  font-size: 5rem;
+  color: red; /* rojo para fallo */
+}
+
+.numero-compra {
+  font-size: 1rem;
+  color: var(--primary-color, #6A0DAD);
+}
+
+.mensaje-exito, .mensaje-fallo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color, #6A0DAD);
+}
+
+.agradecimiento, .agradecimiento-fallo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color, #6A0DAD);
+}
+
+.btn-volver {
+  margin-top: 2rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  border: 2px solid var(--second-color, #7B2FF7);
+  cursor: pointer;
+  background-color: white;
+  color: var(--primary-color, #6A0DAD);
+  transition: transform 0.1s ease, background 0.3s ease;
+}
+
+.btn-volver:hover {
+  background-color: var(--primary-color, #6A0DAD);
+  color: white;
+}
+
+.btn-volver:active {
+  transform: scale(0.95);
+}
+
