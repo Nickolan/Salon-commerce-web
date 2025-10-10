@@ -2,8 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiCalendar, FiClock } from 'react-icons/fi';
 import './ItemReserva.css';
+import usuarios from '../../utils/Usuarios.json';
 
 const ItemReserva = ({ reserva, salon, estado, formatearFecha, formatearHora }) => {
+  
+  const usuarioPublicador = usuarios.find(usuario => usuario.id_usuario === salon?.id_publicador);
+
   return (
     <div className='card-reserva'>
       <div className='card-imagen-wrapper'>
@@ -28,6 +32,10 @@ const ItemReserva = ({ reserva, salon, estado, formatearFecha, formatearHora }) 
           </p>
         </div>
         <p className='salon-info'>Check and Home {salon?.id_salon} - {salon?.nombre}</p>
+        <p className='salon-info'>
+          Vendedor: {usuarioPublicador?.nombre} {usuarioPublicador?.apellido}
+        </p>
+
       </div>
       <div className='card-derecha'>
         <div className='button-container'>
@@ -41,8 +49,9 @@ const ItemReserva = ({ reserva, salon, estado, formatearFecha, formatearHora }) 
               idSalon: salon?.id_salon,
               nombreSalon: salon?.nombre
             }}
+            className="button-ver"
           >
-            <div className="button-ver">VER</div>
+            VER
           </Link>
           {estado === "Completado" && (
             <div className="button-opinar">OPINAR</div>

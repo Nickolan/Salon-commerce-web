@@ -53,11 +53,24 @@
 
 .detalles-Salon .direccion {
   display: flex;
-  align-items: center;
+  align-items: center; 
   gap: 8px;
   margin-top: 0;
   flex-wrap: wrap;
 }
+
+.detalles-Salon .direccion .logo {
+  margin-bottom: 2px; 
+  font-size: 16px;
+}
+
+.detalles-Salon .direccion h2 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 16px;
+}
+
 
 .detalles-Salon .derecha-superior {
   display: flex;

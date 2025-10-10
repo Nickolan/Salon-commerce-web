@@ -13,7 +13,7 @@ const ReservasDetalles = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [mostrarSalon, setMostrarSalon] = useState(false);
+  const [mostrarSalon, setMostrarSalon] = useState(true);// dejar en true
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
   const [nombreVendedor, setNombreVendedor] = useState("");
@@ -101,10 +101,10 @@ const ReservasDetalles = () => {
       <div className='detalles-reservas'>
         <div className='titulo'>
           <h1>Detalle de la Reserva #{id}</h1>
-          <IoIosArrowDropdown
+          {/* <IoIosArrowDropdown
             className='icon'
             onClick={() => setMostrarSalon(!mostrarSalon)}
-          />
+          /> */}
         </div>
 
         {mostrarSalon && salon && (

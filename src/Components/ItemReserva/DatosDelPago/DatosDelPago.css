@@ -94,7 +94,6 @@
   padding: 0.5rem 0;
 }
 
-
 .datos-pago-sidebar .detalle-item.servicio .detalle-label,
 .datos-pago-sidebar .detalle-item.servicio .detalle-valor,
 .datos-pago-sidebar .detalle-label,
@@ -149,20 +148,7 @@
   margin: 0.5rem 0;
 }
 
-
 @media (max-width: 768px) {
-  .pagina-contenedor {
-    flex-direction: column;
-    margin-top: 60px;
-    padding: 0 15px;
-  }
-  
-  .pagina-contenedor.con-sidebar .detalles-reservas,
-  .pagina-contenedor:not(.con-sidebar) .detalles-reservas {
-    flex: 1;
-    max-width: 100%;
-  }
-  
   .datos-pago-sidebar {
     width: 100%;
     flex: 1;
@@ -170,6 +156,7 @@
     border-left: none;
     border-top: 4px solid #6A0DAD;
     margin-top: 20px;
+    min-height: auto;
   }
   
   .datos-pago-sidebar .linea-separadora-central {

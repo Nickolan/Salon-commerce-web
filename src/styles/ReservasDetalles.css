@@ -2,20 +2,21 @@
   display: flex;
   min-height: calc(100vh - 120px);
   margin-top: 80px;
-  width: 100%;
-  gap: 20px; 
+  width: 85%;
+  gap: 20px;
   padding: 0 20px;
   box-sizing: border-box;
 }
 
 .pagina-contenedor.con-sidebar .detalles-reservas {
-  flex: 0 0 60%;
-  max-width: 60%;
+  flex: 0 0 calc(100% - 420px); /* 100% menos el ancho del sidebar */
+  max-width: calc(100% - 420px);
 }
 
 .pagina-contenedor:not(.con-sidebar) .detalles-reservas {
   flex: 1;
   max-width: 100%;
+  width: 100%;
 }
 
 .detalles-reservas {
@@ -24,6 +25,7 @@
   margin-left: 0;
   margin-right: auto;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .detalles-reservas .titulo {
@@ -31,7 +33,7 @@
   align-items: center;
   gap: 1rem;
   color: #6A0DAD;
-  max-width: 1200px; /* Limitar ancho del título */
+  width: 100%;
 }
 
 .detalles-reservas .titulo h1 {
@@ -46,22 +48,23 @@
 
 .detalles-reservas .salon-card {
   display: flex;
-  width: 100%; /* Cambiado de 90vw a 100% */
-  max-width: 800px; /* Reducir el ancho máximo */
-  margin: 20px 0; /* Quitar auto para alinear a la izquierda */
+  width: 100%;
+  max-width: none; 
+  margin: 20px 0;
   border: 1px solid #6A0DAD;
   border-radius: 10px;
   padding: 15px;
   gap: 20px;
   background-color: #f9f9f9;
+  box-sizing: border-box;
 }
 
-.detalles-reservas p{
-  color: #6A0DAD ;
+.detalles-reservas p {
+  color: #6A0DAD;
 }
 
 .detalles-reservas .salon-izquierda {
-  flex: 2; 
+  flex: 2;
 }
 
 .detalles-reservas .salon-izquierda h3 {
@@ -82,6 +85,7 @@
 
 .detalles-reservas .salon-derecha {
   flex: 1;
+  max-width: 600px; /* Limitamos el ancho de la imagen */
 }
 
 .detalles-reservas .salon-derecha .salon-imagen {
@@ -93,22 +97,29 @@
 
 .detalles-reservas .cards-container {
   display: flex;
-  justify-content: flex-start; /* Alinear a la izquierda */
+  justify-content: flex-start;
   margin-top: 20px;
   gap: 20px;
-  max-width: 800px; /* Limitar ancho */
+  width: 100%;
+  max-width: none;
+  flex-wrap: wrap; 
 }
 
-.detalles-reservas .card-estado, .card-vendedor, .card-info {
+.detalles-reservas .card-estado,
+.detalles-reservas .card-vendedor,
+.detalles-reservas .card-info {
   flex: 1;
   border: 1px solid #6A0DAD;
   border-radius: 10px;
   padding: 15px;
   background-color: #f9f9f9;
-  min-width: 200px; /* Ancho mínimo para las cards */
+  min-width: 200px;
+  max-width: 400px; 
 }
 
-.detalles-reservas .card-estado h4, .card-vendedor h4, .card-info h4 {
+.detalles-reservas .card-estado h4,
+.detalles-reservas .card-vendedor h4,
+.detalles-reservas .card-info h4 {
   margin-top: 0;
   color: #6A0DAD;
 }
@@ -143,6 +154,7 @@
   background-color: #f3f3fe;
   border-radius: 10px;
   margin: 20px 0;
+  width: 100%;
 }
 
 .detalles-reservas .error {
@@ -160,6 +172,7 @@
   padding: 20px;
   text-align: center;
   gap: 10px;
+  width: 100%;
 }
 
 .detalles-reservas .error-icon {
@@ -182,8 +195,9 @@
   display: flex;
   justify-content: flex-start;
   margin-top: 30px;
-  padding-left: 0; /* Alinear con el contenido */
-  max-width: 800px; /* Limitar ancho */
+  padding-left: 0;
+  width: 100%;
+  max-width: none;
 }
 
 .detalles-reservas .cancelar-button {
@@ -208,9 +222,19 @@
 }
 
 @media (max-width: 768px) {
-  .detalles-reservas {
-    max-width: 100%; /* En móvil ocupa todo el ancho */
-    padding: 15px;
+  .pagina-contenedor {
+    flex-direction: column;
+    margin-top: 60px;
+    padding: 0 15px;
+    gap: 0;
+  }
+  
+  .pagina-contenedor.con-sidebar .detalles-reservas,
+  .pagina-contenedor:not(.con-sidebar) .detalles-reservas {
+    flex: 1;
+    max-width: 100%;
+    width: 100%;
+    padding: 15px 0;
   }
   
   .detalles-reservas .cargando,
@@ -231,10 +255,36 @@
   
   .detalles-reservas .cards-container {
     flex-direction: column;
-    max-width: 100%;
+    width: 100%;
+    gap: 15px;
+  }
+  
+  .detalles-reservas .card-estado,
+  .detalles-reservas .card-vendedor,
+  .detalles-reservas .card-info {
+    max-width: none;
+    width: 100%;
   }
   
   .detalles-reservas .salon-card {
-    max-width: 100%;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+  }
+  
+  .detalles-reservas .salon-derecha {
+    max-width: none;
+    width: 100%;
+  }
+  
+  .detalles-reservas .salon-derecha .salon-imagen {
+    height: 150px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .pagina-contenedor.con-sidebar .detalles-reservas {
+    flex: 0 0 calc(100% - 320px);
+    max-width: calc(100% - 320px);
   }
 }

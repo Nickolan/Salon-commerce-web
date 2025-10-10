@@ -35,9 +35,10 @@
     flex-direction: column;
     flex: 1;
     min-width: 0;
-    padding: 1rem;
-    gap: 0.5rem;
+    padding: 0.1rem; 
+    gap: 0.1rem;
 }
+
 
 .card-reserva .card-izquierda svg {
     vertical-align: middle;
@@ -98,7 +99,7 @@
     justify-content: center;
     background: none;
     border: none;
-    padding: 0.5rem;
+    padding: 0.6rem 3rem;
     cursor: pointer;
     font-size: 1rem;
     color: var(--primary-color);
@@ -108,45 +109,34 @@
 
 .card-reserva .button-container {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-direction: column; 
+    gap: 0.6rem;
+    align-items: flex-end; 
 }
 
-.card-reserva .button-ver {
+.card-reserva .button-ver,
+.card-reserva .button-opinar {
     background-color: #6A0DAD;
     color: #FFF;
-    padding: 0.4rem 0.8rem;
+    width: 100px; 
+    height: 32px; 
+    padding: 0.3rem 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 0.4rem;
     cursor: pointer;
-    text-align: center;
     font-weight: 500;
     font-size: 0.8rem;
     transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
     border: none;
-    min-width: 60px;
     white-space: nowrap;
+    text-decoration: none;
 }
 
 .card-reserva .button-ver:hover {
     background-color: #5a0b9a;
     transform: scale(1.05);
-}
-
-.card-reserva .button-opinar {
-    background-color: #6A0DAD;
-    color: #FFF;
-    padding: 0.4rem 0.8rem;
-    border-radius: 0.4rem;
-    cursor: pointer;
-    text-align: center;
-    font-weight: 500;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-    border: none;
-    min-width: 70px;
-    white-space: nowrap;
 }
 
 .card-reserva .button-opinar:hover {
