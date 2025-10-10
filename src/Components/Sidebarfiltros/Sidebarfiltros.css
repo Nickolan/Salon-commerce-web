@@ -62,3 +62,8 @@
  border-radius: 8px;
  box-sizing: border-box;
 }
+.boton_aplicar{
+  border: 1px solid var(--primary-color);
+ border-radius: 8px;
+ width: 100%;
+}

@@ -26,7 +26,7 @@ function Sidebarfiltros({ onFilterChange }) {
     setPuntaje(newVal);
     
   };
- useEffect(() => {
+ const aplicarFiltros = () => {
   onFilterChange({
     precioMin,
     precioMax,
@@ -36,7 +36,7 @@ function Sidebarfiltros({ onFilterChange }) {
     puntaje,
     equipamiento,
   });
-}, [precioMin, precioMax, fecha, inicio, fin, puntaje, equipamiento, onFilterChange]);
+};
   return (
     <Fragment>
         <div className="caja_sidebarfiltros">
@@ -173,6 +173,7 @@ function Sidebarfiltros({ onFilterChange }) {
     </label>
   </div>
 </div>
+<button className="boton_aplicar" onClick={aplicarFiltros}>Aplicar filtros</button>
               
             
 

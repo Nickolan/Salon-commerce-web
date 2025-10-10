@@ -106,7 +106,7 @@ const salonesFiltradosFinal = useMemo(() => {
           <Sidebarfiltros onFilterChange={handleFilterChange} />
         </div>
         <div className="div_contenido">
-          <Searchbar ubicacionInicial={ubicacion} personasInicial={personas.toString()} />
+          <Searchbar key={`${ubicacion}-${personas}`} ubicacionInicial={ubicacion} personasInicial={personas.toString()} />
           <ListaResultados salones={salonesFiltradosFinal} />
         </div>
       </div>
