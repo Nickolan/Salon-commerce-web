@@ -14,8 +14,9 @@
   width: 450px;
   flex-shrink: 0;
   position: sticky;
-  top: 20px; /* altura desde el top de la ventana */
-  align-self: flex-start; /* necesario para flex */
+  margin-left: 20px;
+  top: 20px; 
+  align-self: flex-start; 
 }
 
 

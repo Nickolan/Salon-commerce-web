@@ -38,6 +38,9 @@
 }
 .input_fecha{
      width: 100%;
+     padding: 0.4rem;
+     font-size: 1rem;
+     color: var(--primary-color);
      border: 1px solid var(--primary-color);
      border-radius: 8px;
     flex: 1; 
@@ -51,10 +54,11 @@
 }
 .input_inicio,
 .input_fin{
-flex: 1;
+ flex: 1;
  min-width: 0;
  padding: 0.4rem;
-  border: 1px solid var(--primary-color);
-  border-radius: 8px;
-  box-sizing: border-box;
+ color: var(--primary-color);
+ border: 1px solid var(--primary-color);
+ border-radius: 8px;
+ box-sizing: border-box;
 }
