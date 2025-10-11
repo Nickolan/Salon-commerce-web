@@ -16,7 +16,7 @@ import Reservacionesrec from './Components/reservaciones_recibidas/reservaciones
 import MisSalonesScreen from './screens/MisSalonesScreen';
 import Chatbot from './Components/ChatBot/Chatbot';
 import ReservarScreen from './screens/ReservarScreen';
-import DetalleReservaScreen from './screens/DetalleReservaScreen'
+import ResumenReservaScreen from './screens/ResumenReservaScreen'
 import ConfirmacionReservaScreen from './screens/ConfirmacionReservaScreen';
 
 
@@ -45,7 +45,7 @@ function App() {
         <Route path="/perfil" element={<><Navbar user={null}/><Perfil/><Footer/> <Chatbot/></>}/>
         <Route path='/editar-perfil' element={<><Navbar user={null}/><EditarPerfil/> <Chatbot/><Footer/></>}/>
         <Route path='/reservar/:id_salon' element={<><Navbar user={null}/><ReservarScreen/> <Chatbot/><Footer/></>}/>
-        <Route path='/detalle-reserva/:id_salon' element={<><Navbar user={null}/><DetalleReservaScreen/><Chatbot/><Footer/></>}/>
+        <Route path='/resumen-reserva/:id_salon' element={<><Navbar user={null}/><ResumenReservaScreen/><Chatbot/><Footer/></>}/>
         <Route path='/confirmacion-reserva' element={<><Navbar user={null}/><ConfirmacionReservaScreen/><Chatbot/><Footer/></>} />
       </Routes>
     </div>

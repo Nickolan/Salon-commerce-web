@@ -133,13 +133,14 @@
 
 .payment-section {
   text-align: left;
-  margin-top: 3rem;
+  margin-top: 1.5rem;
 }
 
 .payment-row {
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  margin-bottom: 1rem;
 }
 
 .payment-label {
@@ -230,4 +231,10 @@
   border: 1px solid var(--primary-color);
 }
 
+/* Días inválidos (otros meses, no habilitados o pasados) */
+.dia-invalido {
+  color: #aaa !important;
+  pointer-events: none !important;
+  cursor: not-allowed;
+}
 
