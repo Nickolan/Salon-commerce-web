@@ -10,8 +10,6 @@
     "descripcion": "Espacio ideal para grupos de estudio, con excelente iluminación y equipamiento multimedia.",
     "precio_por_hora": 2500.0,
     "capacidad": 10,
-    "latitud": -34.6157,
-    "longitud": -58.435,
     "ubicacion": "Calle Falsa 123, Buenos Aires",
     "latitud": -34.6037,
     "longitud": -58.3816,
@@ -32,7 +30,7 @@
       "El horario de música alta finaliza a las 02:00 AM.",
       "El servicio de limpieza post-evento no está incluido."
     ],
-    "fecha":"2025-10-10"
+    "fecha":"2025-10-10",
     "estado_publicacion": "aprobada",
     "fecha_creacion": "2025-08-22T10:00:00.000Z",
     "fecha_ultima_modificacion": "2025-09-10T15:20:00.000Z",
@@ -163,7 +161,7 @@
     "estado_publicacion": "Aprobada",
     "fecha_creacion": "2025-09-23T09:30:00Z",
     "fecha":"2025-10-10",
-    "fecha_ultima_modificacion": null
+    "fecha_ultima_modificacion": null,
     "favoritos": []
   },
   {
@@ -195,7 +193,6 @@
       "Prohibido el ingreso de menores de 18 años sin un adulto responsable."
     ],
     "estado_publicacion": "borrador",
-    "fecha_creacion": "2025-09-23T10:15:00Z",
     "fecha_creacion": "2025-09-25T16:00:00.000Z",
     "fecha_ultima_modificacion": "2025-10-02T11:10:00.000Z",
     "disponibilidades": [
