@@ -98,5 +98,64 @@
       "last4": "1111",
       "reason": "Fondos insuficientes."
     }
+  }, 
+  {
+    "id_transaccion": 506,
+    "reserva": {
+      "id_reserva": 106,
+      "fecha_reserva": "2025-11-25",
+      "salon": {
+        "id_salon": 204,
+        "nombre": "Salón Vista al Mar"
+      }
+    },
+    "monto_pagado": 32000.00,
+    "metodo_pago": "Tarjeta de Crédito",
+    "estado_transaccion": "aprobado",
+    "fecha_transaccion": "2025-10-06T14:20:00.000Z",
+    "detalles_pago": {
+      "gateway_id": "payment_mno345",
+      "card_brand": "American Express",
+      "last4": "3782"
+    }
+  },
+  {
+    "id_transaccion": 507,
+    "reserva": {
+      "id_reserva": 107,
+      "fecha_reserva": "2025-12-05",
+      "salon": {
+        "id_salon": 205,
+        "nombre": "Salón Montaña"
+      }
+    },
+    "monto_pagado": 28000.00,
+    "metodo_pago": "MercadoPago",
+    "estado_transaccion": "aprobado",
+    "fecha_transaccion": "2025-10-07T10:45:00.000Z",
+    "detalles_pago": {
+      "gateway_id": "mp_payment_pqr678",
+      "payment_method_id": "debit_card"
+    }
+  },
+  {
+    "id_transaccion": 508,
+    "reserva": {
+      "id_reserva": 108,
+      "fecha_reserva": "2025-11-30",
+      "salon": {
+        "id_salon": 206,
+        "nombre": "Salón Ciudad"
+      }
+    },
+    "monto_pagado": 19000.00,
+    "metodo_pago": "Transferencia Bancaria",
+    "estado_transaccion": "pendiente",
+    "fecha_transaccion": "2025-10-08T16:30:00.000Z",
+    "detalles_pago": {
+      "cbu_destino": "0170020300000098765432",
+      "alias": "salon.ciudad.mp",
+      "mensaje": "Transferencia en proceso"
+    }
   }
 ]
