@@ -6,7 +6,7 @@ import PrecioYCapacidad from '../Components/FormSalon/Precio&Capacidad/PrecioYCa
 import EquipamientoYReglas from '../Components/FormSalon/Equipamiento&Reglas/EquipamientoYReglas';
 import Disponibilidad from '../Components/FormSalon/Disponibilidad/Disponibilidad';
 import Resumen from '../Components/FormSalon/Resumen/Resumen';
-import { AgregarSalon } from '../utils/FuncionesSalon';
+import { AgregarSalonApi } from '../utils/FuncionesSalon';
 
 const NuevoSalonScreen = ({isLoaded}) => {
   // Se realizara todo en una sola pantalla, se cambiara el componente segun el paso actual
@@ -106,7 +106,7 @@ const NuevoSalonScreen = ({isLoaded}) => {
           <button
             disabled={loading}
             className="btn-publish"
-            onClick={() => AgregarSalon(formData, photos, reglas, equipamientoSeleccionado, disponibilidad)}
+            onClick={() => AgregarSalonApi(formData, photos, reglas, equipamientoSeleccionado, disponibilidad)}
           >
             Publicar
           </button>

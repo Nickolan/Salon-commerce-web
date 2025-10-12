@@ -17,7 +17,10 @@ import MisSalonesScreen from './screens/MisSalonesScreen';
 import DetallesSalon from './screens/DetallesSalon';
 import MisReservas from './screens/MisReservas';
 import Chatbot from './Components/ChatBot/Chatbot';
+
 import ReservasDetalles from './screens/ReservasDetalles';
+
+import FavoritosScreen from './screens/FavoritosScreen';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -46,6 +49,9 @@ function App() {
         <Route path="/salon_detalles" element={ <> <Navbar user={null} /> <DetallesSalon isLoaded={isLoaded} /> <Chatbot/> <Footer/> </> } />
         <Route path="/mis-reservas" element={<> <Navbar user={null}/> <MisReservas/> <Chatbot/> <Footer/> </>}/>
         <Route path="/reservas_detalles/:id" element={<><Navbar user={null}/> <ReservasDetalles /> <Chatbot/> <Footer/> </>} />
+          
+        <Route path='/favoritos' element={<><Navbar user={null}/><FavoritosScreen/> <Chatbot/><Footer/></>}/>
+
       </Routes>
     </div>
   );

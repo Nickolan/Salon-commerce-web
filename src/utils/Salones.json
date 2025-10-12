@@ -12,8 +12,9 @@
     "latitud": -34.6037,
     "longitud": -58.3816,
     "fotos": [
-      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "https://ejemplo.com/salon_elegancia_1.jpg",
+      "https://ejemplo.com/salon_elegancia_2.jpg",
+      "https://ejemplo.com/salon_elegancia_3.jpg"
     ],
     "equipamientos_json": {
       "wifi": true,
@@ -22,12 +23,73 @@
       "aire_acondicionado": false
     },
     "reglas": [
-      "No comer dentro del salón",
-      "Mantener el silencio"
+      "No fumar en el interior.",
+      "Respetar la capacidad máxima de 100 personas.",
+      "El horario de música alta finaliza a las 02:00 AM.",
+      "El servicio de limpieza post-evento no está incluido."
     ],
-    "estado_publicacion": "Aprobada",
-    "fecha_creacion": "2025-09-21T09:00:00Z",
-    "fecha_ultima_modificacion": "2025-09-22T10:30:00Z"
+    "estado_publicacion": "aprobada",
+    "fecha_creacion": "2025-08-22T10:00:00.000Z",
+    "fecha_ultima_modificacion": "2025-09-10T15:20:00.000Z",
+    "disponibilidades": [
+      {
+        "id_disponibilidad": 401,
+        "dia_semana": "Lunes",
+        "hora_inicio": "09:00:00",
+        "hora_fin": "20:00:00"
+      },
+      {
+        "id_disponibilidad": 402,
+        "dia_semana": "Martes",
+        "hora_inicio": "09:00:00",
+        "hora_fin": "20:00:00"
+      },
+      {
+        "id_disponibilidad": 403,
+        "dia_semana": "Miércoles",
+        "hora_inicio": "09:00:00",
+        "hora_fin": "20:00:00"
+      },
+      {
+        "id_disponibilidad": 404,
+        "dia_semana": "Jueves",
+        "hora_inicio": "09:00:00",
+        "hora_fin": "22:00:00"
+      },
+      {
+        "id_disponibilidad": 405,
+        "dia_semana": "Viernes",
+        "hora_inicio": "09:00:00",
+        "hora_fin": "23:00:00"
+      }
+    ],
+    "reservas": [
+      {
+        "id_reserva": 101,
+        "arrendatario": {
+          "id_usuario": 1,
+          "nombre": "Ana",
+          "apellido": "Gómez"
+        },
+        "fecha_reserva": "2025-11-20",
+        "hora_inicio": "19:00:00",
+        "hora_fin": "23:00:00",
+        "estado_reserva": "confirmada"
+      },
+      {
+        "id_reserva": 103,
+        "arrendatario": {
+          "id_usuario": 4,
+          "nombre": "Laura",
+          "apellido": "Nuñez"
+        },
+        "fecha_reserva": "2025-12-10",
+        "hora_inicio": "09:00:00",
+        "hora_fin": "12:00:00",
+        "estado_reserva": "cancelada"
+      }
+    ],
+    "favoritos": []
   },
   {
     "id_salon": 102,
@@ -42,7 +104,8 @@
     "latitud": -34.6037,
     "longitud": -58.3816,
     "fotos": [
-      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "https://ejemplo.com/jardin_secreto_1.jpg",
+      "https://ejemplo.com/jardin_secreto_2.jpg"
     ],
     "equipamientos_json": {
       "wifi": true,
@@ -51,8 +114,9 @@
       "aire_acondicionado": false
     },
     "reglas": [
-      "Prohibido fumar",
-      "No se permite el ingreso de mascotas"
+      "El uso de la piscina es bajo responsabilidad del arrendatario.",
+      "No se permiten mascotas.",
+      "El volumen de la música debe reducirse a partir de las 03:00 AM."
     ],
     "estado_publicacion": "Aprobada",
     "fecha_creacion": "2025-09-22T11:00:00Z",
@@ -71,20 +135,21 @@
     "fotos": [
       "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
-    "equipamientos_json": {
-      "wifi": true,
-      "pizarra": true,
-      "proyector": true,
-      "aire_acondicionado": true
-    },
-    "reglas": [
-      "No se permite fumar",
-      "Mantener el volumen bajo",
-      "Prohibido el consumo de bebidas alcohólicas"
+    "reservas": [
+      {
+        "id_reserva": 102,
+        "arrendatario": {
+          "id_usuario": 1,
+          "nombre": "Ana",
+          "apellido": "Gómez"
+        },
+        "fecha_reserva": "2025-09-30",
+        "hora_inicio": "14:00:00",
+        "hora_fin": "20:00:00",
+        "estado_reserva": "completada"
+      }
     ],
-    "estado_publicacion": "Aprobada",
-    "fecha_creacion": "2025-09-23T09:30:00Z",
-    "fecha_ultima_modificacion": null
+    "favoritos": []
   },
   {
     "id_salon": 104,
@@ -97,22 +162,49 @@
     "latitud": -34.6037,
     "longitud": -58.3816,
     "fotos": [
-      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "https://ejemplo.com/loft_urbano_1.jpg",
+      "https://ejemplo.com/loft_urbano_2.jpg"
     ],
-    "equipamientos_json": {
-      "wifi": true,
-      "pizarra": true,
-      "proyector": false,
-      "aire_acondicionado": true
-    },
+    "equipamientos": [
+      "Barra de tragos",
+      "Luces de fiesta RGB",
+      "Máquina de humo",
+      "Equipo de DJ Pioneer",
+      "Proyector para visuales"
+    ],
     "reglas": [
-      "No se permite fumar",
-      "Cuidar el mobiliario",
-      "Mantener limpio el espacio"
+      "Música permitida hasta las 04:00 AM.",
+      "Se requiere un depósito de seguridad reembolsable.",
+      "Prohibido el ingreso de menores de 18 años sin un adulto responsable."
     ],
-    "estado_publicacion": "Pendiente",
-    "fecha_creacion": "2025-09-23T10:15:00Z",
-    "fecha_ultima_modificacion": null
+    "estado_publicacion": "borrador",
+    "fecha_creacion": "2025-09-25T16:00:00.000Z",
+    "fecha_ultima_modificacion": "2025-10-02T11:10:00.000Z",
+    "disponibilidades": [
+      {
+        "id_disponibilidad": 408,
+        "dia_semana": "Viernes",
+        "hora_inicio": "20:00:00",
+        "hora_fin": "04:00:00"
+      },
+      {
+        "id_disponibilidad": 409,
+        "dia_semana": "Sábado",
+        "hora_inicio": "20:00:00",
+        "hora_fin": "05:00:00"
+      }
+    ],
+    "reservas": [],
+    "favoritos": [
+      {
+        "id_favorito": 301,
+        "usuario": {
+          "id_usuario": 1,
+          "nombre_usuario": "anagomez"
+        },
+        "fecha_agregado": "2025-09-28T14:00:00.000Z"
+      }
+    ]
   },
   {
     "id_salon": 105,
@@ -125,18 +217,14 @@
     "latitud": -34.6037,
     "longitud": -58.3816,
     "fotos": [
-      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "https://ejemplo.com/quincho_1.jpg"
     ],
-    "equipamientos_json": {
-      "wifi": true,
-      "pizarra": false,
-      "proyector": false,
-      "aire_acondicionado": false
-    },
-    "reglas": [
-      "Horario máximo hasta las 23 hs",
-      "No se permite música en vivo",
-      "Prohibido fumar fuera de las áreas designadas"
+    "equipamientos": [
+      "Parrilla grande",
+      "Horno de leña",
+      "Metegol",
+      "Mesas y sillas para 50 personas",
+      "Vajilla completa"
     ],
     "estado_publicacion": "Aprobada",
     "fecha_creacion": "2025-09-23T12:00:00Z",
@@ -162,9 +250,9 @@
       "aire_acondicionado": true
     },
     "reglas": [
-      "No ingresar con alimentos ni bebidas",
-      "Cuidar los equipos de iluminación",
-      "Se debe reservar con 48 hs de anticipación"
+      "Respetar el horario de silencio a partir de las 00:00 hs.",
+      "Entregar el lugar en las mismas condiciones de limpieza.",
+      "No se puede pernoctar en el lugar."
     ],
     "estado_publicacion": "Pendiente",
     "fecha_creacion": "2025-09-23T13:15:00Z",
