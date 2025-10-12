@@ -1,33 +1,35 @@
-import React, { useState } from 'react';
-import "../styles/EditarPerfil.css";
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import usuariosData from "../utils/Usuarios.json";
+import { useSelector, useDispatch } from 'react-redux';
+import { updateUser } from '../store/features/auth/authSlice';
+import Swal from 'sweetalert2'; // Usaremos SweetAlert2 para notificaciones más bonitas
+
+import "../styles/EditarPerfil.css";
 import { LiaEditSolid } from "react-icons/lia";
 import { IoSaveOutline } from "react-icons/io5";
 import Sidebar from '../components/Sidebar/Sidebar';
 
 const EditarPerfil = () => {
-   const usuarioActual = usuariosData[0];
+    // 1. Obtenemos los datos del usuario y el estado de la API desde Redux
+    const { user: usuarioActual, status } = useSelector((state) => state.auth);
+    
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    // 2. El estado local del formulario se inicializa con los datos del usuario del store
     const [formData, setFormData] = useState({
-        nombre: usuarioActual?.nombre || "",
-        apellido: usuarioActual?.apellido || "",
-        DNI: usuarioActual?.dni || "",
-        ciudad: usuarioActual?.ciudad || "",
-        Provincia: usuarioActual?.provincia || "",
-        email: usuarioActual?.email || "",
-        telefono: usuarioActual?.telefono || "",
-        nombreUsuario: usuarioActual?.nombre_usuario || "",
+        nombre: '',
+        apellido: '',
+        dni: '',
+        ciudad: '',
+        provincia: '',
+        telefono: '',
+        nombre_usuario: '',
     });
-    const [camposEditables, setCamposEditables] = useState({
-        nombre: false,
-        apellido: false,
-        DNI: false,
-        ciudad: false,
-        Provincia: false,
-        telefono: false,
-        nombreUsuario: false
-    });
+
+    // Estados para la UI (estos se quedan como locales, está bien)
+    const [camposEditables, setCamposEditables] = useState({});
+    const [errores, setErrores] = useState({});
 
     const [coloresCampos, setColoresCampos] = useState({
         nombre: 'purple', 
@@ -39,20 +41,25 @@ const EditarPerfil = () => {
         nombreUsuario: 'purple'
     });
 
-    const [errores, setErrores] = useState({});
-    const navigate = useNavigate();
+    // 3. Sincronizamos el estado local del formulario cuando los datos del usuario en Redux cargan
+    useEffect(() => {
+        if (usuarioActual) {
+            setFormData({
+                nombre: usuarioActual.nombre || "",
+                apellido: usuarioActual.apellido || "",
+                dni: usuarioActual.dni || "",
+                ciudad: usuarioActual.ciudad || "",
+                provincia: usuarioActual.provincia || "",
+                telefono: usuarioActual.telefono || "",
+                nombre_usuario: usuarioActual.nombre_usuario || "",
+            });
+        }
+    }, [usuarioActual]);
 
-    const provinciasArgentinas = [
-        "Ciudad Autónoma de Buenos Aires", "Buenos Aires",
-        "Catamarca", "Chaco", "Chubut", "Córdoba",
-        "Corrientes", "Entre Ríos", "Formosa", "Jujuy",
-        "La Pampa", "La Rioja", "Mendoza", "Misiones",
-        "Neuquén", "Río Negro", "Salta", "San Juan",
-        "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero",
-        "Tierra del Fuego", "Tucumán"
-    ];
+    const provinciasArgentinas = ["Ciudad Autónoma de Buenos Aires", "Buenos Aires", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones", "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego", "Tucumán"];
 
-    const toggleEdicion = (campo) => {
+    // Lógica de la UI para habilitar/deshabilitar campos (sin cambios)
+     const toggleEdicion = (campo) => {
         setCamposEditables(prev => ({
             ...prev,
             [campo]: !prev[campo]
@@ -63,51 +70,54 @@ const EditarPerfil = () => {
         }));
     };
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    // 4. Modificamos handleSubmit para despachar la acción de Redux
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        // Aquí puedes mantener tus validaciones de formulario si quieres...
+        let nuevosErrores = {};
+        if (!formData.nombre.trim()) nuevosErrores.nombre = "El nombre es obligatorio";
+        if (!formData.apellido.trim()) nuevosErrores.apellido = "El apellido es obligatorio";
+        setErrores(nuevosErrores);
+        
+        if (Object.keys(nuevosErrores).length > 0) {
+            return;
+        }
+
+        // Despachamos la acción y esperamos el resultado
+        const resultAction = await dispatch(updateUser({ id: usuarioActual.id_usuario, userData: formData }));
+
+        // Verificamos si la acción se completó con éxito
+        if (updateUser.fulfilled.match(resultAction)) {
+            Swal.fire({
+                title: '¡Éxito!',
+                text: 'Tu perfil ha sido actualizado correctamente.',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+            navigate("/perfil");
+        } else {
+            // Si falló, el error se obtiene del payload de la acción rechazada
+            Swal.fire({
+                title: 'Error',
+                text: resultAction.payload || 'No se pudieron guardar los cambios.',
+                icon: 'error',
+            });
+        }
+    };
+
     const getInputClassName = (campo) => {
         return coloresCampos[campo] === 'purple' ? 'input-purple' : 'input-gray';
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        
-        if (camposEditables[name]) {
-            setFormData(prev => ({
-                ...prev,
-                [name]: value,
-            }));
-        }
-    };
-
-    const handleSubmit = (e) => {
-        if (e) e.preventDefault();
-
-        const { nombre, apellido, DNI, Provincia, ciudad, email, telefono, nombreUsuario } = formData;
-        let nuevosErrores = {};
-        // Validaciones 
-        if (!nombre.trim()) nuevosErrores.nombre = "El nombre es obligatorio";
-        if (!apellido.trim()) nuevosErrores.apellido = "El apellido es obligatorio";
-        if (!DNI.trim()) nuevosErrores.DNI = "El DNI es obligatorio";
-        if (!Provincia) nuevosErrores.Provincia = "La provincia es obligatoria";
-        if (!ciudad.trim()) nuevosErrores.ciudad = "La ciudad es obligatoria";
-        if (!email.trim()) nuevosErrores.email = "El correo es obligatorio";
-        else if (!/\S+@\S+\.\S+/.test(email)) nuevosErrores.email = "El correo no es válido";
-        if (!telefono.trim()) nuevosErrores.telefono = "El teléfono es obligatorio";
-        if (!nombreUsuario.trim()) nuevosErrores.nombreUsuario = "El nombre de usuario es obligatorio";
-
-        setErrores(nuevosErrores);
-        if (Object.keys(nuevosErrores).length === 0) {
-            const exito = guardarEnJSON(formData);
-            if (exito) {
-                alert("Perfil actualizado correctamente");
-                navigate("/perfil");
-            } else {
-                alert("Error al guardar los cambios");
-            }
-        }
-    };
-    
     if (!usuarioActual) {
-        return <div className="EditProfile-page"><h1>Error: Usuario no encontrado</h1></div>;
+        return <div className="EditProfile-page"><h1>Cargando perfil...</h1></div>;
     }
 
     return (
@@ -182,33 +192,33 @@ const EditarPerfil = () => {
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="DNI">DNI</label>
+                                <label htmlFor="dni">DNI</label>
                                 <div className="input-container">
                                     <input
                                         type="text"
-                                        id="DNI"
-                                        name="DNI"
-                                        placeholder="DNI"
-                                        value={formData.DNI}
+                                        id="dni"
+                                        name="dni"
+                                        placeholder="dni"
+                                        value={formData.dni}
                                         onChange={handleChange}
-                                        disabled={!camposEditables.DNI}
+                                        disabled={!camposEditables.dni}
                                         required
-                                        className={getInputClassName('DNI')}
+                                        className={getInputClassName('dni')}
                                     />
                                     {camposEditables.DNI ? (
                                             <IoSaveOutline
                                                 className="logo"
-                                                onClick={() => toggleEdicion('DNI')}
+                                                onClick={() => toggleEdicion('dni')}
                                             />
                                         ) : (
                                             <LiaEditSolid
                                                 className="logo"
-                                                onClick={() => toggleEdicion('DNI')}
+                                                onClick={() => toggleEdicion('dni')}
                                             />
                                         )}
                                 </div>
-                                <p className={`error ${errores.DNI ? "active" : ""}`}>
-                                    {errores.DNI}
+                                <p className={`error ${errores.dni ? "active" : ""}`}>
+                                    {errores.dni}
                                 </p>
                             </div>
 
@@ -244,16 +254,16 @@ const EditarPerfil = () => {
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="Provincia">Provincia</label>
+                                <label htmlFor="provincia">Provincia</label>
                                 <div className="input-container">
                                     <select
-                                        id="Provincia"
-                                        name="Provincia"
-                                        value={formData.Provincia}
+                                        id="provincia"
+                                        name="provincia"
+                                        value={formData.provincia}
                                         onChange={handleChange}
-                                        disabled={!camposEditables.Provincia}
+                                        disabled={!camposEditables.provincia}
                                         required
-                                        className={getInputClassName('Provincia')}
+                                        className={getInputClassName('provincia')}
                                     >
                                         <option value="">Selecciona una provincia</option>
                                         {provinciasArgentinas.map((provincia, index) => (
@@ -262,20 +272,20 @@ const EditarPerfil = () => {
                                             </option>
                                         ))}
                                     </select>
-                                    {camposEditables.Provincia ? (
+                                    {camposEditables.provincia ? (
                                             <IoSaveOutline
                                                 className="logo"
-                                                onClick={() => toggleEdicion('Provincia')}
+                                                onClick={() => toggleEdicion('provincia')}
                                             />
                                         ) : (
                                             <LiaEditSolid
                                                 className="logo"
-                                                onClick={() => toggleEdicion('Provincia')}
+                                                onClick={() => toggleEdicion('provincia')}
                                             />
                                         )}                            
                                 </div>
-                                <p className={`error ${errores.Provincia ? "active" : ""}`}>
-                                    {errores.Provincia}
+                                <p className={`error ${errores.provincia ? "active" : ""}`}>
+                                    {errores.provincia}
                                 </p>
                             </div>
                         </form>
@@ -288,9 +298,6 @@ const EditarPerfil = () => {
                                 <div className="input-container">
                                     <h3 className="email-purple">{usuarioActual.email}</h3>                         
                                 </div>
-                                <p className={`error ${errores.email ? "active" : ""}`}>
-                                    {errores.email}
-                                </p>
                             </div>
                             
                             <div className="form-group">
@@ -325,33 +332,33 @@ const EditarPerfil = () => {
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="nombreUsuario">Nombre de Usuario</label>
+                                <label htmlFor="nombre_usuario">Nombre de Usuario</label>
                                 <div className="input-container">
                                     <input
                                         type="text"
-                                        id="nombreUsuario"
-                                        name="nombreUsuario"
+                                        id="nombre_usuario"
+                                        name="nombre_usuario"
                                         placeholder="Nombre de Usuario"
-                                        value={formData.nombreUsuario}
+                                        value={formData.nombre_usuario}
                                         onChange={handleChange}
-                                        disabled={!camposEditables.nombreUsuario}
+                                        disabled={!camposEditables.nombre_usuario}
                                         required
-                                        className={getInputClassName('nombreUsuario')}
+                                        className={getInputClassName('nombre_usuario')}
                                     />
-                                    {camposEditables.nombreUsuario ? (
+                                    {camposEditables.nombre_usuario ? (
                                             <IoSaveOutline
                                                 className="logo"
-                                                onClick={() => toggleEdicion('nombreUsuario')}
+                                                onClick={() => toggleEdicion('nombre_usuario')}
                                             />
                                         ) : (
                                             <LiaEditSolid
                                                 className="logo"
-                                                onClick={() => toggleEdicion('nombreUsuario')}
+                                                onClick={() => toggleEdicion('nombre_usuario')}
                                             />
                                         )} 
                                 </div>
-                                <p className={`error ${errores.nombreUsuario ? "active" : ""}`}>
-                                    {errores.nombreUsuario}
+                                <p className={`error ${errores.nombre_usuario ? "active" : ""}`}>
+                                    {errores.nombre_usuario}
                                 </p>
                             </div>
                             <div className="form-group">

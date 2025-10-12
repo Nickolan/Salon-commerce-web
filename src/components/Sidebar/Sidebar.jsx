@@ -5,9 +5,20 @@ import { FaRegHeart } from "react-icons/fa";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { IoMdCard } from "react-icons/io";
 import { LuHouse } from "react-icons/lu";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/features/auth/authSlice";
 
 const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+      navigate("/")
+      dispatch(logout());
+    };
 
   return (
     <>
@@ -19,28 +30,29 @@ const Sidebar = () => {
       </div>
 
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-        <a href="/perfil">Mi Perfil</a>
+        <Link to="/perfil">Mi Perfil</Link>
         <div className="sidebar-container">
           <div className="side-links">
             <div className="link-item">
               <IoLockClosedOutline alt="Mis Reservas" className="logo" />
-              <a href="/">Mis Reservas</a>
+              <Link to="/">Mis Reservas</Link>
             </div>
             <div className="link-item">
               <FaRegHeart alt="Favoritos" className="logo" />
-              <a href="/">Favoritos</a>
+              <Link to="/">Favoritos</Link>
             </div>
             <div className="link-item">
               <LuHouse alt="Mis Salones" className="logo" />
-              <a href="/mis-salones">Mis Salones</a>
+              <Link to="/mis-salones">Mis Salones</Link>
             </div>
             <div className="link-item">
               <IoMdCard alt="Mis Ventas" className="logo" />
-              <a href="/mis_ventas">Mis Ventas</a>
+              <Link to="/mis_ventas">Mis Ventas</Link>
             </div>
             <div className="link-item logout">
               <IoLogOutOutline alt="Cerrar Sesion" className="logos"/>
-              <a href="/">Cerrar Sesión</a>
+              
+              <span onClick={handleLogout}>Cerrar Sesión</span>
             </div>
           </div>
         </div>

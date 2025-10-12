@@ -1,0 +1,42 @@
+[
+  {
+    "id_franja": 1001,
+    "id_salon": 201,
+    "hora_inicio": "2025-10-27T10:00:00.000Z",
+    "hora_fin": "2025-10-27T11:00:00.000Z",
+    "estado": "disponible",
+    "precio": 5000
+  },
+  {
+    "id_franja": 1002,
+    "id_salon": 201,
+    "hora_inicio": "2025-10-27T11:00:00.000Z",
+    "hora_fin": "2025-10-27T12:00:00.000Z",
+    "estado": "reservada",
+    "precio": 5000
+  },
+  {
+    "id_franja": 1003,
+    "id_salon": 201,
+    "hora_inicio": "2025-10-27T12:00:00.000Z",
+    "hora_fin": "2025-10-27T13:00:00.000Z",
+    "estado": "disponible",
+    "precio": 5000
+  },
+  {
+    "id_franja": 1004,
+    "id_salon": 202,
+    "hora_inicio": "2025-10-25T14:00:00.000Z",
+    "hora_fin": "2025-10-25T15:00:00.000Z",
+    "estado": "disponible",
+    "precio": 7500
+  },
+  {
+    "id_franja": 1005,
+    "id_salon": 202,
+    "hora_inicio": "2025-10-25T15:00:00.000Z",
+    "hora_fin": "2025-10-25T16:00:00.000Z",
+    "estado": "bloqueada",
+    "precio": 7500
+  }
+]

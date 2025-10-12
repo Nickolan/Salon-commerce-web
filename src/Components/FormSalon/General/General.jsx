@@ -40,7 +40,7 @@ const General = ({ salon, photos, handleChange, handlePhotoChange, removePhoto }
           name="descripcion"
           value={salon.descripcion}
           onChange={handleChange} 
-          placeholder="Check and Home – Study Room es un salón de estudio privado ubicado en Méjico 2234, Godoy Cruz, Mendoza, ideal para grupos de hasta 15 personas que buscan comodidad   y concentración."
+          placeholder="Check and Home - Study Room es un salón de estudio privado ubicado en Méjico 2234, Godoy Cruz, Mendoza, ideal para grupos de hasta 15 personas que buscan comodidad y concentración."
         ></textarea>
       </div>
 
