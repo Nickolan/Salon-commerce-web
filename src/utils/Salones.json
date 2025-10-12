@@ -1,33 +1,27 @@
 [
   {
-    "id_salon": 201,
-    "publicador": {
-      "id_usuario": 2,
-      "nombre": "Carlos",
-      "apellido": "Díaz",
-      "telefono": "+542615555678",
-      "email": "carlos.diaz@email.com"
-    },
-    "nombre": "Salón Elegancia",
-    "descripcion": "Un espacio sofisticado y moderno, ideal para eventos corporativos y conferencias. Equipado con la última tecnología audiovisual para garantizar presentaciones de alto impacto.",
-    "precio_por_hora": 5000,
-    "capacidad": 100,
-    "direccion": "Av. San Martín 123, Ciudad, Mendoza",
-    "latitud": -32.8894,
-    "longitud": -68.8458,
+    "id_salon": 101,
+    "imagen": "https://maison.20minutes.fr/wp-content/uploads/2022/12/3-deux-canapes-imposants-pour-un-salon-xxl-plus-cosy-westwing.jpg",
+    "id_publicador": 1,
+    "resenia": 4.9,
+    "nombre": "Salón de Estudio Moderno",
+    "descripcion": "Espacio ideal para grupos de estudio, con excelente iluminación y equipamiento multimedia.",
+    "precio_por_hora": 2500.0,
+    "capacidad": 10,
+    "ubicacion": "Calle Falsa 123, Buenos Aires",
+    "latitud": -34.6037,
+    "longitud": -58.3816,
     "fotos": [
       "https://ejemplo.com/salon_elegancia_1.jpg",
       "https://ejemplo.com/salon_elegancia_2.jpg",
       "https://ejemplo.com/salon_elegancia_3.jpg"
     ],
-    "equipamientos": [
-      "Proyector HD",
-      "Sistema de sonido Envolvente",
-      "Wi-Fi de alta velocidad",
-      "Pizarra interactiva",
-      "Aire acondicionado y Calefacción",
-      "Servicio de Catering (Opcional)"
-    ],
+    "equipamientos_json": {
+      "wifi": true,
+      "pizarra": true,
+      "proyector": true,
+      "aire_acondicionado": false
+    },
     "reglas": [
       "No fumar en el interior.",
       "Respetar la capacidad máxima de 100 personas.",
@@ -78,8 +72,8 @@
           "apellido": "Gómez"
         },
         "fecha_reserva": "2025-11-20",
-        "hora_inicio": "19:00:00",
-        "hora_fin": "23:00:00",
+        "hora_inicio": "16:00:00",
+        "hora_fin": "18:00:00",
         "estado_reserva": "confirmada"
       },
       {
@@ -98,54 +92,48 @@
     "favoritos": []
   },
   {
-    "id_salon": 202,
-    "publicador": {
-      "id_usuario": 2,
-      "nombre": "Carlos",
-      "apellido": "Díaz",
-      "telefono": "+542615555678",
-      "email": "carlos.diaz@email.com"
-    },
-    "nombre": "Jardín Secreto",
-    "descripcion": "Un oasis en la ciudad. Perfecto para bodas, bautismos y eventos al aire libre. Cuenta con una gran piscina, quincho cerrado y extensas áreas verdes para disfrutar de un día inolvidable.",
-    "precio_por_hora": 7500,
-    "capacidad": 150,
-    "direccion": "Callejón de las Rosas 45, Chacras de Coria, Mendoza",
-    "latitud": -32.9912,
-    "longitud": -68.8533,
+    "id_salon": 102,
+    "id_publicador": 1,
+    "resenia": 4.9,
+    "imagen": "https://maison.20minutes.fr/wp-content/uploads/2022/12/3-deux-canapes-imposants-pour-un-salon-xxl-plus-cosy-westwing.jpg",
+    "nombre": "Sala de Reuniones Privada",
+    "descripcion": "Pequeña sala para reuniones o tutorías, muy tranquila.",
+    "precio_por_hora": 1500.0,
+    "capacidad": 4,
+    "ubicacion": "Avenida Siempre Viva 742, Buenos Aires",
+    "latitud": -34.6037,
+    "longitud": -58.3816,
     "fotos": [
       "https://ejemplo.com/jardin_secreto_1.jpg",
       "https://ejemplo.com/jardin_secreto_2.jpg"
     ],
-    "equipamientos": [
-      "Piscina",
-      "Parrilla / Asador",
-      "Horno de barro",
-      "Juegos para niños",
-      "Estacionamiento privado para 50 vehículos",
-      "Grupo electrógeno"
-    ],
+    "equipamientos_json": {
+      "wifi": true,
+      "pizarra": true,
+      "proyector": false,
+      "aire_acondicionado": false
+    },
     "reglas": [
       "El uso de la piscina es bajo responsabilidad del arrendatario.",
       "No se permiten mascotas.",
       "El volumen de la música debe reducirse a partir de las 03:00 AM."
     ],
-    "estado_publicacion": "aprobada",
-    "fecha_creacion": "2025-09-01T12:00:00.000Z",
-    "fecha_ultima_modificacion": "2025-09-05T18:45:00.000Z",
-    "disponibilidades": [
-      {
-        "id_disponibilidad": 406,
-        "dia_semana": "Sábado",
-        "hora_inicio": "10:00:00",
-        "hora_fin": "23:59:00"
-      },
-      {
-        "id_disponibilidad": 407,
-        "dia_semana": "Domingo",
-        "hora_inicio": "10:00:00",
-        "hora_fin": "22:00:00"
-      }
+    "estado_publicacion": "Aprobada",
+    "fecha_creacion": "2025-09-22T11:00:00Z",
+    "fecha_ultima_modificacion": null
+  },
+  {
+    "id_salon": 103,
+    "id_publicador": 2,
+    "nombre": "Auditorio Central",
+    "descripcion": "Amplio auditorio con escenario y proyector, ideal para conferencias o presentaciones.",
+    "precio_por_hora": 5000.0,
+    "capacidad": 120,
+    "ubicacion": "Avenida Felicidad 444, Buenos Aires",
+    "latitud": -34.6037,
+    "longitud": -58.3816,
+    "fotos": [
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "reservas": [
       {
@@ -164,21 +152,15 @@
     "favoritos": []
   },
   {
-    "id_salon": 203,
-    "publicador": {
-      "id_usuario": 4,
-      "nombre": "Laura",
-      "apellido": "Nuñez",
-      "telefono": "+542615551122",
-      "email": "laura.nunez@email.com"
-    },
-    "nombre": "Loft Urbano Moderno",
-    "descripcion": "Espacio con estilo industrial, techos altos y grandes ventanales con vista a la ciudad. Ideal para fiestas, cumpleaños y producciones fotográficas con un toque vanguardista.",
-    "precio_por_hora": 4500,
-    "capacidad": 80,
-    "direccion": "Sarmiento 890, Piso 5, Ciudad, Mendoza",
-    "latitud": -32.8850,
-    "longitud": -68.8400,
+    "id_salon": 104,
+    "id_publicador": 2,
+    "nombre": "Sala Creativa",
+    "descripcion": "Espacio cómodo y luminoso para talleres, brainstorming y actividades creativas.",
+    "precio_por_hora": 2000.0,
+    "capacidad": 10,
+    "ubicacion": "Boulevard Innovación 456, Buenos Aires",
+    "latitud": -34.6037,
+    "longitud": -58.3816,
     "fotos": [
       "https://ejemplo.com/loft_urbano_1.jpg",
       "https://ejemplo.com/loft_urbano_2.jpg"
@@ -225,21 +207,15 @@
     ]
   },
   {
-    "id_salon": 204,
-    "publicador": {
-      "id_usuario": 2,
-      "nombre": "Carlos",
-      "apellido": "Díaz",
-      "telefono": "+542615555678",
-      "email": "carlos.diaz@email.com"
-    },
-    "nombre": "Quincho Rústico 'El Descanso'",
-    "descripcion": "Un quincho tradicional de madera y piedra, perfecto para asados familiares y reuniones con amigos. Cuenta con un amplio espacio techado y un gran jardín.",
-    "precio_por_hora": 3000,
+    "id_salon": 105,
+    "id_publicador": 2,
+    "nombre": "Terraza Panorámica",
+    "descripcion": "Terraza al aire libre con vista a la ciudad, perfecta para eventos sociales y after office.",
+    "precio_por_hora": 3500.0,
     "capacidad": 50,
-    "direccion": "Ruta del Sol Km 15, Maipú, Mendoza",
-    "latitud": -33.0015,
-    "longitud": -68.7845,
+    "ubicacion": "Av. Libertador 900, Buenos Aires",
+    "latitud": -34.6037,
+    "longitud": -58.3816,
     "fotos": [
       "https://ejemplo.com/quincho_1.jpg"
     ],
@@ -250,29 +226,185 @@
       "Mesas y sillas para 50 personas",
       "Vajilla completa"
     ],
+    "estado_publicacion": "Aprobada",
+    "fecha_creacion": "2025-09-23T12:00:00Z",
+    "fecha_ultima_modificacion": null
+  },
+  {
+    "id_salon": 106,
+    "id_publicador": 2,
+    "nombre": "Estudio Fotográfico",
+    "descripcion": "Espacio equipado con luces y fondos, ideal para sesiones fotográficas o grabaciones.",
+    "precio_por_hora": 2500.0,
+    "capacidad": 8,
+    "ubicacion": "Calle Arte 221, Palermo, Buenos Aires",
+    "latitud": -34.6037,
+    "longitud": -58.3816,
+    "fotos": [
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "equipamientos_json": {
+      "wifi": true,
+      "pizarra": false,
+      "proyector": false,
+      "aire_acondicionado": true
+    },
     "reglas": [
       "Respetar el horario de silencio a partir de las 00:00 hs.",
       "Entregar el lugar en las mismas condiciones de limpieza.",
       "No se puede pernoctar en el lugar."
     ],
-    "estado_publicacion": "oculta",
-    "fecha_creacion": "2025-07-10T11:00:00.000Z",
-    "fecha_ultima_modificacion": "2025-09-15T09:00:00.000Z",
-    "disponibilidades": [
-      {
-        "id_disponibilidad": 410,
-        "dia_semana": "Sábado",
-        "hora_inicio": "11:00:00",
-        "hora_fin": "23:00:00"
-      },
-      {
-        "id_disponibilidad": 411,
-        "dia_semana": "Domingo",
-        "hora_inicio": "11:00:00",
-        "hora_fin": "21:00:00"
-      }
+    "estado_publicacion": "Pendiente",
+    "fecha_creacion": "2025-09-23T13:15:00Z",
+    "fecha_ultima_modificacion": null
+  },
+  {
+    "id_salon": 107,
+    "id_publicador": 2,
+    "nombre": "Salón de Fiestas Infantiles",
+    "descripcion": "Colorido espacio con juegos y decoración temática, pensado para cumpleaños de niños.",
+    "precio_por_hora": 4000.0,
+    "capacidad": 60,
+    "ubicacion": "Av. Rivadavia 3450, Caballito, Buenos Aires",
+    "latitud": -34.6037,
+    "longitud": -58.3816,
+    "fotos": [
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
-    "reservas": [],
-    "favoritos": []
+    "equipamientos_json": {
+      "wifi": false,
+      "pizarra": false,
+      "proyector": false,
+      "aire_acondicionado": true
+    },
+    "reglas": [
+      "Responsabilidad de los adultos por los niños",
+      "No está permitido el ingreso de mascotas",
+      "Uso exclusivo para eventos infantiles"
+    ],
+    "estado_publicacion": "Rechazada",
+    "fecha_creacion": "2025-09-23T14:00:00Z",
+    "fecha_ultima_modificacion": null
+  },
+  {
+    "id_salon": 201,
+    "imagen": "https://maison.20minutes.fr/wp-content/uploads/2022/12/3-deux-canapes-imposants-pour-un-salon-xxl-plus-cosy-westwing.jpg",
+    "id_publicador": 2,
+    "resenia": 4.7,
+    "nombre": "Salón Elegancia",
+    "descripcion": "Un espacio sofisticado y moderno, ideal para eventos corporativos y conferencias. Equipado con la última tecnología audiovisual para garantizar presentaciones de alto impacto.",
+    "precio_por_hora": 5000.0,
+    "capacidad": 100,
+    "ubicacion": "Av. San Martín 123, Ciudad, Mendoza",
+    "latitud": -32.8894,
+    "longitud": -68.8458,
+    "fotos": [
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "equipamientos_json": {
+      "wifi": true,
+      "pizarra": true,
+      "proyector": true,
+      "aire_acondicionado": true
+    },
+    "reglas": [
+      "No fumar en el interior.",
+      "Respetar la capacidad máxima de 100 personas.",
+      "El horario de música alta finaliza a las 02:00 AM.",
+      "El servicio de limpieza post-evento no está incluido."
+    ],
+    "estado_publicacion": "Aprobada",
+    "fecha_creacion": "2025-08-22T10:00:00Z",
+    "fecha_ultima_modificacion": "2025-09-10T15:20:00Z"
+  },
+  {
+    "id_salon": 202,
+    "imagen": "https://maison.20minutes.fr/wp-content/uploads/2022/12/3-deux-canapes-imposants-pour-un-salon-xxl-plus-cosy-westwing.jpg",
+    "id_publicador": 2,
+    "resenia": 4.8,
+    "nombre": "Jardín Secreto",
+    "descripcion": "Un oasis en la ciudad. Perfecto para bodas, bautismos y eventos al aire libre. Cuenta con una gran piscina, quincho cerrado y extensas áreas verdes para disfrutar de un día inolvidable.",
+    "precio_por_hora": 7500.0,
+    "capacidad": 150,
+    "ubicacion": "Callejón de las Rosas 45, Chacras de Coria, Mendoza",
+    "latitud": -32.9912,
+    "longitud": -68.8533,
+    "fotos": [
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "equipamientos_json": {
+      "wifi": true,
+      "pizarra": false,
+      "proyector": false,
+      "aire_acondicionado": false
+    },
+    "reglas": [
+      "El uso de la piscina es bajo responsabilidad del arrendatario.",
+      "No se permiten mascotas.",
+      "El volumen de la música debe reducirse a partir de las 03:00 AM."
+    ],
+    "estado_publicacion": "Aprobada",
+    "fecha_creacion": "2025-09-01T12:00:00Z",
+    "fecha_ultima_modificacion": "2025-09-05T18:45:00Z"
+  },
+  {
+    "id_salon": 203,
+    "imagen": "https://maison.20minutes.fr/wp-content/uploads/2022/12/3-deux-canapes-imposants-pour-un-salon-xxl-plus-cosy-westwing.jpg",
+    "id_publicador": 4,
+    "resenia": 4.6,
+    "nombre": "Loft Urbano Moderno",
+    "descripcion": "Espacio con estilo industrial, techos altos y grandes ventanales con vista a la ciudad. Ideal para fiestas, cumpleaños y producciones fotográficas con un toque vanguardista.",
+    "precio_por_hora": 4500.0,
+    "capacidad": 80,
+    "ubicacion": "Sarmiento 890, Piso 5, Ciudad, Mendoza",
+    "latitud": -32.8850,
+    "longitud": -68.8400,
+    "fotos": [
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "equipamientos_json": {
+      "wifi": true,
+      "pizarra": false,
+      "proyector": false,
+      "aire_acondicionado": true
+    },
+    "reglas": [
+      "Música permitida hasta las 04:00 AM.",
+      "Se requiere un depósito de seguridad reembolsable.",
+      "Prohibido el ingreso de menores de 18 años sin un adulto responsable."
+    ],
+    "estado_publicacion": "Borrador",
+    "fecha_creacion": "2025-09-25T16:00:00Z",
+    "fecha_ultima_modificacion": "2025-10-02T11:10:00Z"
+  },
+  {
+    "id_salon": 204,
+    "imagen": "https://maison.20minutes.fr/wp-content/uploads/2022/12/3-deux-canapes-imposants-pour-un-salon-xxl-plus-cosy-westwing.jpg",
+    "id_publicador": 2,
+    "resenia": 4.5,
+    "nombre": "Quincho Rústico 'El Descanso'",
+    "descripcion": "Un quincho tradicional de madera y piedra, perfecto para asados familiares y reuniones con amigos. Cuenta con un amplio espacio techado y un gran jardín.",
+    "precio_por_hora": 3000.0,
+    "capacidad": 50,
+    "ubicacion": "Ruta del Sol Km 15, Maipú, Mendoza",
+    "latitud": -33.0015,
+    "longitud": -68.7845,
+    "fotos": [
+      "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "equipamientos_json": {
+      "wifi": false,
+      "pizarra": false,
+      "proyector": false,
+      "aire_acondicionado": false
+    },
+    "reglas": [
+      "Respetar el horario de silencio a partir de las 00:00 hs.",
+      "Entregar el lugar en las mismas condiciones de limpieza.",
+      "No se puede pernoctar en el lugar."
+    ],
+    "estado_publicacion": "Oculta",
+    "fecha_creacion": "2025-07-10T11:00:00Z",
+    "fecha_ultima_modificacion": "2025-09-15T09:00:00Z"
   }
 ]

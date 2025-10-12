@@ -14,7 +14,17 @@ import NuevoSalonScreen from './screens/NuevoSalonScreen';
 import TerminosYCondicionesScreen from './screens/TerminosYCondicionesScreen';
 import Reservacionesrec from './Components/reservaciones_recibidas/reservacionesrec';
 import MisSalonesScreen from './screens/MisSalonesScreen';
+import DetallesSalon from './screens/DetallesSalon';
+import MisReservas from './screens/MisReservas';
 import Chatbot from './Components/ChatBot/Chatbot';
+import ReservarScreen from './screens/ReservarScreen';
+import ResumenReservaScreen from './screens/ResumenReservaScreen'
+import ConfirmacionReservaScreen from './screens/ConfirmacionReservaScreen';
+
+
+import ReservasDetalles from './screens/ReservasDetalles';
+
+import FavoritosScreen from './screens/FavoritosScreen';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -40,6 +50,15 @@ function App() {
         <Route path="/mis_ventas" element={<><Navbar user={null}/><Reservacionesrec/> <Chatbot/><Footer/></>}/>
         <Route path="/perfil" element={<><Navbar user={null}/><Perfil/><Footer/> <Chatbot/></>}/>
         <Route path='/editar-perfil' element={<><Navbar user={null}/><EditarPerfil/> <Chatbot/><Footer/></>}/>
+        <Route path='/reservar/:id_salon' element={<><Navbar user={null}/><ReservarScreen/> <Chatbot/><Footer/></>}/>
+        <Route path='/resumen-reserva/:id_salon' element={<><Navbar user={null}/><ResumenReservaScreen/><Chatbot/><Footer/></>}/>
+        <Route path='/confirmacion-reserva' element={<><Navbar user={null}/><ConfirmacionReservaScreen/><Chatbot/><Footer/></>} />
+        <Route path="/salon_detalles" element={ <> <Navbar user={null} /> <DetallesSalon isLoaded={isLoaded} /> <Chatbot/> <Footer/> </> } />
+        <Route path="/mis-reservas" element={<> <Navbar user={null}/> <MisReservas/> <Chatbot/> <Footer/> </>}/>
+        <Route path="/reservas_detalles/:id" element={<><Navbar user={null}/> <ReservasDetalles /> <Chatbot/> <Footer/> </>} />
+          
+        <Route path='/favoritos' element={<><Navbar user={null}/><FavoritosScreen/> <Chatbot/><Footer/></>}/>
+
       </Routes>
     </div>
   );

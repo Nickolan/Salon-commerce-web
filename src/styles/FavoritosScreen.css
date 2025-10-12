@@ -1,0 +1,47 @@
+.pagina-favoritos {
+  padding: 2rem;
+  padding-top: 6rem;
+}
+
+.titulo-favoritos {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.listado-favoritos {
+  display: grid;
+  grid-template-columns: 1fr; /* una sola columna que ocupa todo */
+  gap: 1.5rem;
+  margin-top: 2.1rem;
+  width: 100%;
+}
+
+.listado-favoritos > * {
+  width: 100%; /* hace que cada card se expanda al ancho completo */
+}
+
+.sin-resultados-favoritos {
+  color: var(--primary-color);
+  font-weight: bold;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .pagina-favoritos {
+    padding: 1rem;
+    padding-top: 4rem;
+  }
+
+  .titulo-favoritos {
+    font-size: 1.5rem;
+  }
+
+  .listado-favoritos {
+    gap: 1rem;
+  }
+}
