@@ -1,6 +1,4 @@
 import Salones from './Salones.json'
-
-
 export async function AgregarSalonLocal(salon, photos, reglas, equipamientoSeleccionado, disponibilidad) {
     // verificacion
     const {nombre, descripcion, precio_por_hora, capacidad, direccion, latitud, longitud} = salon
