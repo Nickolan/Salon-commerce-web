@@ -17,12 +17,13 @@ import ItemSalonDetallado from './Components/Item-salon-detallado/ItemSalonDetal
 import ResultadosScreen from './screens/ResultadosScreen';
 import Sidebarfiltros from './Components/Sidebarfiltros/Sidebarfiltros';
 import SalonDetalleScreen from "./screens/SalonDetalleScreen";
-import MisSalonesScreen from './screens/MisSalonesScreen';
 import DetallesSalon from './screens/DetallesSalon';
 import MisReservas from './screens/MisReservas';
 import Chatbot from './Components/ChatBot/Chatbot';
 import ReservarScreen from './screens/ReservarScreen';
 import ResumenReservaScreen from './screens/ResumenReservaScreen'
+import EditarPerfil from './screens/EditarPerfil';
+import Perfil from './screens/Perfil';
 import ConfirmacionReservaScreen from './screens/ConfirmacionReservaScreen';
 
 
