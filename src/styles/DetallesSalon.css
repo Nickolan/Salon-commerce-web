@@ -1,0 +1,149 @@
+.detalles-Salon{
+  margin-top: 8%;
+  padding: 0 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.detalles-Salon .titulo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 20px;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+.detalles-Salon .titulo-izquierda {
+  flex: 1;
+  min-width: 0;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.detalles-Salon h2{
+  font-size: 14px ;
+}
+
+.detalles-Salon .titulo-izquierda h1 {
+  margin: 0 0 8px 0; 
+  color: #6A0DAD;
+  visibility: visible;
+  opacity: 1;
+  display: block;
+  position: relative;
+  z-index: 1;
+  font-size: 36px;
+}
+
+.detalles-Salon .h1{
+  font-size: 24px;
+}
+
+.detalles-Salon .titulo-derecha {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  min-width: 120px;
+  margin-top: 0;
+}
+
+.detalles-Salon .direccion {
+  display: flex;
+  align-items: center; 
+  gap: 8px;
+  margin-top: 0;
+  flex-wrap: wrap;
+}
+
+.detalles-Salon .direccion .logo {
+  margin-bottom: 2px; 
+  font-size: 16px;
+}
+
+.detalles-Salon .direccion h2 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 16px;
+}
+
+
+.detalles-Salon .derecha-superior {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.detalles-Salon .reservar-button {
+  background-color: #6A0DAD;
+  color: #FFFFFF;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.detalles-Salon h1,
+.detalles-Salon h2,
+.detalles-Salon h3 {
+  color: #6A0DAD;
+}
+
+.detalles-Salon h3{
+    font-weight:normal;
+}
+
+.detalles-Salon .reservar-button:hover {
+  opacity: 0.9;
+}
+
+.detalles-Salon .favorito-lleno {
+  color: #6A0DAD;
+  cursor: pointer;
+}
+
+.detalles-Salon .favorito-vacio {
+  cursor: pointer;
+  color: #6A0DAD;
+}
+
+.detalles-Salon .derecha-superior .logo {
+  transition: transform 0.2s ease;
+}
+
+.detalles-Salon .derecha-superior .logo:hover {
+  transform: scale(1.1);
+}
+
+.detalles-Salon .estrellas {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.detalles-Salon .promedio-texto {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #6A0DAD;
+  font-weight: bold;
+}
+
+.detalles-Salon .detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  overflow: visible;
+}
+
+.detalles-Salon .icon,
+.detalles-Salon .logo,
+.detalles-Salon .estrella {
+  color: #6A0DAD;
+  font-size: 18px;
+}

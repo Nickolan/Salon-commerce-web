@@ -1,0 +1,145 @@
+.card-reserva {
+    height: 140px;
+    border: 0.15rem solid #6A0DAD;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    gap: 1rem;
+}
+
+.card-reserva .card-imagen-wrapper {
+    width: 200px;
+    height: 100%;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+    position: relative;
+    border-radius: 0;
+}
+
+.card-reserva .card-imagen-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.card-reserva .card-izquierda {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    padding: 0.1rem; 
+    gap: 0.1rem;
+}
+
+
+.card-reserva .card-izquierda svg {
+    vertical-align: middle;
+    color: var(--primary-color);
+}
+
+.card-reserva .card-izquierda p {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.card-reserva .estado-reserva {
+    margin-bottom: 0.3rem;
+}
+
+.card-reserva .estado-texto {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #6A0DAD;
+    margin: 0;
+}
+
+.card-reserva .disponibilidad {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-reserva .salon-caracteristica {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.card-reserva .icono {
+    vertical-align: middle;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    margin-right: 0.2rem;
+    flex-shrink: 0;
+}
+
+.card-reserva .salon-info {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    font-style: italic;
+}
+
+.card-reserva .card-derecha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 0.6rem 3rem;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--primary-color);
+    gap: 0.8rem;
+    flex-shrink: 0;
+}
+
+.card-reserva .button-container {
+    display: flex;
+    flex-direction: column; 
+    gap: 0.6rem;
+    align-items: flex-end; 
+}
+
+.card-reserva .button-ver,
+.card-reserva .button-opinar {
+    background-color: #6A0DAD;
+    color: #FFF;
+    width: 100px; 
+    height: 32px; 
+    padding: 0.3rem 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    border: none;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.card-reserva .button-ver:hover {
+    background-color: #5a0b9a;
+    transform: scale(1.05);
+}
+
+.card-reserva .button-opinar:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
