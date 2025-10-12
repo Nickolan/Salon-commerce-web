@@ -4,7 +4,13 @@ import { FaRegMap } from "react-icons/fa";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { GoPeople } from "react-icons/go";
 
-const Resumen = ({ formData, reglas, equipamientoSeleccionado, photos, disponibilidad }) => {
+const Resumen = ({
+  formData,
+  reglas,
+  equipamientoSeleccionado,
+  photos,
+  disponibilidad,
+}) => {
   return (
     <div className="resumen-container">
       {/* Título */}
@@ -31,6 +37,20 @@ const Resumen = ({ formData, reglas, equipamientoSeleccionado, photos, disponibi
       <div className="dato">
         <GoPeople />
         <span>{formData.capacidad || 0} personas de capacidad</span>
+      </div>
+
+      <h3>Configuración de Reservas</h3>
+      <div className="dato">
+        <span>
+          Duración de cada franja:{" "}
+          <strong>{formData.granularidad_minutos} minutos</strong>
+        </span>
+      </div>
+      <div className="dato">
+        <span>
+          Calendario generado con{" "}
+          <strong>{formData.horizonte_meses} meses</strong> de antelación
+        </span>
       </div>
 
       {/* Reglas */}
@@ -66,7 +86,8 @@ const Resumen = ({ formData, reglas, equipamientoSeleccionado, photos, disponibi
       <div className="fotos-grid">
         {photos.length > 0 ? (
           photos.map((file, i) => {
-            const url = typeof file === "string" ? file : URL.createObjectURL(file);
+            const url =
+              typeof file === "string" ? file : URL.createObjectURL(file);
             return <img key={i} src={url} alt={`foto-${i}`} />;
           })
         ) : (

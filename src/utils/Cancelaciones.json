@@ -1,11 +1,102 @@
 [
   {
-    "id_cancelacion": 2001,
-    "id_reserva": 1002,
-    "fecha_cancelacion": "2025-09-25T09:00:00Z",
-    "motivo": "Cambio de planes personales",
-    "canelado_por": "usuario",
-    "monto_reembolsado": 1500,
+    "id_cancelacion": 701,
+    "reserva": {
+      "id_reserva": 103,
+      "fecha_reserva": "2025-12-10",
+      "arrendatario": {
+        "id_usuario": 4,
+        "nombre_usuario": "lauranu"
+      },
+      "salon": {
+        "id_salon": 201,
+        "nombre": "Salón Elegancia"
+      }
+    },
+    "fecha_cancelacion": "2025-10-25T10:00:00.000Z",
+    "motivo": "Me surgió un viaje de trabajo inesperado y no podré asistir al evento.",
+    "cancelado_por": "usuario",
+    "monto_reembolsado": 15000.00,
     "politica_aplicada": "total"
+  },
+  {
+    "id_cancelacion": 702,
+    "reserva": {
+      "id_reserva": 108,
+      "fecha_reserva": "2025-11-22",
+      "arrendatario": {
+        "id_usuario": 1,
+        "nombre_usuario": "anagomez"
+      },
+      "salon": {
+        "id_salon": 202,
+        "nombre": "Jardín Secreto"
+      }
+    },
+    "fecha_cancelacion": "2025-10-30T14:20:00.000Z",
+    "motivo": "Lamentablemente, el sistema de filtrado de la piscina sufrió una avería importante y no estará disponible para la fecha de la reserva. Pedimos disculpas por los inconvenientes.",
+    "cancelado_por": "publicador",
+    "monto_reembolsado": 52500.00,
+    "politica_aplicada": "total"
+  },
+  {
+    "id_cancelacion": 703,
+    "reserva": {
+      "id_reserva": 109,
+      "fecha_reserva": "2025-11-08",
+      "arrendatario": {
+        "id_usuario": 4,
+        "nombre_usuario": "lauranu"
+      },
+      "salon": {
+        "id_salon": 203,
+        "nombre": "Loft Urbano Moderno"
+      }
+    },
+    "fecha_cancelacion": "2025-11-01T20:00:00.000Z",
+    "motivo": "Cancelación por pronóstico de tormenta fuerte. El evento era en parte al aire libre y preferimos no arriesgarnos.",
+    "cancelado_por": "usuario",
+    "monto_reembolsado": 11250.00,
+    "politica_aplicada": "parcial"
+  },
+  {
+    "id_cancelacion": 704,
+    "reserva": {
+      "id_reserva": 110,
+      "fecha_reserva": "2025-10-18",
+      "arrendatario": {
+        "id_usuario": 1,
+        "nombre_usuario": "anagomez"
+      },
+      "salon": {
+        "id_salon": 201,
+        "nombre": "Salón Elegancia"
+      }
+    },
+    "fecha_cancelacion": "2025-10-17T23:30:00.000Z",
+    "motivo": "No podré asistir.",
+    "cancelado_por": "usuario",
+    "monto_reembolsado": 0,
+    "politica_aplicada": "nulo"
+  },
+  {
+    "id_cancelacion": 705,
+    "reserva": {
+      "id_reserva": 111,
+      "fecha_reserva": "2025-12-31",
+      "arrendatario": {
+        "id_usuario": 4,
+        "nombre_usuario": "lauranu"
+      },
+      "salon": {
+        "id_salon": 202,
+        "nombre": "Jardín Secreto"
+      }
+    },
+    "fecha_cancelacion": "2025-11-15T12:00:00.000Z",
+    "motivo": "La reserva se cancela por infringir los términos de servicio. Se detectó la intención de sub-alquilar el espacio para un evento no autorizado.",
+    "cancelado_por": "administrador",
+    "monto_reembolsado": 0,
+    "politica_aplicada": "nulo"
   }
 ]

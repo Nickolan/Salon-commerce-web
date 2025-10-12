@@ -1,0 +1,26 @@
+.pagina-misReservas {
+    padding: 2rem;
+    padding-top: 6rem;
+}
+
+.pagina-misReservas .titulo {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    color: #6A0DAD;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.pagina-misReservas .listado-reservas {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2.1rem;
+}
+
+.pagina-misReservas .sin-resultados {
+  color: #6A0DAD;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 1rem;
+}
