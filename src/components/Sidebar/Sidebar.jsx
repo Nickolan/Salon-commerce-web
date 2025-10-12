@@ -39,7 +39,7 @@ const Sidebar = () => {
             </div>
             <div className="link-item">
               <FaRegHeart alt="Favoritos" className="logo" />
-              <Link to="/">Favoritos</Link>
+              <Link to="/favoritos">Favoritos</Link>
             </div>
             <div className="link-item">
               <LuHouse alt="Mis Salones" className="logo" />

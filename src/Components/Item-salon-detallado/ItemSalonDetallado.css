@@ -7,9 +7,10 @@
     color: var(--primary-color);
     border-radius: 8px;
     overflow: hidden;
+    transition: all 1s;
 }
 .caja:hover {
-  transform: scale(1.05);
+  transform: scale(1.025);
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   z-index: 10; 
 }
