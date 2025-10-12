@@ -146,3 +146,14 @@
 .login-links a:hover {
   text-decoration: underline; /* Subrayado solo al pasar el mouse */
 }
+
+.error-api {
+  color: #e74c3c;
+  background-color: #fdd;
+  border: 1px solid #e74c3c;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 0.9em;
+}

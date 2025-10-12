@@ -1,33 +1,52 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux"; // <-- Hooks de Redux
+import { loginUser } from "../store/features/auth/authSlice"; // <-- Nuestro thunk
 import "../styles/LoginScreen.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function LoginScreen() {
   const [email, setEmail] = useState("");
-  const [contraseña, setContraseña] = useState("");
-  const [mostrarContraseña, setMostrarContraseña] = useState(false);
-  const [errores, setErrores] = useState({});
+  const [contrasenia, setContrasenia] = useState("");
+  const [mostrarContrasenia, setMostrarContrasenia] = useState(false);
+  const [errorValidacion, setErrorValidacion] = useState({});
 
-  const toggleContraseña = () => {
-    setMostrarContraseña(!mostrarContraseña);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // Seleccionamos el estado de autenticación del store global
+  const { status, error: errorApi, isAuthenticated } = useSelector((state) => state.auth);
+
+  const toggleContrasenia = () => {
+    setMostrarContrasenia(!mostrarContrasenia);
   };
+
+  // Efecto para redirigir si el login es exitoso
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/"); // Redirige al home o al dashboard
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrorValidacion({});
+    
     let nuevosErrores = {};
-    // Una validación de email un poco más robusta
     if (!/\S+@\S+\.\S+/.test(email)) {
       nuevosErrores.email = "El formato del correo no es válido";
     }
-    if (contraseña.length < 8) {
-      nuevosErrores.contraseña = "La contraseña debe tener al menos 8 caracteres";
+    if (contrasenia.length < 6) {
+      nuevosErrores.contrasenia = "La contraseña debe tener al menos 6 caracteres";
     }
-    setErrores(nuevosErrores);
-    if (Object.keys(nuevosErrores).length === 0) {
-      console.log("Formulario enviado con éxito:", { email, contraseña });
-      // Aquí iría la lógica para enviar los datos al backend
+
+    if (Object.keys(nuevosErrores).length > 0) {
+      setErrorValidacion(nuevosErrores);
+      return;
     }
+
+    // Despachamos la acción asíncrona con las credenciales
+    dispatch(loginUser({ email, contrasenia }));
   };
 
   return (
@@ -36,42 +55,36 @@ function LoginScreen() {
         <h1>Bienvenido, Inicia Sesión</h1>
         
         <form className="login-form" onSubmit={handleSubmit} noValidate>
-          <div className="form-group">
-            <label htmlFor="email" className="sr-only">Correo Electrónico</label>
+          {/* ... inputs de email y contraseña (sin cambios aquí) ... */}
+           <div className="form-group">
             <input
               type="email"
-              id="email" // ID para conectar con el label
-              name="email"
               placeholder="Correo Electrónico"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              aria-invalid={errores.email ? "true" : "false"} // Para accesibilidad
             />
-            <p className={`error ${errores.email ? "active" : ""}`}>{errores.email}</p>
+            <p className={`error ${errorValidacion.email ? "active" : ""}`}>{errorValidacion.email}</p>
           </div>
 
           <div className="form-group password-group">
-            <label htmlFor="contraseña" className="sr-only">Contraseña</label>
             <input
-              type={mostrarContraseña ? "text" : "password"}
-              id="contraseña" // ID para conectar con el label
-              name="contraseña"
+              type={mostrarContrasenia ? "text" : "password"}
               placeholder="Contraseña"
-              value={contraseña}
-              onChange={(e) => setContraseña(e.target.value)}
+              value={contrasenia}
+              onChange={(e) => setContrasenia(e.target.value)}
               required
-              aria-invalid={errores.contraseña ? "true" : "false"} // Para accesibilidad
             />
-            {/* Convertido a <button> para mejor semántica y accesibilidad */}
-            <button type="button" className="toggle-password" onClick={toggleContraseña} aria-label="Mostrar u ocultar contraseña">
-              {mostrarContraseña ? <FaEyeSlash/> : <FaEye/>}
+            <button type="button" className="toggle-password" onClick={toggleContrasenia}>
+              {mostrarContrasenia ? <FaEyeSlash/> : <FaEye/>}
             </button>
-            <p className={`error ${errores.contraseña ? "active" : ""}`}>{errores.contraseña}</p>
+            <p className={`error ${errorValidacion.contrasenia ? "active" : ""}`}>{errorValidacion.contrasenia}</p>
           </div>
 
-          <button type="submit" className="btn-primary">
-            Iniciar sesión
+          {status === 'failed' && <p className="error-api active">{errorApi}</p>}
+
+          <button type="submit" className="btn-primary" disabled={status === 'loading'}>
+            {status === 'loading' ? "Iniciando..." : "Iniciar sesión"}
           </button>
         </form>
 
