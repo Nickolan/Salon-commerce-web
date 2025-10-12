@@ -1,0 +1,38 @@
+.rating-selector {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  user-select: none;
+}
+
+.rs-star-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: auto;
+  height: auto;
+  padding: 2px;
+  /* aumenta la zona táctil en mobile */
+  touch-action: manipulation;
+}
+
+.rs-star {
+  pointer-events: none; /* el wrapper maneja eventos */
+  transition: transform 0.08s ease, color 0.12s ease;
+  color: #e0e0e0; /* gris para vacía */
+}
+
+/* color como en Figma (ajustá si tu Figma usa otro) */
+.rs-star.filled,
+.rs-star.half {
+  color: var(--primary-color);
+}
+
+.rs-star-wrapper:hover .rs-star {
+  transform: scale(1.08);
+}
+
+.rs-star-wrapper:active .rs-star {
+  transform: scale(0.98);
+}

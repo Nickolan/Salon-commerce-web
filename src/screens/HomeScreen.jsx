@@ -20,10 +20,10 @@ const HomeScreen = () => {
         <h1>¿Quiéres reservar un salón para ti?</h1>
         <h2>¡Encuentra los mejores salones para reservar aquí!</h2>
       </div>
-
-      <Searchbar/>
-
-
+      <div className='searchbar_homescreen'> 
+        <Searchbar/>
+      </div>
+  
       <div className='subtitulos'>
         <div className='logo-group'>
           <h3>Los mejores puntuados</h3>

@@ -3,11 +3,15 @@
     "id_salon": 101,
     "imagen": "https://maison.20minutes.fr/wp-content/uploads/2022/12/3-deux-canapes-imposants-pour-un-salon-xxl-plus-cosy-westwing.jpg",
     "id_publicador": 1,
-    "resenia": 4.9,
+    "disponibilidad_inicio":"8:00",
+    "disponibilidad_fin":"13:00",
+    "resenia":4.9,
     "nombre": "Salón de Estudio Moderno",
     "descripcion": "Espacio ideal para grupos de estudio, con excelente iluminación y equipamiento multimedia.",
     "precio_por_hora": 2500.0,
     "capacidad": 10,
+    "latitud": -34.6157,
+    "longitud": -58.435,
     "ubicacion": "Calle Falsa 123, Buenos Aires",
     "latitud": -34.6037,
     "longitud": -58.3816,
@@ -28,6 +32,7 @@
       "El horario de música alta finaliza a las 02:00 AM.",
       "El servicio de limpieza post-evento no está incluido."
     ],
+    "fecha":"2025-10-10"
     "estado_publicacion": "aprobada",
     "fecha_creacion": "2025-08-22T10:00:00.000Z",
     "fecha_ultima_modificacion": "2025-09-10T15:20:00.000Z",
@@ -94,8 +99,10 @@
   {
     "id_salon": 102,
     "id_publicador": 1,
-    "resenia": 4.9,
-    "imagen": "https://maison.20minutes.fr/wp-content/uploads/2022/12/3-deux-canapes-imposants-pour-un-salon-xxl-plus-cosy-westwing.jpg",
+"disponibilidad_inicio":"8:00",
+    "disponibilidad_fin":"13:00",
+    "resenia":4.9,
+    "imagen":"https://maison.20minutes.fr/wp-content/uploads/2022/12/3-deux-canapes-imposants-pour-un-salon-xxl-plus-cosy-westwing.jpg",
     "nombre": "Sala de Reuniones Privada",
     "descripcion": "Pequeña sala para reuniones o tutorías, muy tranquila.",
     "precio_por_hora": 1500.0,
@@ -120,11 +127,15 @@
     ],
     "estado_publicacion": "Aprobada",
     "fecha_creacion": "2025-09-22T11:00:00Z",
+    "fecha":"2025-10-10",
     "fecha_ultima_modificacion": null
+    
   },
   {
     "id_salon": 103,
     "id_publicador": 2,
+    "disponibilidad_inicio":"8:00",
+    "disponibilidad_fin":"13:00",
     "nombre": "Auditorio Central",
     "descripcion": "Amplio auditorio con escenario y proyector, ideal para conferencias o presentaciones.",
     "precio_por_hora": 5000.0,
@@ -149,11 +160,17 @@
         "estado_reserva": "completada"
       }
     ],
+    "estado_publicacion": "Aprobada",
+    "fecha_creacion": "2025-09-23T09:30:00Z",
+    "fecha":"2025-10-10",
+    "fecha_ultima_modificacion": null
     "favoritos": []
   },
   {
     "id_salon": 104,
     "id_publicador": 2,
+"disponibilidad_inicio":"8:00",
+    "disponibilidad_fin":"13:00",
     "nombre": "Sala Creativa",
     "descripcion": "Espacio cómodo y luminoso para talleres, brainstorming y actividades creativas.",
     "precio_por_hora": 2000.0,
@@ -178,6 +195,7 @@
       "Prohibido el ingreso de menores de 18 años sin un adulto responsable."
     ],
     "estado_publicacion": "borrador",
+    "fecha_creacion": "2025-09-23T10:15:00Z",
     "fecha_creacion": "2025-09-25T16:00:00.000Z",
     "fecha_ultima_modificacion": "2025-10-02T11:10:00.000Z",
     "disponibilidades": [
@@ -209,6 +227,8 @@
   {
     "id_salon": 105,
     "id_publicador": 2,
+    "disponibilidad_inicio":"8:00",
+    "disponibilidad_fin":"13:00",
     "nombre": "Terraza Panorámica",
     "descripcion": "Terraza al aire libre con vista a la ciudad, perfecta para eventos sociales y after office.",
     "precio_por_hora": 3500.0,
@@ -228,11 +248,14 @@
     ],
     "estado_publicacion": "Aprobada",
     "fecha_creacion": "2025-09-23T12:00:00Z",
+    "fecha":"2025-10-10",
     "fecha_ultima_modificacion": null
   },
   {
     "id_salon": 106,
     "id_publicador": 2,
+    "disponibilidad_inicio":"8:00",
+    "disponibilidad_fin":"13:00",
     "nombre": "Estudio Fotográfico",
     "descripcion": "Espacio equipado con luces y fondos, ideal para sesiones fotográficas o grabaciones.",
     "precio_por_hora": 2500.0,
@@ -256,11 +279,14 @@
     ],
     "estado_publicacion": "Pendiente",
     "fecha_creacion": "2025-09-23T13:15:00Z",
+    "fecha":"2025-10-10",
     "fecha_ultima_modificacion": null
   },
   {
     "id_salon": 107,
     "id_publicador": 2,
+    "disponibilidad_inicio":"8:00",
+    "disponibilidad_fin":"13:00",
     "nombre": "Salón de Fiestas Infantiles",
     "descripcion": "Colorido espacio con juegos y decoración temática, pensado para cumpleaños de niños.",
     "precio_por_hora": 4000.0,
@@ -284,6 +310,7 @@
     ],
     "estado_publicacion": "Rechazada",
     "fecha_creacion": "2025-09-23T14:00:00Z",
+    "fecha":"2025-10-10",
     "fecha_ultima_modificacion": null
   },
   {
