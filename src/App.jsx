@@ -22,11 +22,9 @@ import ResumenReservaScreen from './screens/ResumenReservaScreen'
 import EditarPerfil from './screens/EditarPerfil';
 import Perfil from './screens/Perfil';
 import ConfirmacionReservaScreen from './screens/ConfirmacionReservaScreen';
-
-
 import ReservasDetalles from './screens/ReservasDetalles';
-
 import FavoritosScreen from './screens/FavoritosScreen';
+import ReseniarScreen from './screens/ReseniarScreen';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -63,6 +61,8 @@ function App() {
         <Route path="/reservas_detalles/:id" element={<><Navbar user={null}/> <ReservasDetalles /> <Chatbot/> <Footer/> </>} />
           
         <Route path='/favoritos' element={<><Navbar user={null}/><FavoritosScreen/> <Chatbot/><Footer/></>}/>
+
+        <Route path='/reseniar/:id_salon' element={<><Navbar user={null}/><ReseniarScreen/><Chatbot/><Footer/></>}/>
 
       </Routes>
     </div>
