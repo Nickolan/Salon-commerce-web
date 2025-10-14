@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BarraBusqueda from '../Components/BarraBusqueda/BarraBusqueda';
 import Salones from "../utils/Salones.json";
 import Reservas from "../utils/Reservas.json";
@@ -7,9 +7,13 @@ import Transacciones from "../utils/Transacciones.json";
 import ItemReserva from '../components/ItemReserva/ItemReserva';
 import "../styles/MisReservas.css";
 
+// SE DEBE IMPLEMENTAR LA LÓGICA PARA QUE NO APAREZCA MAS EL BOTÓN "OPINAR" EN EL SALÓN
+
 const USUARIO_ACTUAL = 2;
 
 const MisReservas = () => {
+    const navigate = useNavigate(); 
+
     const [reservas, setReservas] = useState(Reservas);
     const [salones, setSalones] = useState(Salones);
     const [salonBuscado, setSalonBuscado] = useState("");
@@ -37,21 +41,30 @@ const MisReservas = () => {
     const handleSearch = (query) => {
         setSalonBuscado(query);
     };
-    const reservasConTransacciones = Transacciones.map(transaccion => transaccion.reserva.id_reserva);
-    const reservasFiltradas = reservas.filter(reserva => 
+
+    const reservasConTransacciones = Transacciones.map(
+        (transaccion) => transaccion.reserva.id_reserva
+    );
+
+    const reservasFiltradas = reservas.filter((reserva) =>
         reservasConTransacciones.includes(reserva.id_reserva)
     );
 
-    const reservasUnicas = [...new Map(reservasFiltradas.map(reserva =>
-        [reserva.id_reserva, reserva]
-    )).values()];
+    const reservasUnicas = [
+        ...new Map(reservasFiltradas.map((reserva) => [reserva.id_reserva, reserva])).values(),
+    ];
 
-    const reservasFiltradasPorBusqueda = reservasUnicas.filter(reserva => {
-        const salon = salones.find(s => s.id_salon === reserva.id_salon);
+    const reservasFiltradasPorBusqueda = reservasUnicas.filter((reserva) => {
+        const salon = salones.find((s) => s.id_salon === reserva.id_salon);
         return salon && normalizarTexto(salon.nombre).includes(normalizarTexto(salonBuscado));
     });
 
     const reservasAMostrar = salonBuscado ? reservasFiltradasPorBusqueda : reservasUnicas;
+
+
+    const handleOpinar = (id_salon) => {
+        navigate(`/reseniar/${id_salon}`);
+    };
 
     return (
         <div className='pagina-misReservas'>
@@ -65,8 +78,8 @@ const MisReservas = () => {
                 {reservasAMostrar.length === 0 ? (
                     <p className='sin-resultados'>No se encontraron reservas.</p>
                 ) : (
-                    reservasAMostrar.map(reserva => {
-                        const salon = salones.find(s => s.id_salon === reserva.id_salon);
+                    reservasAMostrar.map((reserva) => {
+                        const salon = salones.find((s) => s.id_salon === reserva.id_salon);
                         const estado = obtenerEstadoReserva(reserva);
                         return (
                             <ItemReserva
@@ -76,6 +89,7 @@ const MisReservas = () => {
                                 estado={estado}
                                 formatearFecha={formatearFecha}
                                 formatearHora={formatearHora}
+                                onOpinar={() => handleOpinar(salon.id_salon)} // 👈 Nuevo prop
                             />
                         );
                     })
