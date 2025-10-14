@@ -4,8 +4,7 @@ import { FiCalendar, FiClock } from 'react-icons/fi';
 import './ItemReserva.css';
 import usuarios from '../../utils/Usuarios.json';
 
-const ItemReserva = ({ reserva, salon, estado, formatearFecha, formatearHora }) => {
-  
+const ItemReserva = ({ reserva, salon, estado, formatearFecha, formatearHora, onOpinar }) => { 
   const usuarioPublicador = usuarios.find(usuario => usuario.id_usuario === salon?.id_publicador);
 
   return (
@@ -17,10 +16,12 @@ const ItemReserva = ({ reserva, salon, estado, formatearFecha, formatearHora }) 
           className='card-imagen'
         />
       </div>
+
       <div className='card-izquierda'>
         <div className='estado-reserva'>
           <p className='estado-texto'>{estado}</p>
         </div>
+
         <div className='disponibilidad'>
           <p className='salon-caracteristica'>
             <FiCalendar className='icono' />
@@ -31,12 +32,15 @@ const ItemReserva = ({ reserva, salon, estado, formatearFecha, formatearHora }) 
             {formatearHora(reserva.hora_inicio)} - {formatearHora(reserva.hora_fin)}
           </p>
         </div>
-        <p className='salon-info'>Check and Home {salon?.id_salon} - {salon?.nombre}</p>
+
+        <p className='salon-info'>
+          Check and Home {salon?.id_salon} - {salon?.nombre}
+        </p>
         <p className='salon-info'>
           Vendedor: {usuarioPublicador?.nombre} {usuarioPublicador?.apellido}
         </p>
-
       </div>
+
       <div className='card-derecha'>
         <div className='button-container'>
           <Link
@@ -53,8 +57,20 @@ const ItemReserva = ({ reserva, salon, estado, formatearFecha, formatearHora }) 
           >
             VER
           </Link>
+
           {estado === "Completado" && (
-            <div className="button-opinar">OPINAR</div>
+            <Link
+              to={`/reseniar/${reserva.id_salon}`}
+              state={{
+                desdeMisReservas: true,
+                id_reserva: reserva.id_reserva,
+                id_usuario: reserva.id_usuario,
+                nombre_usuario: reserva.nombre_usuario
+              }}
+              className='button-opinar'
+            >
+              OPINAR
+            </Link>
           )}
         </div>
       </div>
