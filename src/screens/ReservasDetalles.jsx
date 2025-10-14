@@ -13,6 +13,8 @@ const ReservasDetalles = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  
+
   const [mostrarSalon, setMostrarSalon] = useState(true);// dejar en true
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
@@ -150,7 +152,10 @@ const ReservasDetalles = () => {
 
         {estado === "Por realizarse" && (
           <div className='cancelar-button-container'>
-            <Link to="/" className='cancelar-button'>
+            <Link
+              to={`/cancelar_salon/${reserva.id_arrendatario}/${reserva.id_reserva}`}
+              className='cancelar-button'
+            >
               CANCELAR
             </Link>
           </div>
