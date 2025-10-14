@@ -23,7 +23,7 @@ import EditarPerfil from './screens/EditarPerfil';
 import Perfil from './screens/Perfil';
 import ConfirmacionReservaScreen from './screens/ConfirmacionReservaScreen';
 
-
+import Cancelacion from './screens/Cancelacion'; 
 import ReservasDetalles from './screens/ReservasDetalles';
 
 import FavoritosScreen from './screens/FavoritosScreen';
@@ -63,6 +63,7 @@ function App() {
         <Route path="/reservas_detalles/:id" element={<><Navbar user={null}/> <ReservasDetalles /> <Chatbot/> <Footer/> </>} />
           
         <Route path='/favoritos' element={<><Navbar user={null}/><FavoritosScreen/> <Chatbot/><Footer/></>}/>
+        <Route path="/cancelar_salon/:idUsuario/:idReserva" element={<><Navbar user={null}/><Cancelacion /><Chatbot/><Footer/></>}/>
 
       </Routes>
     </div>
