@@ -65,7 +65,10 @@ const ItemReserva = ({ reserva, salon, estado, formatearFecha, formatearHora, on
                 desdeMisReservas: true,
                 id_reserva: reserva.id_reserva,
                 id_usuario: reserva.id_usuario,
-                nombre_usuario: reserva.nombre_usuario
+                nombre_usuario: reserva.nombre_usuario,
+                fechaReserva: reserva.fecha_reserva,  
+                horaInicio: reserva.hora_inicio, 
+                horaFin: reserva.hora_fin        
               }}
               className='button-opinar'
             >

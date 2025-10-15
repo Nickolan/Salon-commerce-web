@@ -26,17 +26,26 @@
 .reseniar-nombre {
   font-size: 1.5rem;
   font-weight: 700;
-  align-self: flex-start;
-  margin-left: 0.8rem;
   color: var(--primary-color);
+}
+
+.reseniar-info-reserva {
+  font-size: 1rem;
+  color: #555;
+  margin-top: -0.5rem;
+  line-height: 1.4;
+}
+
+.reseniar-info-reserva p {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: small;
 }
 
 .reseniar-label {
   font-size: 1.2rem;
   font-weight: 500;
   color: var(--primary-color);
-  align-self: flex-start;
-  margin-left: 0.8rem;
 }
 
 .reseniar-textarea {
@@ -55,6 +64,8 @@
 .reseniar-textarea::placeholder {
   color: #EADCFB;
 }
+
+/* ... el resto de tus estilos permanece igual ... */
 
 .reseniar-textarea:focus {
   border-color: var(--second-color);
