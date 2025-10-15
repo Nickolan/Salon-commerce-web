@@ -11,23 +11,31 @@ const PanelIngresos = ({ transacciones, reservas, salones, usuarios }) => {
     }).format(number);
   };
   
-  // Este es el proceso más complejo, lo encapsulamos con useMemo para eficiencia
   const ingresoDetails = useMemo(() => {
     if (!selectedTransaccion) return null;
 
-    const reservaDeTransaccion = reservas.find(r => r.id_reserva === selectedTransaccion.reserva.id_reserva);
-    if (!reservaDeTransaccion) return { error: "No se encontró la reserva asociada." };
+    // Paso 1: Encontrar la reserva asociada a la transacción
+    const reserva = reservas.find(r => r.id_reserva === selectedTransaccion.reserva.id_reserva);
+    if (!reserva) {
+      return { error: `No se encontró la reserva con ID ${selectedTransaccion.reserva.id_reserva}` };
+    }
     
-    const salonDeReserva = salones.find(s => s.id_salon === reservaDeTransaccion.id_salon);
-    if (!salonDeReserva) return { error: "No se encontró el salón asociado." };
+    // Paso 2: Encontrar el salón de esa reserva
+    const salon = salones.find(s => s.id_salon === reserva.id_salon);
+    if (!salon) {
+      return { error: `No se encontró el salón con ID ${reserva.id_salon}` };
+    }
 
-    const cliente = usuarios.find(u => u.id_usuario === reservaDeTransaccion.id_arrendatario);
-    const vendedor = usuarios.find(u => u.id_usuario === salonDeReserva.id_publicador);
+    // Paso 3: Encontrar al cliente (arrendatario) de la reserva
+    const cliente = usuarios.find(u => u.id_usuario === reserva.id_arrendatario);
+    
+    // Paso 4: Encontrar al vendedor (publicador) del salón
+    const vendedor = usuarios.find(u => u.id_usuario === salon.id_publicador);
     
     return {
-      vendedor: vendedor ? `${vendedor.nombre} ${vendedor.apellido}` : 'No encontrado',
-      cliente: cliente ? `${cliente.nombre} ${cliente.apellido}` : 'No encontrado',
-      salon: salonDeReserva.nombre,
+      vendedor: vendedor ? `${vendedor.nombre} ${vendedor.apellido}` : 'Vendedor no encontrado',
+      cliente: cliente ? `${cliente.nombre} ${cliente.apellido}` : 'Cliente no encontrado',
+      salon: salon.nombre,
       montoPropio: selectedTransaccion.monto_pagado * 0.10, // 10% de comisión
     };
 
@@ -45,7 +53,7 @@ const PanelIngresos = ({ transacciones, reservas, salones, usuarios }) => {
 
       {selectedTransaccion && ingresoDetails && (
         <div className="details-container">
-          {ingresoDetails.error ? <p>{ingresoDetails.error}</p> :
+          {ingresoDetails.error ? <p style={{color: 'red'}}>{ingresoDetails.error}</p> :
             <>
               <div className="detail-item">
                 <strong>ID de la Transacción</strong>
@@ -72,7 +80,7 @@ const PanelIngresos = ({ transacciones, reservas, salones, usuarios }) => {
                 <span>{formatCurrency(selectedTransaccion.monto_pagado)}</span>
               </div>
               <div className="detail-item">
-                <strong>Monto Propio (10%)</strong>
+                <strong>Monto Extraído</strong>
                 <span>{formatCurrency(ingresoDetails.montoPropio)}</span>
               </div>
               <div className="detail-item">

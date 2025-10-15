@@ -1,22 +1,27 @@
 .searchbar-admin-container {
   position: relative;
   width: 50%;
-  max-width: 400px;
-  margin-bottom: 20px;
+  max-width: 25rem; /* 400px */
+  margin-bottom: 1.25rem; /* 20px */
 }
 
 .searchbar-wrapper {
-    display: flex;
-    align-items: center;
-    border: 1px solid #bdc3c7;
-    border-radius: 25px;
-    padding: 5px 15px;
-    background-color: #fff;
+  display: flex;
+  align-items: center;
+  border: 0.0625rem solid var(--second-color); /* 1px */
+  border-radius: 1.5625rem; /* 25px */
+  padding: 0.3125rem 0.9375rem; /* 5px 15px */
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.searchbar-wrapper:focus-within {
+  border-color: var(--primary-color);
 }
 
 .search-icon {
-    color: #7f8c8d;
-    margin-right: 10px;
+  color: var(--second-color);
+  margin-right: 0.625rem; /* 10px */
 }
 
 .searchbar-input {
@@ -24,8 +29,13 @@
   border: none;
   outline: none;
   font-size: 1em;
-  padding: 5px;
+  padding: 0.3125rem; /* 5px */
   background-color: transparent;
+  color: var(--second-color);
+}
+
+.searchbar-input::placeholder {
+  color: #aab7c4;
 }
 
 .search-dropdown {
@@ -34,21 +44,23 @@
   left: 0;
   width: 100%;
   background-color: white;
-  border: 1px solid #ecf0f1;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 0.0625rem solid #ecf0f1; /* 1px */
+  border-radius: 0.5rem; /* 8px */
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* 0 4px 8px */
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 250px;
+  max-height: 15.625rem; /* 250px */
   overflow-y: auto;
   z-index: 1000;
 }
 
 .search-dropdown li {
-  padding: 12px 15px;
+  padding: 0.75rem 0.9375rem; /* 12px 15px */
   cursor: pointer;
-  border-bottom: 1px solid #ecf0f1;
+  border-bottom: 0.0625rem solid #ecf0f1; /* 1px */
+  transition: background-color 0.2s ease, color 0.2s ease;
+  color: var(--second-color);
 }
 
 .search-dropdown li:last-child {
@@ -56,7 +68,9 @@
 }
 
 .search-dropdown li:hover {
-  background-color: #f4f7fa;
+  background-color: #eaf2f8;
+  color: var(--primary-color);
+  font-weight: 500;
 }
 
 .search-dropdown li.no-results {

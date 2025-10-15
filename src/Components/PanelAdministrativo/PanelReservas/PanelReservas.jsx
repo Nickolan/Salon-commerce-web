@@ -15,10 +15,12 @@ const PanelReservas = ({ reservas, salones, usuarios }) => {
     const cliente = usuarios.find(u => u.id_usuario === selectedReserva.id_arrendatario);
     const salon = salones.find(s => s.id_salon === selectedReserva.id_salon);
 
+    // Devolvemos un objeto con los datos, usando ?. para seguridad.
+    // Si cliente o salon no se encuentran, sus propiedades devolverán 'undefined' sin romper la app.
     return {
-      cliente: cliente ? `${cliente.nombre} ${cliente.apellido}` : 'No encontrado',
-      salon: salon ? salon.nombre : 'No encontrado',
-      direccion: salon ? salon.ubicacion : 'No encontrada',
+      clienteNombre: `${cliente?.nombre || 'Cliente'} ${cliente?.apellido || 'No Encontrado'}`,
+      salonNombre: salon?.nombre,
+      salonDireccion: salon?.ubicacion,
     };
   }, [selectedReserva, usuarios, salones]);
 
@@ -40,15 +42,15 @@ const PanelReservas = ({ reservas, salones, usuarios }) => {
           </div>
           <div className="detail-item">
             <strong>Cliente</strong>
-            <span>{reservaDetails.cliente}</span>
+            <span>{reservaDetails.clienteNombre || 'Dato no disponible'}</span>
           </div>
           <div className="detail-item">
             <strong>Sala Reservada</strong>
-            <span>{reservaDetails.salon}</span>
+            <span>{reservaDetails.salonNombre || 'Dato no disponible'}</span>
           </div>
           <div className="detail-item">
             <strong>Dirección</strong>
-            <span>{reservaDetails.direccion}</span>
+            <span>{reservaDetails.salonDireccion || 'Dato no disponible'}</span>
           </div>
           <div className="detail-item">
             <strong>Fecha de la Reserva</strong>
@@ -56,7 +58,7 @@ const PanelReservas = ({ reservas, salones, usuarios }) => {
           </div>
             <div className="detail-item">
             <strong>Horario de la Reserva</strong>
-            <span>{selectedReserva.hora_inicio} - {selectedReserva.hora_fin}</span>
+            <span>{`${selectedReserva.hora_inicio || 'N/A'} - ${selectedReserva.hora_fin || 'N/A'}`}</span>
           </div>
           <div className="detail-item">
             <strong>Estado</strong>

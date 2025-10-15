@@ -1,46 +1,44 @@
 .main-admin-content {
   height: 85%;
   width: 100%;
-  padding: 30px 40px;
+  padding: 1.875rem 2.5rem; /* 30px 40px */
   box-sizing: border-box;
-  overflow-y: auto; /* Permite scroll si el contenido es muy largo */
+  overflow-y: auto;
 }
 
-/* Estilos generales para los paneles */
 .admin-panel {
   background-color: #ffffff;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1.5625rem; /* 25px */
+  border-radius: 0.5rem; /* 8px */
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05); /* 0 2px 4px */
 }
 
 .panel-title {
-  font-size: 2em;
-  color: #2c3e50;
-  margin: 0 0 25px 0;
-  border-bottom: 2px solid #ecf0f1;
-  padding-bottom: 15px;
+  font-size: 1.5em;
+  color: var(--primary-color);
+  margin: 0 0 1.5625rem 0; /* 25px */
+  padding-bottom: 0.9375rem; /* 15px */
+  font-weight: 600;
 }
 
 .details-container {
-  margin-top: 25px;
-  padding: 20px;
-  background-color: #f8f9f9;
-  border: 1px solid #ecf0f1;
-  border-radius: 5px;
+  margin-top: 1.5625rem; /* 25px */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem 2.5rem; /* 20px 40px */
 }
 
 .detail-item {
-  margin-bottom: 15px;
+  margin: 0;
 }
 
 .detail-item strong {
   display: block;
   font-weight: bold;
-  color: #34495e;
-  margin-bottom: 5px;
+  color: var(--primary-color);
+  margin-bottom: 0.3125rem; /* 5px */
 }
 
 .detail-item span {
-  color: #555;
+  color: var(--second-color);
 }

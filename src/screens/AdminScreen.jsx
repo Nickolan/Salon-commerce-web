@@ -11,10 +11,11 @@ import reservasData from '../utils/Reservas.json';
 import transaccionesData from '../utils/Transacciones.json';
 
 const AdminScreen = () => {
-  const [activePanel, setActivePanel] = useState('Usuarios'); // El panel por defecto
+  // --- AQUÍ ESTÁ EL CAMBIO ---
+  // Se inicializa el estado en 'null' para que no haya un panel activo por defecto.
+  const [activePanel, setActivePanel] = useState(null);
   const [adminName, setAdminName] = useState('Administrador');
 
-  // Simula la carga del nombre del administrador
   useEffect(() => {
     const adminUser = usuariosData.find(u => u.es_administrador);
     if (adminUser) {
@@ -22,10 +23,9 @@ const AdminScreen = () => {
     }
   }, []);
 
-  // Calcula el total de ingresos de transacciones aprobadas
-  const totalIngresos = transaccionesData
+  const ingresosPropios = transaccionesData
     .filter(t => t.estado_transaccion === 'aprobado')
-    .reduce((sum, current) => sum + current.monto_pagado, 0);
+    .reduce((sum, current) => sum + (current.monto_pagado * 0.10), 0);
 
   return (
     <div className="admin-screen">
@@ -39,9 +39,10 @@ const AdminScreen = () => {
             usuarios: usuariosData.length,
             salones: salonesData.length,
             reservas: reservasData.length,
-            ingresos: totalIngresos,
+            ingresos: ingresosPropios,
           }}
           setActivePanel={setActivePanel}
+          activePanel={activePanel} // <--- AÑADIR ESTA LÍNEA
         />
         <MainAdmin
           activePanel={activePanel}

@@ -1,22 +1,19 @@
 import React from 'react';
 import './SidebarAdmin.css';
-
-// Puedes reemplazar estos strings con íconos reales de una librería como react-icons
-const IconUsuario = () => '👤';
-const IconCasa = () => '🏠';
-const IconCandado = () => '🔒';
-const IconDinero = () => '💰';
+// 1. Importamos los íconos que vamos a usar
+import { FiUsers, FiHome, FiCalendar, FiDollarSign } from 'react-icons/fi';
 
 const SidebarAdmin = ({ activePanel, setActivePanel }) => {
+  // 2. Usamos los componentes de los íconos directamente en el array
   const menuItems = [
-    { name: 'Usuarios', icon: <IconUsuario /> },
-    { name: 'Salones', icon: <IconCasa /> },
-    { name: 'Reservas', icon: <IconCandado /> },
-    { name: 'Ingresos', icon: <IconDinero /> },
+    { name: 'Usuarios', icon: <FiUsers /> },
+    { name: 'Salones', icon: <FiHome /> },
+    { name: 'Reservas', icon: <FiCalendar /> },
+    { name: 'Ingresos', icon: <FiDollarSign /> },
   ];
 
   return (
-    <div className="sidebar">
+    <div className="adminSidebar">
       <h1 className="sidebar-title">Administrador</h1>
       <ul className="sidebar-menu">
         {menuItems.map((item) => (
@@ -25,6 +22,7 @@ const SidebarAdmin = ({ activePanel, setActivePanel }) => {
             className={`sidebar-item ${activePanel === item.name ? 'active' : ''}`}
             onClick={() => setActivePanel(item.name)}
           >
+            {/* El span ahora envuelve al componente del ícono */}
             <span className="sidebar-icon">{item.icon}</span>
             {item.name}
           </li>

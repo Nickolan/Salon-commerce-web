@@ -1,16 +1,35 @@
 .bloquear-button {
-  background-color: #e74c3c;
+  /* Estilos base */
+  padding: 0.5rem 1rem; /* 8px 16px */
+  font-size: 0.9em;
+  font-weight: bold;
   color: white;
   border: none;
-  border-radius: 5px;
-  padding: 8px 12px;
-  font-size: 0.8em;
-  font-weight: bold;
+  border-radius: 0.5rem; /* 8px */
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 20px;
+
+  /* Colores de la paleta principal */
+  background-color: var(--primary-color);
+
+  /* Transición suave para todos los efectos */
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+
+  /* --- CAMBIOS APLICADOS AQUÍ --- */
+  width: fit-content;
+  min-width: 7.5rem; /* 120px */
+  display: flex;
+  margin: 1.25rem auto 0 0; /* 20px */
 }
 
+/* Efecto al pasar el mouse por encima */
 .bloquear-button:hover {
-  background-color: #c0392b;
+  background-color: var(--second-color);
+  transform: translateY(-0.125rem); /* -2px */
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* 0 4px 8px */
+}
+
+/* Efecto al presionar el botón */
+.bloquear-button:active {
+  transform: scale(0.95);
+  box-shadow: none;
 }
