@@ -1,81 +1,133 @@
 .privacidad-container {
-  display: flex;
-  justify-content: center;
-  padding: 1.25rem;
-  font-family: Arial, sans-serif;
-  color: var(--primary-color);
-  line-height: 1.6;
-  margin-top: 1%;
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1.25rem; /* Aumentado padding vertical para más aire */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Stack de fuentes más moderno */
+    color: var(--primary-color);
+    line-height: 1.6;
+    background-color: var(--background-color, #f3f3fe); /* Fondo consistente */
 }
 
 .privacidad-card {
-  width: 100%;
-  max-width: 50rem;
-  background: #fff;
-  border: 0.0625rem solid #ddd;
-  border-radius: 0.375rem;
-  padding: 1.25rem;
+    width: 100%;
+    max-width: 50rem;
+    background: #fff;
+    border: 1px solid #e0e0e0; /* Borde más sutil */
+    border-radius: 0.5rem; /* Bordes ligeramente más redondeados */
+    padding: 2.5rem; /* Padding interno más generoso */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Sombra más suave */
+}
+
+.privacidad-card header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .privacidad-card h1 {
-  font-size: 1.8rem;
-  margin-bottom: 0.625rem;
-  text-align: center;
-  font-weight: 600;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-weight: 700;
 }
 
 .privacidad-card .fecha {
-  font-size: 0.9rem;
-  color: var(--second-color);
-  text-align: center;
-  margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--second-color, #7B2FF7);
+    text-align: center;
+    margin-bottom: 1.5rem; /* Más espacio */
 }
 
 .privacidad-card .intro {
-  text-align: justify;
-  margin-bottom: 1.25rem;
+    text-align: justify;
 }
 
 .section {
-  margin-bottom: 0.9375rem;
+    border-bottom: 1px solid #eee;
+}
+.section:last-child {
+    border-bottom: none; /* Elimina la última línea divisoria */
 }
 
 .section-header {
-  width: 100%;
-  background: none;
-  border: none;
-  font-size: 1rem;
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
-  padding: 0.625rem 0;
-  cursor: pointer;
-  text-align: left;
-  border-bottom: 0.0625rem solid #eee;
-  color: var(--primary-color);
+    width: 100%;
+    background: none;
+    border: none;
+    font-size: 1.1rem; /* Ligeramente más grande para más jerarquía */
+    font-weight: 600; /* Un poco menos grueso que 'bold' */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    cursor: pointer;
+    text-align: left;
+    color: var(--primary-color);
 }
 
+.section-header span:last-child {
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+/* Mejora: Animación suave para el acordeón */
 .section-content {
-  display: none;
-  margin-top: 0.5rem;
-  padding-left: 0.625rem;
-  font-size: small;
-  color: var(--second-color);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+    padding-left: 0.625rem;
+    font-size: 0.9rem;
+    color: var(--second-color);
 }
 
 .section-content.open {
-  display: block;
+    max-height: 500px; /* Un valor lo suficientemente grande para el contenido */
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
 }
 
 .section-content p {
-  margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .section-content ul {
-  list-style: disc;
-  padding-left: 1.25rem;
+    list-style: disc;
+    padding-left: 1.25rem;
 }
 
 .section-content ul li {
-  margin-bottom: 0.375rem;
+    margin-bottom: 0.5rem;
+}
+
+/* --- ESTILOS RESPONSIVOS PARA MÓVILES --- */
+/* Se aplicarán en pantallas de 768px de ancho o menos */
+@media (max-width: 768px) {
+    .privacidad-container {
+        padding: 0; /* Sin padding exterior en móviles */
+    }
+
+    .privacidad-card {
+        max-width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        padding: 2.5rem 1.5rem; /* Padding ajustado para pantallas pequeñas */
+    }
+
+    .privacidad-card h1 {
+        font-size: 1.6rem;
+    }
+
+    .privacidad-card .intro {
+        text-align: left; /* 'justify' puede crear espacios raros en móviles */
+    }
+
+    .section-header {
+        font-size: 1rem;
+        padding: 0.9rem 0;
+    }
+
+    .section-content {
+        font-size: 0.85rem;
+    }
 }

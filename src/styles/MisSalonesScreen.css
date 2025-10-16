@@ -19,10 +19,10 @@
 }
 
 .sin-resultados {
-  color: var(--primary-color);
-  font-weight: bold;
-  text-align: center;
-  margin-top: 1rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    text-align: center;
+    margin-top: 1rem;
 }
 
 .card-salon {
@@ -144,104 +144,72 @@
     font-weight: bold;
 }
 
-/* estilos para tables o pantallas medianas */
-@media (max-width: 900px) {
-  .pagina-misSalones {
-    padding: 1.5rem;
-    padding-top: 5rem;
-  }
+/* --- NUEVA PROPUESTA DE ESTILOS RESPONSIVOS --- */
+@media (max-width: 768px) {
+    .pagina-misSalones {
+        padding: 1.5rem 1rem;
+        padding-top: 5rem;
+    }
 
-  .titulo {
-    font-size: 1.7rem;
-  }
+    .titulo {
+        font-size: 1.8rem;
+        text-align: center;
+    }
 
-  .salon-nombre-capacidad {
-    font-size: 1.1rem;
-  }
+    /* Layout de la card móvil */
+    .card-salon {
+        flex-direction: column;
+    }
+
+    .card-imagen-wrapper {
+        width: 100%;
+        height: 10rem;
+        border-radius: 0; 
+    }
+
+    .card-izquierda {
+        padding: 1rem;
+        padding-bottom: 0;
+        gap: 0.6rem;
+    }
+
+    .salon-nombre-capacidad {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem;
+        font-size: 1.1rem;
+    }
+    
+    .salon-caracteristica {
+        font-size: 0.9rem;
+    }
+
+    /* Footer de la card móvil */
+    .card-derecha {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 1rem;
+        margin-top: 1rem;
+        border-top: 1px solid #f0f0f0; /* Separador visual */
+    }
+
+    .botones {
+        gap: 1.2rem;
+    }
+
+    .botones button {
+        font-size: 1.6rem;
+    }
+    
+    /* La píldora de estado solo aparece en móvil para mejorar la UI */
+    .estado-publicacion {
+        order: -1; /* Mueve el estado a la izquierda */
+        font-size: 0.8rem;
+        color: var(--primary-color);
+        font-weight: 600;
+        padding: 0.25rem 0.75rem;
+        border-radius: 999px; /* Píldora */
+    }
 }
-
-/* estilos para celulares modernos */
-@media (max-width: 600px) {
-  .pagina-misSalones {
-    padding: 1rem;
-    padding-top: 4rem;
-  }
-
-  .titulo {
-    font-size: 1.5rem;
-  }
-
-  .card-salon {
-    flex-direction: column; 
-    align-items: flex-start;
-  }
-
-  .card-imagen-wrapper {
-    width: 100%; 
-    height: 180px; 
-  }
-
-  .card-imagen-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .card-izquierda {
-    padding: 0.8rem;
-    gap: 0.4rem;
-  }
-
-  .salon-nombre-capacidad {
-    flex-direction: column; 
-    align-items: flex-start;
-    font-size: 1rem;
-  }
-
-  .salon-caracteristica {
-    font-size: 0.9rem;
-  }
-
-  .card-derecha {
-    flex-direction: row; 
-    justify-content: space-between;
-    width: 100%;
-    padding: 0.8rem 1rem;
-  }
-
-  .botones {
-    gap: 0.8rem;
-  }
-
-  .botones button {
-    font-size: 1.4rem;
-  }
-
-  .estado-publicacion {
-    font-size: 0.85rem;
-  }
-}
-
-/* estilos para celulares chicos */
-@media (max-width: 360px) {
-  .titulo {
-    font-size: 1.3rem;
-  }
-
-  .card-imagen-wrapper {
-    height: 150px;
-  }
-
-  .salon-nombre-capacidad {
-    font-size: 0.9rem;
-  }
-
-  .salon-caracteristica {
-    font-size: 0.8rem;
-  }
-
-  .botones button {
-    font-size: 1.2rem;
-  }
-}
-

@@ -42,3 +42,27 @@
 .detail-item span {
   color: var(--second-color);
 }
+
+/* --- ESTILOS RESPONSIVOS --- */
+@media (max-width: 900px) {
+  .main-admin-content {
+    padding: 1rem 1.5rem; /* Reducimos el padding en móvil */
+    height: 100%; 
+  }
+}
+
+@media (max-width: 600px) {
+  .details-container {
+    grid-template-columns: 1fr; /* Cambiamos a una sola columna */
+    gap: 1.5rem; /* Ajustamos el espacio entre ítems */
+  }
+
+  .panel-title {
+    font-size: 1.3em;
+    text-align: center;
+  }
+
+  .admin-panel {
+    padding: 1rem;
+  }
+}

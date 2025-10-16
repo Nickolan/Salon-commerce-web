@@ -17,3 +17,10 @@
 .ingreso-item p {
   margin: 0.3125rem 0; /* 5px */
 }
+
+/* --- ESTILOS RESPONSIVOS --- */
+@media (max-width: 768px) {
+  .ingreso-item {
+    width: 100%; /* Cada item ocupa todo el ancho */
+  }
+}
