@@ -26,6 +26,8 @@ import ReservasDetalles from './screens/ReservasDetalles';
 import FavoritosScreen from './screens/FavoritosScreen';
 import ReseniarScreen from './screens/ReseniarScreen';
 import PoliticaPrivacidadScreen from './screens/PoliticaPrivacidadScreen'
+import AdminScreen from './screens/AdminScreen';
+import Cancelacion from './screens/Cancelacion';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -62,9 +64,12 @@ function App() {
         <Route path="/reservas_detalles/:id" element={<><Navbar user={null}/> <ReservasDetalles /> <Chatbot/> <Footer/> </>} />
           
         <Route path='/favoritos' element={<><Navbar user={null}/><FavoritosScreen/> <Chatbot/><Footer/></>}/>
+        <Route path="/cancelar_salon/:idUsuario/:idReserva" element={<><Navbar user={null}/><Cancelacion /><Chatbot/><Footer/></>}/>
 
         <Route path='/reseniar/:id_salon' element={<><Navbar user={null}/><ReseniarScreen/><Chatbot/><Footer/></>}/>
         <Route path="/politica-de-privacidad" element={<><Navbar user={null} /> <PoliticaPrivacidadScreen/> <Chatbot/><Footer/></>} />
+
+        <Route path='/administrador' element={<><Navbar user={null}/><AdminScreen/> <Chatbot/><Footer/></>}/>
 
       </Routes>
     </div>

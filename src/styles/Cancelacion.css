@@ -1,0 +1,293 @@
+.cancelacion {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    
+    /* variables del tamanio */
+    --tamano-subtitulo: 1.8em;    
+    --tamano-texto-normal: 1.1em; 
+    --tamano-link-atras: 1.15em;  
+}
+
+.cancelacion .subtitulo {
+    color: #6a0dad;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    font-size: var(--tamano-subtitulo); 
+}
+
+.cancelacion .contenido-seccion {
+    padding: 0 20px;
+    font-size: var(--tamano-texto-normal); 
+}
+
+.cancelacion .info-cancelacion {
+    margin-bottom: 30px;
+}
+
+.cancelacion .info-datos {
+    display: flex;
+    align-items: center;
+    margin: 12px 0;
+    color: #6a0dad;
+    font-weight: normal;
+    gap: 10px;
+    font-size: inherit; 
+}
+
+.cancelacion .info-label {
+    font-weight: bold;
+    color: #6a0dad;
+    min-width: 150px;
+    font-size: inherit; 
+}
+
+.cancelacion .info-valor {
+    color: #6a0dad;
+    font-weight: normal;
+    font-size: inherit; 
+}
+
+.cancelacion .linea-divisoria {
+    border-bottom: 2px dashed #6a0dad;
+    margin: 30px 0;
+    opacity: 0.6;
+    width: 100%;
+}
+
+.cancelacion .politica-cancelacion {
+    margin-bottom: 30px;
+}
+
+.cancelacion .politica-contenido {
+    color: #6a0dad;
+    font-size: inherit; 
+}
+
+.cancelacion .politica-item {
+    display: flex;
+    align-items: flex-start; 
+    gap: 12px;
+    margin: 15px 0;
+    font-size: inherit;
+}
+
+.cancelacion .politica-icono {
+    font-size: 1.3em; 
+    flex-shrink: 0;
+}
+
+.cancelacion .politica-icono.check {
+    color: #6a0dad;
+}
+
+.cancelacion .politica-icono.cancel {
+    color: #6a0dad;
+}
+
+.cancelacion .politica-texto {
+    display: flex;
+    align-items: center;
+    gap: 6px; 
+    font-size: inherit;
+}
+
+.cancelacion .politica-porcentaje {
+    font-weight: bold;
+    color: #6a0dad;
+    font-size: inherit;
+    min-width: 40px; 
+}
+
+.cancelacion .politica-descripcion {
+    color: #6a0dad;
+    font-weight: normal;
+    line-height: 1.4;
+    font-size: inherit;
+}
+
+.cancelacion .motivo-cancelacion {
+    margin-bottom: 30px;
+}
+
+.cancelacion .opciones-motivo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.cancelacion .opcion-motivo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: inherit; 
+}
+
+.cancelacion .opcion-motivo:hover {
+    background: #fff;
+}
+
+.cancelacion .opcion-motivo.seleccionado {
+    background: #fff;
+}
+
+.cancelacion .icono-motivo {
+    font-size: 1.2em;
+    color: #6a0dad;
+    flex-shrink: 0;
+}
+
+.cancelacion .texto-motivo {
+    color: #6a0dad;
+    font-weight: normal;
+    font-size: inherit; 
+}
+
+.cancelacion .detalles-otro-container {
+    margin-top: 15px;
+    padding: 0 5px;
+}
+
+.cancelacion .detalles-otro-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #6a0dad;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: inherit; 
+    color: #6a0dad;
+    background: #fff;
+}
+
+.cancelacion .detalles-otro-input:focus {
+    outline: none;
+    border-color: #5a0bc0;
+    box-shadow: 0 0 0 2px rgba(106, 13, 173, 0.2);
+}
+
+.cancelacion .detalles-otro-input::placeholder {
+    color: #9b7bc2;
+    font-size: inherit; 
+}
+
+.cancelacion .confirmacion-cancelacion {
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #6a0dad;
+    text-align: center;
+    font-size: inherit; 
+}
+
+.cancelacion .confirmacion-cancelacion h3 {
+    color: #6a0dad;
+    margin-bottom: 25px;
+    font-weight: normal;
+    font-size: inherit;
+}
+
+.cancelacion .botones-confirmacion {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.cancelacion .link-atras {
+    color: #6a0dad;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: var(--tamano-link-atras); 
+    padding: 10px 20px;
+    transition: color 0.3s ease;
+}
+
+.cancelacion .link-atras:hover {
+    color: #5a0bc0;
+    text-decoration: underline;
+}
+
+.cancelacion .button-cancelar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 30px;
+    background: #6a0dad;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: inherit; 
+    transition: background-color 0.3s;
+}
+
+.cancelacion .button-cancelar:hover {
+    background: #5a0bc0;
+}
+
+.cancelacion .cancelar-icono {
+    font-size: 1.2em; 
+    color: #fff;
+}
+
+.cancelacion .cancelar-texto {
+    font-weight: bold;
+    color: #fff;
+    font-size: inherit; 
+}
+
+.cancelacion .cargando, .error {
+    text-align: center;
+    padding: 40px;
+    font-size: var(--tamano-texto-normal); 
+    color: #6a0dad;
+}
+
+.cancelacion .error {
+    color: #dc3545;
+}
+
+@media (max-width: 768px) {
+    .cancelacion .cancelacion {
+        padding: 10px;
+        --tamano-subtitulo: 1.6em;
+        --tamano-texto-normal: 1em;
+        --tamano-link-atras: 1.1em;
+    }
+    
+    .cancelacion .contenido-seccion {
+        padding: 0 10px;
+    }
+    
+    .cancelacion .info-datos {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .cancelacion .info-label {
+        min-width: auto;
+    }
+    
+    .cancelacion .politica-item {
+        align-items: flex-start;
+    }
+    
+    .cancelacion .politica-texto {
+        flex: 1;
+    }
+    
+    .cancelacion .opcion-motivo {
+        padding: 8px 10px;
+    }
+    
+    .cancelacion .botones-confirmacion {
+        gap: 12px;
+    }
+}
