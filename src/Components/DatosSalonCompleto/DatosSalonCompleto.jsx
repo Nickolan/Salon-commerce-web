@@ -96,6 +96,9 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
   // Determinar si mostrar placeholder de imagen
   const shouldShowImagePlaceholder = !salon.fotos || salon.fotos.length === 0;
 
+  console.log(salon.equipamientos);
+  
+
   if (!salon) {
     return <div>No se encontró información del salón</div>;
   }
@@ -115,7 +118,7 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
               <div className="mapa-contenedor">
                 <GoogleMap
                   mapContainerStyle={containerStyle}
-                  center={mapCenter}
+                  center={{lat: salon.latitud, lng: salon.longitud}}
                   zoom={15}
                   options={{
                     streetViewControl: false,
@@ -125,7 +128,7 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
                   }}
                 >
                   <Marker 
-                    position={mapCenter}
+                    position={{lat: salon.latitud, lng: salon.longitud}}
                     icon={redMarkerIcon}
                     title={salon.nombre}
                   />
@@ -146,7 +149,7 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
           <div className="imagen-salon">
             {salon.fotos && salon.fotos.length > 0 ? (
               <img 
-                src={salon.fotos[0]} 
+                src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} 
                 alt={`Imagen de ${salon.nombre}`}
                 onError={handleImageError}
               />
@@ -161,13 +164,8 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
 
           <div className="detalles-secundarios">
             <div className='equipamiento'>
-              {salon.equipamientos_json ? (
-                <>
-                  {salon.equipamientos_json.wifi && <h3>Wi-Fi</h3>}
-                  {salon.equipamientos_json.proyector && <h3>Proyector</h3>}
-                  {salon.equipamientos_json.pizarra && <h3>Pizarra</h3>}
-                  {salon.equipamientos_json.aire_acondicionado && <h3>Aire Acondicionado</h3>}
-                </>
+              {salon.equipamientos && salon.equipamientos.length > 0 ? (
+                salon.equipamientos.map((e, index) => <h3 key={index}>{e}</h3>)
               ) : (
                 <h3>No hay equipamiento listado</h3>
               )}

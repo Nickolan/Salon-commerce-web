@@ -74,6 +74,15 @@
   color: rgba(106, 13, 173, 0.3);
 }
 
+.form-group-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-group-row .form-group {
+  flex: 1; /* Para que cada input ocupe la mitad del espacio */
+}
+
 .password-group input {
   padding-right: 2.5rem;
 }

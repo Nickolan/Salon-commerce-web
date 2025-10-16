@@ -1,0 +1,131 @@
+.card-salon {
+    display: flex;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    background-color: #fff;
+    color: var(--primary-color);
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 140px;
+}
+
+.card-salon:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(106, 13, 173, 0.1);
+}
+
+.card-imagen-wrapper {
+    width: 180px;
+    flex-shrink: 0;
+}
+
+.card-imagen-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-contenido {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.card-izquierda {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.salon-nombre {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.salon-caracteristica {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.caracteristicas-secundarias {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.25rem;
+}
+
+.icono {
+    font-size: 1rem;
+}
+
+.card-derecha {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.estado-publicacion .estado-tag {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.estado-tag.aprobada { background-color: #d4edda; color: #155724; }
+.estado-tag.borrador { background-color: #e2e3e5; color: #383d41; }
+.estado-tag.oculta { background-color: #fff3cd; color: #856404; }
+.estado-tag.reprobada { background-color: #f8d7da; color: #721c24; }
+
+
+.botones {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.botones button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #aaa;
+    transition: all 0.2s ease;
+}
+
+.botones button:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+/* --- Media Queries --- */
+@media (max-width: 600px) {
+    .card-salon {
+        flex-direction: column;
+        height: auto;
+    }
+    .card-imagen-wrapper {
+        width: 100%;
+        height: 180px;
+    }
+    .card-contenido {
+        flex-direction: column;
+    }
+    .card-derecha {
+        flex-direction: row-reverse;
+        align-items: center;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+    .botones {
+        margin-left: auto;
+    }
+}

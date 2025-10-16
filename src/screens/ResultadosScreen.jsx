@@ -1,117 +1,83 @@
-import React, { Fragment, useState, useMemo } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import Searchbar from "../Components/SearchBar/searchbar";
-import Sidebarfiltros from "../Components/Sidebarfiltros/Sidebarfiltros";
-import ListaResultados from "../Components/ListaResultados/ListaResultados";
-import salonesData from "../utils/Salones.json";
-import "../styles/ResultadosScreen.css";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a =
-    Math.sin(dLat/2)**2 +
-    Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return R * c;
-}
+// Importa los componentes necesarios
+import Searchbar from '../Components/SearchBar/searchbar';
+import Sidebarfiltros from '../Components/Sidebarfiltros/Sidebarfiltros';
+import ItemSalonDetallado from '../Components/Item-salon-detallado/ItemSalonDetallado';
 
-const ResultadosScreen = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
- const { ubicacion, personas, lat, lng } = useMemo(() => {
-    const queryParams = new URLSearchParams(location.search);
+// Importa los nuevos estilos
+import '../styles/ResultadosScreen.css';
 
-    let u = queryParams.get("ubicacion") || "";
-    let p = parseInt(queryParams.get("personas")) || 1;
-    let la = parseFloat(queryParams.get("lat"));
-    let ln = parseFloat(queryParams.get("lng"));
+const ResultadosScreen = ({isLoaded}) => {
+    // 1. Obtenemos los datos de la búsqueda y el estado desde Redux
+    const { resultadosSalones, status, error } = useSelector((state) => state.salones);
 
-    if ((isNaN(la) || isNaN(ln)) && u.includes(",")) {
-      [la, ln] = u.split(",").map(parseFloat);
-    }
-
-    return { ubicacion: u, personas: p, lat: la, lng: ln };
-  }, [location.search]);
-  const [filtros, setFiltros] = useState({
-    precioMin: "",
-    precioMax: "",
-    puntaje: "",
-    equipamiento: []
-  });
-  
-
-  const handleFilterChange = (nuevosFiltros) => {
-    setFiltros(nuevosFiltros);
-  };
-  const horaAminutos = (horaStr) => {
-  const [h, m] = horaStr.split(":").map(Number);
-  return h * 60 + m;
-};
-
-  const salonesCercanos = useMemo(() => {
-    if (isNaN(lat) || isNaN(lng)) return salonesData;
-
-    return salonesData.filter(s => {
-      if (!s.lat || !s.lng) return false;
-      const distancia = calcularDistanciaKm(lat, lng, s.lat, s.lng);
-      return distancia <= 5 && s.capacidad >= personas;
+    // Estado local para los filtros que se aplicarán sobre los resultados
+    const [filtros, setFiltros] = useState({
+        // Aquí podrías inicializar los filtros que necesites, por ejemplo:
+        // precioMax: 10000,
+        // orden: 'cercania',
     });
-  }, [lat, lng, personas]);
 
-const salonesFiltradosFinal = useMemo(() => {
-  return salonesCercanos.filter(s => {
-    // Precio
-    if (filtros.precioMin && s.precio_por_hora < filtros.precioMin) return false;
-    if (filtros.precioMax && s.precio_por_hora > filtros.precioMax) return false;
+    // Esta función se pasará al Sidebar para actualizar los filtros
+    const handleFiltrosChange = (nuevosFiltros) => {
+        setFiltros(nuevosFiltros);
+    };
 
-    // Estrellas
-    if (filtros.puntaje && s.resenia < Number(filtros.puntaje)) return false;
+    // Lógica para filtrar los resultados (aquí se aplicarían los filtros del sidebar)
+    // Por ahora, solo muestra los resultados tal cual llegan de la API.
+    const salonesFiltrados = resultadosSalones; // A futuro, aquí aplicarías la lógica de 'filtros'
 
-    // Equipamiento
-    if (filtros.equipamiento.length > 0 &&
-        !filtros.equipamiento.every(eq => s.equipamientos?.includes(eq))) return false;
+    // Función para renderizar el contenido principal
+    const renderResultados = () => {
+        if (status === 'loading') {
+            return <p className="status-message">Buscando los mejores salones para ti...</p>;
+        }
+        if (status === 'failed') {
+            return <p className="status-message error">Hubo un error en la búsqueda: {error}</p>;
+        }
+        if (status === 'succeeded' && salonesFiltrados.length === 0) {
+            return <p className="status-message">No se encontraron salones con esos criterios. ¡Intenta ampliar tu búsqueda!</p>;
+        }
+        return (
+            <div className='resultados_lista'>
+                {salonesFiltrados.map((salon) => (
+                    <ItemSalonDetallado key={salon.id_salon} salon={salon} />
+                ))}
+            </div>
+        );
+    };
 
-    // Horas (solo minutos)
-    const inicioSalon = horaAminutos(s.disponibilidad_inicio);
-    const finSalon = horaAminutos(s.disponibilidad_fin);
+    return (
+        <div className='pagina-resultados'>
+            {/* Columna Izquierda: Filtros */}
+            <aside className='resultados-sidebar'>
+                <Sidebarfiltros onFiltrosChange={handleFiltrosChange} />
+            </aside>
 
-    if (filtros.inicio) {
-      const inicioFiltro = horaAminutos(filtros.inicio);
-      if (inicioFiltro < inicioSalon) return false;
-    }
+            {/* Columna Derecha: Contenido Principal */}
+            <main className='resultados-main'>
+                {/* Barra de búsqueda integrada en la parte superior */}
+                <div className='resultados-searchbar-wrapper'>
+                    {
+                        isLoaded &&  <Searchbar />
+                    }
+                    
+                </div>
+                
+                {/* Contador de resultados */}
+                <div className='resultados-header'>
+                    <p className='resultados-contador'>
+                        {status === 'succeeded' && `${salonesFiltrados.length} salones encontrados`}
+                    </p>
+                </div>
 
-    if (filtros.fin) {
-      const finFiltro = horaAminutos(filtros.fin);
-      if (finFiltro > finSalon) return false;
-    }
- // Fecha
-    if (filtros.fecha) {
-      const fechaFiltro = new Date(filtros.fecha);
-      if (s.fecha) {
-        const fechaSalon = new Date(s.fecha);
-        if (fechaFiltro < fechaSalon || fechaFiltro > fechaSalon) return false;
-      }
-    }
-
-    return true;
-  });
-}, [salonesCercanos, filtros]);
-
-  return (
-    <Fragment>
-      <div className="resultados_principal">
-        <div className="div_sidebarfiltros">
-          <Sidebarfiltros onFilterChange={handleFilterChange} />
+                {/* Lista de resultados */}
+                {renderResultados()}
+            </main>
         </div>
-        <div className="div_contenido">
-          <Searchbar key={`${ubicacion}-${personas}`} ubicacionInicial={ubicacion} personasInicial={personas.toString()} />
-          <ListaResultados salones={salonesFiltradosFinal} />
-        </div>
-      </div>
-    </Fragment>
-  );
-};
+    );
+}
 
 export default ResultadosScreen;

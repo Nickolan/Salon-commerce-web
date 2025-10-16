@@ -1,99 +1,98 @@
-import React, { useEffect, useState } from 'react'
-import '../styles/HomeScreen.css'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSalones } from '../store/features/salones/salonSlice';
+
+import '../styles/HomeScreen.css'; // Importa los nuevos estilos
+
 import Carrusel from '../Components/Carrusel/Carrusel.jsx';
 import ItemSalonSimple from '../Components/ItemSalonSimple/ItemSalonSimple.jsx';
-import Reservas from '../utils/Reservas.json';
-import Resenias from '../utils/Resenias.json';
-import Searchbar from '../Components/SearchBar/searchbar'
-import salonesData from "../utils/Salones.json";
+import Searchbar from '../Components/SearchBar/searchbar';
 
-const HomeScreen = () => {
-  const mejorPuntuado = salonesData.filter(salon => salon.precio_por_hora === 5000.0);
-  const cercaDti = salonesData.filter(salon => salon.precio_por_hora === 3500.0);
-  const vistoRecien = salonesData.filter(salon => salon.precio_por_hora === 1500.0);
+const HomeScreen = ({isLoaded}) => {
+  const dispatch = useDispatch();
+  
+  // 1. Obtenemos los datos y el estado de carga desde el store de Redux
+  const { salones, status, error } = useSelector((state) => state.salones);
 
+  // 2. Disparamos la acción para buscar salones cuando el componente se carga
+  useEffect(() => {
+    // Solo hacemos la petición si no se han cargado antes o si hubo un error
+    if (status === 'idle' || status === 'failed') {
+      dispatch(fetchSalones());
+    }
+  }, [status, dispatch]);
+
+  // 3. Función limpia para renderizar el contenido del carrusel
+  const renderizarSalones = () => {
+    // Manejo de estados de carga y error
+    if (status === 'loading') {
+      return <p className="status-message">Cargando salones...</p>;
+    }
+    if (status === 'failed') {
+      return <p className="status-message error">Error al cargar salones: {error}</p>;
+    }
+    if (status === 'succeeded' && salones.length === 0) {
+      return <p className="status-message">No hay salones disponibles en este momento.</p>;
+    }
+
+    // Si todo está bien, renderizamos el Carrusel
+    return (
+      <Carrusel
+        items={salones}
+        renderItem={(salon) => (
+          <ItemSalonSimple
+            id_salon={salon.id_salon}
+            nombre={salon.nombre}
+            precio={salon.precio_por_hora}
+            imagen={salon.fotos && salon.fotos.length > 0 ? salon.fotos[0] : 'https://via.placeholder.com/150'} // Imagen por defecto
+          />
+        )}
+      />
+    );
+  };
 
   return (
-    <div className='screen-wrapper'>
-
-      <div className='title'>
-        <h1>¿Quiéres reservar un salón para ti?</h1>
+    <div className='homescreen-wrapper'>
+      {/* Sección del Título */}
+      <section className='homescreen-header'>
+        <h1>¿Quieres reservar un salón para ti?</h1>
         <h2>¡Encuentra los mejores salones para reservar aquí!</h2>
-      </div>
-      <div className='searchbar_homescreen'> 
-        <Searchbar/>
-      </div>
-  
-      <div className='subtitulos'>
-        <div className='logo-group'>
-          <h3>Los mejores puntuados</h3>
-          <Carrusel>
-            {salonesData.map((salon, index) => (
-              <div key={`${salon.id_salon}-${index}`}>
-                <ItemSalonSimple
-                  id_salon={salon.id_salon}
-                  nombre={salon.nombre}
-                  precio={salon.precio_por_hora}
-                  imagen={salon.fotos[0]}
-                  reservas={Reservas.filter(reserva => reserva.id_salon === salon.id_salon)}
-                  resenias={Resenias.filter(resenia =>
-                    Reservas.some(reserva =>
-                      reserva.id_salon === salon.id_salon &&
-                      reserva.id_reserva === resenia.id_reserva
-                    )
-                  )}
-                />
-              </div>
-            ))}
-          </Carrusel>
-        </div>
-        {/* <div className='logo-group'>
-          <h3>Cerca de ti</h3>
-          <Carrusel>
-            {salonesData.map((salon, index) => (
-              <div key={`${salon.id_salon}-${index}`}>
-                <ItemSalonSimple
-                  id_salon={salon.id_salon}
-                  nombre={salon.nombre}
-                  precio={salon.precio_por_hora}
-                  imagen={salon.fotos[0]}
-                  reservas={Reservas.filter(reserva => reserva.id_salon === salon.id_salon)}
-                  resenias={Resenias.filter(resenia =>
-                    Reservas.some(reserva =>
-                      reserva.id_salon === salon.id_salon &&
-                      reserva.id_reserva === resenia.id_reserva
-                    )
-                  )}
-                />
-              </div>
-            ))}
-          </Carrusel>
-        </div>
-        <div className='logo-group'>
-          <h3>Visto recientemente</h3>
-          <Carrusel>
-            {salonesData.map((salon, index) => (
-              <div key={index}>
-                <ItemSalonSimple
-                  id_salon={salon.id_salon}
-                  nombre={salon.nombre}
-                  precio={salon.precio_por_hora}
-                  imagen={salon.fotos[0]}
-                  reservas={Reservas.filter(reserva => reserva.id_salon === salon.id_salon)}
-                  resenias={Resenias.filter(resenia =>
-                    Reservas.some(reserva =>
-                      reserva.id_salon === salon.id_salon &&
-                      reserva.id_reserva === resenia.id_reserva
-                    )
-                  )}
-                />
-              </div>
-            ))}
-          </Carrusel>
-        </div> */}
-      </div>
-    </div>
-  )
-}
+      </section>
 
-export default HomeScreen
+      {/* Sección de la Barra de Búsqueda */}
+      <section className='homescreen-searchbar'>
+        {
+          isLoaded &&  <Searchbar />
+        }
+        
+      </section>
+      
+      {/* Sección del Contenido Principal (Carruseles) */}
+      <main className='homescreen-content'>
+        <section className='carousel-section'>
+          <h3>Salones Destacados</h3>
+          {renderizarSalones()}
+        </section>
+
+        <section className='carousel-section'>
+          <h3>Vistos Recientemente</h3>
+          {renderizarSalones()}
+        </section>
+
+        <section className='carousel-section'>
+          <h3>Mis Favoritos</h3>
+          {renderizarSalones()}
+        </section>
+        
+        {/* Aquí podrías agregar más carruseles en el futuro */}
+        {/* <section className='carousel-section'>
+          <h3>Cerca de tu ubicación</h3>
+          {renderizarSalones()}
+        </section> 
+        */}
+      </main>
+    </div>
+  );
+};
+
+export default HomeScreen;

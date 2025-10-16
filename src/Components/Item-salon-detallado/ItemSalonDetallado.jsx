@@ -12,6 +12,9 @@ function ItemSalonDetallado({salon}) {
   const handleClick = () => {
   navigate(`/salon/${salon.id_salon}`);
 };
+
+console.log("Salon", salon);
+
 const calificacionTexto = (puntaje) => {
   if (puntaje >= 4.5) return "Excelente";
   if (puntaje >= 3.5) return "Muy bien";
@@ -22,15 +25,14 @@ const calificacionTexto = (puntaje) => {
     <Fragment>
      <div className="caja" onClick={handleClick} style={{ cursor: "pointer" }}>
         <div className="imagen-wrapper">
-          <img src={salon.imagen} alt={salon.nombre} className="imagen_salon" />
+          <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} alt={salon.nombre} className="imagen_salon" />
           <BotonFavoritos id_salon={salon.id_salon}/> 
         </div>
   
       <div className="info_principal">
         <h3 className="titulo">{salon.nombre}</h3>
-         <p><FaMap /> {salon.ubicacion}</p>
+         <p><FaMap /> {salon.direccion}</p>
          <p><FaUserGroup /> {salon.capacidad} personas de capacidad</p>
-         <p><FaShoppingCart /> Id del publicador: {salon.id_publicador}</p>
       </div>
       <div className="info_extra">
        <div className="calificacion">

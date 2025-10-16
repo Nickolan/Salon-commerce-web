@@ -38,14 +38,14 @@ const NuevoSalonScreen = ({ isLoaded }) => {
   const [reglas, setReglas] = useState([]);
   const [equipamientoSeleccionado, setEquipamientoSeleccionado] = useState([]);
   const [disponibilidad, setDisponibilidad] = useState([
-    { dia: "Lunes", disponible: false, desde: "08:00", hasta: "08:00" },
-    { dia: "Martes", disponible: false, desde: "08:00", hasta: "08:00" },
-    { dia: "Miercoles", disponible: false, desde: "08:00", hasta: "08:00" },
-    { dia: "Jueves", disponible: false, desde: "08:00", hasta: "08:00" },
-    { dia: "Viernes", disponible: false, desde: "08:00", hasta: "08:00" },
-    { dia: "Sábado", disponible: false, desde: "08:00", hasta: "08:00" },
-    { dia: "Domingo", disponible: false, desde: "08:00", hasta: "08:00" },
-  ]);
+  { dia: "Lunes", disponible: false, desde: "08:00", hasta: "08:00" },
+  { dia: "Martes", disponible: false, desde: "08:00", hasta: "08:00" },
+  { dia: "Miércoles", disponible: false, desde: "08:00", hasta: "08:00" },
+  { dia: "Jueves", disponible: false, desde: "08:00", hasta: "08:00" },
+  { dia: "Viernes", disponible: false, desde: "08:00", hasta: "08:00" },
+  { dia: "Sábado", disponible: false, desde: "08:00", hasta: "08:00" },
+  { dia: "Domingo", disponible: false, desde: "08:00", hasta: "08:00" },
+]);
 
   useEffect(() => {
     // Esto asegura que si el usuario sale y vuelve a entrar, no vea un mensaje de éxito/error antiguo.
@@ -121,8 +121,11 @@ const NuevoSalonScreen = ({ isLoaded }) => {
       reglas,
       equipamientos: equipamientoSeleccionado,
       disponibilidades: disponibilidadesActivas,
+      disponibilidad: disponibilidadesActivas,
       id_publicador: usuarioLogueado.id_usuario, // <-- ID del usuario logueado
     };
+    
+    console.log(salonPayload);
     
 
     const resultAction = await dispatch(createSalon({ salonData: salonPayload, photos }));
@@ -131,7 +134,7 @@ const NuevoSalonScreen = ({ isLoaded }) => {
 
     if (createSalon.fulfilled.match(resultAction)) {
       Swal.fire('¡Publicado!', 'Tu salón ha sido enviado para revisión.', 'success');
-      navigate('/mis-salones'); // Redirigir a la lista de sus salones
+      //navigate('/mis-salones'); // Redirigir a la lista de sus salones
     } else {
       console.log(resultAction);
       
@@ -146,6 +149,11 @@ const NuevoSalonScreen = ({ isLoaded }) => {
     console.log(formData);
 
   }, [formData])
+
+  useEffect(() => {
+    console.log("aplicado",disponibilidad);
+    
+  }, [disponibilidad])
 
   return (
     <div className='form-full-screen'>
