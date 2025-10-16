@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import SearchbarAdmin from '../SearchbarAdmin/SearchbarAdmin';
 import BloquearButton from '../BloquearButton/BloquearButton';
 
+// VERIFICACIÓN 1: El nombre de la función debe ser "PanelSalones"
 const PanelSalones = ({ salones, usuarios }) => {
   const [selectedSalon, setSelectedSalon] = useState(null);
 
@@ -9,16 +10,16 @@ const PanelSalones = ({ salones, usuarios }) => {
     setSelectedSalon(salon);
   };
   
-  // Usamos useMemo para no recalcular el vendedor en cada render, solo si cambia el salón seleccionado.
   const vendedor = useMemo(() => {
-    if (!selectedSalon) return null;
+    if (!selectedSalon || !usuarios) return null;
     return usuarios.find(u => u.id_usuario === selectedSalon.id_publicador);
   }, [selectedSalon, usuarios]);
 
-
   return (
     <div className="admin-panel">
+      {/* VERIFICACIÓN 2: El título debe ser "Salones" */}
       <h2 className="panel-title">Salones</h2>
+      
       <SearchbarAdmin
         items={salones}
         onSelect={handleSelectSalon}
@@ -34,7 +35,7 @@ const PanelSalones = ({ salones, usuarios }) => {
           </div>
           <div className="detail-item">
             <strong>Vendedor</strong>
-            <span>{vendedor ? `${vendedor.nombre} ${vendedor.apellido}` : 'No encontrado'}</span>
+            <span>{vendedor ? `${vendedor.nombre} ${vendedor.apellido}` : 'Vendedor no encontrado'}</span>
           </div>
           <div className="detail-item">
             <strong>Dirección</strong>
@@ -63,4 +64,5 @@ const PanelSalones = ({ salones, usuarios }) => {
   );
 };
 
+// VERIFICACIÓN 3: La exportación debe ser de "PanelSalones"
 export default PanelSalones;
