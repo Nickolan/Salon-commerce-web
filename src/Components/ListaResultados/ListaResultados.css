@@ -5,3 +5,9 @@
     display: flex;
   flex-direction: column;
 }
+@media (max-width: 768px){
+  .caja_listaresultados {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}

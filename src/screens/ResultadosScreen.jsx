@@ -46,18 +46,21 @@ const ResultadosScreen = () => {
     setFiltros(nuevosFiltros);
   };
   const horaAminutos = (horaStr) => {
+  if (!horaStr || typeof horaStr !== "string" || !horaStr.includes(":")) {
+    return 0;
+  }
   const [h, m] = horaStr.split(":").map(Number);
-  return h * 60 + m;
+  return (h || 0) * 60 + (m || 0);
 };
 
   const salonesCercanos = useMemo(() => {
     if (isNaN(lat) || isNaN(lng)) return salonesData;
 
-    return salonesData.filter(s => {
-      if (!s.lat || !s.lng) return false;
-      const distancia = calcularDistanciaKm(lat, lng, s.lat, s.lng);
-      return distancia <= 5 && s.capacidad >= personas;
-    });
+   return salonesData.filter(s => {
+  if (!s.latitud || !s.longitud) return false;
+  const distancia = calcularDistanciaKm(lat, lng, s.latitud, s.longitud);
+  return distancia <= 5 && s.capacidad >= personas;
+});
   }, [lat, lng, personas]);
 
 const salonesFiltradosFinal = useMemo(() => {
@@ -70,8 +73,9 @@ const salonesFiltradosFinal = useMemo(() => {
     if (filtros.puntaje && s.resenia < Number(filtros.puntaje)) return false;
 
     // Equipamiento
-    if (filtros.equipamiento.length > 0 &&
-        !filtros.equipamiento.every(eq => s.equipamientos?.includes(eq))) return false;
+    const equipamientosSalon = s.equipamientos || Object.keys(s.equipamientos_json || {}).filter(k => s.equipamientos_json[k]);
+if (filtros.equipamiento.length > 0 &&
+    !filtros.equipamiento.every(eq => equipamientosSalon.includes(eq))) return false;
 
     // Horas (solo minutos)
     const inicioSalon = horaAminutos(s.disponibilidad_inicio);

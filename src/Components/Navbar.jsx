@@ -1,72 +1,76 @@
-import React, { Fragment } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux"; // <-- Hooks de Redux
-import { logout } from "../store/features/auth/authSlice"; // <-- Acción de logout
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/features/auth/authSlice";
+import { FiMenu, FiX } from "react-icons/fi";
 import "./Navbar.css";
 
 function Navbar() {
   const dispatch = useDispatch();
-  // Leemos el estado de autenticación y los datos del usuario del store
   const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     dispatch(logout());
+    setMenuOpen(false);
   };
 
-  
-
   return (
-    <Fragment>
-      <nav className="navbar">
-        <div className="container-fluid">
-          <Link to={'/'}>
-            <h2>Focus Room</h2>
-          </Link>
+    <nav className="navbar">
+      <div className="container-fluid">
+        {/* Logo normal como en tu versión original */}
+        <Link to="/" className="navbar-title">
+          <h2>Focus Room</h2>
+        </Link>
 
-          <div className="buttons-container">
-            {
-              isAuthenticated && user && (
-                <Link to="/publicar">
-                  <div className="button">Registra tu salón</div>
-                </Link>
+        {/* Botón hamburguesa (solo visible en pantallas pequeñas) */}
+        <button
+          className="menu-toggle"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+        </button>
 
-              )
-            }
+        {/* Contenedor de botones */}
+        <div className={`buttons-container ${menuOpen ? "active" : ""}`}>
+          {isAuthenticated && user && (
+            <Link to="/publicar" onClick={() => setMenuOpen(false)}>
+              <div className="button">Registra tu salón</div>
+            </Link>
+          )}
 
-            {isAuthenticated && user ? (
-              // Vista para usuario logueado
-              <div className="datos_de_usuario">
-                <Link to="/perfil" className="usuario_link">
-                  <img 
-                    src="https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp" // Idealmente, usar la foto del 'user.foto_perfil'
-                    alt="Usuario"
-                    className="imagen_de_usuario"
-                  />
-                  <span className="nombre_de_usuario">
-                    {user.nombre} {user.apellido}
-                  </span>
-                </Link>
-                {/* Botón de Logout */}
-                {/* <button onClick={handleLogout} className="button">
-                  Cerrar Sesión
-                </button> */}
-              </div>
-            ) : (
-              // Vista para usuario no logueado
-              <Link to="/login">
-                <div className="button">Iniciar Sesión</div>
+          {isAuthenticated && user ? (
+            <div className="datos_de_usuario">
+              <Link
+                to="/perfil"
+                className="usuario_link"
+                onClick={() => setMenuOpen(false)}
+              >
+                <img
+                  src={
+                    user.foto_perfil ||
+                    "https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
+                  }
+                  alt="Usuario"
+                  className="imagen_de_usuario"
+                />
+                <span className="nombre_de_usuario">
+                  {user.nombre} {user.apellido}
+                </span>
               </Link>
-              
-            )}
 
-            <button onClick={handleLogout} className="button">
-                  Cerrar Sesión
-                </button>
-            
-          </div>
+              <button onClick={handleLogout} className="button">
+                Cerrar Sesión
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" onClick={() => setMenuOpen(false)}>
+              <div className="button">Iniciar Sesión</div>
+            </Link>
+          )}
         </div>
-      </nav>
-    </Fragment>
+      </div>
+    </nav>
   );
 }
 
