@@ -1,0 +1,46 @@
+.adminSidebar {
+  padding: 1.25rem; /* 20px */
+  height: 100%;
+  box-sizing: border-box; /* Corregido de 'none' a 'border-box' */
+}
+
+.sidebar-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 1.875rem; /* 30px */
+  color: var(--primary-color);
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 0.9375rem 0.625rem; /* 15px 10px */
+  cursor: pointer;
+  border-radius: 0.5rem; /* 8px */
+  margin-bottom: 0.625rem; /* 10px */
+  transition: background-color 0.3s ease;
+  color: var(--primary-color);
+}
+
+.sidebar-item:hover {
+  color: var(--second-color);
+}
+
+.sidebar-item.active {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.sidebar-icon {
+  margin-right: 0.9375rem; /* 15px */
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+}

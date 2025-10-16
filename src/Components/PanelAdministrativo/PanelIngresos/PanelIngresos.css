@@ -1,0 +1,19 @@
+.panel-ingresos {
+  padding: 1.25rem; /* 20px */
+}
+.ingresos-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9375rem; /* 15px */
+  margin-top: 1.25rem; /* 20px */
+}
+.ingreso-item {
+  background-color: #f9f9f9;
+  border-radius: 0.625rem; /* 10px */
+  padding: 0.9375rem; /* 15px */
+  width: 18.75rem; /* 300px */
+  box-shadow: 0 0.125rem 0.3125rem rgba(0,0,0,0.1); /* 0 2px 5px */
+}
+.ingreso-item p {
+  margin: 0.3125rem 0; /* 5px */
+}

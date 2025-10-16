@@ -25,6 +25,7 @@ import ConfirmacionReservaScreen from './screens/ConfirmacionReservaScreen';
 import ReservasDetalles from './screens/ReservasDetalles';
 import FavoritosScreen from './screens/FavoritosScreen';
 import ReseniarScreen from './screens/ReseniarScreen';
+import AdminScreen from './screens/AdminScreen';
 import Cancelacion from './screens/Cancelacion';
 
 function App() {
@@ -65,6 +66,8 @@ function App() {
         <Route path="/cancelar_salon/:idUsuario/:idReserva" element={<><Navbar user={null}/><Cancelacion /><Chatbot/><Footer/></>}/>
 
         <Route path='/reseniar/:id_salon' element={<><Navbar user={null}/><ReseniarScreen/><Chatbot/><Footer/></>}/>
+
+        <Route path='/administrador' element={<><Navbar user={null}/><AdminScreen/> <Chatbot/><Footer/></>}/>
 
       </Routes>
     </div>

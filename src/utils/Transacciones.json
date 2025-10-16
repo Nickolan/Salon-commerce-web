@@ -61,7 +61,7 @@
   {
     "id_transaccion": 504,
     "reserva": {
-      "id_reserva": 104,
+      "id_reserva": 1004,
       "fecha_reserva": "2025-12-24",
       "salon": {
         "id_salon": 202,
@@ -81,7 +81,7 @@
   {
     "id_transaccion": 505,
     "reserva": {
-      "id_reserva": 105,
+      "id_reserva": 1005,
       "fecha_reserva": "2025-11-15",
       "salon": {
         "id_salon": 203,
@@ -141,7 +141,7 @@
   {
     "id_transaccion": 508,
     "reserva": {
-      "id_reserva": 108,
+      "id_reserva": 1008,
       "fecha_reserva": "2025-11-30",
       "salon": {
         "id_salon": 206,
