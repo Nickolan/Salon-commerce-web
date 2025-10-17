@@ -1,184 +1,153 @@
-import React, { Fragment, useEffect, useState } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { FaStar } from "react-icons/fa";
-import RatingSelector from "../RatingSelector/RatingSelector";
-import "./Sidebarfiltros.css";
+import React, { useState, useEffect } from 'react';
+import './Sidebarfiltros.css';
+
+// Lista de equipamientos comunes (podría venir de la API en el futuro)
+const EQUIPAMIENTOS_DISPONIBLES = [
+  "WiFi",
+  "Pizarra",
+  "Proyector",
+  "Pantalla TV",
+  "Aire Acondicionado",
+  "Calefacción",
+  "Enchufes múltiples",
+  "Mesas Grupales",
+  "Sillas Ergonómicas",
+  "Cafetera",
+  "Dispensador de Agua",
+  "Baño Privado",
+  "Acceso Silla Ruedas",
+  "Estacionamiento",
+  "Pizarra blanca",
+  "Iluminación LED",
+  "Marcadores",
+  "Sistema de sonido",
+];
+
+// Opciones de ordenamiento
+const ORDEN_OPCIONES = [
+  { value: 'precio_asc', label: 'Precio: Menor a Mayor' },
+  { value: 'precio_desc', label: 'Precio: Mayor a Menor' },
+  { value: 'cercania', label: 'Más Cercanos' }, // Asumiendo que la API ordena por cercanía por defecto
+  { value: 'mejor_valorados', label: 'Mejor Valorados' }, // A implementar a futuro
+];
+
+const Sidebarfiltros = ({ onFiltrosChange }) => {
+  // Estados para cada filtro
+  const [precioMin, setPrecioMin] = useState(0);
+  const [precioMax, setPrecioMax] = useState(10000); // Un valor máximo inicial alto
+  const [capacidadMin, setCapacidadMin] = useState(1);
+  const [equipamientosSeleccionados, setEquipamientosSeleccionados] = useState([]);
+  const [orden, setOrden] = useState('cercania'); // Orden por defecto
+
+  // Manejador para checkboxes de equipamiento
+  const handleEquipamientoChange = (event) => {
+    const { value, checked } = event.target;
+    setEquipamientosSeleccionados(prev =>
+      checked ? [...prev, value] : prev.filter(eq => eq !== value)
+    );
+  };
+
+  // Función que se llama al aplicar filtros
+  const aplicarFiltros = () => {
+    onFiltrosChange({
+      precioMin,
+      precioMax,
+      capacidadMin,
+      equipamientos: equipamientosSeleccionados,
+      orden,
+    });
+  };
+
+  // Opcional: Llamar a aplicarFiltros automáticamente cuando cambian los valores
+  // Esto puede ser útil si no quieres un botón "Aplicar" explícito
+  useEffect(() => {
+    // Podrías agregar un debounce aquí si prefieres no aplicar en cada cambio
+    aplicarFiltros();
+  }, [precioMin, precioMax, capacidadMin, equipamientosSeleccionados, orden]);
 
 
-function Sidebarfiltros({ onFilterChange }) {
-    const [precioMin, setPrecioMin] = useState("");
-  const [precioMax, setPrecioMax] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [inicio, setInicio] = useState("");
-  const [fin, setFin] = useState("");
-  const [puntaje, setPuntaje] = useState("");
-  const [equipamiento, setEquipamiento] = useState([]);
-  const handleEquipamiento = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setEquipamiento([...equipamiento, value]);
-    } else {
-      setEquipamiento(equipamiento.filter((item) => item !== value));
-    }
-  };
-   const handlePuntajeChange = (newVal) => {
-    setPuntaje(newVal);
-    
-  };
- const aplicarFiltros = () => {
-  onFilterChange({
-    precioMin,
-    precioMax,
-    fecha,
-    inicio,
-    fin,
-    puntaje,
-    equipamiento,
-  });
-};
   return (
-    <Fragment>
-        <div className="caja_sidebarfiltros">
-            <h2 className="h2titulo">Filtros</h2>
-            <div > 
-                <h4 className="h4subtitulos">Precio</h4>
-                <div className="precio-wrapper">
-  <input className="preciominimo"type="number"
-              placeholder="Mínimo"
-              value={precioMin}
-              onChange={(e)=>setPrecioMin(e.target.value)}
-              />
-              <div>-</div>
-              <input className="preciomaximo"type="number"
-              placeholder="Máximo"
-              value={precioMax}
-              onChange={(e)=>setPrecioMax(e.target.value)}
-              />
-                </div>
-            </div>
-            <div>
-                <h4 className="h4subtitulos">Disponibilidad</h4>
-                <input className="input_fecha"type="date"
-              placeholder="Fecha"
-              value={fecha}
-              onChange={(e)=>setFecha(e.target.value)}
-              />
-              <div className="horarios-wrapper ">
-              <input className="input_inicio"type="time"
-              placeholder="Inicio"
-              value={inicio}
-              onChange={(e)=>setInicio(e.target.value)}
-              />
-              <div>-</div>
-              <input className="input_fin"type="time"
-              placeholder="Fin"
-              value={fin}
-              onChange={(e)=>setFin(e.target.value)}
-              />
-              </div>
-                 <aside>
-      <h4 className="h4subtitulos">Puntaje</h4>
-      <RatingSelector value={puntaje} onChange={handlePuntajeChange} size={20} />
-      <p>Seleccionado: {puntaje} <FaStar/></p>
-    </aside>
-              </div>
-              <div>
-  <h4 className="h4subtitulos">Equipamiento</h4>
-  <div>
-    <label>
-      <input
-        type="checkbox"
-        value="wifi"
-        onChange={(e) => handleEquipamiento(e)}
-      />
-      WiFi
-    </label>
-  </div>
+    <div className="sidebar-filtros">
+      <h4>Filtrar Resultados</h4>
 
-  <div>
-    <label>
-      <input
-        type="checkbox"
-        value="proyector"
-        onChange={(e) => handleEquipamiento(e)}
-      />
-      Proyector
-    </label>
-  </div>
-
-  <div>
-    <label>
-      <input
-        type="checkbox"
-        value="aire acondicionado"
-        onChange={(e) => handleEquipamiento(e)}
-      />
-      Aire acondicionado
-    </label>
-  </div>
-
-  <div>
-    <label>
-      <input
-        type="checkbox"
-        value="tv"
-        onChange={(e) => handleEquipamiento(e)}
-      />
-      TV
-    </label>
-  </div>
-
-  <div>
-    <label>
-      <input
-        type="checkbox"
-        value="calefacción"
-        onChange={(e) => handleEquipamiento(e)}
-      />
-      Calefacción
-    </label>
-  </div>
-
-  <div>
-    <label>
-      <input
-        type="checkbox"
-        value="pizarron"
-        onChange={(e) => handleEquipamiento(e)}
-      />
-      Pizarrón
-    </label>
-  </div>
-
-  <div>
-    <label>
-      <input
-        type="checkbox"
-        value="aislamiento de ruido"
-        onChange={(e) => handleEquipamiento(e)}
-      />
-      Aislamiento de ruido
-    </label>
-  </div>
-
-  <div>
-    <label>
-      <input
-        type="checkbox"
-        value="vajilla"
-        onChange={(e) => handleEquipamiento(e)}
-      />
-      Vajilla
-    </label>
-  </div>
-</div>
-<button className="boton_aplicar" onClick={aplicarFiltros}>Aplicar filtros</button>
-              
-            
-
+      {/* Filtro por Precio */}
+      <div className="filtro-grupo">
+        <label htmlFor="precioMin">Precio por Hora</label>
+        <div className="precio-inputs">
+          <input
+            type="number"
+            id="precioMin"
+            value={precioMin}
+            onChange={(e) => setPrecioMin(Math.max(0, parseInt(e.target.value) || 0))}
+            min="0"
+            placeholder="Mín"
+          />
+          <span>-</span>
+          <input
+            type="number"
+            id="precioMax"
+            value={precioMax}
+            onChange={(e) => setPrecioMax(Math.max(precioMin + 1, parseInt(e.target.value) || 0))} // Asegura que max > min
+            min={precioMin + 1}
+            placeholder="Máx"
+          />
         </div>
-    </Fragment>
+      </div>
+
+      {/* Filtro por Capacidad */}
+      <div className="filtro-grupo">
+        <label htmlFor="capacidadMin">Capacidad Mínima</label>
+        <input
+          type="number"
+          id="capacidadMin"
+          value={capacidadMin}
+          onChange={(e) => setCapacidadMin(Math.max(1, parseInt(e.target.value) || 1))}
+          min="1"
+          placeholder="Ej: 5"
+        />
+      </div>
+
+      {/* Filtro por Equipamientos */}
+      <div className="filtro-grupo">
+        <label>Equipamientos</label>
+        <div className="equipamientos-checkboxes">
+          {EQUIPAMIENTOS_DISPONIBLES.map(eq => (
+            <div key={eq}>
+              <input
+                type="checkbox"
+                id={`eq-${eq}`}
+                value={eq}
+                checked={equipamientosSeleccionados.includes(eq)}
+                onChange={handleEquipamientoChange}
+              />
+              <label htmlFor={`eq-${eq}`}>{eq}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Ordenar por */}
+      <div className="filtro-grupo">
+        <label htmlFor="orden">Ordenar por</label>
+        <select
+          id="orden"
+          value={orden}
+          onChange={(e) => setOrden(e.target.value)}
+        >
+          {ORDEN_OPCIONES.map(op => (
+            <option key={op.value} value={op.value}>{op.label}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Botón Aplicar (Opcional, si quitas el useEffect) */}
+      {/*
+      <button className="boton-aplicar-filtros" onClick={aplicarFiltros}>
+        Aplicar Filtros
+      </button>
+      */}
+    </div>
   );
-}
+};
+
 export default Sidebarfiltros;
