@@ -2,9 +2,9 @@
   height: 15%;
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: center; 
   justify-content: space-between;
-  padding: 0 2.5rem; /* 40px */
+  padding: 0 2.5rem;
   box-sizing: border-box;
   margin-top: 2%;
 }
@@ -15,16 +15,23 @@
   font-weight: 600;
 }
 
+.header-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9375rem;
+}
+
 .header-stats-buttons {
   display: flex;
   align-items: center;
-  gap: 0.9375rem; /* 15px */
+  gap: 0.9375rem;
 }
 
 .header-stats-buttons button {
-  min-width: 9.375rem; /* 150px */
-  padding: 0.75rem 1.25rem; /* 12px 20px */
-  border-radius: 0.5rem; /* 8px */
+  min-width: 9.375rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
   border: none;
   cursor: pointer;
   font-size: 1em;
@@ -37,8 +44,8 @@
 .header-stats-buttons button:hover,
 .header-stats-buttons button.active {
   background-color: var(--second-color);
-  transform: translateY(-0.125rem); /* -2px */
-  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.15); /* 0 4px 10px */
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.15);
 }
 
 .header-stats-buttons button:active {
@@ -46,12 +53,36 @@
   box-shadow: none;
 }
 
+.month-selector-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.month-selector-input {
+  font-family: Arial, sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 0.0625rem solid var(--second-color);
+  color: var(--primary-color);
+  background-color: #fff;
+  cursor: pointer;
+  text-transform: capitalize; /* Pone la primera letra del mes en mayúscula */
+}
+
+.month-selector-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
 /* --- ESTILOS RESPONSIVOS --- */
 @media (max-width: 1300px) {
   .header-admin {
     flex-direction: column;
-    align-items: flex-start; /* Alineamos todo a la izquierda */
-    height: auto; /* Altura automática para que quepa todo */
+    /* 1. Alineamos todo al centro */
+    align-items: center; 
+    height: auto;
     gap: 1.5rem;
     padding: 1.5rem;
     margin-top: 0;
@@ -59,16 +90,26 @@
 
   .header-welcome {
     font-size: 1.8em;
+    /* 2. Centramos el texto del saludo */
+    text-align: center;
+    width: 100%;
+  }
+
+  /* 3. El contenedor de controles también se centra */
+  .header-controls {
+    align-items: center;
+    width: 100%;
   }
 
   .header-stats-buttons {
-    flex-wrap: wrap; /* Permitimos que los botones pasen a la siguiente línea */
-    justify-content: flex-start;
+    flex-wrap: wrap;
+    /* 4. Centramos los botones cuando pasan a la siguiente línea */
+    justify-content: center;
     width: 100%;
   }
 
   .header-stats-buttons button {
-    flex-grow: 1; /* Hacemos que los botones ocupen el espacio disponible */
-    min-width: 120px; /* Reducimos el ancho mínimo */
+    flex-grow: 1;
+    min-width: 120px;
   }
 }
