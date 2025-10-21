@@ -1,26 +1,45 @@
-.pagina-misReservas {
-    padding: 2rem;
-    padding-top: 6rem;
+.pagina-mis-reservas {
+  max-width: 900px; /* Ancho máximo para la lista */
+  margin: 0 auto;
+  padding: 100px 1rem 4rem 1rem; /* Padding superior para navbar, inferior para footer */
+  min-height: calc(100vh - 80px); /* Altura mínima */
 }
 
-.pagina-misReservas .titulo {
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-    color: #6A0DAD;
-    font-size: 2rem;
-    font-weight: bold;
-}
-
-.pagina-misReservas .listado-reservas {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    margin-top: 2.1rem;
-}
-
-.pagina-misReservas .sin-resultados {
-  color: #6A0DAD;
-  font-weight: bold;
+.titulo-mis-reservas {
+  color: var(--primary-color);
   text-align: center;
-  margin-top: 1rem;
+  margin-bottom: 2.5rem;
+  font-size: 2.2rem;
+}
+
+.lista-reservas {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Estilos para mensajes de estado (Cargando, Error, Vacío) */
+.status-message {
+  padding: 3rem 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+  background-color: #f7f7f7;
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+.status-message.error {
+  color: #d8000c;
+  background-color: #ffd2d2;
+}
+
+/* ... (tus estilos existentes) */
+
+.barra-busqueda-container-mis-salones {
+  margin-bottom: 2rem; /* O el espacio que prefieras */
+  /* Puedes añadir max-width si no quieres que ocupe todo el ancho */
+  /* max-width: 600px; */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
 }

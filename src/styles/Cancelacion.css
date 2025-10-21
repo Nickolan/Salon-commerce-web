@@ -242,7 +242,7 @@
     font-size: inherit; 
 }
 
-.cancelacion .cargando, .error {
+.cancelacion .cargando, .cancelacion .error {
     text-align: center;
     padding: 40px;
     font-size: var(--tamano-texto-normal); 

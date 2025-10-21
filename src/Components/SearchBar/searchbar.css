@@ -18,6 +18,14 @@
     flex-grow: 0;
     min-width: 120px;
 }
+
+.search-input-wrapper.capacity .search-input{
+    max-width: 60px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 .search-input {
     border: none;
     outline: none;

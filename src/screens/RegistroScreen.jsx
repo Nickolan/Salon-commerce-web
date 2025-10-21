@@ -163,7 +163,7 @@ function RegistroScreen() {
                 required
               />
               <span className="custom-checkbox"></span>
-              Acepto los <a href="/terminos.pdf" target="_blank" rel="noopener noreferrer">términos y condiciones</a>
+              Acepto los <Link to={'/terminos&condiciones'} target="_blank" rel="noopener noreferrer">términos y condiciones</Link>
             </label>
             <p className={`error ${errores.aceptaTerminos ? "active" : ""}`}>{errores.aceptaTerminos}</p>
           </div>

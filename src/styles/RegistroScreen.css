@@ -50,8 +50,9 @@
 }
 
 .form-group {
+  margin-bottom: 0.8rem; /* <-- AJUSTA ESTE VALOR (igual que en LoginScreen.css) */
   position: relative;
-  text-align: left;
+  width: 100%;
 }
 
 .form-group input[type="text"],
@@ -77,10 +78,11 @@
 .form-group-row {
   display: flex;
   gap: 1rem;
+  margin-bottom: 0.8rem; /* <-- Asegúrate que tenga el mismo margen inferior */
 }
 
 .form-group-row .form-group {
-  flex: 1; /* Para que cada input ocupe la mitad del espacio */
+  margin-bottom: 0;
 }
 
 .password-group input {
@@ -142,7 +144,7 @@
   transform: translate(-50%, -50%);
 }
 
-.checkbox-group a {
+.checkbox-group  {
   text-decoration: underline;
   color: var(--primary-color);
   font-weight: 500;

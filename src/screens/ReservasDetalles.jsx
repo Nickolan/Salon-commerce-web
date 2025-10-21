@@ -1,174 +1,141 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, Link, useParams, useNavigate } from 'react-router-dom';
-import "../styles/ReservasDetalles.css";
-import { IoIosArrowDropdown } from "react-icons/io";
-import { FaMap, FaExclamationTriangle } from "react-icons/fa";
-import Salones from "../utils/Salones.json";
-import Reservas from "../utils/Reservas.json";
-import Usuarios from "../utils/Usuarios.json";
-import DatosDelPago from '../components/ItemReserva/DatosDelPago/DatosDelPago';
+import React, { useEffect } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchReservaById, clearSelectedReserva } from '../store/features/reservas/reservasSlice';
+import { format, parseISO } from 'date-fns';
+import es from 'date-fns/locale/es';
+import { FiMapPin, FiClock, FiCalendar, FiCheckCircle, FiAlertCircle, FiXCircle, FiUser, FiHome, FiDollarSign } from "react-icons/fi";
+
+import './../styles/ReservasDetalles.css'; // Crearemos este archivo
 
 const ReservasDetalles = () => {
-  const location = useLocation();
-  const { id } = useParams();
-  const navigate = useNavigate();
+    const { id } = useParams(); // Obtiene el ID de la reserva desde la URL
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-  
+    // Obtener datos del estado global
+    const { selectedReserva, selectedReservaStatus, error } = useSelector((state) => state.reservas);
+    const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const [mostrarSalon, setMostrarSalon] = useState(true);// dejar en true
-  const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState(null);
-  const [nombreVendedor, setNombreVendedor] = useState("");
-  const [mostrarDatosPago, setMostrarDatosPago] = useState(false);
+    // Efecto para cargar los datos y limpiar al salir
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login');
+            return;
+        }
+        if (id) {
+            dispatch(fetchReservaById(id));
+        } else {
+            // Si no hay ID, redirigir o mostrar error
+            console.error("No se proporcionó ID de reserva");
+            navigate('/mis-reservas'); // O a donde prefieras
+        }
 
-  const formatearFechaCompleta = (fecha) => {
-    const fechaObj = new Date(fecha);
-    const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
-    return fechaObj.toLocaleDateString('es-ES', opciones);
-  };
+        // Función de limpieza que se ejecuta al desmontar el componente
+        return () => {
+            dispatch(clearSelectedReserva());
+        };
+    }, [id, dispatch, isAuthenticated, navigate]);
 
-  const toggleDatosPago = () => {
-    setMostrarDatosPago(!mostrarDatosPago);
-  };
+    // Función para obtener icono, clase y texto según el estado (igual que en ItemReserva)
+     const getEstadoInfo = (estado) => {
+        switch (estado) {
+        case 'confirmada':
+            return { icon: <FiCheckCircle />, className: 'estado-confirmada', texto: 'Confirmada' };
+        case 'cancelada':
+            return { icon: <FiXCircle />, className: 'estado-cancelada', texto: 'Cancelada' };
+        case 'completada':
+            return { icon: <FiCheckCircle />, className: 'estado-completada', texto: 'Completada' };
+        case 'creada':
+        default:
+            return { icon: <FiAlertCircle />, className: 'estado-pendiente', texto: 'Pendiente' };
+        }
+    };
 
-  useEffect(() => {
-    if (!id) {
-      setError("No se proporcionó un ID de reserva");
-      setTimeout(() => navigate('/mis-reservas'), 2000);
-      return;
+    // Renderizado condicional principal
+    if (selectedReservaStatus === 'loading') {
+        return <div className="detalles-reserva-page loading"><h1>Cargando detalles de la reserva...</h1></div>;
     }
-    const reservaExistente = Reservas.find(reserva => reserva.id_reserva === parseInt(id));
 
-    if (!reservaExistente) {
-      setError(`No se encontró la reserva #${id}`);
-      setTimeout(() => navigate('/mis-reservas'), 3000);
-      return;
+    if (selectedReservaStatus === 'failed') {
+        return <div className="detalles-reserva-page error"><h1>Error al cargar la reserva</h1><p>{error}</p></div>;
     }
-    const salon = Salones.find(s => s.id_salon === reservaExistente.id_salon);
 
-    if (salon) {
-      const vendedor = Usuarios.find(u => u.id_usuario === salon.id_publicador);
-      if (vendedor) {
-        setNombreVendedor(vendedor.nombre_usuario);
-      } else {
-        setNombreVendedor("Vendedor no encontrado");
-      }
+    if (!selectedReserva) {
+        // Puede ocurrir brevemente antes de cargar o si falla silenciosamente
+        return <div className="detalles-reserva-page error"><h1>Reserva no encontrada</h1></div>;
     }
-    setCargando(false);
-  }, [id, navigate]);
 
-  if (cargando && !error) {
+    // Si tenemos los datos, los mostramos
+    const { salon, arrendatario, fecha_reserva, hora_inicio, hora_fin, estado_reserva } = selectedReserva;
+    const estadoInfo = getEstadoInfo(estado_reserva);
+
+    const fechaFormateada = fecha_reserva ? format(parseISO(fecha_reserva), 'PPPP', { locale: es }) : 'N/A'; // PPPP -> lunes, 19 de octubre de 2025
+
     return (
-      <div className='detalles-reservas'>
-        <div className='cargando'>Cargando detalles de la reserva...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className='detalles-reservas'>
-        <div className='error'>
-          <FaExclamationTriangle className='error-icon' />
-          <p className='error-message'>{error}</p>
-          <p className='error-submessage'>Redirigiendo a Mis Reservas...</p>
-        </div>
-      </div>
-    );
-  }
-
-  const reserva = Reservas.find(r => r.id_reserva === parseInt(id));
-
-  if (!reserva) {
-    return (
-      <div className='detalles-reservas'>
-        <div className='error'>
-          <FaExclamationTriangle className='error-icon' />
-          <p className='error-message'>Reserva no encontrada</p>
-          <p className='error-submessage'>Redirigiendo a Mis Reservas...</p>
-        </div>
-      </div>
-    );
-  }
-
-  const salon = Salones.find(salon => salon.id_salon === reserva.id_salon);
-
-  // Determinar el estado de la reserva
-  const hoy = new Date();
-  const fechaReserva = new Date(reserva.fecha_reserva);
-  const estado = fechaReserva > hoy ? "Por realizarse" : "Completado";
-
-  return (
-    <div className={`pagina-contenedor ${mostrarDatosPago ? 'con-sidebar' : ''}`}>
-      <div className='detalles-reservas'>
-        <div className='titulo'>
-          <h1>Detalle de la Reserva #{id}</h1>
-          {/* <IoIosArrowDropdown
-            className='icon'
-            onClick={() => setMostrarSalon(!mostrarSalon)}
-          /> */}
-        </div>
-
-        {mostrarSalon && salon && (
-          <>
-            <div className='salon-card'>
-              <div className='salon-izquierda'>
-                <h3>{salon.nombre}</h3>
-                <div className='salon-ubicacion'>
-                  <FaMap className='map-icon' />
-                  <p>{salon.ubicacion}</p>
-                </div>
-              </div>
-              <div className='salon-derecha'>
-                <img src={salon.fotos[0]} alt={salon.nombre} className='salon-imagen' />
-              </div>
+        <div className="detalles-reserva-page">
+            <div className="detalles-reserva-header">
+                <h1>Detalles de la Reserva #{selectedReserva.id_reserva}</h1>
+                <span className={`reserva-estado-tag ${estadoInfo.className}`}>
+                    {estadoInfo.icon} {estadoInfo.texto}
+                </span>
             </div>
-            <div className='cards-container'>
-              <div className='card-estado'>
-                <h4>{estado}</h4>
-                <p>{formatearFechaCompleta(reserva.fecha_reserva)}</p>
-                <div className='horas'>
-                  <p>{reserva.hora_inicio}</p>
-                  <p>{reserva.hora_fin}</p>
-                </div>
-              </div>
-              <div className='card-vendedor'>
-                <h4>Vendedor</h4>
-                <p>{nombreVendedor}</p>
-              </div>
-              <div className='card-info'>
-                <h4>Info Reserva</h4>
-                <p>{formatearFechaCompleta(reserva.fecha_creacion)}</p>
-                <button
-                  onClick={toggleDatosPago}
-                  className='ver-comprobante'
-                >
-                  {mostrarDatosPago ? 'Ocultar Comprobante' : 'Ver Comprobante'}
-                </button>
-              </div>
-            </div>
-          </>
-        )}
 
-        {estado === "Por realizarse" && (
-          <div className='cancelar-button-container'>
-            <Link
-              to={`/cancelar_salon/${reserva.id_arrendatario}/${reserva.id_reserva}`}
-              className='cancelar-button'
-            >
-              CANCELAR
-            </Link>
-          </div>
-        )}
-      </div>
-      {mostrarDatosPago && (
-        <DatosDelPago
-          reservaId={parseInt(id)}
-          onClose={toggleDatosPago}
-        />
-      )}
-    </div>
-  );
+            <div className="detalles-reserva-content">
+                <section className="detalle-seccion salon-info">
+                    <h2>Salón Reservado</h2>
+                    <Link to={`/salon/${salon?.id_salon}`} className="salon-nombre-link">
+                         <FiHome className="icono"/> {salon?.nombre || 'Salón no disponible'}
+                    </Link>
+                    <p><FiMapPin className="icono"/> {salon?.direccion || 'Dirección no disponible'}</p>
+                    {/* Podrías añadir más detalles del salón si los necesitas */}
+                </section>
+
+                <section className="detalle-seccion fecha-hora-info">
+                    <h2>Fecha y Hora</h2>
+                    <p><FiCalendar className="icono"/> {fechaFormateada}</p>
+                    <p><FiClock className="icono"/> {hora_inicio} - {hora_fin}</p>
+                </section>
+
+                {/* Mostramos info del arrendatario (tú mismo en "Mis Reservas") */}
+                {arrendatario && (
+                    <section className="detalle-seccion arrendatario-info">
+                        <h2>Reservado por</h2>
+                        <p><FiUser className="icono"/> {arrendatario.nombre} {arrendatario.apellido}</p>
+                        {/* Puedes añadir email o teléfono si es relevante */}
+                    </section>
+                )}
+
+                {/* Aquí podrías añadir detalles del pago si los tienes */}
+                {/* <section className="detalle-seccion pago-info">
+                    <h2>Detalles del Pago</h2>
+                    <p><FiDollarSign className="icono"/> Monto: ${selectedReserva.transacciones?.[0]?.monto_pagado || 'N/A'}</p>
+                    <p>Método: {selectedReserva.transacciones?.[0]?.metodo_pago || 'N/A'}</p>
+                    <p>Estado: {selectedReserva.transacciones?.[0]?.estado_transaccion || 'N/A'}</p>
+                </section> */}
+
+                {/* Acciones posibles */}
+                <section className="detalle-seccion acciones-reserva">
+                    <h2>Acciones</h2>
+                    {estado_reserva === 'confirmada' && (
+                        <button className="btn-accion cancelar">Cancelar Reserva</button>
+                    )}
+                    {estado_reserva === 'completada' && !selectedReserva.resenia && (
+                        <button className="btn-accion resenia">Dejar Reseña</button>
+                    )}
+                    {estado_reserva === 'cancelada' && selectedReserva.cancelacion && (
+                        <p className='info-cancelacion'>
+                           Cancelado el {format(parseISO(selectedReserva.cancelacion.fecha_cancelacion), 'dd/MM/yyyy HH:mm')}
+                           por {selectedReserva.cancelacion.cancelado_por}.
+                           Motivo: {selectedReserva.cancelacion.motivo}
+                        </p>
+                    )}
+                     <button className="btn-accion volver" onClick={() => navigate('/mis-reservas')}>Volver a Mis Reservas</button>
+                </section>
+
+            </div>
+        </div>
+    );
 };
 
 export default ReservasDetalles;

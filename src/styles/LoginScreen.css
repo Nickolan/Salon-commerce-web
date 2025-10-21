@@ -49,8 +49,9 @@
 }
 
 .form-group {
-  position: relative; /* Posición relativa para el mensaje de error */
-  text-align: left;
+  margin-bottom: 0.8rem; /* <-- AJUSTA ESTE VALOR (antes probablemente era 1rem o más) */
+  position: relative;
+  width: 100%;
 }
 
 .form-group input {

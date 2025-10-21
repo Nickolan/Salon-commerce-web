@@ -6,13 +6,13 @@
   background-color: transparent;
 }
 
-.sidebar-container {
+.admin-screen .sidebar-container {
   width: 20%;
   height: 100%;
   background-color: transparent;
 }
 
-.main-content-container {
+.admin-screen .main-content-container {
   width: 80%; 
   height: 100%;
   display: flex;

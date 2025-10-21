@@ -1,32 +1,65 @@
 .carrusel-wrapper {
-  padding: 0 1rem; /* Espacio para que las flechas no se peguen a los bordes */
+  /* Añadimos padding horizontal para dar espacio a las flechas */
+  padding: 0 3rem; /* Ajusta este valor si quieres más o menos espacio */
+  position: relative; /* Necesario para posicionar las flechas correctamente */
 }
 
 .mi-carrusel {
   padding-bottom: 3rem; /* Espacio inferior para los puntos de paginación */
 }
 
-/* --- Personalización de Swiper con Variables CSS --- */
+/* --- Personalización de Swiper --- */
 
-/* Color de las flechas de navegación */
-.mi-carrusel .swiper-button-next,
-.mi-carrusel .swiper-button-prev {
+/* Flechas de Navegación */
+.mi-carrusel .swiper-button-prev,
+.mi-carrusel .swiper-button-next {
   color: var(--primary-color);
-  transition: transform 0.2s ease;
+  /* Ajustamos el tamaño para que sean más notorias */
+  --swiper-navigation-size: 28px; /* Cambia el tamaño del ícono de la flecha */
+  /* Posicionamiento Vertical */
+  top: 50%; /* Centra verticalmente */
+  transform: translateY(-50%); /* Ajuste fino para centrar exactamente */
+  /* Fondo sutil para mejorar visibilidad (opcional) */
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  width: 40px; /* Ancho del círculo */
+  height: 40px; /* Alto del círculo */
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.mi-carrusel .swiper-button-next:hover,
-.mi-carrusel .swiper-button-prev:hover {
-  transform: scale(1.2);
+.mi-carrusel .swiper-button-prev:hover,
+.mi-carrusel .swiper-button-next:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-50%) scale(1.1); /* Efecto de escala al pasar el mouse */
 }
 
-/* Color del punto de paginación activo */
+/* --- 👇 Posicionamiento Horizontal (La Clave) --- */
+.mi-carrusel .swiper-button-prev {
+  left: 0.5rem; /* Ajusta este valor para mover la flecha izquierda */
+}
+
+.mi-carrusel .swiper-button-next {
+  right: 0.5rem; /* Ajusta este valor para mover la flecha derecha */
+}
+/* ------------------------------------------------ */
+
+/* Paginación (Puntos) */
+.mi-carrusel .swiper-pagination-bullet {
+  background-color: #ccc; /* Color de puntos inactivos */
+  opacity: 0.8;
+}
+
 .mi-carrusel .swiper-pagination-bullet-active {
   background-color: var(--primary-color);
+  opacity: 1;
 }
 
 /* Ocultar flechas en pantallas muy pequeñas */
 @media (max-width: 576px) {
+  .carrusel-wrapper {
+    padding: 0 0.5rem; /* Menos padding en móviles */
+  }
   .mi-carrusel .swiper-button-next,
   .mi-carrusel .swiper-button-prev {
     display: none;

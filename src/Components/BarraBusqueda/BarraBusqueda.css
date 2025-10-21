@@ -1,53 +1,45 @@
-.barra-busqueda-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+.barra-busqueda-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Espacio entre la barra y el contador */
+  width: 100%;
+  margin-bottom: 1.5rem; /* Espacio debajo de la barra */
 }
 
-.form-barraBusqueda {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    border: 0.05rem solid var(--primary-color);
-    border-radius: 1rem;
-    padding: 0.4rem 0.8rem;
-    width: 100%;
-    max-width: 25rem;
-    background-color: #fff;
-    box-sizing: border-box;
+.barra-busqueda {
+  display: flex;
+  align-items: center;
+  background-color: #f8f8f8;
+  border: 1px solid #e0e0e0;
+  border-radius: 25px; /* Bordes redondeados */
+  padding: 0.5rem 1rem;
+  flex-grow: 1; /* Ocupa el espacio disponible */
 }
 
-.form-barraBusqueda input {
-    border: none;
-    outline: none;
-    flex: 1;
-    font-size: 0.9rem;
-    background-color: transparent;
-    color: var(--primary-color);
+.icono-busqueda {
+  color: #888;
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
 }
 
-.form-barraBusqueda input::placeholder {
-    color: rgba(106, 13, 173, 0.5);
-    font-style: italic;
+.input-busqueda {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 100%;
+  font-size: 1rem;
+  color: #333;
 }
 
-.form-barraBusqueda svg {
-    color: var(--primary-color);
-    font-size: 1.2rem;
+.input-busqueda::placeholder {
+  color: #aaa;
 }
 
-.total-salones {
-    font-size: 1rem;
-    font-weight: bold;
-    color: var(--primary-color);
+.contador-resultados {
+  font-size: 0.9rem;
+  color: #666;
+  white-space: nowrap; /* Evita que el texto se parta */
 }
 
-.total-salones::after {
-  content: " salones";
-}
-
-@media (max-width: 520px) {
-  .total-salones::after {
-    content: "";
-  }
-}
+/* Si tenías un botón de filtros, aquí irían sus estilos */
+/* .boton-filtros { ... } */

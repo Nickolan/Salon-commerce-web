@@ -30,6 +30,7 @@ import ReseniarScreen from './screens/ReseniarScreen';
 import PoliticaPrivacidadScreen from './screens/PoliticaPrivacidadScreen'
 import AdminScreen from './screens/AdminScreen';
 import Cancelacion from './screens/Cancelacion';
+import ReservarSalonScreen from './screens/ReservarSalonScreen';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -87,7 +88,7 @@ function App() {
         <Route path="/mis_ventas" element={<><Navbar user={null}/><Reservacionesrec/> <Chatbot/><Footer/></>}/>
         <Route path="/perfil" element={<><Navbar user={null}/><Perfil/><Footer/> <Chatbot/></>}/>
         <Route path='/editar-perfil' element={<><Navbar user={null}/><EditarPerfil/> <Chatbot/><Footer/></>}/>
-        <Route path='/reservar/:id_salon' element={<><Navbar user={null}/><ReservarScreen/> <Chatbot/><Footer/></>}/>
+        {/* <Route path='/reservar/:id_salon' element={<><Navbar user={null}/><ReservarScreen/> <Chatbot/><Footer/></>}/> */}
         <Route path='/resumen-reserva/:id_salon' element={<><Navbar user={null}/><ResumenReservaScreen/><Chatbot/><Footer/></>}/>
         <Route path='/confirmacion-reserva' element={<><Navbar user={null}/><ConfirmacionReservaScreen/><Chatbot/><Footer/></>} />
         <Route path="/salon/:id" element={ <> <Navbar user={null} /> <DetallesSalon isLoaded={isLoaded} /> <Chatbot/> <Footer/> </> } />
@@ -96,6 +97,8 @@ function App() {
           
         <Route path='/favoritos' element={<><Navbar user={null}/><FavoritosScreen/> <Chatbot/><Footer/></>}/>
         <Route path="/cancelar_salon/:idUsuario/:idReserva" element={<><Navbar user={null}/><Cancelacion /><Chatbot/><Footer/></>}/>
+
+        <Route path="/reservar/:id" element={<><Navbar user={null} /><ReservarSalonScreen /><Chatbot/><Footer /></>} />
 
         <Route path='/reseniar/:id_salon' element={<><Navbar user={null}/><ReseniarScreen/><Chatbot/><Footer/></>}/>
         <Route path="/politica-de-privacidad" element={<><Navbar user={null} /> <PoliticaPrivacidadScreen/> <Chatbot/><Footer/></>} />

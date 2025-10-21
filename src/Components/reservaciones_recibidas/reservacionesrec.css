@@ -1,21 +1,64 @@
-.tabla1{
-    border-bottom: var(--primary-color) solid 0.1rem;
-    border-top: var(--primary-color) solid 0.1rem; 
-    border-left: var(--primary-color) solid 0.1rem;
-    border-right: var(--primary-color) solid 0.1rem;
-    table-layout: fixed;
-   
+.reservaciones-rec-page {
+    padding: 30px 1rem 4rem 1rem; /* Padding superior para navbar */
+    max-width: 1100px;
+    margin: 0 auto;
+    min-height: 80vh;
 }
-.botones_expansion{
-    margin-bottom: 90px;
+
+.titulo {
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
 }
-.nombres_de_filas{
-    margin-bottom: 1rem;
+
+.tabla-reservaciones {
+  border-collapse: separate; /* Permite bordes redondeados */
+  border-spacing: 0;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  border-radius: 8px; /* Bordes redondeados para la tabla */
+  overflow: hidden; /* Asegura que los bordes redondeados se apliquen */
 }
-.titulo{
-    color:var(--primary-color) !important;
+
+.tabla-reservaciones thead {
+  background-color: var(--primary-color);
+  color: white;
 }
-.tabla1 th,
-.tabla1 td{
-    color:var(--primary-color) ;
+
+.tabla-reservaciones th,
+.tabla-reservaciones td {
+  padding: 1rem 0.75rem;
+  vertical-align: middle; /* Centra verticalmente */
+  border-bottom: 1px solid #dee2e6; /* Línea separadora */
+}
+.tabla-reservaciones th {
+    font-weight: 600;
+}
+
+.tabla-reservaciones tbody tr:last-child td {
+  border-bottom: none; /* Quita borde inferior de la última fila */
+}
+
+.tabla-reservaciones tbody tr:nth-child(even) {
+  background-color: #f8f9fa; /* Color alterno para filas */
+}
+.tabla-reservaciones tbody tr:hover {
+  background-color: #f1e7ff; /* Color al pasar el mouse */
+}
+
+.botones_expansion button {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.botones_expansion button:hover {
+  transform: scale(1.1);
+  color: #5a1a8b;
 }
