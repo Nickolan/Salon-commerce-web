@@ -44,7 +44,7 @@ const HomeScreen = ({isLoaded}) => {
             id_salon={salon.id_salon}
             nombre={salon.nombre}
             precio={salon.precio_por_hora}
-            imagen={salon.fotos && salon.fotos.length > 0 ? salon.fotos[0] : 'https://via.placeholder.com/150'} // Imagen por defecto
+            imagen={salon.fotos && salon.fotos.length > 0 ? salon.fotos[0] : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} // Imagen por defecto
           />
         )}
       />

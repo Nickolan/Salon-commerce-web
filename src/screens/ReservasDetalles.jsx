@@ -15,7 +15,7 @@ const ReservasDetalles = () => {
 
     // Obtener datos del estado global
     const { selectedReserva, selectedReservaStatus, error } = useSelector((state) => state.reservas);
-    const { isAuthenticated } = useSelector((state) => state.auth);
+    const { isAuthenticated, user } = useSelector((state) => state.auth);
 
     // Efecto para cargar los datos y limpiar al salir
     useEffect(() => {
@@ -38,18 +38,23 @@ const ReservasDetalles = () => {
     }, [id, dispatch, isAuthenticated, navigate]);
 
     // Función para obtener icono, clase y texto según el estado (igual que en ItemReserva)
-     const getEstadoInfo = (estado) => {
+    const getEstadoInfo = (estado) => {
         switch (estado) {
-        case 'confirmada':
-            return { icon: <FiCheckCircle />, className: 'estado-confirmada', texto: 'Confirmada' };
-        case 'cancelada':
-            return { icon: <FiXCircle />, className: 'estado-cancelada', texto: 'Cancelada' };
-        case 'completada':
-            return { icon: <FiCheckCircle />, className: 'estado-completada', texto: 'Completada' };
-        case 'creada':
-        default:
-            return { icon: <FiAlertCircle />, className: 'estado-pendiente', texto: 'Pendiente' };
+            case 'confirmada':
+                return { icon: <FiCheckCircle />, className: 'estado-confirmada', texto: 'Confirmada' };
+            case 'cancelada':
+                return { icon: <FiXCircle />, className: 'estado-cancelada', texto: 'Cancelada' };
+            case 'completada':
+                return { icon: <FiCheckCircle />, className: 'estado-completada', texto: 'Completada' };
+            case 'creada':
+            default:
+                return { icon: <FiAlertCircle />, className: 'estado-pendiente', texto: 'Pendiente' };
         }
+    };
+
+    const handleCancelarClick = () => {
+        if (!user || !selectedReserva) return;
+        navigate(`/cancelar_salon/${user.id_usuario}/${selectedReserva.id_reserva}`);
     };
 
     // Renderizado condicional principal
@@ -85,23 +90,23 @@ const ReservasDetalles = () => {
                 <section className="detalle-seccion salon-info">
                     <h2>Salón Reservado</h2>
                     <Link to={`/salon/${salon?.id_salon}`} className="salon-nombre-link">
-                         <FiHome className="icono"/> {salon?.nombre || 'Salón no disponible'}
+                        <FiHome className="icono" /> {salon?.nombre || 'Salón no disponible'}
                     </Link>
-                    <p><FiMapPin className="icono"/> {salon?.direccion || 'Dirección no disponible'}</p>
+                    <p><FiMapPin className="icono" /> {salon?.direccion || 'Dirección no disponible'}</p>
                     {/* Podrías añadir más detalles del salón si los necesitas */}
                 </section>
 
                 <section className="detalle-seccion fecha-hora-info">
                     <h2>Fecha y Hora</h2>
-                    <p><FiCalendar className="icono"/> {fechaFormateada}</p>
-                    <p><FiClock className="icono"/> {hora_inicio} - {hora_fin}</p>
+                    <p><FiCalendar className="icono" /> {fechaFormateada}</p>
+                    <p><FiClock className="icono" /> {hora_inicio} - {hora_fin}</p>
                 </section>
 
                 {/* Mostramos info del arrendatario (tú mismo en "Mis Reservas") */}
                 {arrendatario && (
                     <section className="detalle-seccion arrendatario-info">
                         <h2>Reservado por</h2>
-                        <p><FiUser className="icono"/> {arrendatario.nombre} {arrendatario.apellido}</p>
+                        <p><FiUser className="icono" /> {arrendatario.nombre} {arrendatario.apellido}</p>
                         {/* Puedes añadir email o teléfono si es relevante */}
                     </section>
                 )}
@@ -118,19 +123,21 @@ const ReservasDetalles = () => {
                 <section className="detalle-seccion acciones-reserva">
                     <h2>Acciones</h2>
                     {estado_reserva === 'confirmada' && (
-                        <button className="btn-accion cancelar">Cancelar Reserva</button>
+                        <button className="btn-accion cancelar" onClick={handleCancelarClick}>
+                            Cancelar Reserva
+                        </button>
                     )}
                     {estado_reserva === 'completada' && !selectedReserva.resenia && (
                         <button className="btn-accion resenia">Dejar Reseña</button>
                     )}
                     {estado_reserva === 'cancelada' && selectedReserva.cancelacion && (
                         <p className='info-cancelacion'>
-                           Cancelado el {format(parseISO(selectedReserva.cancelacion.fecha_cancelacion), 'dd/MM/yyyy HH:mm')}
-                           por {selectedReserva.cancelacion.cancelado_por}.
-                           Motivo: {selectedReserva.cancelacion.motivo}
+                            Cancelado el {format(parseISO(selectedReserva.cancelacion.fecha_cancelacion), 'dd/MM/yyyy HH:mm')}
+                            por {selectedReserva.cancelacion.cancelado_por}.
+                            Motivo: {selectedReserva.cancelacion.motivo}
                         </p>
                     )}
-                     <button className="btn-accion volver" onClick={() => navigate('/mis-reservas')}>Volver a Mis Reservas</button>
+                    <button className="btn-accion volver" onClick={() => navigate('/mis-reservas')}>Volver a Mis Reservas</button>
                 </section>
 
             </div>

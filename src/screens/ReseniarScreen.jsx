@@ -1,59 +1,110 @@
+// src/screens/ReseniarScreen.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import "../styles/ReseniarScreen.css";
-import Salones from "../utils/Salones.json";
-import Reservas from "../utils/Reservas.json"; // 👈 1. IMPORTAR RESERVAS
+// import Salones from "../utils/Salones.json"; // 👈 Ya no usaremos JSON
+// import Reservas from "../utils/Reservas.json"; // 👈 Ya no usaremos JSON
+
+// --- 👇 1. IMPORTACIONES DE REDUX Y DATOS ---
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSalonById, createResenia, resetSalonStatus } from "../store/features/salones/salonSlice";
+import { fetchReservaById, clearSelectedReserva } from "../store/features/reservas/reservasSlice";
+import Swal from 'sweetalert2';
+// ------------------------------------------
 
 const ReseniarScreen = () => {
   const { id_salon } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
-  // 👇 2. OBTENER EL ID DE LA RESERVA
   const { id_reserva } = location.state || {};
 
-  const [salon, setSalon] = useState(null);
-  const [reserva, setReserva] = useState(null); // 👈 3. NUEVO ESTADO PARA LA RESERVA
+  // --- 👇 2. OBTENER DATOS DESDE EL STORE ---
+  const { selectedSalon, status: salonStatus, reseniaStatus, reseniaError } = useSelector((state) => state.salones);
+  const { selectedReserva, selectedReservaStatus } = useSelector((state) => state.reservas);
+  // ----------------------------------------
+
   const [comentario, setComentario] = useState("");
   const [calificacion, setCalificacion] = useState(0);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); // Error local del formulario
 
-  const maxLetras = 200;
+  const maxLetras = 300;
 
+  // Efecto de seguridad (sin cambios)
   useEffect(() => {
-    if (!location.state || !location.state.desdeMisReservas) {
+    if (!location.state || !location.state.desdeMisReservas || !id_reserva) {
+      console.warn("Acceso inválido a ReseniarScreen, redirigiendo...");
       navigate("/");
     }
-  }, [location, navigate]);
+  }, [location, id_reserva, navigate]);
 
-  // 👇 4. EFECTO MODIFICADO PARA BUSCAR SALÓN Y RESERVA
+  // --- 👇 3. EFECTO PARA CARGAR DATOS DE LA API ---
   useEffect(() => {
-    const salonEncontrado = Salones.find((s) => s.id_salon === parseInt(id_salon));
-    if (!salonEncontrado) {
-      navigate("/mis-reservas");
-    } else {
-      setSalon(salonEncontrado);
+    if (id_salon) {
+      dispatch(fetchSalonById(id_salon));
     }
-
     if (id_reserva) {
-      const reservaEncontrada = Reservas.find((r) => r.id_reserva === id_reserva);
-      setReserva(reservaEncontrada);
+      dispatch(fetchReservaById(id_reserva));
     }
-  }, [id_salon, id_reserva, navigate]);
 
+    // Limpiar estados al desmontar
+    return () => {
+      dispatch(resetSalonStatus());
+      dispatch(clearSelectedReserva());
+    };
+  }, [id_salon, id_reserva, dispatch]);
+  // -------------------------------------------
+
+  // --- 👇 4. MANEJADOR DE PUBLICACIÓN (handlePublicar) ---
   const handlePublicar = () => {
     if (comentario.trim().length === 0 || calificacion === 0) {
       setError("Por favor, completa tu comentario y selecciona una calificación.");
       return;
     }
-    setComentario("");
-    setCalificacion(0);
     setError("");
-    navigate("/mis-reservas");
-  };
 
-  const formatearFecha = (fecha) => {
+    console.log({
+      id_reserva: id_reserva,
+      calificacion: calificacion,
+      comentario: comentario
+    });
+    
+
+    // Despachamos la nueva acción
+    dispatch(createResenia({
+      id_reserva: id_reserva,
+      calificacion: calificacion,
+      comentario: comentario
+    }));
+  };
+  // ----------------------------------------------------
+
+  // --- 👇 5. EFECTO PARA MANEJAR LA RESPUESTA DE LA API ---
+  useEffect(() => {
+    if (reseniaStatus === 'succeeded') {
+      Swal.fire({
+        title: '¡Reseña Publicada!',
+        text: 'Gracias por tu opinión.',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false
+      }).then(() => {
+        navigate("/mis-reservas"); // Volvemos a "Mis Reservas"
+      });
+    } else if (reseniaStatus === 'failed') {
+      console.log(reseniaError);
+      
+      Swal.fire('Error', reseniaError || 'No se pudo publicar tu reseña.', 'error');
+      // Reseteamos el estado para que pueda intentarlo de nuevo
+      dispatch(resetSalonStatus());
+    }
+  }, [reseniaStatus, reseniaError, navigate, dispatch]);
+  // ----------------------------------------------------
+
+  // (Funciones de formateo sin cambios)
+const formatearFecha = (fecha) => {
     if (!fecha) return "";
     const fechaObj = new Date(fecha + 'T00:00:00'); // Asegura que se tome como fecha local
     const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -65,24 +116,27 @@ const ReseniarScreen = () => {
     return hora.slice(0, 5);
   };
 
-  // Se muestra un mensaje de carga hasta que ambos datos estén listos
-  if (!salon || !reserva) {
+  // (Renderizado de carga y error)
+  if (salonStatus === 'loading' || selectedReservaStatus === 'loading') {
     return <p>Cargando datos de la reserva...</p>;
   }
+  if (!selectedSalon || !selectedReserva) {
+    return <p>Error al cargar los datos.</p>;
+  }
+
+  // -----------------------------
 
   return (
     <div className="reseniar-container">
-      <img src={salon.imagen} alt={salon.nombre} className="reseniar-imagen" />
+      <img src={selectedSalon.fotos > 0 ? selectedSalon.fotos[0] : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} alt={selectedSalon.nombre} className="reseniar-imagen" />
+      <h2 className="reseniar-nombre">{selectedSalon.nombre}</h2>
 
-      <h2 className="reseniar-nombre">{salon.nombre}</h2>
-
-      {/* 👇 5. BLOQUE ACTUALIZADO CON LOS DATOS CORRECTOS DE LA RESERVA */}
       <div className="reseniar-info-reserva">
         <p>
-          Reserva del <b>{formatearFecha(reserva.fecha_reserva)}</b>
+          Reserva del <b>{formatearFecha(selectedReserva.fecha_reserva)}</b>
         </p>
         <p>
-          De <b>{formatearHora(reserva.hora_inicio)}</b> a <b>{formatearHora(reserva.hora_fin)} hs</b>
+          De <b>{formatearHora(selectedReserva.hora_inicio)}</b> a <b>{formatearHora(selectedReserva.hora_fin)} hs</b>
         </p>
       </div>
 
@@ -98,10 +152,8 @@ const ReseniarScreen = () => {
           }
         }}
       ></textarea>
-
-      <p className="reseniar-contador">
-        {comentario.length}/{maxLetras} letras
-      </p>
+      
+      <p className="reseniar-contador">{comentario.length}/{maxLetras} letras</p>
 
       <div className="reseniar-estrellas">
         {[1, 2, 3, 4, 5].map((star) => (
@@ -120,9 +172,9 @@ const ReseniarScreen = () => {
       <button
         className="reseniar-boton"
         onClick={handlePublicar}
-        disabled={comentario.trim() === "" || calificacion === 0}
+        disabled={comentario.trim() === "" || calificacion === 0 || reseniaStatus === 'loading'}
       >
-        Publicar
+        {reseniaStatus === 'loading' ? 'Publicando...' : 'Publicar'}
       </button>
     </div>
   );

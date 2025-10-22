@@ -24,9 +24,9 @@ const DetallesSalon = ({ isLoaded }) => {
   const [esFavorito, setEsFavorito] = useState(false); // La lógica de favoritos se mantiene local por ahora
 
   const calcularPromedio = () => {
-    if (resenias.length === 0) return 0;
+    if (!resenias || resenias.length === 0) return 0; // 👈 CORRECCIÓN 1: Usar 'resenias'
     const suma = resenias.reduce((total, opinion) => total + opinion.calificacion, 0);
-    const promedio = suma / opDestacados.length;
+    const promedio = suma / resenias.length; // 👈 CORRECCIÓN 2: Usar 'resenias.length'
     return Math.round(promedio * 10) / 10;
   };
 
@@ -105,7 +105,10 @@ const DetallesSalon = ({ isLoaded }) => {
       <div className='detalles'>
         <DatosSalonCompleto salon={selectedSalon} isLoaded={isLoaded} />
         {/* Pasamos las reseñas obtenidas de la API al componente */}
-        <ListasResenias opDestacados={resenias} />
+        <ListasResenias 
+          resenias={resenias} // 👈 Pasar 'resenias' como prop 'resenias'
+          renderizarEstrellas={renderizarEstrellas} 
+        />
       </div>
     </div>
   );

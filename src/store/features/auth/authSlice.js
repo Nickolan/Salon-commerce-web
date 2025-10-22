@@ -110,6 +110,35 @@ export const revalidateSession = createAsyncThunk(
   }
 );
 
+export const uploadProfilePic = createAsyncThunk(
+  'auth/uploadProfilePic',
+  async (formData, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+      if (!token) {
+        return rejectWithValue('No se encontró token de autenticación.');
+      }
+
+      // IMPORTANTE: Al enviar FormData, axios configura el Content-Type automáticamente
+      const response = await axios.post(
+        `${API_URL}/upload-perfil-pic`, 
+        formData, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data', // Asegurarse de setear esto
+          },
+        }
+      );
+
+      // El backend devuelve el usuario actualizado (sin contraseña)
+      return response.data; 
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error al subir la imagen.');
+    }
+  }
+);
+
 // --- Creación del Slice ---
 const authSlice = createSlice({
   name: 'auth',
@@ -193,6 +222,17 @@ const authSlice = createSlice({
         state.user = null;
         state.token = null;
         localStorage.removeItem('accessToken');
+      })
+      .addCase(uploadProfilePic.pending, (state) => {
+        state.status = 'loading'; // Podemos reusar el status 'loading'
+      })
+      .addCase(uploadProfilePic.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.user = action.payload; // Actualiza el usuario en el store con la nueva foto
+      })
+      .addCase(uploadProfilePic.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
       });
   },
 });

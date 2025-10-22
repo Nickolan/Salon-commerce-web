@@ -149,7 +149,7 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
           <div className="imagen-salon">
             {salon.fotos && salon.fotos.length > 0 ? (
               <img 
-                src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} 
+                src={salon.fotos[0]} 
                 alt={`Imagen de ${salon.nombre}`}
                 onError={handleImageError}
               />

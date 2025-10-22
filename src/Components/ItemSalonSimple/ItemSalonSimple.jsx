@@ -14,7 +14,7 @@ const ItemSalonSimple = ({ id_salon, nombre, precio, imagen, promedioResenias = 
   return (
     <div className="salon-card" onClick={handleCardClick} role="button" tabIndex="0">
       <div className="salon-card-imagen-wrapper">
-        <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} alt={nombre} className="salon-card-img" />
+        <img src={imagen || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} alt={nombre} className="salon-card-img" />
         {/* El botón de favoritos se posiciona sobre la imagen gracias al CSS */}
         <BotonFavoritos id_salon={id_salon} isIconOnly={true} />
       </div>

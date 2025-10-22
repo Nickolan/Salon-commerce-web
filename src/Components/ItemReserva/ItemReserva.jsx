@@ -2,12 +2,14 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import es from 'date-fns/locale/es';
+import { useSelector } from 'react-redux';
 // Importamos más iconos para detalles
 import { FiMapPin, FiClock, FiCalendar, FiCheckCircle, FiAlertCircle, FiXCircle, FiInfo, FiTag, FiUser } from "react-icons/fi";
 import './ItemReserva.css'; // Usaremos este archivo CSS actualizado
 
 const ItemReserva = ({ reserva }) => {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
 
   // Navegar al detalle del salón al hacer clic en el nombre
   const handleVerDetalleSalon = (e) => {
@@ -30,6 +32,26 @@ const ItemReserva = ({ reserva }) => {
       default:
         return { icon: <FiAlertCircle />, className: 'estado-pendiente', texto: 'Pendiente' };
     }
+  };
+
+  const handleReseniarClick = (e) => {
+    e.stopPropagation();
+    // Navegamos a la pantalla de reseñar
+    navigate(`/reseniar/${reserva.salon.id_salon}`, {
+      // Pasamos el ID de la reserva en el 'state' de la navegación
+      state: {
+        id_reserva: reserva.id_reserva,
+        // Opcional: pasamos el estado 'desdeMisReservas' que ya usabas
+        desdeMisReservas: true
+      }
+    });
+  };
+
+  const handleCancelarClick = (e) => {
+    e.stopPropagation();
+    if (!user) return; // Seguridad
+    // 3. Navegar a la pantalla de cancelación con los IDs correctos
+    navigate(`/cancelar_salon/${user.id_usuario}/${reserva.id_reserva}`);
   };
 
   const estadoInfo = getEstadoInfo(reserva.estado_reserva);
@@ -71,13 +93,13 @@ const ItemReserva = ({ reserva }) => {
             <FiClock className='icono' />
             {horaInicioFormateada} - {horaFinFormateada}
           </p>
-           {/* Opcional: Mostrar el publicador si lo tienes en los datos */}
-           {reserva.salon?.publicador && (
-             <p className='salon-caracteristica secondary'>
-               <FiUser className='icono' />
-               Anfitrión: {reserva.salon.publicador.nombre} {reserva.salon.publicador.apellido}
-             </p>
-           )}
+          {/* Opcional: Mostrar el publicador si lo tienes en los datos */}
+          {reserva.salon?.publicador && (
+            <p className='salon-caracteristica secondary'>
+              <FiUser className='icono' />
+              Anfitrión: {reserva.salon.publicador.nombre} {reserva.salon.publicador.apellido}
+            </p>
+          )}
           <p className='salon-caracteristica secondary direccion' title={reserva.salon?.direccion}>
             <FiMapPin className='icono' />
             {reserva.salon?.direccion || 'Dirección no disponible'}
@@ -85,9 +107,17 @@ const ItemReserva = ({ reserva }) => {
         </div>
         <div className='card-derecha reserva-acciones'>
           {/* Aquí podrías añadir botones de acción */}
-           {reserva.estado_reserva === 'confirmada' && <button className="btn-accion cancelar">Cancelar</button>}
-           {reserva.estado_reserva === 'completada' && !reserva.resenia && <button className="btn-accion resenia">Dejar Reseña</button>}
-           <button className="btn-accion detalle" onClick={() => navigate(`/reservas_detalles/${reserva.id_reserva}`)}>Ver Detalle</button>
+          {reserva.estado_reserva === 'confirmada' && (
+            <button className="btn-accion cancelar" onClick={handleCancelarClick}>
+              Cancelar
+            </button>
+          )}
+          {reserva.estado_reserva === 'completada' && !reserva.resenia && (
+            <button className="btn-accion resenia" onClick={handleReseniarClick}>
+              Dejar Reseña
+            </button>
+          )}
+          <button className="btn-accion detalle" onClick={() => navigate(`/reservas_detalles/${reserva.id_reserva}`)}>Ver Detalle</button>
         </div>
       </div>
     </div>

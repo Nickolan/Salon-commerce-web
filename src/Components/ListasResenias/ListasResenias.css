@@ -30,8 +30,9 @@
 .opinion-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: flex-start; /* Alinea nombre y estrellas arriba */
   margin-bottom: 10px;
+  gap: 10px; /* Espacio entre nombre y estrellas */
 }
 
 .usuario-nombre {
@@ -39,28 +40,45 @@
   font-size: 14px;
   flex: 1;
   margin-right: 8px;
+  line-height: 1.3;
 }
 
-.opinion-numero {
-  background-color: #fff;
-  color: #6A0DAD;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
+/* --- NUEVO: Contenedor para las estrellas --- */
+.opinion-estrellas {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 12px;
-  flex-shrink: 0;
+  flex-shrink: 0; /* Evita que las estrellas se rompan */
+  color: #FFC107; /* Color de las estrellas */
 }
+/* ------------------------------------------- */
 
 .opinion-comentario {
   margin: 0;
   line-height: 1.3;
   font-size: 12px;
-  flex: 1;
+  flex: 1; /* Ocupa el espacio del medio */
+  margin-bottom: 10px; /* Espacio antes de la fecha */
 }
+
+/* --- NUEVO: Estilo para la fecha --- */
+.opinion-fecha {
+  font-size: 10px;
+  opacity: 0.7;
+  text-align: right;
+  margin: 0;
+  margin-top: auto; /* Empuja la fecha al fondo */
+}
+/* --------------------------------- */
+
+/* --- NUEVO: Mensaje de "Sin Reseñas" --- */
+.sin-resenias-msg {
+  text-align: center;
+  color: #666;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+/* ------------------------------------- */
 
 @media (max-width: 1024px) {
   .opiniones-grid {

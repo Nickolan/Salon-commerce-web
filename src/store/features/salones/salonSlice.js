@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:3000/salones'; // URL del endpoint de salones
+const RESENIAS_API_URL = 'http://localhost:3000/resenias';
 
 const initialState = {
   salones: [],
@@ -11,6 +12,8 @@ const initialState = {
   resultadosSalones: [],
   status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
+  reseniaStatus: 'idle',
+  reseniaError: null,
 };
 
 export const fetchReseniasBySalonId = createAsyncThunk(
@@ -21,6 +24,32 @@ export const fetchReseniasBySalonId = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Error al cargar las reseñas.');
+    }
+  }
+);
+
+export const createResenia = createAsyncThunk(
+  'salones/createResenia',
+  async (reseniaData, { getState, rejectWithValue }) => {
+    // reseniaData = { id_reserva, calificacion, comentario }
+    try {
+      const { auth } = getState();
+      const token = auth.token;
+
+      if (!token) {
+        return rejectWithValue('No estás autenticado.');
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const response = await axios.post(RESENIAS_API_URL, reseniaData, config);
+      return response.data; // Devuelve la reseña creada
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error al publicar la reseña.');
     }
   }
 );
@@ -86,32 +115,32 @@ export const createSalon = createAsyncThunk(
         return rejectWithValue('No estás autenticado para realizar esta acción.');
       }
 
-      // 1. Usamos FormData para poder enviar archivos (fotos) y datos de texto.
       const formData = new FormData();
 
-      // 2. Agregamos las fotos. El backend debe estar preparado para recibirlas bajo el campo 'files'.
+      // --- 👇 ESTO ESTÁ CORRECTO ---
+      // 1. Agregamos las fotos. La clave 'files' DEBE COINCIDIR con el FilesInterceptor del backend.
+      // Lo he unificado a 'files' en el backend controller, pero si lo cambias a 'fotos' aquí,
+      // debes cambiarlo en el FileInterceptor('fotos', 5) del backend. Usaremos 'files' por ahora.
       photos.forEach(photo => {
         formData.append('files', photo);
       });
 
-      // 3. Agregamos el resto de los datos del salón como un objeto JSON convertido a string.
-      // El backend deberá parsear este string para obtener los datos.
+      // 2. Agregamos los datos del salón como un string JSON. La clave 'salon' DEBE COINCIDIR con el @Body('salon') del backend.
       formData.append('salon', JSON.stringify(salonData));
+      // --- 👆 ESTO ESTÁ CORRECTO ---
       
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          // No seteamos Content-Type, Axios lo hace automáticamente para FormData
           Authorization: `Bearer ${token}`,
         },
       };
 
-      console.log(formData);
+      // --- 👇 AQUÍ ESTABA EL ERROR ---
+      // Antes enviabas 'salonData', ahora enviamos 'formData'
+      const response = await axios.post(API_URL, formData, config);
+      // --- 👆 CORRECCIÓN APLICADA ---
 
-      console.log(salonData);
-      
-      
-
-      const response = await axios.post(API_URL, salonData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Error al crear el salón.');
@@ -143,6 +172,8 @@ const salonSlice = createSlice({
     resetSalonStatus: (state) => {
       state.status = 'idle';
       state.error = null;
+      state.reseniaStatus = 'idle';
+      state.reseniaError = null;
     }
   },
   extraReducers: (builder) => {
@@ -215,6 +246,19 @@ const salonSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
         state.resultadosSalones = []; // Limpiamos resultados en caso de error
+      })
+      .addCase(createResenia.pending, (state) => {
+        state.reseniaStatus = 'loading';
+        state.reseniaError = null;
+      })
+      .addCase(createResenia.fulfilled, (state, action) => {
+        state.reseniaStatus = 'succeeded';
+        // Opcional: podríamos querer actualizar la lista de reseñas del salón
+        state.resenias.push(action.payload); 
+      })
+      .addCase(createResenia.rejected, (state, action) => {
+        state.reseniaStatus = 'failed';
+        state.reseniaError = action.payload;
       });
   },
 });

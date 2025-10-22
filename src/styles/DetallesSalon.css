@@ -14,7 +14,8 @@
   flex-wrap: nowrap;
 }
 
-.detalles-Salon .titulo-izquierda {
+.detalles-Salon .titulo .titulo-izquierda {
+  text-align: start;
   flex: 1;
   min-width: 0;
   overflow: visible;
@@ -81,9 +82,11 @@
   background-color: #6A0DAD;
   color: #FFFFFF;
   border: none;
-  padding: 8px 12px;
+  padding: 2px 12px;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 1.5rem;
+
   font-weight: bold;
 }
 

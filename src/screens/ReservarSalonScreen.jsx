@@ -6,36 +6,34 @@ import format from 'date-fns/format';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
 import getDay from 'date-fns/getDay';
-import es from 'date-fns/locale/es'; // Importar localización en español
+import es from 'date-fns/locale/es';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Swal from 'sweetalert2';
 
-// Importar acciones de Redux
+// Importar acciones de Redux (actualizadas)
 import { fetchSalonById } from '../store/features/salones/salonSlice';
 import {
   fetchAvailableSlots,
-  selectSlot,
-  clearSelectedSlot,
-  createReserva,
+  selectSlots,         // 👈 CAMBIO
+  clearSelectedSlots,  // 👈 CAMBIO
+  generarLinkDePago,
   resetReservaStatus
 } from '../store/features/reservas/reservasSlice';
 
 // Importar estilos
-import '../styles/ReservarSalonScreen.css'; // Crearemos este archivo
+import '../styles/ReservarSalonScreen.css';
 
-// Configurar el localizador para date-fns en español
-const locales = {
-  'es': es,
-};
+// Configuración del localizador (sin cambios)
+const locales = { 'es': es };
 const localizer = dateFnsLocalizer({
   format,
   parse,
-  startOfWeek: () => startOfWeek(new Date(), { weekStartsOn: 1 }), // Lunes como inicio de semana
+  startOfWeek: () => startOfWeek(new Date(), { weekStartsOn: 1 }),
   getDay,
   locales,
 });
 
-// Mensajes del calendario en español
+// Mensajes del calendario (sin cambios)
 const messages = {
   allDay: 'Todo el día',
   previous: 'Anterior',
@@ -53,137 +51,161 @@ const messages = {
 };
 
 const ReservarSalonScreen = () => {
-  const { id: salonId } = useParams(); // ID del salón desde la URL
+  const { id: salonId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Estados locales para el calendario
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [currentView, setCurrentView] = useState('week'); // Vista inicial: semana
+  const [currentView, setCurrentView] = useState('week');
   const [metodoPago, setMetodoPago] = useState("");
 
-  // Obtener datos del estado global de Redux
+  // --- 👇 CAMBIO: Leer 'selectedSlots' (plural) del estado ---
   const { selectedSalon, status: salonStatus, error: salonError } = useSelector((state) => state.salones);
-  const { availableSlots, selectedSlot, slotsStatus, reservaStatus, error: reservaError } = useSelector((state) => state.reservas);
+  const { availableSlots, selectedSlots, slotsStatus, reservaStatus, error: reservaError, pagoStatus, pagoError } = useSelector((state) => state.reservas);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
-  console.log(selectedSalon);
-  
-
-  // Efecto para cargar datos iniciales y proteger la ruta
+  // Efecto para cargar datos iniciales y proteger la ruta (sin cambios)
   useEffect(() => {
     if (!isAuthenticated) {
-      console.log("Usuario no autenticado, redirigiendo a login...");
       navigate('/login');
-      return; // Detener ejecución si no está autenticado
+      return;
     }
     if (salonId) {
-      console.log("Cargando datos para salón ID:", salonId);
       dispatch(fetchSalonById(salonId));
       dispatch(fetchAvailableSlots(salonId));
-      dispatch(resetReservaStatus()); // Limpiar estado de reserva anterior
+      dispatch(resetReservaStatus());
     } else {
-        console.error("No se encontró ID de salón en la URL");
-        // Opcional: redirigir a una página de error o a la home
+      console.error("No se encontró ID de salón en la URL");
     }
   }, [salonId, dispatch, isAuthenticated, navigate]);
 
-  // Manejar la selección de un slot en el calendario
-  const handleSelectSlotOrEvent = (slotInfo) => {
-    // slotInfo puede ser un evento (si se hace clic en un bloque) o un slot (si se hace clic en espacio vacío)
-    const start = slotInfo.start;
-    const end = slotInfo.end;
+  // ❌ ELIMINADO: useEffect(() => { initMercadoPago(...) }, []);
+  // No es necesario, ya que no usaremos el SDK de Bricks.
 
-    // Verificar si el slot seleccionado coincide con uno de los disponibles
-    const slotEncontrado = availableSlots.find(
-      slot => slot.start.getTime() === start.getTime() && slot.end.getTime() === end.getTime()
+  // handleSelectSlotOrEvent (sin cambios)
+  const handleSelectSlotOrEvent = (slotInfo) => {
+    // Si se hizo clic en un evento existente, usamos su 'start' y 'end'
+    // Si se arrastró, usamos el 'start' y 'end' del slotInfo
+    const { start, end } = slotInfo;
+
+    // 1. Encontrar TODOS los slots disponibles DENTRO del rango seleccionado
+    const slotsEnRango = availableSlots.filter(
+      slot => slot.start.getTime() >= start.getTime() && slot.end.getTime() <= end.getTime()
     );
 
-    if (slotEncontrado) {
-      console.log("Slot disponible seleccionado:", slotEncontrado);
-      dispatch(selectSlot(slotEncontrado));
+    if (slotsEnRango.length > 0) {
+      // 2. Opcional pero recomendado: Verificar si son consecutivos
+      let sonConsecutivos = true;
+      for (let i = 0; i < slotsEnRango.length - 1; i++) {
+        // Comprobar si el fin de un slot NO es el inicio del siguiente
+        if (slotsEnRango[i].end.getTime() !== slotsEnRango[i + 1].start.getTime()) {
+          sonConsecutivos = false;
+          break;
+        }
+      }
+
+      if (sonConsecutivos) {
+        // 3. Seleccionar el rango
+        dispatch(selectSlots(slotsEnRango)); // Despacha el array de slots encontrados
+      } else {
+        Swal.fire('Selección Inválida', 'Por favor, selecciona un rango de horas continuo. No puedes dejar huecos.', 'warning');
+        dispatch(clearSelectedSlots()); // Limpiar si la selección no es válida
+      }
     } else {
-      console.log("Slot no disponible seleccionado o espacio vacío.");
-      dispatch(clearSelectedSlot());
+      // El usuario hizo clic en un espacio vacío o en un evento no válido
+      dispatch(clearSelectedSlots());
     }
   };
 
-  // Manejar la confirmación de la reserva
-  const handleConfirmarReserva = () => {
-    if (!selectedSlot || !salonId || !metodoPago) {
-      Swal.fire('Información Incompleta', 'Por favor, selecciona un horario y un método de pago.', 'warning');
+  // handleConfirmarReserva (Lógica de pago)
+  const handleConfirmarReserva = async () => {
+    // 1. Validar que haya slots seleccionados
+    if (selectedSlots.length === 0 || !salonId || !metodoPago) {
+      Swal.fire('Información Incompleta', 'Por favor, selecciona un rango horario y un método de pago.', 'warning');
       return;
     }
 
-    // Formatear datos para la API
-    const fecha = format(selectedSlot.start, 'yyyy-MM-dd'); // Formato YYYY-MM-DD
-    const horaInicio = format(selectedSlot.start, 'HH:mm'); // Formato HH:mm
-    const horaFin = format(selectedSlot.end, 'HH:mm');     // Formato HH:mm
+    // 2. Calcular total y IDs
+    const totalPagar = selectedSlots.reduce((acc, slot) => acc + slot.resource.precio, 0);
+    const franjaIds = selectedSlots.map(slot => slot.resource.franjaId);
+    
+    // 3. Obtener la primera y última franja para los datos de la reserva
+    // (No es necesario re-ordenar, la lógica de selección ya garantiza el orden)
+    const primerSlot = selectedSlots[0];
+    const ultimoSlot = selectedSlots[selectedSlots.length - 1];
 
+    const fecha = format(primerSlot.start, 'yyyy-MM-dd');
+    const horaInicio = format(primerSlot.start, 'HH:mm');
+    const horaFin = format(ultimoSlot.end, 'HH:mm'); // Usamos el 'end' del último slot
+
+    // 4. Crear el payload para el backend
+    const datosParaPago = {
+      id_salon: parseInt(salonId),
+      id_arrendatario: user.id_usuario,
+      fecha_reserva: fecha,
+      hora_inicio: horaInicio,
+      hora_fin: horaFin,
+      metodoPago: metodoPago,
+      total: totalPagar,
+      franjaIds: franjaIds // Array de IDs
+    };
+
+    // 5. Mostrar el Swal de confirmación (actualizado para múltiples horas)
     Swal.fire({
       title: 'Confirmar Reserva',
-     html: `
+      html: `
         Vas a reservar <b>${selectedSalon?.nombre || 'este salón'}</b> para el <br/>
-        <b>${format(selectedSlot.start, 'eeee dd \'de\' MMMM', { locale: es })}</b><br/>
-        de <b>${horaInicio}</b> a <b>${horaFin}</b>.<br/>
-        Precio estimado: <b>$${selectedSlot.resource.precio}</b><br/>
+        <b>${format(primerSlot.start, 'eeee dd \'de\' MMMM', { locale: es })}</b><br/>
+        de <b>${horaInicio}</b> a <b>${horaFin}</b> (${selectedSlots.length} franja${selectedSlots.length > 1 ? 's' : ''}).<br/>
+        Precio Total: <b>$${totalPagar}</b><br/>
         Método de pago: <b>${metodoPago === 'mercadoPago' ? 'Mercado Pago' : 'Coinbase'}</b>
       `,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#7E2A8A',
       cancelButtonColor: '#6c757d',
-      confirmButtonText: 'Confirmar',
+      confirmButtonText: 'Confirmar y Pagar',
       cancelButtonText: 'Cancelar',
-      allowOutsideClick: false // Evita cerrar al hacer clic fuera
-    }).then((result) => {
+      allowOutsideClick: false
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        console.log("Confirmando reserva con datos:", { salonId, fecha, horaInicio, horaFin, metodoPago });
-        dispatch(createReserva({
-          id_salon: parseInt(salonId),
-          fecha_reserva: fecha,
-          hora_inicio: horaInicio,
-          hora_fin: horaFin,
-          id_arrendatario: user.id_usuario
-        }));
+        // 6. Despachar la acción si el usuario confirma
+        const resultAction = await dispatch(generarLinkDePago(datosParaPago));
+
+        if (generarLinkDePago.fulfilled.match(resultAction)) {
+          const { urlPago } = resultAction.payload;
+          window.location.href = urlPago; // Redirigir al checkout
+        } else {
+          const errorMsg = resultAction.payload || pagoError || 'No se pudo generar el link de pago.';
+          Swal.fire('Error al Pagar', errorMsg, 'error');
+        }
       } else {
         console.log("Reserva cancelada por el usuario.");
       }
     });
   };
 
-  // Efecto para mostrar mensajes de éxito/error de la reserva y recargar slots
+  // useEffect para el estado de la reserva (sin cambios)
   useEffect(() => {
     if (reservaStatus === 'succeeded') {
       Swal.fire('¡Reserva Creada!', 'Tu reserva ha sido registrada con éxito.', 'success');
-      dispatch(fetchAvailableSlots(salonId)); // Recargar slots para quitar el reservado
-      dispatch(resetReservaStatus()); // Limpiar el estado
+      dispatch(fetchAvailableSlots(salonId));
+      dispatch(resetReservaStatus());
     } else if (reservaStatus === 'failed') {
-        console.log(reservaError);
-        
-      Swal.fire('Error', reservaError || 'No se pudo crear la reserva. La franja podría no estar disponible.', 'error');
-      dispatch(fetchAvailableSlots(salonId)); // Recargar slots por si otro la reservó justo antes
-      dispatch(resetReservaStatus()); // Limpiar el estado
+      Swal.fire('Error', reservaError || 'No se pudo crear la reserva.', 'error');
+      dispatch(fetchAvailableSlots(salonId));
+      dispatch(resetReservaStatus());
     }
   }, [reservaStatus, reservaError, dispatch, salonId]);
 
-  // Manejar cambio de fecha en el calendario
-  const handleNavigate = (newDate) => {
-    console.log("Navegando a fecha:", newDate);
-    setCurrentDate(newDate);
-  };
+  // handleNavigate (sin cambios)
+  const handleNavigate = (newDate) => setCurrentDate(newDate);
+  const handleView = (newView) => setCurrentView(newView);
 
-  // Manejar cambio de vista (mes/semana/día)
-  const handleView = (newView) => {
-    console.log("Cambiando a vista:", newView);
-    setCurrentView(newView);
-  };
-
-  // Estilo personalizado para los eventos (slots disponibles)
+  // eventStyleGetter (sin cambios)
   const eventStyleGetter = (event, start, end, isSelected) => {
-    let backgroundColor = '#8e44ad'; // Púrpura base
     let style = {
-      backgroundColor,
+      backgroundColor: '#8e44ad',
       borderRadius: '5px',
       opacity: 0.85,
       color: 'white',
@@ -192,8 +214,13 @@ const ReservarSalonScreen = () => {
       fontSize: '0.8em',
       padding: '2px 5px',
     };
-    // Si el slot está actualmente seleccionado por el usuario
-    if (selectedSlot && selectedSlot.resource.franjaId === event.resource.franjaId) {
+
+    // Comprobar si este evento (slot) está en el array de seleccionados
+    const isSlotSelected = selectedSlots.some(
+      slot => slot.resource.franjaId === event.resource.franjaId
+    );
+
+    if (isSlotSelected) {
        style.backgroundColor = '#5a1a8b'; // Más oscuro
        style.opacity = 1;
        style.boxShadow = '0 0 8px rgba(0,0,0,0.4)';
@@ -201,20 +228,16 @@ const ReservarSalonScreen = () => {
     return { style };
   };
 
-  // --- Renderizado Condicional Principal ---
-  if (salonStatus === 'loading' || slotsStatus === 'loading' && slotsStatus !== 'failed') {
-      return <div className='reservar-salon-screen loading'><h1>Cargando datos del salón y disponibilidad...</h1></div>;
+  // --- Renderizado Condicional Principal (sin cambios) ---
+  if (salonStatus === 'loading' || (slotsStatus === 'loading' && slotsStatus !== 'failed')) {
+    return <div className='reservar-salon-screen loading'><h1>Cargando datos del salón y disponibilidad...</h1></div>;
   }
-
   if (salonStatus === 'failed') {
-      return <div className='reservar-salon-screen error'><h1>Error al cargar el salón</h1><p>{salonError}</p></div>;
+    return <div className='reservar-salon-screen error'><h1>Error al cargar el salón</h1><p>{salonError}</p></div>;
   }
-
   if (!selectedSalon) {
-      // Esto podría pasar si el ID no es válido o la carga falló silenciosamente
-      return <div className='reservar-salon-screen error'><h1>Salón no encontrado</h1></div>;
+    return <div className='reservar-salon-screen error'><h1>Salón no encontrado</h1></div>;
   }
-  // -----------------------------------------
 
   return (
     <div className='reservar-salon-screen'>
@@ -225,40 +248,38 @@ const ReservarSalonScreen = () => {
         {slotsStatus === 'failed' && <p className="error-message">Error al cargar la disponibilidad: {reservaError}</p>}
         <Calendar
           localizer={localizer}
-          events={availableSlots} // Los slots disponibles son los eventos
+          events={availableSlots}
           startAccessor="start"
           endAccessor="end"
           style={{ height: 600 }}
-          selectable
-          onSelectSlot={handleSelectSlotOrEvent} // Para clics en espacios vacíos
-          onSelectEvent={handleSelectSlotOrEvent} // Para clics sobre eventos
+          selectable // 👈 Esto permite hacer clic y arrastrar
+          onSelectSlot={handleSelectSlotOrEvent}  // Se activa al arrastrar en vacío
+          onSelectEvent={handleSelectSlotOrEvent} // Se activa al hacer clic en un evento
           view={currentView}
           date={currentDate}
           onNavigate={handleNavigate}
           onView={handleView}
-          min={new Date(0, 0, 0, 8, 0, 0)} // Hora mínima visible: 8 AM
-          max={new Date(0, 0, 0, 22, 0, 0)} // Hora máxima visible: 10 PM
-          step={selectedSalon.granularidad_minutos || 60} // El "paso" en minutos
-          timeslots={1} // Cuántos slots mostrar por "step" (1 para ver cada hora/media hora)
+          min={new Date(0, 0, 0, 8, 0, 0)}
+          max={new Date(0, 0, 0, 22, 0, 0)}
+          step={selectedSalon.granularidad_minutos || 60}
+          timeslots={1}
           messages={messages}
           culture='es'
           eventPropGetter={eventStyleGetter}
           components={{
-            // Opcional: Personalizar cómo se ve el título del evento
             event: ({ event }) => (
               <span title={`Precio: $${event.resource.precio}`}>
-                 {event.title.split('(')[0]} {/* Mostrar solo "Disponible" */}
+                {event.title.split('(')[0]}
               </span>
             )
           }}
         />
       </div>
 
-      {/* --- 👇 SECCIÓN DE MÉTODOS DE PAGO (AÑADIDA) --- */}
+      {/* --- Sección de Métodos de Pago (sin cambios) --- */}
       <div className="payment-section-wrapper">
         <h2 className="reservar-titulo titulo-pago">2. Elegí cómo pagar</h2>
         <div className="payment-section">
-          {/* Opción Mercado Pago */}
           <label className={`payment-label ${metodoPago === "mercadoPago" ? "selected" : ""}`}>
             <input
               type="radio"
@@ -268,10 +289,7 @@ const ReservarSalonScreen = () => {
               onChange={(e) => setMetodoPago(e.target.value)}
             />
             <span className="payment-text">Mercado Pago</span>
-            {/* Puedes añadir un logo si quieres */}
           </label>
-
-          {/* Opción Coinbase */}
           <label className={`payment-label ${metodoPago === "coinbase" ? "selected" : ""}`}>
             <input
               type="radio"
@@ -281,35 +299,32 @@ const ReservarSalonScreen = () => {
               onChange={(e) => setMetodoPago(e.target.value)}
             />
             <span className="payment-text">Coinbase</span>
-            {/* Puedes añadir un logo si quieres */}
           </label>
         </div>
       </div>
-      {/* ----------------------------------------------- */}
 
-      {/* Panel de Confirmación */}
-      {/* Panel de Confirmación (Modificado para incluir validación de pago) */}
-      {selectedSlot && (
+      {/* --- Panel de Confirmación (Corregido) --- */}
+      {selectedSlots.length > 0 && (
         <div className='confirmacion-reserva'>
           <h2>Horario Seleccionado</h2>
           <p>
-            <strong>Día:</strong> {format(selectedSlot.start, 'eeee dd \'de\' MMMM', { locale: es })} <br />
-            <strong>Hora:</strong> {format(selectedSlot.start, 'HH:mm')} - {format(selectedSlot.end, 'HH:mm')} <br />
-            <strong>Precio:</strong> ${selectedSlot.resource.precio}
+            <strong>Día:</strong> {format(selectedSlots[0].start, 'eeee dd \'de\' MMMM', { locale: es })} <br />
+            <strong>Hora:</strong> {format(selectedSlots[0].start, 'HH:mm')} - {format(selectedSlots[selectedSlots.length - 1].end, 'HH:mm')} <br />
+            <strong>Total:</strong> {selectedSlots.length * (selectedSalon.granularidad_minutos / 60)} hora(s)<br />
+            <strong>Precio Total:</strong> ${selectedSlots.reduce((acc, slot) => acc + slot.resource.precio, 0)}
           </p>
           <div className="confirmacion-botones">
             <button
               onClick={handleConfirmarReserva}
-              // El botón ahora se deshabilita si no hay método de pago
-              disabled={reservaStatus === 'loading' || !metodoPago} 
+              disabled={pagoStatus === 'loading' || !metodoPago}
               className='boton-confirmar'
-              title={!metodoPago ? "Selecciona un método de pago" : ""} // Tooltip
+              title={!metodoPago ? "Selecciona un método de pago" : ""}
             >
-              {reservaStatus === 'loading' ? 'Procesando...' : 'Confirmar Reserva'}
+              {pagoStatus === 'loading' ? 'Generando...' : 'Confirmar y Pagar'}
             </button>
             <button
-              onClick={() => { dispatch(clearSelectedSlot()); setMetodoPago(""); }} // Limpiar también método de pago
-              disabled={reservaStatus === 'loading'}
+              onClick={() => { dispatch(clearSelectedSlots()); setMetodoPago(""); }} // 👈 CAMBIO
+              disabled={pagoStatus === 'loading'}
               className='boton-cancelar-seleccion'
             >
               Cancelar Selección

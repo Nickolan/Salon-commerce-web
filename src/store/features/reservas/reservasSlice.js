@@ -3,6 +3,61 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3000/reservas';
 const FRANJAS_API_URL = 'http://localhost:3000/franjas-horarias';
+const CANCELACIONES_API_URL = 'http://localhost:3000/cancelaciones';
+
+export const cancelarReserva = createAsyncThunk(
+  'reservas/cancelarReserva',
+  async ({ id_reserva, motivo }, { getState, rejectWithValue }) => {
+    try {
+      const { auth } = getState();
+      const token = auth.token;
+      if (!token) {
+        return rejectWithValue('Usuario no autenticado.');
+      }
+      
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const payload = { id_reserva, motivo };
+
+      // Llamamos al endpoint de CANCELACIONES, no de reservas
+      const response = await axios.post(CANCELACIONES_API_URL, payload, config);
+      
+      // Devolvemos la reserva actualizada (que viene dentro del objeto cancelación)
+      return response.data.reserva; 
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error al cancelar la reserva.');
+    }
+  }
+);
+
+export const generarLinkDePago = createAsyncThunk(
+  'reservas/generarLinkDePago',
+  async (datosParaPago, { getState, rejectWithValue }) => {
+    // datosParaPago = { id_salon, fecha_reserva, hora_inicio, hora_fin, metodoPago, id_arrendatario, total }
+    try {
+      console.log("Datos para pago: ",datosParaPago);
+      
+      const { auth } = getState();
+      const token = auth.token;
+      if (!token) {
+        return rejectWithValue('Usuario no autenticado.');
+      }
+      
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      
+      // Llamamos a un NUEVO endpoint del backend que crearemos
+      // Nota: No llamamos a /api/reservas, sino a un endpoint de pago
+      const response = await axios.post('http://localhost:3000/pagos/crear-checkout', // <-- NUEVO ENDPOINT
+        datosParaPago, 
+        config
+      );
+      
+      // El backend nos devolverá la URL de pago de MercadoPago/Coinbase
+      return response.data; // Ej: { urlPago: "https://..." }
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error al generar el link de pago.');
+    }
+  }
+);
 
 // Thunk para buscar franjas disponibles
 export const fetchAvailableSlots = createAsyncThunk(
@@ -107,27 +162,29 @@ export const fetchReservasRecibidas = createAsyncThunk(
 
 const initialState = {
   availableSlots: [],
-  selectedSlot: null,
+  selectedSlots: [],
   misReservas: [],
-  selectedReserva: null, // 👈 Añadir estado para la reserva detallada
+  selectedReserva: null,
   reservaStatus: 'idle',
   slotsStatus: 'idle',
   misReservasStatus: 'idle',
-  selectedReservaStatus: 'idle', // 👈 Añadir estado de carga específico
+  selectedReservaStatus: 'idle',
   error: null,
-  reservasRecibidas: [], // 👈 Añadir estado para reservas recibidas
+  reservasRecibidas: [], 
   reservasRecibidasStatus: 'idle',
+  pagoStatus: 'idle', // <-- NUEVO: Estado para el link de pago
+  pagoError: null,
 };
 
 const reservasSlice = createSlice({
   name: 'reservas',
   initialState,
   reducers: {
-    selectSlot: (state, action) => {
-      state.selectedSlot = action.payload;
+    selectSlots: (state, action) => {
+      state.selectedSlots = action.payload;
     },
-    clearSelectedSlot: (state) => {
-      state.selectedSlot = null;
+    clearSelectedSlots: (state) => {
+      state.selectedSlots = [];
     },
     resetReservaStatus: (state) => {
       state.reservaStatus = 'idle';
@@ -136,13 +193,20 @@ const reservasSlice = createSlice({
     clearSelectedReserva: (state) => {
         state.selectedReserva = null;
         state.selectedReservaStatus = 'idle';
-    }
+    },
+    resetReservaStatus: (state) => {
+      state.reservaStatus = 'idle';
+      state.pagoStatus = 'idle'; // <-- Resetear también
+      state.error = null;
+      state.pagoError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
       // Fetch Slots
       .addCase(fetchAvailableSlots.pending, (state) => {
         state.slotsStatus = 'loading';
+        state.selectedSlots = []; // 👈 CAMBIO: Limpiar selección
       })
       .addCase(fetchAvailableSlots.fulfilled, (state, action) => {
         state.slotsStatus = 'succeeded';
@@ -158,8 +222,7 @@ const reservasSlice = createSlice({
       })
       .addCase(createReserva.fulfilled, (state) => {
         state.reservaStatus = 'succeeded';
-        state.selectedSlot = null; // Limpiar selección
-        // Podríamos invalidar/recargar los slots aquí si fuera necesario
+        state.selectedSlots = []; // 👈 CAMBIO
       })
       .addCase(createReserva.rejected, (state, action) => {
         state.reservaStatus = 'failed';
@@ -198,9 +261,47 @@ const reservasSlice = createSlice({
       .addCase(fetchReservasRecibidas.rejected, (state, action) => {
         state.reservasRecibidasStatus = 'failed';
         state.error = action.payload; // Consider using a specific error state if needed
+      })
+      .addCase(generarLinkDePago.pending, (state) => {
+        state.pagoStatus = 'loading'; // Usamos el nuevo estado
+        state.pagoError = null;
+      })
+      .addCase(generarLinkDePago.fulfilled, (state) => {
+        state.pagoStatus = 'succeeded';
+        state.selectedSlots = []; // 👈 CAMBIO
+      })
+      .addCase(generarLinkDePago.rejected, (state, action) => {
+        state.pagoStatus = 'failed';
+        state.pagoError = action.payload;
+      })
+      .addCase(cancelarReserva.pending, (state) => {
+        state.reservaStatus = 'loading';
+        state.error = null;
+      })
+      .addCase(cancelarReserva.fulfilled, (state, action) => {
+        state.reservaStatus = 'succeeded';
+        const reservaActualizada = action.payload;
+
+        // Actualizamos la reserva en la lista 'misReservas'
+        const index = state.misReservas.findIndex(
+          (r) => r.id_reserva === reservaActualizada.id_reserva
+        );
+        if (index !== -1) {
+          // Reemplazamos la reserva vieja por la actualizada
+          state.misReservas[index] = reservaActualizada;
+        }
+
+        // Si la reserva cancelada era la que estaba seleccionada, la actualizamos
+        if (state.selectedReserva?.id_reserva === reservaActualizada.id_reserva) {
+          state.selectedReserva = reservaActualizada;
+        }
+      })
+      .addCase(cancelarReserva.rejected, (state, action) => {
+        state.reservaStatus = 'failed';
+        state.error = action.payload;
       });
   },
 });
 
-export const { selectSlot, clearSelectedSlot, resetReservaStatus, clearSelectedReserva } = reservasSlice.actions;
+export const { selectSlots, clearSelectedSlots, resetReservaStatus, clearSelectedReserva } = reservasSlice.actions;
 export default reservasSlice.reducer;

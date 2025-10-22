@@ -28,6 +28,11 @@ const Perfil = () => {
             
             <div className='profile-content'>
                 <div className='titulo'>
+                    <img 
+                        src={user.foto_perfil || "https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"} 
+                        alt="Perfil" 
+                        className="profile-page-pic"
+                    />
                     <span className="nombre_de_usuario">
                         {user.nombre} {user.apellido}
                         <div className="editar-button" onClick={handleEditarClick}>

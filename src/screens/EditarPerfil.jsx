@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { updateUser } from '../store/features/auth/authSlice';
+import { updateUser, uploadProfilePic } from '../store/features/auth/authSlice';
 import Swal from 'sweetalert2'; // Usaremos SweetAlert2 para notificaciones más bonitas
 
 import "../styles/EditarPerfil.css";
 import { LiaEditSolid } from "react-icons/lia";
 import { IoSaveOutline } from "react-icons/io5";
 import Sidebar from '../components/Sidebar/Sidebar';
+import { FaCamera } from 'react-icons/fa';
 
 const EditarPerfil = () => {
     // 1. Obtenemos los datos del usuario y el estado de la API desde Redux
@@ -40,6 +41,9 @@ const EditarPerfil = () => {
         telefono: 'purple',
         nombreUsuario: 'purple'
     });
+
+    const [uploading, setUploading] = useState(false);
+    const fileInputRef = useRef(null);
 
     // 3. Sincronizamos el estado local del formulario cuando los datos del usuario en Redux cargan
     useEffect(() => {
@@ -116,6 +120,34 @@ const EditarPerfil = () => {
         return coloresCampos[campo] === 'purple' ? 'input-purple' : 'input-gray';
     };
 
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Validar tipo y tamaño (opcional pero recomendado)
+        if (file.size > 5 * 1024 * 1024) { // 5 MB
+            Swal.fire('Archivo muy grande', 'La imagen no puede pesar más de 5MB.', 'error');
+            return;
+        }
+
+        setUploading(true);
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const resultAction = await dispatch(uploadProfilePic(formData));
+        setUploading(false);
+
+        if (uploadProfilePic.fulfilled.match(resultAction)) {
+            Swal.fire('¡Éxito!', 'Foto de perfil actualizada.', 'success');
+        } else {
+            Swal.fire('Error', resultAction.payload || 'No se pudo subir la imagen.', 'error');
+        }
+    };
+
+    const handleImageClick = () => {
+        fileInputRef.current.click();
+    };
+
     if (!usuarioActual) {
         return <div className="EditProfile-page"><h1>Cargando perfil...</h1></div>;
     }
@@ -126,6 +158,27 @@ const EditarPerfil = () => {
             <div className='edit-wrapper'>
                 <div className='titulo'>
                 <h1>Editar Perfil</h1>
+                <div className="profile-pic-container">
+                        <img 
+                            src={usuarioActual.foto_perfil || "https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"} 
+                            alt="Foto de perfil" 
+                            className="profile-pic"
+                        />
+                        <input 
+                            type="file" 
+                            ref={fileInputRef}
+                            onChange={handleFileChange}
+                            accept="image/png, image/jpeg"
+                            style={{ display: 'none' }}
+                        />
+                        <button 
+                            className="edit-pic-button" 
+                            onClick={handleImageClick}
+                            disabled={uploading}
+                        >
+                            {uploading ? <div className="spinner-small"></div> : <FaCamera />}
+                        </button>
+                    </div>
                 <div className="containers-wrapper">
                     <div className="Left-container">
                         <form className="registro-form" onSubmit={handleSubmit} noValidate>
