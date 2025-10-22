@@ -1,46 +1,48 @@
 .pagina-favoritos {
-  padding: 2rem;
+    padding: 2rem;
 }
 
 .titulo-favoritos {
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-  font-size: 2rem;
-  font-weight: bold;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 .listado-favoritos {
-  display: grid;
-  grid-template-columns: 1fr; /* una sola columna que ocupa todo */
-  gap: 1.5rem;
-  margin-top: 2.1rem;
-  width: 100%;
+    display: grid;
+    grid-template-columns: 1fr; /* una sola columna que ocupa todo */
+    gap: 1.5rem;
+    margin-top: 2.1rem;
+    width: 100%;
 }
 
 .listado-favoritos > * {
-  width: 100%; /* hace que cada card se expanda al ancho completo */
+    width: 100%; /* hace que cada card se expanda al ancho completo */
 }
 
 .sin-resultados-favoritos {
-  color: var(--primary-color);
-  font-weight: bold;
-  text-align: center;
-  margin-top: 1rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    text-align: center;
+    margin-top: 1rem;
 }
 
-/* Responsivo */
-@media (max-width: 600px) {
-  .pagina-favoritos {
-    padding: 1rem;
-    padding-top: 4rem;
-  }
+/* --- ESTILOS RESPONSIVOS MEJORADOS --- */
+@media (max-width: 768px) {
+    .pagina-favoritos {
+        padding: 1.5rem 1rem; /* Menos padding en los lados, un poco más vertical */
+        padding-top: 5rem;    /* Espacio consistente para el navbar */
+    }
 
-  .titulo-favoritos {
-    font-size: 1.5rem;
-  }
+    .titulo-favoritos {
+        font-size: 1.8rem;
+        text-align: center; /* Centrado se ve más ordenado en móvil */
+    }
 
-  .listado-favoritos {
-    gap: 1rem;
-  }
+    .listado-favoritos {
+        gap: 1.2rem; /* Un poco menos de espacio entre elementos */
+        margin-top: 1.5rem;
+    }
 }

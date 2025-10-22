@@ -18,3 +18,14 @@
   display: flex;
   flex-direction: column;
 }
+
+/* --- ESTILOS RESPONSIVOS --- */
+@media (max-width: 900px) {
+  .sidebar-container {
+    display: none; /* Ocultamos el sidebar, la navegación se hará desde el Header */
+  }
+
+  .main-content-container {
+    width: 100%; /* El contenido principal ocupa todo el ancho disponible */
+  }
+}

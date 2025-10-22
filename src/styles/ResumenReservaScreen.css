@@ -1,56 +1,122 @@
 .detalle-layout {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* toda la pantalla */
-  background-color: var(--background-color, #f3f3fe);
-  padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* toda la pantalla */
+    background-color: var(--background-color, #f3f3fe);
+    padding: 2rem;
+    box-sizing: border-box; /* Añadido para mejor control del padding */
 }
 
 .detalle-box {
-  background-color: #fff;
-  padding: 2rem 3rem;
-  border-radius: 1rem;
-  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
-  text-align: center;
-  max-width: 30rem;
-  width: 100%;
+    background-color: #fff;
+    padding: 2rem 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    text-align: center;
+    max-width: 30rem;
+    width: 100%;
 }
 
 .detalle-titulo {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: var(--primary-color);
-  font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+    font-weight: 700;
 }
 
 .detalle-box p {
-  font-size: 1.2rem;
-  margin: 0.8rem 0;
-  color: var(--primary-color);
+    font-size: 1.2rem;
+    margin: 0.8rem 0;
+    color: var(--primary-color);
 }
 
 .detalle-box p span {
-  font-weight: 600;
+    font-weight: 600;
+}
+
+.detalle-divider {
+    border: none;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 1.5rem 0;
+}
+
+.total-final {
+    font-size: 1.4rem !important; /* Aumenta el tamaño para darle jerarquía */
+    font-weight: 700;
+}
+
+.total-final strong {
+    color: var(--second-color, #7B2FF7);
 }
 
 .btn-pagar {
-  margin-top: 2rem;
-  background-color: var(--primary-color, #6A0DAD);
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.8rem 2rem;
-  font-size: 1.1rem;
-  cursor: pointer;
-  font-weight: bold;
-  transition: transform 0.1s ease, background 0.3s ease;
+    margin-top: 2rem;
+    background-color: var(--primary-color, #6A0DAD);
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.1s ease, background 0.3s ease;
+    width: 100%; /* El botón ocupará todo el ancho disponible */
 }
 
 .btn-pagar:hover {
-  background-color: var(--second-color, #7B2FF7);
+    background-color: var(--second-color, #7B2FF7);
 }
 
 .btn-pagar:active {
-  transform: scale(0.95);
+    transform: scale(0.95);
+}
+
+/* --- ESTILOS RESPONSIVOS PARA MÓVILES --- */
+/* Se aplicarán en pantallas de 768px de ancho o menos */
+@media (max-width: 768px) {
+    .detalle-layout {
+        /* La página se convierte en el contenedor principal */
+        padding: 0;
+        align-items: flex-start;
+        background-color: #fff; /* Fondo blanco para una apariencia nativa */
+    }
+
+    .detalle-box {
+        /* El contenedor se expande para llenar la pantalla */
+        max-width: 100%;
+        min-height: 100vh;
+        
+        /* Eliminamos los estilos de "tarjeta" */
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+
+        /* Hacemos que el contenido se centre verticalmente */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        /* Ajustamos el padding para móviles */
+        padding: 2rem 1.5rem;
+    }
+
+    .detalle-titulo {
+        font-size: 1.8rem; /* Título un poco más pequeño */
+        margin-bottom: 1.5rem;
+    }
+
+    .detalle-box p {
+        font-size: 1.1rem; /* Texto ligeramente más pequeño */
+    }
+
+    .total-final {
+        font-size: 1.3rem !important;
+    }
+
+    .btn-pagar {
+        padding: 1rem; /* Hacemos el botón un poco más alto para facilitar el toque */
+        font-size: 1.1rem;
+    }
 }
