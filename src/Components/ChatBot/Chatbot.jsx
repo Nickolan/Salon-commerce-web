@@ -1,73 +1,66 @@
-import React, { useState, useRef, useEffect } from 'react';
-import './Chatbot.css';
+import React, { useEffect } from 'react';
+// Importa tus estilos si son necesarios para el posicionamiento general,
+// pero el botón inicial ya no existirá.
+// import './Chatbot.css';
 
 const Chatbot = () => {
-  const [messages, setMessages] = useState([
-    { text: "¡Hola! ¿En qué puedo ayudarte hoy?", sender: 'bot' }
-  ]);
-  const [inputValue, setInputValue] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
-  const messagesEndRef = useRef(null);
-
-  const handleSendMessage = () => {
-    if (inputValue.trim() === '') return;
-    setMessages(prev => [...prev, { text: inputValue, sender: 'user' }]);
-    setInputValue('');
-    setTimeout(() => {
-      setMessages(prev => [...prev, { text: "Gracias por tu mensaje. Estoy procesando tu consulta.", sender: 'bot' }]);
-    }, 500);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
-    }
-  };
-
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    // Verificar si el script ya existe para evitar cargarlo múltiples veces
+    // (útil si el componente pudiera re-montarse por alguna razón)
+    if (document.querySelector('script[src*="jotfor.ms/agent/embedjs"]')) {
+      console.log('Script de Jotform ya cargado.');
+      // Opcional: podrías intentar re-abrir el chat aquí si es necesario
+      return;
+    }
 
-  return (
-    <>
-      {!isOpen && (
-        <button className="chatbot-toggle-button" onClick={() => setIsOpen(true)}>
-          💬
-        </button>
-      )}
-      {isOpen && (
-        <div className="chatbot-container">
-          <div className="chatbot-header" onClick={() => setIsOpen(false)}>
-            <span>Asistente Virtual</span>
-          </div>
-          <div className="chatbot-messages">
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={msg.sender === 'user' ? 'user-message' : 'bot-message'}
-              >
-                {msg.text}
-              </div>
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-          <div className="chatbot-input-container">
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Escribe tu consulta aquí..."
-              className="chatbot-input"
-            />
-            <button onClick={handleSendMessage} className="chatbot-send-button">
-              Enviar
-            </button>
-          </div>
-        </div>
-      )}
-    </>
-  );
+    // Crea el elemento script
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jotfor.ms/agent/embedjs/0199ee8a76e9771aa184f621e1f7aa20b530/embed.js';
+    script.async = true;
+
+    // Cuando se cargue el script de Jotform, el widget se inicializará solo.
+    script.onload = () => {
+      console.log('Script de Jotform cargado.');
+      // Opcional: Si quieres que el chat se abra AUTOMÁTICAMENTE al cargar la página
+      // Esperar un poco a que se monte el widget de Jotform
+      // setTimeout(() => {
+      //   const jotformButton = document.querySelector('button[aria-label="Open Chatbot"]');
+      //   if (jotformButton) {
+      //     console.log('Intentando abrir Jotform automáticamente.');
+      //     jotformButton.click(); // Abre automáticamente el chat
+      //   } else {
+      //     console.warn('Botón de Jotform no encontrado para apertura automática.');
+      //   }
+      // }, 1500); // Ajusta este tiempo si es necesario
+    };
+
+    script.onerror = () => {
+        console.error('Error al cargar el script de Jotform.');
+    };
+
+    // Añade el script al cuerpo del documento
+    document.body.appendChild(script);
+
+    // Función de limpieza: Opcional, pero buena práctica si el componente se desmonta.
+    // Remueve el script si el componente Chatbot se desmonta.
+    return () => {
+      const existingScript = document.querySelector(`script[src="${script.src}"]`);
+      if (existingScript) {
+        document.body.removeChild(existingScript);
+        console.log('Script de Jotform removido al desmontar componente.');
+        // También podrías necesitar remover elementos visuales que Jotform haya añadido.
+        const jotformContainer = document.getElementById('jotform-chat-embed'); // O el ID/clase que use Jotform
+        if (jotformContainer) {
+            jotformContainer.remove();
+        }
+
+      }
+    };
+  }, []); // El array vacío asegura que esto se ejecute solo una vez al montar
+
+  // Este componente ahora no renderiza nada visible por sí mismo.
+  // El widget de Jotform se añadirá al DOM a través del script.
+  return null;
 };
 
 export default Chatbot;

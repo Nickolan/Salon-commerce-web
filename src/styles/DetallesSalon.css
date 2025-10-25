@@ -149,3 +149,195 @@
   color: #6A0DAD;
   font-size: 18px;
 }
+
+CSS
+
+/* Estilos existentes (se mantienen para pantallas grandes) */
+.detalles-Salon {
+  padding: 3% 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.detalles-Salon .titulo {
+  display: flex; /* Elementos lado a lado por defecto */
+  justify-content: space-between; /* Espacio entre izquierda y derecha */
+  align-items: flex-start; /* Alinea arriba por defecto */
+  width: 100%;
+  margin-bottom: 20px;
+  gap: 20px; /* Espacio entre columna izquierda y derecha */
+  flex-wrap: nowrap; /* Evita que se envuelvan en pantallas grandes */
+}
+
+.detalles-Salon .titulo .titulo-izquierda {
+  text-align: start;
+  flex: 1; /* Permite que crezca */
+  min-width: 0; /* Permite que se encoja si es necesario */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Alinea el contenido interno arriba */
+  gap: 8px; /* Espacio entre h1 y dirección */
+}
+
+.detalles-Salon .titulo-izquierda h1 {
+  margin: 0;
+  color: #6A0DAD;
+  font-size: 32px; /* Tamaño ajustado ligeramente */
+  line-height: 1.2; /* Mejora el espaciado entre líneas si el título es largo */
+}
+
+.detalles-Salon .titulo .titulo-derecha {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Alinea a la derecha en escritorio */
+  gap: 10px;
+  /* min-width: 120px; /* Quitar min-width para permitir que se encoja */
+  /* margin-top: 0; // No necesario */
+  flex-shrink: 0; /* Evita que la columna derecha se encoja demasiado rápido */
+}
+
+.detalles-Salon .direccion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* margin-top: 0; // No necesario */
+  flex-wrap: wrap; /* Permite que la dirección se envuelva si es muy larga */
+}
+
+.detalles-Salon .direccion .logo {
+  font-size: 16px;
+  flex-shrink: 0; /* Evita que el icono se encoja */
+}
+
+.detalles-Salon .direccion h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: normal; /* Asegura que no sea negrita por defecto */
+  color: #6A0DAD;
+  line-height: 1.4;
+}
+
+/* Estilos de la parte derecha superior (botones) */
+.detalles-Salon .derecha-superior {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Aumentar un poco el espacio */
+  flex-wrap: wrap; /* Permitir que los botones se envuelvan si no caben */
+  justify-content: flex-end; /* Mantener alineado a la derecha en escritorio */
+}
+
+.detalles-Salon .reservar-button {
+  background-color: #6A0DAD;
+  color: #FFFFFF;
+  border: none;
+  padding: 8px 16px; /* Ajustar padding */
+  border-radius: 6px; /* Redondear un poco más */
+  cursor: pointer;
+  font-size: 1rem; /* Tamaño de fuente relativo */
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap; /* Evitar que el texto se rompa */
+  transition: opacity 0.2s ease;
+}
+.detalles-Salon .reservar-button:hover {
+  opacity: 0.9;
+}
+
+/* Estilos de Estrellas y Favoritos (sin cambios relevantes, se mantienen) */
+.detalles-Salon .estrellas {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+.detalles-Salon .promedio-texto {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #6A0DAD;
+  font-weight: bold;
+}
+/* ... (otros estilos de estrellas, favorito-lleno, favorito-vacio, etc.) ... */
+
+/* --- 👇 AJUSTES RESPONSIVOS --- */
+
+@media (max-width: 768px) { /* Tabletas y móviles */
+  .detalles-Salon .titulo {
+    flex-direction: column; /* Apila izquierda y derecha */
+    align-items: stretch; /* Ocupa todo el ancho */
+    gap: 15px; /* Espacio entre las secciones apiladas */
+  }
+
+  .detalles-Salon .titulo .titulo-izquierda {
+    align-items: center; /* Centra el título y la dirección */
+    text-align: center; /* Centra el texto */
+  }
+
+  .detalles-Salon .titulo-izquierda h1 {
+    font-size: 28px; /* Reducir tamaño del título */
+  }
+
+   .detalles-Salon .direccion {
+     justify-content: center; /* Centra el icono y el texto de dirección */
+   }
+
+   .detalles-Salon .direccion h2 {
+     font-size: 15px; /* Ligeramente más pequeño */
+   }
+
+
+  .detalles-Salon .titulo .titulo-derecha {
+    align-items: center; /* Centra los elementos de la derecha */
+    width: 100%; /* Ocupa todo el ancho */
+  }
+
+  .detalles-Salon .derecha-superior {
+    justify-content: center; /* Centra los botones horizontalmente */
+    width: 100%; /* Asegura que ocupe el ancho para centrar bien */
+    gap: 10px; /* Ajustar espacio si es necesario */
+  }
+
+   .detalles-Salon .reservar-button {
+      padding: 6px 14px; /* Un poco más pequeño */
+      font-size: 0.95rem;
+   }
+}
+
+@media (max-width: 480px) { /* Móviles más pequeños */
+  .detalles-Salon {
+    padding: 3% 4%; /* Menos padding lateral */
+  }
+
+  .detalles-Salon .titulo-izquierda h1 {
+    font-size: 24px; /* Aún más pequeño */
+  }
+
+  .detalles-Salon .direccion h2 {
+    font-size: 14px;
+  }
+
+  .detalles-Salon .derecha-superior {
+    flex-direction: column; /* Apila Favorito y Reservar si es muy estrecho */
+    gap: 10px;
+  }
+
+   .detalles-Salon .reservar-button {
+      width: 100%; /* Botón de reservar ocupa todo el ancho */
+      max-width: 250px; /* Pero con un máximo */
+   }
+}
+
+/* Resto de estilos generales (sin cambios) */
+.detalles-Salon h1,
+.detalles-Salon h2,
+.detalles-Salon h3 {
+  color: #6A0DAD;
+}
+
+.detalles-Salon h3 {
+  font-weight: normal;
+}
+.detalles-Salon .icon,
+.detalles-Salon .logo,
+.detalles-Salon .estrella {
+  color: #6A0DAD;
+  font-size: 18px;
+}

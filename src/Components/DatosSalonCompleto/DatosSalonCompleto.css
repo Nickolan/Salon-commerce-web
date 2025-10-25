@@ -13,14 +13,16 @@
 }
 
 .datosSalonCompleto .columna-izquierda {
-  flex: 0.4; /* Reduce el espacio de la columna izquierda */
+  flex: 0.4;
+  /* Reduce el espacio de la columna izquierda */
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
 .datosSalonCompleto .columna-derecha {
-  flex: 0.6; /* Aumenta el espacio de la columna derecha */
+  flex: 0.6;
+  /* Aumenta el espacio de la columna derecha */
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -28,7 +30,8 @@
 
 .datosSalonCompleto .imagen-salon img {
   width: 100%;
-  height: 350px; /* Aumenta el alto de la imagen */
+  height: 350px;
+  /* Aumenta el alto de la imagen */
   object-fit: cover;
   border-radius: 10px;
   display: block;
@@ -42,7 +45,7 @@
 }
 
 .datosSalonCompleto .mapa-ubicacion {
-  border-radius: 10px; 
+  border-radius: 10px;
   overflow: hidden;
   height: 300px;
   position: relative;
@@ -54,7 +57,7 @@
   border-radius: 10px;
 }
 
-.datosSalonCompleto .mapa-cargando, 
+.datosSalonCompleto .mapa-cargando,
 .datosSalonCompleto .mapa-error-placeholder {
   display: flex;
   flex-direction: column;
@@ -115,7 +118,7 @@
   color: #6c757d;
 }
 
-.datosSalonCompleto .gm-style iframe + div {
+.datosSalonCompleto .gm-style iframe+div {
   border-radius: 10px;
 }
 
@@ -139,7 +142,7 @@
   padding: 15px 20px;
   border-radius: 10px;
   background-color: #fff;
-  min-height: auto; 
+  min-height: auto;
   height: auto;
   border: 2px solid #6A0DAD;
 }
@@ -239,8 +242,13 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .imagen-placeholder {
@@ -322,29 +330,135 @@
   color: #856404;
 }
 
+.galeria-imagenes {
+  display: flex;
+  flex-direction: column;
+  /* Apila imagen principal y thumbnails */
+  gap: 15px;
+  /* Espacio entre imagen principal y thumbnails */
+  width: 100%;
+}
+
+/* Contenedor de la imagen principal */
+.imagen-principal-salon {
+  width: 100%;
+  height: 350px;
+  /* O el alto que prefieras */
+  background-color: #f0f0f0;
+  /* Color de fondo mientras carga o si no hay imagen */
+  border-radius: 10px;
+  overflow: hidden;
+  /* Asegura que la imagen no se salga */
+  display: flex;
+  /* Para centrar el placeholder si es necesario */
+  align-items: center;
+  justify-content: center;
+}
+
+.imagen-principal-salon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Cubre el área manteniendo la proporción */
+  display: block;
+  /* Evita espacio extra debajo de la imagen */
+}
+
+/* Placeholder si no hay imagen principal válida */
+.imagen-principal-salon .imagen-placeholder {
+  width: 100%;
+  height: 100%;
+  /* Ocupa el espacio de la imagen principal */
+  background-color: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 10px;
+  /* Redondeado igual que la imagen principal */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-style: italic;
+  font-size: 1rem;
+}
+
+/* Contenedor de los thumbnails */
+.galeria-thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  /* Permite que los thumbnails pasen a la siguiente línea */
+  gap: 10px;
+  /* Espacio entre thumbnails */
+  justify-content: flex-start;
+  /* Alinea los thumbnails al inicio */
+  width: 100%;
+}
+
+/* Estilo individual de cada thumbnail */
+.thumbnail {
+  width: 80px;
+  /* Ancho fijo para los thumbnails */
+  height: 60px;
+  /* Alto fijo para los thumbnails */
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  /* Borde inicial transparente */
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  opacity: 0.7;
+  /* Ligeramente opaco por defecto */
+}
+
+.thumbnail:hover {
+  opacity: 1;
+  /* Opacidad completa al pasar el mouse */
+  transform: scale(1.05);
+  /* Ligero zoom al pasar el mouse */
+}
+
+/* Estilo del thumbnail activo (seleccionado) */
+.thumbnail.active {
+  border-color: var(--primary-color);
+  /* Usa tu color primario */
+  opacity: 1;
+  transform: scale(1.08);
+  /* Un poco más grande para destacar */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .datosSalonCompleto .contenedor-principal {
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .datosSalonCompleto .columna-izquierda,
   .datosSalonCompleto .columna-derecha {
     width: 100%;
   }
-  
+
   .datosSalonCompleto .imagen-salon img {
     height: 200px;
   }
-  
+
   .datosSalonCompleto .mapa-ubicacion {
     height: 250px;
   }
-  
-  .datosSalonCompleto .mapa-cargando, 
+
+  .datosSalonCompleto .mapa-cargando,
   .datosSalonCompleto .mapa-error {
     height: 250px;
+  }
+
+  .imagen-principal-salon {
+    height: 250px;
+    /* Reducir altura en pantallas medianas */
+  }
+
+  .thumbnail {
+    width: 60px;
+    height: 45px;
   }
 }
 
@@ -352,12 +466,27 @@
   .datosSalonCompleto .mapa-ubicacion {
     height: 200px;
   }
-  
-  .datosSalonCompleto .mapa-cargando, 
+
+  .datosSalonCompleto .mapa-cargando,
   .datosSalonCompleto .mapa-error {
     height: 200px;
     font-size: 14px;
     padding: 0 15px;
     text-align: center;
+  }
+
+  .imagen-principal-salon {
+    height: 200px;
+    /* Reducir más altura en móviles */
+  }
+
+  .thumbnail {
+    width: 50px;
+    height: 40px;
+  }
+
+  .galeria-thumbnails {
+    justify-content: center;
+    /* Centrar thumbnails en móvil si prefieres */
   }
 }

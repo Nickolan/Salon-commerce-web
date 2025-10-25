@@ -1,64 +1,153 @@
-.reservaciones-rec-page {
-    padding: 30px 1rem 4rem 1rem; /* Padding superior para navbar */
-    max-width: 1100px;
-    margin: 0 auto;
-    min-height: 80vh;
-}
-
-.titulo {
-  color: var(--primary-color);
+/* ====== CONTENEDOR PRINCIPAL ====== */
+.reservaciones-container {
+  padding-top: 20px;
+  padding-bottom: 60px;
+  max-width: 1100px;
+  margin: 0 auto;
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  font-weight: bold;
+  color: var(--primary-color);
 }
 
-.tabla-reservaciones {
-  border-collapse: separate; /* Permite bordes redondeados */
-  border-spacing: 0;
-  width: 100%;
+/* ====== TÍTULO ====== */
+.titulo {
+  font-size: 2.5rem !important;
+  font-weight: 700;
+  color: var(--primary-color) !important;
+  margin-bottom: 40px !important;
+  text-align: left;
+  margin-left: 20px;
+}
+
+/* ====== TABLA ====== */
+.tabla-contenedor {
+  background: white;
+  border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  border-radius: 8px; /* Bordes redondeados para la tabla */
-  overflow: hidden; /* Asegura que los bordes redondeados se apliquen */
+  overflow-x: auto;
+  padding: 1rem;
 }
 
-.tabla-reservaciones thead {
+.tabla1 {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla1 th {
   background-color: var(--primary-color);
   color: white;
+  padding: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.tabla-reservaciones th,
-.tabla-reservaciones td {
-  padding: 1rem 0.75rem;
-  vertical-align: middle; /* Centra verticalmente */
-  border-bottom: 1px solid #dee2e6; /* Línea separadora */
-}
-.tabla-reservaciones th {
-    font-weight: 600;
+.tabla1 td {
+  color: var(--primary-color);
+  padding: 0.8rem;
+  border-bottom: 1px solid #ddd;
 }
 
-.tabla-reservaciones tbody tr:last-child td {
-  border-bottom: none; /* Quita borde inferior de la última fila */
+.tabla1 tr:hover td {
+  background-color: rgba(43, 45, 66, 0.05);
 }
 
-.tabla-reservaciones tbody tr:nth-child(even) {
-  background-color: #f8f9fa; /* Color alterno para filas */
-}
-.tabla-reservaciones tbody tr:hover {
-  background-color: #f1e7ff; /* Color al pasar el mouse */
+/* ====== ESTADOS ====== */
+.estado {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-weight: 600;
+  text-transform: capitalize;
 }
 
-.botones_expansion button {
+.estado.confirmada {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.estado.pendiente {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.estado.cancelada {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* ====== BOTONES EXPANSIÓN ====== */
+.botones_expansion {
+  margin-top: 30px;
+}
+
+.btn-expansion {
   background: none;
   border: none;
   color: var(--primary-color);
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  padding: 0.5rem;
-  margin-top: 1rem;
-  transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.3s, transform 0.2s;
 }
 
-.botones_expansion button:hover {
-  transform: scale(1.1);
-  color: #5a1a8b;
+.btn-expansion:hover {
+  color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+.icono {
+  font-size: 1.6rem;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 900px) {
+  .tabla1 th,
+  .tabla1 td {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+
+  .titulo {
+    font-size: 2rem !important;
+    margin-top: -40px;
+  }
+
+  .reservaciones-container {
+    padding: 80px 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .tabla1 th {
+    display: none;
+  }
+
+  .tabla1 td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.7rem;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  .tabla1 tr {
+    display: block;
+    background: white;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .tabla1 td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--accent-color);
+  }
+
+  .btn-expansion {
+    font-size: 1rem;
+  }
 }

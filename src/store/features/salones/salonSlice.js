@@ -64,6 +64,8 @@ export const updateSalonStatusAdmin = createAsyncThunk(
       // Llama al nuevo método del servicio
       return await updateSalonStatus(salonId, nuevoEstado, token);
     } catch (error) {
+      console.log(error);
+      
       const message = error.response?.data?.message || error.message || error.toString();
       return rejectWithValue(message);
     }

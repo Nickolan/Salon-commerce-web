@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { FiEdit, FiXCircle, FiUsers, FiMapPin, FiDollarSign } from "react-icons/fi";
+import { FiEdit, FiXCircle, FiUsers, FiMapPin, FiDollarSign, FiEyeOff } from "react-icons/fi";
 import './ItemMiSalon.css'; // Crearemos este archivo de estilos a continuación
 
-const ItemMiSalon = ({ salon, onCancelar }) => {
+const ItemMiSalon = ({ salon, onCancelar, onHide }) => {
     const navigate = useNavigate();
 
     // Navega al detalle del salón
@@ -27,6 +27,18 @@ const ItemMiSalon = ({ salon, onCancelar }) => {
         e.stopPropagation();
         onCancelar(salon.id_salon);
     };
+
+    const handleHideClick = (e) => {
+        e.stopPropagation();
+        if (onHide) { // Verifica que la prop exista
+            
+           onHide(salon.id_salon);
+        } else {
+            console.error("La función onHide no fue proporcionada a ItemMiSalon");
+        }
+    };
+
+    const puedeOcultar = salon.estado_publicacion !== 'oculta';
 
     return (
         <div className='card-salon' onClick={handleCardClick}>
@@ -64,6 +76,11 @@ const ItemMiSalon = ({ salon, onCancelar }) => {
                     <div className='botones' onClick={handleButtonClick}>
                         <button onClick={handleEditClick} aria-label="Editar salón"><FiEdit/></button>
                         <button onClick={handleCancelClick} aria-label="Eliminar salón"><FiXCircle/></button>
+                        {puedeOcultar && ( // Renderizado condicional
+                           <button onClick={handleHideClick} aria-label="Ocultar salón" title="Ocultar Salón" className="btn-ocultar">
+                             <FiEyeOff /> {/* Icono más apropiado */}
+                           </button>
+                        )}
                     </div>
                 </div>
             </div>

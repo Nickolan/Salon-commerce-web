@@ -21,6 +21,13 @@ const DetallesSalon = ({ isLoaded }) => {
   // Obtenemos los datos del estado global de Redux
   const { selectedSalon, resenias, status, error } = useSelector((state) => state.salones);
 
+  console.log(selectedSalon);
+
+  const {
+    isAuthenticated,
+    user
+  } = useSelector((state) => state.auth);
+
   const [esFavorito, setEsFavorito] = useState(false); // La lógica de favoritos se mantiene local por ahora
 
   const calcularPromedio = () => {
@@ -86,15 +93,23 @@ const DetallesSalon = ({ isLoaded }) => {
           </div>
         </div>
         <div className="titulo-derecha">
-          <div className="derecha-superior">
-            <BotonFavoritos
-              id_salon={selectedSalon.id_salon}
-              showText={true}
-            />
-            <div className="reservar-button" onClick={handleReservarClick}>
-              <span className="reservar-texto">Reservar</span>
-            </div>
-          </div>
+          {
+            !user || user.id_usuario !== selectedSalon.publicador.id_usuario && (
+              <div className="derecha-superior">
+                <BotonFavoritos
+                  id_salon={selectedSalon.id_salon}
+                  showText={true}
+                />
+
+
+                <div className="reservar-button" onClick={handleReservarClick}>
+                  <span className="reservar-texto">Reservar</span>
+                </div>
+
+              </div>
+            )
+          }
+
           <div className="estrellas">
             {renderizarEstrellas(promedioCalificacion)}
             <span className="promedio-texto">({promedioCalificacion})</span>
@@ -105,9 +120,9 @@ const DetallesSalon = ({ isLoaded }) => {
       <div className='detalles'>
         <DatosSalonCompleto salon={selectedSalon} isLoaded={isLoaded} />
         {/* Pasamos las reseñas obtenidas de la API al componente */}
-        <ListasResenias 
+        <ListasResenias
           resenias={resenias} // 👈 Pasar 'resenias' como prop 'resenias'
-          renderizarEstrellas={renderizarEstrellas} 
+          renderizarEstrellas={renderizarEstrellas}
         />
       </div>
     </div>
