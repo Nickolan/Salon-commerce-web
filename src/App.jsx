@@ -31,6 +31,8 @@ import PoliticaPrivacidadScreen from './screens/PoliticaPrivacidadScreen'
 import AdminScreen from './screens/AdminScreen';
 import Cancelacion from './screens/Cancelacion';
 import ReservarSalonScreen from './screens/ReservarSalonScreen';
+import EditarSalonScreen from './screens/EditarSalonScreen';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -40,7 +42,7 @@ function App() {
   const dispatch = useDispatch();
   const { isAuthenticated, user, isAdmin, status: authStatus } = useSelector((state) => state.auth);
 
-  
+
   useEffect(() => {
     // Si el usuario está autenticado, cargamos sus favoritos.
     if (isAuthenticated) {
@@ -55,9 +57,9 @@ function App() {
         dispatch(revalidateSession());
       }
     }, 500);
-    
-    
-    
+
+
+
     // Si hay un token y aún no hemos intentado revalidar la sesión
   }, [dispatch, authStatus]);
 
@@ -76,41 +78,44 @@ function App() {
     <div style={{ "--primary-color": "#6A0DAD", "--second-color": "#7B2FF7", "--background-color": "#f3f3fe" }}>
 
       <Routes>
-        <Route path="/" element={<><Navbar user={null} /><HomeScreen isLoaded={isLoaded} /> <Chatbot/> <Footer /></>} />
+        <Route path="/" element={<><Navbar user={null} /><HomeScreen isLoaded={isLoaded} /> <Chatbot /> <Footer /></>} />
         <Route path="/login" element={<> <LoginScreen /> </>} />
         <Route path="/registro" element={<> <RegistroScreen /> </>} />
         <Route path="/resultados" element={<> <Navbar user={null} /> <ResultadosScreen isLoaded={isLoaded} /> <Footer /> </>} />
 
         <Route path="/publicar" element={<><NuevoSalonScreen isLoaded={isLoaded} /><Chatbot /></>} />
 
-        <Route path="/terminos&condiciones" element={<><Navbar user={null} /> <TerminosYCondicionesScreen/> <Chatbot/><Footer/></>} />
-        <Route path="/mis-salones" element={<> <Navbar user={null}/> <MisSalonesScreen/> <Chatbot/> <Footer/> </>}/>
-        <Route path="/mis_ventas" element={<><Navbar user={null}/><Reservacionesrec/> <Chatbot/><Footer/></>}/>
-        <Route path="/perfil" element={<><Navbar user={null}/><Perfil/><Footer/> <Chatbot/></>}/>
-        <Route path='/editar-perfil' element={<><Navbar user={null}/><EditarPerfil isLoaded={isLoaded}/> <Chatbot/><Footer/></>}/>
+        <Route path="/terminos&condiciones" element={<><Navbar user={null} /> <TerminosYCondicionesScreen /> <Chatbot /><Footer /></>} />
+        <Route path="/mis-salones" element={<> <Navbar user={null} /> <MisSalonesScreen /> <Chatbot /> <Footer /> </>} />
+        <Route path="/mis_ventas" element={<><Navbar user={null} /><Reservacionesrec /> <Chatbot /><Footer /></>} />
+        <Route path="/perfil" element={<><Navbar user={null} /><Perfil /><Footer /> <Chatbot /></>} />
+        <Route path='/editar-perfil' element={<><Navbar user={null} /><EditarPerfil isLoaded={isLoaded} /> <Chatbot /><Footer /></>} />
         {/* <Route path='/reservar/:id_salon' element={<><Navbar user={null}/><ReservarScreen/> <Chatbot/><Footer/></>}/> */}
-        <Route path='/resumen-reserva/:id_salon' element={<><Navbar user={null}/><ResumenReservaScreen/><Chatbot/><Footer/></>}/>
-        <Route path='/confirmacion-reserva' element={<><Navbar user={null}/><ConfirmacionReservaScreen/><Chatbot/><Footer/></>} />
-        <Route path="/salon/:id" element={ <> <Navbar user={null} /> <DetallesSalon isLoaded={isLoaded} /> <Chatbot/> <Footer/> </> } />
-        <Route path="/mis-reservas" element={<> <Navbar user={null}/> <MisReservas/> <Chatbot/> <Footer/> </>}/>
-        <Route path="/reservas_detalles/:id" element={<><Navbar user={null}/> <ReservasDetalles /> <Chatbot/> <Footer/> </>} />
-          
-        <Route path='/favoritos' element={<><Navbar user={null}/><FavoritosScreen/> <Chatbot/><Footer/></>}/>
-        <Route path="/cancelar_salon/:idUsuario/:idReserva" element={<><Navbar user={null}/><Cancelacion /><Chatbot/><Footer/></>}/>
+        <Route path='/resumen-reserva/:id_salon' element={<><Navbar user={null} /><ResumenReservaScreen /><Chatbot /><Footer /></>} />
+        <Route path='/confirmacion-reserva' element={<><Navbar user={null} /><ConfirmacionReservaScreen /><Chatbot /><Footer /></>} />
+        <Route path="/salon/:id" element={<> <Navbar user={null} /> <DetallesSalon isLoaded={isLoaded} /> <Chatbot /> <Footer /> </>} />
+        <Route path="/mis-reservas" element={<> <Navbar user={null} /> <MisReservas /> <Chatbot /> <Footer /> </>} />
+        <Route path="/reservas_detalles/:id" element={<><Navbar user={null} /> <ReservasDetalles /> <Chatbot /> <Footer /> </>} />
 
-        <Route path="/reservar/:id" element={<><Navbar user={null} /><ReservarSalonScreen /><Chatbot/><Footer /></>} />
+        <Route path='/favoritos' element={<><Navbar user={null} /><FavoritosScreen /> <Chatbot /><Footer /></>} />
+        <Route path="/cancelar_salon/:idUsuario/:idReserva" element={<><Navbar user={null} /><Cancelacion /><Chatbot /><Footer /></>} />
 
-        <Route path='/reseniar/:id_salon' element={<><Navbar user={null}/><ReseniarScreen/><Chatbot/><Footer/></>}/>
-        <Route path="/politica-de-privacidad" element={<><Navbar user={null} /> <PoliticaPrivacidadScreen/> <Chatbot/><Footer/></>} />
+        <Route path="/reservar/:id" element={<><Navbar user={null} /><ReservarSalonScreen /><Chatbot /><Footer /></>} />
+
+        <Route path='/reseniar/:id_salon' element={<><Navbar user={null} /><ReseniarScreen /><Chatbot /><Footer /></>} />
+        <Route path="/politica-de-privacidad" element={<><Navbar user={null} /> <PoliticaPrivacidadScreen /> <Chatbot /><Footer /></>} />
 
         <Route
           path="/admin"
           element={isAuthenticated ? <AdminScreen /> : <Navigate to="/" />}
         />
-                 {/* Opcional: Rutas hijas si AdminScreen tiene sub-navegación */}
-                 {/* <Route path="/admin/usuarios" element={isAuthenticated && isAdmin ? <UsuariosAdmin /> : <Navigate to="/" />} /> */}
-                 {/* <Route path="/admin/salones" element={isAuthenticated && isAdmin ? <SalonesAdmin /> : <Navigate to="/" />} /> */}
+        {/* Opcional: Rutas hijas si AdminScreen tiene sub-navegación */}
+        {/* <Route path="/admin/usuarios" element={isAuthenticated && isAdmin ? <UsuariosAdmin /> : <Navigate to="/" />} /> */}
+        {/* <Route path="/admin/salones" element={isAuthenticated && isAdmin ? <SalonesAdmin /> : <Navigate to="/" />} /> */}
 
+        <Route path="/editar-salon/:id" element={<EditarSalonScreen isLoaded={isLoaded} />} />
+
+        <Route path='forgot-password' element={<ForgotPasswordScreen/>} />
       </Routes>
     </div>
   );
