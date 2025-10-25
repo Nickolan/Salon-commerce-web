@@ -71,13 +71,12 @@ const Cancelacion = () => {
 
             // Verificamos el resultado del thunk
             if (cancelarReserva.fulfilled.match(resultAction)) {
+                navigate('/mis-reservas'); // Redirigir a mis reservas
                 Swal.fire(
                     '¡Cancelada!',
                     'Tu reserva ha sido cancelada exitosamente.',
                     'success'
-                ).then(() => {
-                    navigate('/mis-reservas'); // Redirigir a mis reservas
-                });
+                )
             } else {
                 // Si hubo un error (rejectWithValue), usamos el mensaje del payload
                 const errorMessage = resultAction.payload || 'No se pudo cancelar la reserva.';

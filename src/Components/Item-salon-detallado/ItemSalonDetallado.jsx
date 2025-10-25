@@ -25,7 +25,7 @@ const calificacionTexto = (puntaje) => {
     <Fragment>
      <div className="caja" onClick={handleClick} style={{ cursor: "pointer" }}>
         <div className="imagen-wrapper">
-          <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} alt={salon.nombre} className="imagen_salon" />
+          <img src={salon.fotos?.length > 0 ? salon.fotos[0] :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} alt={salon.nombre} className="imagen_salon" />
           <BotonFavoritos id_salon={salon.id_salon}/> 
         </div>
   

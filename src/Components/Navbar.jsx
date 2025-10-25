@@ -1,16 +1,18 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux"; // <-- Hooks de Redux
 import { logout } from "../store/features/auth/authSlice"; // <-- Acción de logout
 import "./Navbar.css";
 
 function Navbar() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   // Leemos el estado de autenticación y los datos del usuario del store
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate('/')
   };
 
   

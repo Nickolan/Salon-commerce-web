@@ -1,95 +1,145 @@
+// src/screens/HomeScreen.jsx
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSalones } from '../store/features/salones/salonSlice';
+import { Link } from 'react-router-dom'; // Importar Link
+import { 
+  fetchDestacados, 
+  fetchVisitados, 
+  fetchCercanos 
+} from '../store/features/salones/salonSlice';
+// Ya no traemos fetchSalones, a menos que quieras un carrusel de "Todos"
+// fetchFavoritos se maneja en App.jsx, así que ya deberían estar en el store.
 
-import '../styles/HomeScreen.css'; // Importa los nuevos estilos
-
+import '../styles/HomeScreen.css';
 import Carrusel from '../Components/Carrusel/Carrusel.jsx';
 import ItemSalonSimple from '../Components/ItemSalonSimple/ItemSalonSimple.jsx';
 import Searchbar from '../Components/SearchBar/searchbar';
 
-const HomeScreen = ({isLoaded}) => {
+const HomeScreen = ({ isLoaded }) => {
   const dispatch = useDispatch();
   
-  // 1. Obtenemos los datos y el estado de carga desde el store de Redux
-  const { salones, status, error } = useSelector((state) => state.salones);
+  // --- 1. Obtener TODOS los datos necesarios de Redux ---
+  const { 
+    destacados, 
+    visitados, 
+    cercanos, 
+    status: salonStatus 
+  } = useSelector((state) => state.salones);
+  
+  const { 
+    favoritos, 
+    status: favStatus 
+  } = useSelector((state) => state.favoritos);
+  
+  const { 
+    isAuthenticated, 
+    user 
+  } = useSelector((state) => state.auth);
 
-  // 2. Disparamos la acción para buscar salones cuando el componente se carga
+  // Mapeamos los favoritos para obtener solo la lista de salones
+  const salonesFavoritos = favoritos.map(fav => fav.salon);
+  
+  // Condición para "Cercanos"
+  const tieneUbicacionUsuario = user && user.latitud && user.longitud;
+
+  // --- 2. Disparar acciones al cargar ---
   useEffect(() => {
-    // Solo hacemos la petición si no se han cargado antes o si hubo un error
-    if (status === 'idle' || status === 'failed') {
-      dispatch(fetchSalones());
-    }
-  }, [status, dispatch]);
+    // Estos se cargan siempre
+    dispatch(fetchDestacados());
 
-  // 3. Función limpia para renderizar el contenido del carrusel
-  const renderizarSalones = () => {
-    // Manejo de estados de carga y error
+    // Estos solo si el usuario está logueado
+    if (isAuthenticated) {
+      dispatch(fetchVisitados());
+      dispatch(fetchCercanos());
+    }
+  }, [dispatch, isAuthenticated]);
+
+  // --- 3. Función de renderizado mejorada ---
+  // Un renderizador genérico para los carruseles
+  const renderizarCarrusel = (titulo, listaSalones, status, error, prompt = null) => {
+    // Mostrar prompt si existe (ej. "Añade tu ubicación")
+    if (prompt) {
+      return (
+        <section className='carousel-section'>
+          <h3>{titulo}</h3>
+          <div className="status-message prompt">
+            <p>{prompt.texto}</p>
+            {prompt.link && <Link to={prompt.link} className="btn-prompt">{prompt.linkTexto}</Link>}
+          </div>
+        </section>
+      );
+    }
+    
+    // Mostrar mensajes de carga, error o vacío
     if (status === 'loading') {
-      return <p className="status-message">Cargando salones...</p>;
+      return <section className='carousel-section'><h3>{titulo}</h3><p className="status-message">Cargando...</p></section>;
     }
     if (status === 'failed') {
-      return <p className="status-message error">Error al cargar salones: {error}</p>;
+      return <section className='carousel-section'><h3>{titulo}</h3><p className="status-message error">Error al cargar.</p></section>;
     }
-    if (status === 'succeeded' && salones.length === 0) {
-      return <p className="status-message">No hay salones disponibles en este momento.</p>;
+    if (listaSalones.length === 0) {
+      return <section className='carousel-section'><h3>{titulo}</h3><p className="status-message">No hay salones para mostrar.</p></section>;
     }
 
-    // Si todo está bien, renderizamos el Carrusel
+    // Renderizar el carrusel
     return (
-      <Carrusel
-        items={salones}
-        renderItem={(salon) => (
-          <ItemSalonSimple
-            id_salon={salon.id_salon}
-            nombre={salon.nombre}
-            precio={salon.precio_por_hora}
-            imagen={salon.fotos && salon.fotos.length > 0 ? salon.fotos[0] : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} // Imagen por defecto
-          />
-        )}
-      />
+      <section className='carousel-section'>
+        <h3>{titulo}</h3>
+        <Carrusel
+          items={listaSalones}
+          renderItem={(salon) => (
+            <ItemSalonSimple
+              key={salon.id_salon} // Añadir key aquí
+              id_salon={salon.id_salon}
+              nombre={salon.nombre}
+              precio={salon.precio_por_hora}
+              imagen={salon.fotos && salon.fotos.length > 0 ? salon.fotos[0] : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"}
+              promedioResenias={salon.promedio_calificacion || 0} // Usamos el promedio del backend
+            />
+          )}
+        />
+      </section>
     );
   };
-
+  
+  // --- 4. Renderizado principal de la pantalla ---
   return (
     <div className='homescreen-wrapper'>
-      {/* Sección del Título */}
       <section className='homescreen-header'>
         <h1>¿Quieres reservar un salón para ti?</h1>
         <h2>¡Encuentra los mejores salones para reservar aquí!</h2>
       </section>
 
-      {/* Sección de la Barra de Búsqueda */}
       <section className='homescreen-searchbar'>
-        {
-          isLoaded &&  <Searchbar />
-        }
-        
+        {isLoaded && <Searchbar />}
       </section>
       
-      {/* Sección del Contenido Principal (Carruseles) */}
+      {/* Sección del Contenido Principal (ACTUALIZADA) */}
       <main className='homescreen-content'>
-        <section className='carousel-section'>
-          <h3>Salones Destacados</h3>
-          {renderizarSalones()}
-        </section>
-
-        <section className='carousel-section'>
-          <h3>Vistos Recientemente</h3>
-          {renderizarSalones()}
-        </section>
-
-        <section className='carousel-section'>
-          <h3>Mis Favoritos</h3>
-          {renderizarSalones()}
-        </section>
         
-        {/* Aquí podrías agregar más carruseles en el futuro */}
-        {/* <section className='carousel-section'>
-          <h3>Cerca de tu ubicación</h3>
-          {renderizarSalones()}
-        </section> 
-        */}
+        {/* Carrusel 1: Destacados (Público) */}
+        {renderizarCarrusel("Salones Destacados", destacados, salonStatus)}
+
+        {/* Carrusel 2: Favoritos (Privado) */}
+        {isAuthenticated && renderizarCarrusel("Mis Favoritos", salonesFavoritos, favStatus)}
+
+        {/* Carrusel 3: Visitados (Privado) */}
+        {isAuthenticated && renderizarCarrusel("Visitados Recientemente", visitados, salonStatus)}
+
+        {/* Carrusel 4: Cercanos (Privado y Condicional) */}
+        {isAuthenticated && !tieneUbicacionUsuario && renderizarCarrusel(
+          "Salones Cercanos", 
+          [], 
+          'succeeded', 
+          null, 
+          { 
+            texto: "Añade tu ubicación en tu perfil para ver salones cercanos.", 
+            link: "/editar-perfil", 
+            linkTexto: "Ir a mi Perfil" 
+          }
+        )}
+        {isAuthenticated && tieneUbicacionUsuario && renderizarCarrusel("Cercanos a ti", cercanos, salonStatus)}
+
       </main>
     </div>
   );

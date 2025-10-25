@@ -239,6 +239,52 @@
   animation: spin 0.8s linear infinite;
 }
 
+/* Añade esto al final de tu archivo src/styles/EditarPerfil.css */
+
+.EditProfile-page .input-container .logo-mapa {
+  position: absolute;
+  left: 12px; /* Icono al inicio */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  color: #aaa;
+}
+
+/* Ajustamos el padding-left del input de ubicación para que no se pise con el icono */
+.EditProfile-page .form-group input[name="ubicacion"],
+.EditProfile-page .form-group .autocomplete-input { /* Asumiendo que usas la clase de Ubicacion.jsx */
+  padding-left: 40px !important; /* Espacio para el icono de mapa */
+  padding-right: 45px !important; /* Espacio para el icono de editar/guardar */
+  flex: 1;
+  border: none;
+  border-bottom: 2px solid #6A0DAD;
+  border-radius: 0;
+  background-color: transparent;
+  font-size: 1rem;
+  outline: none;
+  color: #6A0DAD;
+  transition: border-color 0.3s;
+  width: 100%; /* Asegura que ocupe el espacio */
+  box-sizing: border-box;
+}
+
+.EditProfile-page .form-group input[name="ubicacion"]:disabled,
+.EditProfile-page .form-group .autocomplete-input:disabled {
+  border-bottom: 2px solid #ccc !important;
+  color: #666 !important;
+  background-color: #fff;
+}
+
+/* Estilos para mostrar las coordenadas (opcional) */
+.info-ubicacion {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 5px;
+  text-align: left;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

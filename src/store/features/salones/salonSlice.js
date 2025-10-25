@@ -10,11 +10,65 @@ const initialState = {
   selectedSalon: null,
   resenias: [],
   resultadosSalones: [],
+  destacados: [],
+  visitados: [],
+  cercanos: [],
   status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
   reseniaStatus: 'idle',
   reseniaError: null,
+  adminSalones: [], // Lista completa para admin
+  adminStatus: 'idle',
+  adminError: null,
 };
+
+const getAllSalonesAdmin = async (token, estado) => {
+    const config = {
+        headers: { Authorization: `Bearer ${token}` },
+        params: {} // Parámetros de query
+    };
+    if (estado) {
+        config.params.estado = estado; // Añadir filtro si se proporciona
+    }
+    const response = await axios.get(API_URL, config);
+    return response.data;
+};
+
+const updateSalonStatus = async (salonId, nuevoEstado, token) => {
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const response = await axios.patch(`${API_URL}/${salonId}/estado`, { estado_publicacion: nuevoEstado }, config);
+    return response.data;
+};
+
+export const fetchAllSalonesAdmin = createAsyncThunk(
+  'salones/fetchAllSalonesAdmin',
+  async (estado, { getState, rejectWithValue }) => { // Recibe 'estado' opcional
+    try {
+      const token = getState().auth.token;
+      if (!token) return rejectWithValue('No autenticado.');
+      // Llama al nuevo método del servicio
+      return await getAllSalonesAdmin(token, estado);
+    } catch (error) {
+      const message = error.response?.data?.message || error.message || error.toString();
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const updateSalonStatusAdmin = createAsyncThunk(
+  'salones/updateSalonStatusAdmin',
+  async ({ salonId, nuevoEstado }, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+      if (!token) return rejectWithValue('No autenticado.');
+      // Llama al nuevo método del servicio
+      return await updateSalonStatus(salonId, nuevoEstado, token);
+    } catch (error) {
+      const message = error.response?.data?.message || error.message || error.toString();
+      return rejectWithValue(message);
+    }
+  }
+);
 
 export const fetchReseniasBySalonId = createAsyncThunk(
   'salones/fetchReseniasBySalonId',
@@ -162,7 +216,47 @@ export const searchSalones = createAsyncThunk(
   }
 );
 
+export const fetchDestacados = createAsyncThunk(
+  'salones/fetchDestacados',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${API_URL}/destacados`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error al cargar destacados.');
+    }
+  }
+);
 
+export const fetchVisitados = createAsyncThunk(
+  'salones/fetchVisitados',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+      if (!token) return rejectWithValue('No autenticado.');
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const response = await axios.get(`${API_URL}/visitados`, config);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error al cargar visitados.');
+    }
+  }
+);
+
+export const fetchCercanos = createAsyncThunk(
+  'salones/fetchCercanos',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+      if (!token) return rejectWithValue('No autenticado.');
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const response = await axios.get(`${API_URL}/cercanos`, config);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error al cargar cercanos.');
+    }
+  }
+);
 
 const salonSlice = createSlice({
   name: 'salones',
@@ -259,6 +353,54 @@ const salonSlice = createSlice({
       .addCase(createResenia.rejected, (state, action) => {
         state.reseniaStatus = 'failed';
         state.reseniaError = action.payload;
+      })
+      .addCase(fetchDestacados.fulfilled, (state, action) => {
+        state.destacados = action.payload;
+      })
+      .addCase(fetchVisitados.fulfilled, (state, action) => {
+        state.visitados = action.payload;
+      })
+      .addCase(fetchCercanos.fulfilled, (state, action) => {
+        state.cercanos = action.payload;
+      })
+      // (Opcional: puedes manejar los estados 'pending' y 'rejected' para cada uno si necesitas mostrar spinners/errores individuales)
+      .addCase(fetchDestacados.rejected, (state, action) => { console.error("Error destacados:", action.payload) })
+      .addCase(fetchVisitados.rejected, (state, action) => { console.error("Error visitados:", action.payload) })
+      .addCase(fetchCercanos.rejected, (state, action) => { console.error("Error cercanos:", action.payload) })
+      .addCase(fetchAllSalonesAdmin.pending, (state) => {
+        state.adminStatus = 'loading';
+      })
+      .addCase(fetchAllSalonesAdmin.fulfilled, (state, action) => {
+        state.adminStatus = 'succeeded';
+        state.adminSalones = action.payload;
+      })
+      .addCase(fetchAllSalonesAdmin.rejected, (state, action) => {
+        state.adminStatus = 'failed';
+        state.adminError = action.payload;
+      })
+      .addCase(updateSalonStatusAdmin.pending, (state) => {
+         // Podrías tener un estado específico para la actualización
+         state.adminStatus = 'loading'; // O usar status general
+      })
+      .addCase(updateSalonStatusAdmin.fulfilled, (state, action) => {
+        state.adminStatus = 'succeeded';
+        // Actualizar el salón modificado en la lista adminSalones
+        const index = state.adminSalones.findIndex(s => s.id_salon === action.payload.id_salon);
+        if (index !== -1) {
+          state.adminSalones[index] = action.payload;
+        }
+        // También actualizarlo en la lista pública si existe y está aprobado
+        const publicIndex = state.salones.findIndex(s => s.id_salon === action.payload.id_salon);
+        if (publicIndex !== -1 && action.payload.estado_publicacion === 'aprobada') {
+            state.salones[publicIndex] = action.payload;
+        } else if (publicIndex !== -1 && action.payload.estado_publicacion !== 'aprobada') {
+            // Si deja de estar aprobado, quitarlo de la lista pública
+            state.salones.splice(publicIndex, 1);
+        }
+      })
+      .addCase(updateSalonStatusAdmin.rejected, (state, action) => {
+        state.adminStatus = 'failed';
+        state.adminError = action.payload; // Guardar error específico de actualización
       });
   },
 });

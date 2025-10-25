@@ -1,17 +1,20 @@
-.caja{
-    border: solid 1px var(--primary-color);
-    display: flex;
-    align-items: center;
-    width: 95%;
-    height: 180px;
-    color: var(--primary-color);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all 1s;
+.caja { 
+  border: solid 1px var(--primary-color);
+  display: flex;
+  align-items: center;
+  width: 95%;
+  height: 180px;
+  color: var(--primary-color);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  margin: 10px auto;
+  background-color: white;
 }
+
 .caja:hover {
   transform: scale(1.025);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   z-index: 10; 
 }
 
@@ -23,33 +26,49 @@
   position: relative;
   width: 200px;
   height: 100%;
-  border-radius: 8px;
-  overflow: hidden;
+  flex-shrink: 0;
 }
+
 .imagen_salon {
-  width: 200px;   
+  width: 100%;   
   height: 100%; 
   object-fit: cover; 
-  border-radius: 8px; 
-  
+  border-radius: 8px 0 0 8px; 
 }
-.info_principal{
-    flex:1;
-    margin-left: 5px;
+
+.info_principal {
+  flex: 1;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.titulo {
+  font-size: 22px !important;
+  font-weight: bold !important;
+  margin-bottom: 5px !important;
+  margin-top: 2px !important;
+  color: var(--primary-color) !important;
+  white-space: normal !important;       
+  word-break: break-word !important;    
 }
 .info_extra {
-   display: flex;
+  display: flex;
   flex-direction: column;  
   align-items: flex-end;   
   justify-content: space-between; 
   margin-left: auto;
   height: 100%;   
-  padding: 8px 0; 
+  padding: 8px 10px; 
   text-align: right;
 }
+
 .calificacion {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 6px;              
   font-size: 14px;
 }
@@ -68,8 +87,66 @@
   font-weight: bold;
   font-size: 20px;
 }
+
 .precio small {
   display: block;
   font-size: 12px;
   font-weight: normal;
+}
+
+/* 📱 RESPONSIVE: diseño tipo “card” para pantallas pequeñas */
+@media (max-width: 900px) {
+  .caja {
+    flex-direction: column;
+    height: auto;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .imagen-wrapper {
+    width: 100%;
+    height: 180px;
+  }
+
+  .imagen_salon {
+    border-radius: 8px;
+  }
+
+  .info_principal {
+    margin: 10px 0;
+    align-items: center;
+  }
+
+  .info_extra {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .calificacion {
+    align-items: center;
+  }
+
+  .precio {
+    text-align: center;
+  }
+}
+
+/* 📱 Extra pequeño (mobile) */
+@media (max-width: 480px) {
+  .titulo {
+    font-size: 18px;
+  }
+
+  .puntaje {
+    font-size: 16px;
+    padding: 2px 4px;
+  }
+
+  .precio {
+    font-size: 16px;
+  }
 }

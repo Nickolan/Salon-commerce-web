@@ -5,20 +5,35 @@ import PanelReservas from '../PanelReservas/PanelReservas';
 import PanelIngresos from '../PanelIngresos/PanelIngresos';
 import './MainAdmin.css';
 
-const MainAdmin = ({ activePanel, data }) => {
+const MainAdmin = ({ activePanel, data, fullData, selectedMonth }) => {
   const renderPanel = () => {
     switch (activePanel) {
       case 'Usuarios':
-        return <PanelUsuarios usuarios={data.usuarios} />;
+        return <PanelUsuarios 
+                  usuarios={data.usuarios} 
+                  selectedMonth={selectedMonth} 
+                />;
       case 'Salones':
-        return <PanelSalones salones={data.salones} usuarios={data.usuarios} />;
+        return <PanelSalones 
+                  salones={data.salones} 
+                  usuarios={fullData.usuarios} 
+                  selectedMonth={selectedMonth} 
+                />;
       case 'Reservas':
-        return <PanelReservas reservas={data.reservas} salones={data.salones} usuarios={data.usuarios} />;
+        return <PanelReservas 
+                  reservas={data.reservas} 
+                  salones={fullData.salones} 
+                  usuarios={fullData.usuarios} 
+                  selectedMonth={selectedMonth} 
+                />;
       case 'Ingresos':
-        return <PanelIngresos transacciones={data.transacciones} reservas={data.reservas} salones={data.salones} usuarios={data.usuarios} />;
-      
-      // --- AQUÍ ESTÁ EL CAMBIO ---
-      // Si 'activePanel' es 'null' o cualquier otro valor, no se retorna nada.
+        return <PanelIngresos 
+                  transacciones={data.transacciones} 
+                  reservas={fullData.reservas} 
+                  salones={fullData.salones} 
+                  usuarios={fullData.usuarios} 
+                  selectedMonth={selectedMonth} 
+                />;
       default:
         return null;
     }
