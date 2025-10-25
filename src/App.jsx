@@ -13,7 +13,6 @@ import NuevoSalonScreen from './screens/NuevoSalonScreen';
 import TerminosYCondicionesScreen from './screens/TerminosYCondicionesScreen';
 import Reservacionesrec from './Components/reservaciones_recibidas/reservacionesrec';
 import ResultadosScreen from './screens/ResultadosScreen';
-import SalonDetalleScreen from "./screens/SalonDetalleScreen";
 import DetallesSalon from './screens/DetallesSalon';
 import MisReservas from './screens/MisReservas';
 import Chatbot from './Components/ChatBot/Chatbot';
@@ -45,7 +44,6 @@ function App() {
       <Routes>
         <Route path="/" element={<><Navbar user={null} /><HomeScreen/> <Footer/></>} />
         <Route path="/login" element={<> <LoginScreen/> </>} />
-        <Route path="/salon/:id" element={<><Navbar user={null}/> <SalonDetalleScreen/> <Footer/></>} />
         <Route path="/registro" element={<> <RegistroScreen/> </>} />
         <Route path="/resultados" element={<> <Navbar user={null} /> <ResultadosScreen/> <Footer/> </>} />
 

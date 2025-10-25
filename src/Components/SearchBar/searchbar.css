@@ -1,48 +1,43 @@
 .search-bar-wrapper{
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
 }
 
 .barras_searchbar{
- border: solid var(--primary-color) 1px ;
- border-radius: 12%;
- color:var(--primary-color);
- display: flex;
- position: relative;
- align-items: center;
- padding: 0.3rem 0.5rem;
-  border-radius: 10px;
-  width: 40%;
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    padding: 0.3rem 0.5rem;
+    flex: 1 1 200px;
+    min-width: 150px;
+    position: relative;
 }
+
 .barras_searchbar input {
   border: none;
-  width: 100%;   
+  width: 100%;
   outline: none;
   height: 2rem;
   padding-left: 0.4rem; 
 }
-.barras_searchbar input::placeholder{
-    color: var(--primary-color);
-}
 
-.barras_searchbar input{
-    border: none;
-    width: 100%;
-}
 .barra_buscar{
     background-color: var(--primary-color);
-    font-weight:500;
     border-radius: 10px;
     padding: 0.4rem 1rem;
-    font-size: 1.2rem;;
+    font-size: 1rem;
     display: flex;          
     justify-content: center; 
     align-items: center;  
-    width: 14%;
-    align-items: center;      
+    flex: 0 0 120px;
 }
+
 .boton_buscar{
     background: none;
     color: white;
@@ -50,6 +45,7 @@
     display: flex;
     align-items: center;
 }
+
 .sugerencias-lista {
   list-style: none;
   margin: 0;
@@ -57,7 +53,7 @@
   background: white;
   border: 1px solid #ccc;
   position: absolute;
-  top: 100%;   /* justo debajo del input */
+  top: 100%;
   left: 0;
   width: 100%;
   z-index: 10;
@@ -73,4 +69,14 @@
 
 .sugerencias-lista li:hover {
   background-color: #f0f0f0;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 768px){
+  .barra_buscar{
+    flex: 1 1 100%;
+  }
+  .barras_searchbar{
+    flex: 1 1 100%;
+  }
 }

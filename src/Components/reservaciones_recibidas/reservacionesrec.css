@@ -1,21 +1,160 @@
-.tabla1{
-    border-bottom: var(--primary-color) solid 0.1rem;
-    border-top: var(--primary-color) solid 0.1rem; 
-    border-left: var(--primary-color) solid 0.1rem;
-    border-right: var(--primary-color) solid 0.1rem;
-    table-layout: fixed;
-   
+:root {
+  --primary-color: #2b2d42;
+  --accent-color: #ef233c;
+  --light-color: #edf2f4;
+  --background-color: #f8f9fa;
 }
-.botones_expansion{
-    margin-bottom: 90px;
+
+/* ====== CONTENEDOR PRINCIPAL ====== */
+.reservaciones-container {
+  padding-top: 20px;
+  padding-bottom: 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--primary-color);
 }
-.nombres_de_filas{
-    margin-bottom: 1rem;
+
+/* ====== TÍTULO ====== */
+.titulo {
+  font-size: 2.5rem !important;
+  font-weight: 700;
+  color: var(--primary-color) !important;
+  margin-bottom: 40px !important;
+  text-align: left;
+  margin-left: 20px;
 }
-.titulo{
-    color:var(--primary-color) !important;
+
+/* ====== TABLA ====== */
+.tabla-contenedor {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+  padding: 1rem;
 }
-.tabla1 th,
-.tabla1 td{
-    color:var(--primary-color) ;
+
+.tabla1 {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla1 th {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tabla1 td {
+  color: var(--primary-color);
+  padding: 0.8rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabla1 tr:hover td {
+  background-color: rgba(43, 45, 66, 0.05);
+}
+
+/* ====== ESTADOS ====== */
+.estado {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.estado.confirmada {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.estado.pendiente {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.estado.cancelada {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* ====== BOTONES EXPANSIÓN ====== */
+.botones_expansion {
+  margin-top: 30px;
+}
+
+.btn-expansion {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.3s, transform 0.2s;
+}
+
+.btn-expansion:hover {
+  color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+.icono {
+  font-size: 1.6rem;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 900px) {
+  .tabla1 th,
+  .tabla1 td {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+
+  .titulo {
+    font-size: 2rem !important;
+    margin-top: -40px;
+  }
+
+  .reservaciones-container {
+    padding: 80px 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .tabla1 th {
+    display: none;
+  }
+
+  .tabla1 td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.7rem;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  .tabla1 tr {
+    display: block;
+    background: white;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .tabla1 td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--accent-color);
+  }
+
+  .btn-expansion {
+    font-size: 1rem;
+  }
 }

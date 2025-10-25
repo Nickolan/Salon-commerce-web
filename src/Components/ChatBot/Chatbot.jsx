@@ -1,70 +1,37 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Chatbot.css';
 
 const Chatbot = () => {
-  const [messages, setMessages] = useState([
-    { text: "¡Hola! ¿En qué puedo ayudarte hoy?", sender: 'bot' }
-  ]);
-  const [inputValue, setInputValue] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
-  const messagesEndRef = useRef(null);
+  const [isJotformLoaded, setIsJotformLoaded] = useState(false);
 
-  const handleSendMessage = () => {
-    if (inputValue.trim() === '') return;
-    setMessages(prev => [...prev, { text: inputValue, sender: 'user' }]);
-    setInputValue('');
-    setTimeout(() => {
-      setMessages(prev => [...prev, { text: "Gracias por tu mensaje. Estoy procesando tu consulta.", sender: 'bot' }]);
-    }, 500);
+  const handleClick = () => {
+    // Si ya está cargado, no lo vuelvas a crear
+    if (isJotformLoaded) return;
+
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jotfor.ms/agent/embedjs/0199ee8a76e9771aa184f621e1f7aa20b530/embed.js';
+    script.async = true;
+
+    // Cuando se cargue el script de Jotform
+    script.onload = () => {
+      setIsJotformLoaded(true);
+
+      // Esperar un poco a que se monte el widget
+      setTimeout(() => {
+        const jotformButton = document.querySelector('button[aria-label="Open Chatbot"]');
+        if (jotformButton) jotformButton.click(); // Abre automáticamente el chat
+      }, 1500);
+    };
+
+    document.body.appendChild(script);
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
-    }
-  };
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
-  return (
+   return (
     <>
-      {!isOpen && (
-        <button className="chatbot-toggle-button" onClick={() => setIsOpen(true)}>
+      {!isJotformLoaded && (
+        <button className="chatbot-toggle-button" onClick={handleClick}>
           💬
         </button>
-      )}
-      {isOpen && (
-        <div className="chatbot-container">
-          <div className="chatbot-header" onClick={() => setIsOpen(false)}>
-            <span>Asistente Virtual</span>
-          </div>
-          <div className="chatbot-messages">
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={msg.sender === 'user' ? 'user-message' : 'bot-message'}
-              >
-                {msg.text}
-              </div>
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-          <div className="chatbot-input-container">
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Escribe tu consulta aquí..."
-              className="chatbot-input"
-            />
-            <button onClick={handleSendMessage} className="chatbot-send-button">
-              Enviar
-            </button>
-          </div>
-        </div>
       )}
     </>
   );
