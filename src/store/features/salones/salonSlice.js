@@ -6,7 +6,7 @@ const RESENIAS_API_URL = 'http://localhost:3000/resenias';
 
 const initialState = {
   salones: [],
-  mySalones: [], 
+  mySalones: [],
   selectedSalon: null,
   resenias: [],
   resultadosSalones: [],
@@ -20,24 +20,67 @@ const initialState = {
   adminSalones: [], // Lista completa para admin
   adminStatus: 'idle',
   adminError: null,
+  adminSalonesStatus: 'idle', // <-- NUEVO ESTADO
+  adminSalonesError: null, // <-- NUEVO ESTADO
 };
 
-const getAllSalonesAdmin = async (token, estado) => {
-    const config = {
+export const fetchAdminSalonsByMonth = createAsyncThunk(
+  'salones/fetchAdminSalonsByMonth',
+  async (month, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+      if (!token) return rejectWithValue('No autenticado.');
+      const config = {
         headers: { Authorization: `Bearer ${token}` },
-        params: {} // Parámetros de query
-    };
-    if (estado) {
-        config.params.estado = estado; // Añadir filtro si se proporciona
+        params: { month }
+      };
+      // Ajusta la URL si es necesario (ej. /admin/salones)
+      const response = await axios.get(`${API_URL}/admin`, config); // O ${API_URL}/admin?month=${month}
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error al cargar salones admin.');
     }
-    const response = await axios.get(API_URL, config);
-    return response.data;
+  }
+);
+
+export const updateSalon = createAsyncThunk(
+  'salones/updateSalon',
+  async ({ salonId, formData }, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+      if (!token) return rejectWithValue('No autenticado.');
+
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Axios lo detecta, pero puede ser explícito
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      // Usamos PATCH para actualizaciones parciales
+      const response = await axios.patch(`${API_URL}/${salonId}`, formData, config);
+      return response.data; // Devuelve el salón actualizado
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error al actualizar el salón.');
+    }
+  }
+);
+
+const getAllSalonesAdmin = async (token, estado) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+    params: {} // Parámetros de query
+  };
+  if (estado) {
+    config.params.estado = estado; // Añadir filtro si se proporciona
+  }
+  const response = await axios.get(API_URL, config);
+  return response.data;
 };
 
 const updateSalonStatus = async (salonId, nuevoEstado, token) => {
-    const config = { headers: { Authorization: `Bearer ${token}` } };
-    const response = await axios.patch(`${API_URL}/${salonId}/estado`, { estado_publicacion: nuevoEstado }, config);
-    return response.data;
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+  const response = await axios.patch(`${API_URL}/${salonId}/estado`, { estado_publicacion: nuevoEstado }, config);
+  return response.data;
 };
 
 export const fetchAllSalonesAdmin = createAsyncThunk(
@@ -65,7 +108,7 @@ export const updateSalonStatusAdmin = createAsyncThunk(
       return await updateSalonStatus(salonId, nuevoEstado, token);
     } catch (error) {
       console.log(error);
-      
+
       const message = error.response?.data?.message || error.message || error.toString();
       return rejectWithValue(message);
     }
@@ -184,7 +227,7 @@ export const createSalon = createAsyncThunk(
       // 2. Agregamos los datos del salón como un string JSON. La clave 'salon' DEBE COINCIDIR con el @Body('salon') del backend.
       formData.append('salon', JSON.stringify(salonData));
       // --- 👆 ESTO ESTÁ CORRECTO ---
-      
+
       const config = {
         headers: {
           // No seteamos Content-Type, Axios lo hace automáticamente para FormData
@@ -350,7 +393,7 @@ const salonSlice = createSlice({
       .addCase(createResenia.fulfilled, (state, action) => {
         state.reseniaStatus = 'succeeded';
         // Opcional: podríamos querer actualizar la lista de reseñas del salón
-        state.resenias.push(action.payload); 
+        state.resenias.push(action.payload);
       })
       .addCase(createResenia.rejected, (state, action) => {
         state.reseniaStatus = 'failed';
@@ -381,8 +424,8 @@ const salonSlice = createSlice({
         state.adminError = action.payload;
       })
       .addCase(updateSalonStatusAdmin.pending, (state) => {
-         // Podrías tener un estado específico para la actualización
-         state.adminStatus = 'loading'; // O usar status general
+        // Podrías tener un estado específico para la actualización
+        state.adminStatus = 'loading'; // O usar status general
       })
       .addCase(updateSalonStatusAdmin.fulfilled, (state, action) => {
         state.adminStatus = 'succeeded';
@@ -394,16 +437,45 @@ const salonSlice = createSlice({
         // También actualizarlo en la lista pública si existe y está aprobado
         const publicIndex = state.salones.findIndex(s => s.id_salon === action.payload.id_salon);
         if (publicIndex !== -1 && action.payload.estado_publicacion === 'aprobada') {
-            state.salones[publicIndex] = action.payload;
+          state.salones[publicIndex] = action.payload;
         } else if (publicIndex !== -1 && action.payload.estado_publicacion !== 'aprobada') {
-            // Si deja de estar aprobado, quitarlo de la lista pública
-            state.salones.splice(publicIndex, 1);
+          // Si deja de estar aprobado, quitarlo de la lista pública
+          state.salones.splice(publicIndex, 1);
         }
       })
       .addCase(updateSalonStatusAdmin.rejected, (state, action) => {
         state.adminStatus = 'failed';
         state.adminError = action.payload; // Guardar error específico de actualización
-      });
+      })
+      .addCase(updateSalon.pending, (state) => {
+        state.status = 'loading'; // O un estado 'updating'
+      })
+      .addCase(updateSalon.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.selectedSalon = action.payload; // Actualiza el salón seleccionado si estaba cargado
+        // Actualiza el salón en la lista 'mySalones'
+        const index = state.mySalones.findIndex(s => s.id_salon === action.payload.id_salon);
+        if (index !== -1) {
+          state.mySalones[index] = action.payload;
+        }
+        // Opcional: Actualizar también en 'salones' si aplica
+      })
+      .addCase(updateSalon.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(fetchAdminSalonsByMonth.pending, (state) => {
+          state.adminSalonesStatus = 'loading'; // Usar nuevo status
+      })
+      .addCase(fetchAdminSalonsByMonth.fulfilled, (state, action) => {
+          state.adminSalonesStatus = 'succeeded'; // Usar nuevo status
+          state.adminSalones = action.payload; // Sobrescribir con datos del mes
+          state.adminSalonesError = null; // Usar nuevo error
+      })
+      .addCase(fetchAdminSalonsByMonth.rejected, (state, action) => {
+          state.adminSalonesStatus = 'failed'; // Usar nuevo status
+          state.adminSalonesError = action.payload; // Usar nuevo error
+      })
   },
 });
 

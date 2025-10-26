@@ -4,6 +4,54 @@ import axios from 'axios';
 const API_URL = 'http://localhost:3000/reservas';
 const FRANJAS_API_URL = 'http://localhost:3000/franjas-horarias';
 const CANCELACIONES_API_URL = 'http://localhost:3000/cancelaciones';
+const API_URL_TRANSACCIONES = 'http://localhost:3000/transacciones';
+
+export const fetchAdminReservasByMonth = createAsyncThunk(
+  'reservas/fetchAdminReservasByMonth',
+  async (month, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth; // Get token from auth state
+      if (!token) {
+        return rejectWithValue('No autenticado.'); // Reject if no token
+      }
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }, // Add auth header
+        params: { month } // Add month as query parameter (e.g., ?month=2025-10)
+      };
+      // Make GET request to the admin endpoint for reservations
+      // Adjust '/admin' path if your backend uses a different route
+      const response = await axios.get(`${API_URL}/admin`, config);
+      return response.data; // Return the array of reservations
+    } catch (error) {
+      // Handle errors and return a specific message
+      return rejectWithValue(error.response?.data?.message || 'Error al cargar reservas admin.');
+    }
+  }
+);
+
+// --- THUNK PARA OBTENER TRANSACCIONES ADMIN POR MES ---
+export const fetchAdminTransaccionesByMonth = createAsyncThunk(
+  'reservas/fetchAdminTransaccionesByMonth', // Note: Still part of 'reservas' slice for simplicity, adjust if needed
+  async (month, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth; // Get token from auth state
+      if (!token) {
+        return rejectWithValue('No autenticado.'); // Reject if no token
+      }
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }, // Add auth header
+        params: { month } // Add month as query parameter
+      };
+      // Make GET request to the admin endpoint for transactions
+      // Adjust '/admin' path if your backend uses a different route
+      const response = await axios.get(`${API_URL_TRANSACCIONES}/admin`, config);
+      return response.data; // Return the array of transactions
+    } catch (error) {
+      // Handle errors and return a specific message
+      return rejectWithValue(error.response?.data?.message || 'Error al cargar transacciones admin.');
+    }
+  }
+);
 
 export const cancelarReserva = createAsyncThunk(
   'reservas/cancelarReserva',
@@ -174,6 +222,12 @@ const initialState = {
   reservasRecibidasStatus: 'idle',
   pagoStatus: 'idle', // <-- NUEVO: Estado para el link de pago
   pagoError: null,
+  adminReservas: [], // <-- NUEVO: Para reservas del admin
+  adminReservasStatus: 'idle', // <-- NUEVO
+  adminReservasError: null, // <-- NUEVO
+  adminTransacciones: [], // <-- NUEVO: Para transacciones del admin
+  adminTransaccionesStatus: 'idle', // <-- NUEVO
+  adminTransaccionesError: null, // <-- NUEVO
 };
 
 const reservasSlice = createSlice({
@@ -299,6 +353,32 @@ const reservasSlice = createSlice({
       .addCase(cancelarReserva.rejected, (state, action) => {
         state.reservaStatus = 'failed';
         state.error = action.payload;
+      })
+      .addCase(fetchAdminReservasByMonth.pending, (state) => {
+        state.adminReservasStatus = 'loading';
+      })
+      .addCase(fetchAdminReservasByMonth.fulfilled, (state, action) => {
+        state.adminReservasStatus = 'succeeded';
+        state.adminReservas = action.payload;
+        state.adminReservasError = null;
+      })
+      .addCase(fetchAdminReservasByMonth.rejected, (state, action) => {
+        state.adminReservasStatus = 'failed';
+        state.adminReservasError = action.payload;
+      })
+
+      // --- CASOS PARA fetchAdminTransaccionesByMonth ---
+      .addCase(fetchAdminTransaccionesByMonth.pending, (state) => {
+        state.adminTransaccionesStatus = 'loading';
+      })
+      .addCase(fetchAdminTransaccionesByMonth.fulfilled, (state, action) => {
+        state.adminTransaccionesStatus = 'succeeded';
+        state.adminTransacciones = action.payload;
+        state.adminTransaccionesError = null;
+      })
+      .addCase(fetchAdminTransaccionesByMonth.rejected, (state, action) => {
+        state.adminTransaccionesStatus = 'failed';
+        state.adminTransaccionesError = action.payload;
       });
   },
 });

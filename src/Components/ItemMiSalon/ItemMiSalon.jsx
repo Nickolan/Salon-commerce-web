@@ -15,11 +15,11 @@ const ItemMiSalon = ({ salon, onCancelar, onHide }) => {
     const handleButtonClick = (e) => {
         e.stopPropagation();
     };
-    
+
     // Navega a la página de edición
     const handleEditClick = (e) => {
         e.stopPropagation();
-        navigate(`/editar-salon/${salon.id_salon}`);
+        navigate(`/editar-salon/${salon.id_salon}`); // Navega a la nueva ruta
     };
 
     // Llama a la función onCancelar pasada por props
@@ -31,8 +31,8 @@ const ItemMiSalon = ({ salon, onCancelar, onHide }) => {
     const handleHideClick = (e) => {
         e.stopPropagation();
         if (onHide) { // Verifica que la prop exista
-            
-           onHide(salon.id_salon);
+
+            onHide(salon.id_salon);
         } else {
             console.error("La función onHide no fue proporcionada a ItemMiSalon");
         }
@@ -43,10 +43,10 @@ const ItemMiSalon = ({ salon, onCancelar, onHide }) => {
     return (
         <div className='card-salon' onClick={handleCardClick}>
             <div className='card-imagen-wrapper'>
-                <img 
-                    src={salon.fotos && salon.fotos.length > 0 ? salon.fotos[0] : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} 
-                    alt={salon.nombre} 
-                    className='card-imagen' 
+                <img
+                    src={salon.fotos && salon.fotos.length > 0 ? salon.fotos[0] : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"}
+                    alt={salon.nombre}
+                    className='card-imagen'
                 />
             </div>
             <div className='card-contenido'>
@@ -58,7 +58,7 @@ const ItemMiSalon = ({ salon, onCancelar, onHide }) => {
                     </p>
                     <div className='caracteristicas-secundarias'>
                         <span className='salon-caracteristica'>
-                            <FiUsers className='icono'/>
+                            <FiUsers className='icono' />
                             {salon.capacidad} personas
                         </span>
                         <span className='salon-caracteristica'>
@@ -74,12 +74,12 @@ const ItemMiSalon = ({ salon, onCancelar, onHide }) => {
                         </span>
                     </div>
                     <div className='botones' onClick={handleButtonClick}>
-                        <button onClick={handleEditClick} aria-label="Editar salón"><FiEdit/></button>
-                        <button onClick={handleCancelClick} aria-label="Eliminar salón"><FiXCircle/></button>
+                        <button onClick={handleEditClick} aria-label="Editar salón"><FiEdit /></button>
+                        <button onClick={handleCancelClick} aria-label="Eliminar salón"><FiXCircle /></button>
                         {puedeOcultar && ( // Renderizado condicional
-                           <button onClick={handleHideClick} aria-label="Ocultar salón" title="Ocultar Salón" className="btn-ocultar">
-                             <FiEyeOff /> {/* Icono más apropiado */}
-                           </button>
+                            <button onClick={handleHideClick} aria-label="Ocultar salón" title="Ocultar Salón" className="btn-ocultar">
+                                <FiEyeOff /> {/* Icono más apropiado */}
+                            </button>
                         )}
                     </div>
                 </div>

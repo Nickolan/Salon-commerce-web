@@ -36,6 +36,15 @@ function Navbar() {
 
         {/* Contenedor de botones */}
         <div className={`buttons-container ${menuOpen ? "active" : ""}`}>
+
+          {
+            isAuthenticated && user && user.es_administrador && (
+              <Link to="/admin" onClick={() => setMenuOpen(false)}>
+                <div className="button">Administracion</div>
+              </Link>
+            )
+          }
+
           {isAuthenticated && user && (
             <Link to="/publicar" onClick={() => setMenuOpen(false)}>
               <div className="button">Registra tu salón</div>

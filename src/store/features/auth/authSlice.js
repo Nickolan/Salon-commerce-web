@@ -11,6 +11,9 @@ const initialState = {
   isAuthenticated: !!userToken,
   status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
+  adminUsers: [], // <-- NUEVO ESTADO
+  adminUsersStatus: 'idle', // <-- NUEVO ESTADO
+  adminUsersError: null, // <-- NUEVO ESTADO
 };
 
 const API_URL = 'http://localhost:3000/usuarios';
@@ -139,6 +142,25 @@ export const uploadProfilePic = createAsyncThunk(
   }
 );
 
+export const fetchAdminUsersByMonth = createAsyncThunk(
+  'auth/fetchAdminUsersByMonth',
+  async (month, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth; // Asumiendo que necesitas token para admin
+      if (!token) return rejectWithValue('No autenticado.');
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { month } // Enviar mes como query param
+      };
+      // Ajusta la URL si tu endpoint es diferente (ej. /admin/usuarios)
+      const response = await axios.get(`${API_URL}/admin`, config); // O ${API_URL}/admin?month=${month}
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error al cargar usuarios admin.');
+    }
+  }
+);
+
 // --- Creación del Slice ---
 const authSlice = createSlice({
   name: 'auth',
@@ -233,6 +255,18 @@ const authSlice = createSlice({
       .addCase(uploadProfilePic.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+      })
+      .addCase(fetchAdminUsersByMonth.pending, (state) => {
+        state.adminUsersStatus = 'loading';
+      })
+      .addCase(fetchAdminUsersByMonth.fulfilled, (state, action) => {
+        state.adminUsersStatus = 'succeeded';
+        state.adminUsers = action.payload;
+        state.adminUsersError = null;
+      })
+      .addCase(fetchAdminUsersByMonth.rejected, (state, action) => {
+        state.adminUsersStatus = 'failed';
+        state.adminUsersError = action.payload;
       });
   },
 });
