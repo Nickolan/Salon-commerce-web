@@ -1,176 +1,347 @@
-.form-full-screen{
- padding: 1rem;   
+/* src/styles/NuevoSalonScreen.css */
+
+/* --- General Layout --- */
+.form-full-screen {
+    padding: 2rem 1rem; /* More vertical padding */
+    max-width: 1400px; /* Limit overall width */
+    margin: 0 auto; /* Center the content */
+    box-sizing: border-box;
 }
 
-.form-content{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
+/* --- Ant Design Stepper Customization --- */
+.stepper-antd {
+    max-width: 1100px; /* Slightly wider */
+    margin: 1rem auto 3rem auto; /* More margin bottom */
+    padding: 1.5rem 1rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); /* Softer shadow */
 }
 
-.form-content .form-zone{
-  padding: 1rem;
-  min-width: 60%;
-  max-width: 75%;
-  background-color: var(--background-color);
-  border-radius: 1rem;
-  border: 2px solid var(--second-color);
-  height: 100%;
-  
+/* Icono del paso actual (activo) */
+.stepper-antd .ant-steps-item-process .ant-steps-item-icon { /* Use 'process' for current */
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.stepper-antd .ant-steps-item-process .ant-steps-icon { /* Number inside */
+    color: white;
 }
 
-.zone-row{
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  justify-content: space-evenly;
+/* Icono de pasos ya completados (finish) */
+.stepper-antd .ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #fff;
+    border-color: var(--primary-color);
 }
-
-.form-content .form-zone .section-zone{
-  gap: 1rem;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-}
-
-.form-content .form-zone .section-zone >div{
-  align-items: center;
-  display: flex;
-  
-}
-
-.form-content .form-zone .section-zone h3 {
-  color: var(--primary-color);
-  font-size: 2rem;
-  font-weight: 500;
-}
-
-.form-content .form-zone .section-zone label {
-  color: var(--primary-color);
-}
-
-.form-content .form-zone .section-zone input[type="text"], input[type="number"] {
-  border: none;
-  border-bottom: 3px solid var(--primary-color);
-  margin: 0 0 0 1rem;
-  padding: 0.7rem;
-  font-size: 1rem;
-  color: var(--primary-color); 
-
-  
-}
-
-.form-content .form-zone .section-zone input[type="checkbox"] {
-  background-color: var(--background-color);
-  border-bottom: 3px solid var(--primary-color);
-  margin: 0 1rem;
-  padding: 0.7rem;
-  font-size: 1rem;
-  color: var(--primary-color); 
-
-  
-}
-#miCheckbox{
-  appearance: none; /* Oculta el input nativo */
-  -webkit-appearance: none; /* Para navegadores antiguos */
-  -moz-appearance: none; /* Para Firefox */
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--primary-color);
-  background: #fff;
-  cursor: pointer;
-}
-
-#miCheckbox:checked{
-  background: var(--primary-color);
-}
-
-
-.form-content svg {
-  color: var(--primary-color);
-  font-size: 2rem;
-  margin: 0 1rem;
-}
-
-
-
-.form-content .form-zone .section-zone textarea {
-  background: none;
-  background-color: white;
-  border: 3px solid var(--primary-color);
-  border-radius: 0.2rem;
-  margin: 0 1rem;
-  padding: 1rem;
-  color: var(--primary-color);
-  font-size: 1rem;
-  min-height: 6rem;
-}
-
-.stepper{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    margin-bottom: 40px;
-}
-
-.stepper::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 100%;
-  height: 2px;
-  background-color: #666;
-  z-index: 1;
-}
-
-.stepper .step{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    color: #666;
-    font-weight: 500;
-    transition: color 0.4s ease;
-    z-index: 2;
-    padding: 0 15px;
-    font-size: 1rem;
-}
-
-.stepper .step::before {
-  content: "";
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
-  background-color: var(--grey, #666);
-  border: 2px solid var(--grey, #666);
-  margin-bottom: 10px;
-  transition: background-color 0.4s ease, border-color 0.4s ease;
-}
-
-.stepper .step.active{
+.stepper-antd .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon { /* Check inside */
     color: var(--primary-color);
 }
 
-.stepper .step.active::before {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
+/* Título del paso actual (activo) */
+.stepper-antd .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+    color: var(--primary-color);
+    font-weight: 600;
 }
 
-.navigation-buttons{
-  display: flex;
-  justify-content: space-evenly;
+/* Título de pasos completados */
+.stepper-antd .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+    color: var(--primary-color);
 }
 
-.navigation-buttons .btn-back{
-  background: none;
-  color: var(--primary-color);
+/* Línea conectora después de un paso completado */
+.stepper-antd .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
+    background-color: var(--primary-color);
 }
 
-.navigation-buttons .btn-back:hover{
-  text-decoration: underline;
-  border: none;
+/* Iconos/Títulos de pasos futuros (wait) - slightly muted */
+.stepper-antd .ant-steps-item-wait .ant-steps-item-icon {
+    background-color: #f0f0f0;
+    border-color: #d9d9d9;
+}
+.stepper-antd .ant-steps-item-wait .ant-steps-icon {
+    color: rgba(0, 0, 0, 0.25);
+}
+.stepper-antd .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+    color: rgba(0, 0, 0, 0.45);
+}
+
+
+/* --- Form Content Area --- */
+.form-content {
+    display: flex;
+    align-items: flex-start; /* Align top for varying content height */
+    justify-content: center;
+    min-height: auto; /* Remove min-height */
+    margin-top: 1rem;
+}
+
+.form-content .form-zone {
+    padding: 2rem; /* More padding inside the zone */
+    width: 100%; /* Use width instead of min/max-width for better control */
+    max-width: 900px; /* Set a max-width for large screens */
+    background-color: #fff; /* White background for the form area */
+    border-radius: 12px;
+    border: 1px solid #e0e0e0; /* Softer border */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    box-sizing: border-box;
+}
+
+/* Row layout for Price/Capacity */
+.zone-row {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 2rem; /* Space between items in the row */
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.zone-row > .section-zone {
+    flex: 1; /* Allow sections to share space */
+    min-width: 250px; /* Minimum width before wrapping */
+    margin-bottom: 0; /* Remove bottom margin as gap handles it */
+}
+
+
+/* --- Sections within the Form Zone --- */
+.form-content .form-zone .section-zone {
+    gap: 0.75rem; /* Slightly reduced gap within sections */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem; /* More space between sections */
+}
+
+/* Section Titles */
+.form-content .form-zone .section-zone h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem; /* Slightly smaller title */
+    font-weight: 600; /* Bolder title */
+    margin: 0 0 0.5rem 0; /* Adjust margin */
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee; /* Subtle separator */
+}
+
+/* Labels */
+.form-content .form-zone .section-zone label {
+    color: #444; /* Darker label color */
+    font-weight: 500; /* Standard weight */
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem; /* Space below label */
+}
+
+/* Container for input + icon */
+.form-content .form-zone .section-zone > div {
+    align-items: center;
+    display: flex;
+    position: relative; /* Needed for absolute positioning icons inside */
+}
+
+/* --- Input Fields (Text, Number, Textarea) --- */
+.form-content .form-zone .section-zone input[type="text"],
+.form-content .form-zone .section-zone input[type="number"],
+.form-content .form-zone .section-zone textarea {
+    border: 1px solid #ccc; /* Full border */
+    border-radius: 6px; /* Rounded corners */
+    padding: 0.7rem 0.9rem; /* Adjust padding */
+    font-size: 1rem;
+    color: #333; /* Standard text color */
+    width: 100%; /* Full width */
+    box-sizing: border-box;
+    background-color: #fff;
+    margin: 0; /* Remove default margins */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-content .form-zone .section-zone textarea {
+    min-height: 8rem; /* Taller textarea */
+    resize: vertical; /* Allow vertical resize */
+}
+
+/* Input Focus State */
+.form-content .form-zone .section-zone input[type="text"]:focus,
+.form-content .form-zone .section-zone input[type="number"]:focus,
+.form-content .form-zone .section-zone textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.15); /* Focus ring */
+    outline: none;
+}
+
+/* --- Icons next to Inputs --- */
+.form-content .form-zone .section-zone > div svg { /* Target SVGs directly within the input container div */
+    position: absolute; /* Position icon inside the input area */
+    right: 1rem; /* Place icon on the right */
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa; /* Muted icon color */
+    font-size: 1.2rem; /* Smaller icon */
+    pointer-events: none; /* Prevent icon from blocking input */
+}
+/* Adjust input padding to make space for the icon */
+.form-content .form-zone .section-zone > div input[type="text"],
+.form-content .form-zone .section-zone > div input[type="number"] {
+    padding-right: 2.8rem; /* Space for the icon */
+}
+
+
+/* --- Custom Checkbox --- */
+/* Wrapper for checkbox + label text */
+.form-content .form-zone .section-zone label[for^="eq-"], /* Target equipamiento labels */
+.form-content .form-zone .section-zone label[for^="disp-"] /* Target disponibilidad labels if needed */
+{
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    margin-bottom: 0.5rem; /* Space between checkboxes */
+}
+
+#miCheckbox { /* Your specific ID - rename if possible to a class */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 18px; /* Slightly smaller */
+    height: 18px;
+    border: 2px solid #ccc; /* Grey border */
+    background: #fff;
+    cursor: pointer;
+    border-radius: 4px; /* Slightly rounded */
+    position: relative; /* For the checkmark */
+    flex-shrink: 0;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+#miCheckbox:checked {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Custom Checkmark */
+#miCheckbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+
+/* --- Navigation Buttons --- */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between; /* Pushes buttons to edges */
+    align-items: center;
+    margin-top: 1.5rem; /* Space above buttons */
+    padding: 1rem 0; /* Padding around buttons */
+    border-top: 1px solid #eee; /* Separator line */
+    max-width: 900px; /* Match form zone max-width */
+    margin-left: auto; /* Center button container */
+    margin-right: auto;
+}
+
+.navigation-buttons button {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    border: none;
+}
+.navigation-buttons button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.navigation-buttons .btn-back {
+    background: none;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+.navigation-buttons .btn-back:hover:not(:disabled) {
+    background-color: rgba(106, 13, 173, 0.05); /* Light hover */
+    text-decoration: none;
+}
+
+.navigation-buttons .btn-next,
+.navigation-buttons .btn-publish {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.navigation-buttons .btn-next:hover:not(:disabled),
+.navigation-buttons .btn-publish:hover:not(:disabled) {
+    background-color: var(--second-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.navigation-buttons button:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+
+/* --- Responsiveness --- */
+@media (max-width: 768px) {
+    .form-full-screen {
+        padding: 1rem 0.5rem; /* Less horizontal padding */
+        padding-top: 4rem; /* Adjust if navbar height changes */
+    }
+
+    .stepper-antd {
+        padding: 1rem 0.5rem;
+        /* Make steps smaller/vertical if needed using Ant Design classes */
+        /* Example: .ant-steps-label-vertical */
+    }
+
+    .form-content .form-zone {
+        max-width: 100%; /* Full width on smaller screens */
+        padding: 1.5rem;
+        border: 1px solid #e0e0e0; /* Add border back for separation */
+    }
+
+    .zone-row {
+        flex-direction: column; /* Stack price/capacity */
+        gap: 1.5rem;
+    }
+    .zone-row > .section-zone {
+        min-width: 100%; /* Full width when stacked */
+    }
+
+
+    .form-content .form-zone .section-zone h3 {
+        font-size: 1.3rem; /* Smaller titles */
+    }
+
+    .form-content .form-zone .section-zone input[type="text"],
+    .form-content .form-zone .section-zone input[type="number"],
+    .form-content .form-zone .section-zone textarea {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.95rem;
+    }
+     .form-content .form-zone .section-zone > div input[type="text"],
+    .form-content .form-zone .section-zone > div input[type="number"] {
+        padding-right: 2.5rem; /* Ensure space for icon remains */
+    }
+
+    .navigation-buttons {
+        flex-direction: column-reverse; /* Stack buttons, Next/Publish on top */
+        gap: 1rem;
+        padding: 1rem;
+        max-width: 100%;
+        border-top: none; /* Remove top border on mobile */
+    }
+    .navigation-buttons button {
+        width: 100%; /* Full width buttons */
+        padding: 0.8rem;
+    }
+    .navigation-buttons .btn-back {
+        border: none; /* Make back button look like a link */
+        background-color: transparent;
+        color: #888;
+        box-shadow: none;
+    }
+     .navigation-buttons .btn-back:hover:not(:disabled) {
+         background-color: transparent;
+         text-decoration: underline;
+     }
+
 }

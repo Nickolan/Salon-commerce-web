@@ -207,6 +207,28 @@ export const fetchReservasRecibidas = createAsyncThunk(
   }
 );
 
+export const updateReservaStatus = createAsyncThunk(
+  'reservas/updateReservaStatus',
+  async ({ id_reserva, estado_reserva }, { getState, rejectWithValue }) => {
+    try {
+      const { auth } = getState();
+      const token = auth.token;
+      if (!token) {
+        return rejectWithValue('Usuario no autenticado.');
+      }
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const payload = { estado_reserva }; // Send only the new status
+
+      // Call the PATCH endpoint
+      const response = await axios.patch(`${API_URL}/${id_reserva}/estado`, payload, config);
+      return response.data; // Return the updated reservation object
+    } catch (error) {
+      console.error("Error updating reserva status:", error.response?.data || error.message);
+      return rejectWithValue(error.response?.data?.message || `Error al actualizar estado a ${estado_reserva}.`);
+    }
+  }
+);
+
 
 const initialState = {
   availableSlots: [],
@@ -227,7 +249,9 @@ const initialState = {
   adminReservasError: null, // <-- NUEVO
   adminTransacciones: [], // <-- NUEVO: Para transacciones del admin
   adminTransaccionesStatus: 'idle', // <-- NUEVO
-  adminTransaccionesError: null, // <-- NUEVO
+  adminTransaccionesError: null,
+  updateStatus: 'idle', // Add specific status for update operations
+  updateError: null,
 };
 
 const reservasSlice = createSlice({
@@ -240,19 +264,19 @@ const reservasSlice = createSlice({
     clearSelectedSlots: (state) => {
       state.selectedSlots = [];
     },
-    resetReservaStatus: (state) => {
-      state.reservaStatus = 'idle';
-      state.error = null;
-    },
-    clearSelectedReserva: (state) => {
+    resetReservaStatus: (state) => { // Ensure this resets update status too
+       state.reservaStatus = 'idle';
+       state.pagoStatus = 'idle';
+       state.updateStatus = 'idle'; // Reset update status
+       state.error = null;
+       state.pagoError = null;
+       state.updateError = null; // Reset update error
+     },
+     clearSelectedReserva: (state) => { // Ensure this resets update status too
         state.selectedReserva = null;
         state.selectedReservaStatus = 'idle';
-    },
-    resetReservaStatus: (state) => {
-      state.reservaStatus = 'idle';
-      state.pagoStatus = 'idle'; // <-- Resetear también
-      state.error = null;
-      state.pagoError = null;
+        state.updateStatus = 'idle'; // Reset on clearing
+        state.updateError = null;
     },
   },
   extraReducers: (builder) => {
@@ -379,6 +403,32 @@ const reservasSlice = createSlice({
       .addCase(fetchAdminTransaccionesByMonth.rejected, (state, action) => {
         state.adminTransaccionesStatus = 'failed';
         state.adminTransaccionesError = action.payload;
+      })
+      .addCase(updateReservaStatus.pending, (state) => {
+        state.updateStatus = 'loading';
+        state.updateError = null;
+      })
+      .addCase(updateReservaStatus.fulfilled, (state, action) => {
+        state.updateStatus = 'succeeded';
+        const updatedReserva = action.payload;
+        // Update the selectedReserva if it matches
+        if (state.selectedReserva?.id_reserva === updatedReserva.id_reserva) {
+          state.selectedReserva = updatedReserva;
+        }
+        // Update in misReservas list if present
+        const indexMis = state.misReservas.findIndex(r => r.id_reserva === updatedReserva.id_reserva);
+        if (indexMis !== -1) {
+          state.misReservas[indexMis] = updatedReserva;
+        }
+        // Update in reservasRecibidas list if present
+        const indexRec = state.reservasRecibidas.findIndex(r => r.id_reserva === updatedReserva.id_reserva);
+        if (indexRec !== -1) {
+            state.reservasRecibidas[indexRec] = updatedReserva;
+        }
+      })
+      .addCase(updateReservaStatus.rejected, (state, action) => {
+        state.updateStatus = 'failed';
+        state.updateError = action.payload;
       });
   },
 });

@@ -94,7 +94,7 @@ const DetallesSalon = ({ isLoaded }) => {
         </div>
         <div className="titulo-derecha">
           {
-            !user || user.id_usuario !== selectedSalon.publicador.id_usuario && (
+            user == null || user.id_usuario !== selectedSalon.publicador.id_usuario && (
               <div className="derecha-superior">
                 <BotonFavoritos
                   id_salon={selectedSalon.id_salon}

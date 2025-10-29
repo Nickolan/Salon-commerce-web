@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/features/auth/authSlice";
 import { FiMenu, FiX } from "react-icons/fi";
@@ -8,9 +8,12 @@ import "./Navbar.css";
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
+  const location = useLocation();
   // Leemos el estado de autenticación y los datos del usuario del store
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const currentPath = location.pathname;
 
   const handleLogout = () => {
     dispatch(logout());
@@ -45,7 +48,7 @@ function Navbar() {
             )
           }
 
-          {isAuthenticated && user && (
+          {isAuthenticated && user && currentPath !== '/publicar' && (
             <Link to="/publicar" onClick={() => setMenuOpen(false)}>
               <div className="button">Registra tu salón</div>
             </Link>

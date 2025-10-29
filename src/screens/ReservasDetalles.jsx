@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchReservaById, clearSelectedReserva } from '../store/features/reservas/reservasSlice';
-import { format, parseISO } from 'date-fns';
+import { fetchReservaById, clearSelectedReserva, updateReservaStatus, resetReservaStatus } from '../store/features/reservas/reservasSlice';
+import Swal from 'sweetalert2'
+import { format, isPast, parseISO } from 'date-fns';
 import es from 'date-fns/locale/es';
 import { FiMapPin, FiClock, FiCalendar, FiCheckCircle, FiAlertCircle, FiXCircle, FiUser, FiHome, FiDollarSign } from "react-icons/fi";
 
@@ -13,8 +14,10 @@ const ReservasDetalles = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [isCompleting, setIsCompleting] = useState(false);
+
     // Obtener datos del estado global
-    const { selectedReserva, selectedReservaStatus, error } = useSelector((state) => state.reservas);
+    const { selectedReserva, selectedReservaStatus, error, updateStatus, updateError } = useSelector((state) => state.reservas);
     const { isAuthenticated, user } = useSelector((state) => state.auth);
 
     // Efecto para cargar los datos y limpiar al salir
@@ -52,10 +55,87 @@ const ReservasDetalles = () => {
         }
     };
 
+    const handleCompletarClick = () => {
+        if (!selectedReserva || isCompleting) return; // Evitar doble click
+
+        Swal.fire({
+            title: '¿Marcar como Completada?',
+            text: `Confirmas que la reserva #${selectedReserva.id_reserva} ha finalizado.`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#17a2b8', // Color 'info' de Bootstrap
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, marcar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setIsCompleting(true); // Indicar carga
+                dispatch(updateReservaStatus({
+                    id_reserva: selectedReserva.id_reserva,
+                    estado_reserva: 'completada' // Nuevo estado
+                }))
+                .unwrap() // Para usar .then() y .catch()
+                .then((updatedReserva) => {
+                    Swal.fire(
+                        '¡Actualizado!',
+                        'La reserva ha sido marcada como completada.',
+                        'success'
+                    );
+                    // No es necesario redirigir, el estado se actualizará
+                })
+                .catch((err) => {
+                    Swal.fire(
+                        'Error',
+                        `No se pudo actualizar el estado: ${err || 'Error desconocido'}`,
+                        'error'
+                    );
+                })
+                .finally(() => {
+                    setIsCompleting(false); // Quitar carga
+                });
+            }
+        });
+    };
+
     const handleCancelarClick = () => {
         if (!user || !selectedReserva) return;
         navigate(`/cancelar_salon/${user.id_usuario}/${selectedReserva.id_reserva}`);
     };
+
+    const puedeMarcarCompletada = useMemo(() => {
+        if (!selectedReserva || !user) return false;
+
+        // 1. Ser el publicador
+        const esPublicador = user.id_usuario === selectedReserva.salon?.publicador?.id_usuario;
+        console.log("Es publicador: ",esPublicador);
+        
+        // 2. Estado actual 'confirmada'
+        const estadoCorrecto = selectedReserva.estado_reserva === 'confirmada';
+
+        console.log("ES CORRECTO: ", estadoCorrecto);
+        
+        // 3. Fecha/Hora pasada
+        let tiempoPasado = true;
+        if (selectedReserva.fecha_reserva && selectedReserva.hora_fin) {
+            try {
+                // Combina fecha y hora_fin para crear un objeto Date completo
+                // Asume hora_fin es HH:MM:SS
+                const endDateTime = parseISO(`${selectedReserva.fecha_reserva}T${selectedReserva.hora_fin}`);
+                tiempoPasado = isPast(endDateTime);
+            } catch (e) {
+                console.error("Error parsing reservation end time:", e);
+                tiempoPasado = false; // Si hay error al parsear, no mostrar botón
+            }
+        }
+
+        console.log("Tiempo Pasado: ", tiempoPasado);
+
+        console.log("FINAL:", esPublicador && estadoCorrecto && tiempoPasado);
+        
+        
+
+        return esPublicador && estadoCorrecto && tiempoPasado;
+    }, [selectedReserva, user]);
 
     // Renderizado condicional principal
     if (selectedReservaStatus === 'loading') {
@@ -72,10 +152,9 @@ const ReservasDetalles = () => {
     }
 
     // Si tenemos los datos, los mostramos
-    const { salon, arrendatario, fecha_reserva, hora_inicio, hora_fin, estado_reserva } = selectedReserva;
-    const estadoInfo = getEstadoInfo(estado_reserva);
-
-    const fechaFormateada = fecha_reserva ? format(parseISO(fecha_reserva), 'PPPP', { locale: es }) : 'N/A'; // PPPP -> lunes, 19 de octubre de 2025
+    const { salon, arrendatario, fecha_reserva, hora_inicio, hora_fin, estado_reserva } = selectedReserva; //
+    const estadoInfo = getEstadoInfo(estado_reserva); //
+    const fechaFormateada = fecha_reserva ? format(parseISO(fecha_reserva), 'PPPP', { locale: es }) : 'N/A';
 
     return (
         <div className="detalles-reserva-page">
@@ -136,6 +215,16 @@ const ReservasDetalles = () => {
                             por {selectedReserva.cancelacion.cancelado_por}.
                             Motivo: {selectedReserva.cancelacion.motivo}
                         </p>
+                    )}
+
+                    {puedeMarcarCompletada && ( // Mostrar solo si se cumplen las condiciones
+                        <button
+                            className="btn-accion completar" // Añadir clase CSS si necesitas estilo específico
+                            onClick={handleCompletarClick}
+                            disabled={isCompleting || updateStatus === 'loading'} // Deshabilitar mientras se procesa
+                        >
+                            {isCompleting || updateStatus === 'loading' ? 'Marcando...' : 'Marcar como Completada'}
+                        </button>
                     )}
                     <button className="btn-accion volver" onClick={() => navigate('/mis-reservas')}>Volver a Mis Reservas</button>
                 </section>

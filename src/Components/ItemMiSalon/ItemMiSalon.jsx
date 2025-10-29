@@ -1,9 +1,22 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { FiEdit, FiXCircle, FiUsers, FiMapPin, FiDollarSign, FiEyeOff } from "react-icons/fi";
+import { FiEdit, FiXCircle, FiUsers, FiMapPin, FiDollarSign, FiEyeOff, FiEye } from "react-icons/fi";
 import './ItemMiSalon.css'; // Crearemos este archivo de estilos a continuación
+import Swal from 'sweetalert2';
+import axios from 'axios';
+import { deleteSalon, updateSalonStatusAdmin } from '../../store/features/salones/salonSlice';
+import { useDispatch } from 'react-redux';
 
-const ItemMiSalon = ({ salon, onCancelar, onHide }) => {
+const SalonStatus = {
+    OCULTA: 'oculta',
+    BORRADOR: 'borrador',
+    APROBADA: 'aprobada',
+    RECHAZADA: 'rechazada'
+};
+
+const ItemMiSalon = ({ salon, onHide }) => {
+
+    const dispatch = useDispatch()
     const navigate = useNavigate();
 
     // Navega al detalle del salón
@@ -23,9 +36,43 @@ const ItemMiSalon = ({ salon, onCancelar, onHide }) => {
     };
 
     // Llama a la función onCancelar pasada por props
-    const handleCancelClick = (e) => {
-        e.stopPropagation();
-        onCancelar(salon.id_salon);
+
+    const handleCancelar = (id) => { //
+        // 2. Usar Swal para confirmar
+        Swal.fire({ //
+            title: '¿Estás seguro?', //
+            text: "¡No podrás revertir esto!", //
+            icon: 'warning', //
+            showCancelButton: true, //
+            confirmButtonColor: '#d33', // Color rojo para confirmar eliminación
+            cancelButtonColor: '#3085d6', // Color azul para cancelar
+            confirmButtonText: 'Sí, ¡eliminarlo!', //
+            cancelButtonText: 'Cancelar' //
+        }).then((result) => { //
+            // 3. Si el usuario confirma...
+            if (result.isConfirmed) { //
+                // 4. Despachar el thunk deleteSalon
+                dispatch(deleteSalon(id)) //
+                    .unwrap() // <-- .unwrap() para manejar la promesa del thunk
+                    .then(() => { //
+                        // 5. Mostrar mensaje de éxito si se cumple
+                        Swal.fire( //
+                            '¡Eliminado!', //
+                            'Tu salón ha sido eliminado.', //
+                            'success' //
+                        );
+                        // No necesitas recargar explícitamente, Redux actualizará el estado y re-renderizará
+                    })
+                    .catch((err) => { //
+                        // 6. Mostrar mensaje de error si falla
+                        Swal.fire( //
+                            'Error', //
+                            `No se pudo eliminar el salón: ${err || 'Error desconocido'}`, // Mostrar error del rejectWithValue
+                            'error' //
+                        );
+                    });
+            }
+        });
     };
 
     const handleHideClick = (e) => {
@@ -36,6 +83,29 @@ const ItemMiSalon = ({ salon, onCancelar, onHide }) => {
         } else {
             console.error("La función onHide no fue proporcionada a ItemMiSalon");
         }
+    };
+
+    const handleHideSalon = (e) => {
+        e.stopPropagation()
+        console.log(salon.id_salon);
+
+        Swal.fire({
+            title: '¿Ocultar este salón?',
+            text: "El salón no será visible en las búsquedas, pero podrás reactivarlo.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, ocultar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(updateSalonStatusAdmin({ salonId: salon.id_salon, nuevoEstado: salon.estado_publicacion == SalonStatus.OCULTA ? SalonStatus.APROBADA : SalonStatus.OCULTA })) // Llama al thunk con el estado 'oculta'
+                    .unwrap()
+                    .then(() => Swal.fire('Oculto', 'El salón ha sido ocultado.', 'success'))
+                    .catch((err) => Swal.fire('Error', `No se pudo ocultar el salón: ${err?.message || 'Error desconocido'}`, 'error'));
+            }
+        });
     };
 
     const puedeOcultar = salon.estado_publicacion !== 'oculta';
@@ -75,12 +145,17 @@ const ItemMiSalon = ({ salon, onCancelar, onHide }) => {
                     </div>
                     <div className='botones' onClick={handleButtonClick}>
                         <button onClick={handleEditClick} aria-label="Editar salón"><FiEdit /></button>
-                        <button onClick={handleCancelClick} aria-label="Eliminar salón"><FiXCircle /></button>
-                        {puedeOcultar && ( // Renderizado condicional
-                            <button onClick={handleHideClick} aria-label="Ocultar salón" title="Ocultar Salón" className="btn-ocultar">
+                        <button onClick={() => handleCancelar(salon.id_salon)} aria-label="Eliminar salón"><FiXCircle /></button>
+                        {puedeOcultar ? ( // Renderizado condicional
+                            <button onClick={handleHideSalon} aria-label="Ocultar salón" title="Ocultar Salón" className="btn-ocultar">
                                 <FiEyeOff /> {/* Icono más apropiado */}
                             </button>
-                        )}
+                        ) : (
+                            <button onClick={handleHideSalon} aria-label="Ocultar salón" title="Ocultar Salón" className="btn-ocultar">
+                                <FiEye /> {/* Icono más apropiado */}
+                            </button>
+                        )
+                    }
                     </div>
                 </div>
             </div>

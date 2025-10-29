@@ -128,6 +128,19 @@
     font-size: 0.9rem;
 }
 
+.acciones-reserva .btn-accion.completar {
+  border-color: #17a2b8; /* Azul 'info' */
+  color: #17a2b8;
+}
+.acciones-reserva .btn-accion.completar:hover:not(:disabled) {
+  background-color: #17a2b8;
+  color: white;
+}
+.acciones-reserva .btn-accion.completar:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
 @media (max-width: 600px) {
     .detalles-reserva-header {
         flex-direction: column;
