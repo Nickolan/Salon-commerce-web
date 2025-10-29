@@ -8,8 +8,8 @@ const containerStyle = {
 };
 
 const defaultCenter = {
-  lat: -33.45694,
-  lng: -70.64827,
+  lat: -32.889466981513905,
+  lng: -68.84489697670124,
 };
 
 const Ubicacion = ({ isLoaded, salon, handleChange }) => {

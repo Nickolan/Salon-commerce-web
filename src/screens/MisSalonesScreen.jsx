@@ -44,12 +44,7 @@ const MisSalonesScreen = () => {
         normalizarTexto(salon.nombre).includes(normalizarTexto(salonBuscado))
     );
 
-    const handleCancelar = (id) => {
-       if (window.confirm("¿Deseas eliminar este salón? (Esta acción es irreversible)")) {
-            // Aquí iría la lógica para llamar a la API de borrado
-            console.log(`Eliminar salón con ID: ${id}`);
-        }
-    }
+    
 
     const handleHideSalon = (salonId) => {
         console.log(salonId);
@@ -89,7 +84,6 @@ const MisSalonesScreen = () => {
             <ItemMiSalon 
                 key={salon.id_salon} 
                 salon={salon}
-                onCancelar={handleCancelar}
                 onHide={handleHideSalon}
             />
         ));

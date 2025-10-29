@@ -1,11 +1,57 @@
+/* src/Components/FormSalon/Disponibilidad/Disponibilidad.css */
+
+/* --- Base Styles (Desktop First) --- */
+
 .disponibilidad-container {
-  border: 2px solid #7d2ae8;
+  border: 1px solid #e0e0e0; /* Softer border */
   border-radius: 8px;
-  padding: 12px;
-  width: 60%;
-  display: inline-block;
+  padding: 1.5rem; /* More padding */
+  width: 100%; /* Use full width within its parent */
+  max-width: 700px; /* Limit max width for readability */
+  margin: 0 auto; /* Center the container if parent allows */
+  background-color: #fff; /* White background */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow */
+  box-sizing: border-box;
 }
 
+/* Configuration section at the top */
+.configuracion-franjas {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  justify-content: space-between; /* Space out items */
+  gap: 1.5rem; /* Space between items */
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee; /* Lighter separator */
+}
+
+.config-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Space between label and select */
+  flex: 1; /* Allow items to grow */
+  min-width: 200px; /* Minimum width before wrapping */
+}
+
+.config-item label {
+  font-weight: 600; /* Slightly bolder */
+  font-size: 0.9rem;
+  color: #333; /* Darker text */
+}
+
+.config-item select {
+  padding: 0.6rem 0.8rem; /* Consistent padding */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: white;
+  color: #333;
+  font-size: 0.95rem; /* Slightly larger font */
+  cursor: pointer;
+  width: 100%; /* Full width within config-item */
+  box-sizing: border-box;
+}
+
+/* Availability Table */
 .disponibilidad-container table {
   border-collapse: collapse;
   width: 100%;
@@ -14,61 +60,206 @@
 .disponibilidad-container th,
 .disponibilidad-container td {
   text-align: center;
-  padding: 8px;
+  padding: 0.75rem 0.5rem; /* Adjust padding */
   font-family: Arial, sans-serif;
-  color: #4b0082;
+  color: var(--primary-color); /* Keep primary color */
+  border-bottom: 1px solid #eee; /* Lighter row separator */
 }
+.disponibilidad-container tr:last-child td {
+    border-bottom: none; /* Remove border from last row */
+}
+
 
 .disponibilidad-container th {
-  font-weight: bold;
-  font-size: 1.5rem;
+  font-weight: 600; /* Standard bold */
+  font-size: 0.9rem; /* Smaller header */
+  text-transform: uppercase; /* Uppercase for headers */
+  color: #555; /* Grey for headers */
+  background-color: #f9f9f9; /* Light background for header row */
 }
 
+/* Day column */
 .disponibilidad-container td:first-child {
-  text-align: center;
+  text-align: left; /* Align day names to the left */
   font-weight: 500;
-  font-size: 1.3rem;
+  font-size: 1rem; /* Standard font size */
+  padding-left: 1rem; /* More padding on the left */
 }
 
+/* Checkbox styling */
 .disponibilidad-container input[type="checkbox"] {
-  width: 1.5rem;
-  height: 1.5rem;
-  accent-color: #7d2ae8; /* Púrpura */
+  width: 1.1rem; /* Adjust size slightly */
+  height: 1.1rem;
+  accent-color: var(--primary-color); /* Keep primary color */
   cursor: pointer;
+  vertical-align: middle; /* Align better with text */
 }
 
+/* Select dropdowns in table */
 .disponibilidad-container select {
-  padding: 4px 8px;
-  border: 2px solid #7d2ae8;
-  border-radius: 6px;
+  padding: 0.4rem 0.6rem; /* Smaller padding for table selects */
+  border: 1px solid #ccc; /* Consistent border */
+  border-radius: 4px; /* Slightly less rounded */
   background-color: white;
-  color: #4b0082;
-  font-weight: bold;
+  color: var(--primary-color);
+  font-weight: 500; /* Normal weight */
   cursor: pointer;
+  font-size: 0.9rem; /* Smaller font in table */
+  min-width: 80px; /* Ensure minimum width */
 }
 
 .disponibilidad-container select:disabled {
   background-color: #f0f0f0;
   color: #aaa;
-  border-color: #ccc;
+  border-color: #ddd; /* Lighter border when disabled */
+  cursor: not-allowed;
 }
 
-/* Al final de Disponibilidad.css */
-.configuracion-franjas {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid #e0e0e0;
+
+/* --- Tablet Styles --- */
+@media (max-width: 768px) {
+  .disponibilidad-container {
+    padding: 1rem; /* Less padding */
+  }
+
+  .configuracion-franjas {
+      gap: 1rem;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+  }
+
+  .config-item {
+      min-width: 180px; /* Slightly smaller min-width */
+  }
+
+  .disponibilidad-container th,
+  .disponibilidad-container td {
+    padding: 0.6rem 0.4rem; /* Smaller padding */
+    font-size: 0.95rem; /* Slightly smaller text */
+  }
+
+  .disponibilidad-container td:first-child {
+    font-size: 0.95rem;
+    padding-left: 0.5rem;
+  }
+
+  .disponibilidad-container select {
+      font-size: 0.85rem;
+      min-width: 70px;
+  }
 }
 
-.config-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
 
-.config-item label {
-  font-weight: bold;
-  font-size: 0.9rem;
+/* --- Mobile Styles --- */
+@media (max-width: 600px) {
+  .disponibilidad-container {
+      border: none; /* Remove border */
+      box-shadow: none; /* Remove shadow */
+      padding: 0.5rem 0; /* Minimal padding */
+      background-color: transparent; /* Transparent background */
+  }
+
+  .configuracion-franjas {
+      flex-direction: column; /* Stack config items */
+      align-items: stretch; /* Make items full width */
+      gap: 1rem;
+      border-bottom: none; /* Remove separator */
+      margin-bottom: 1.5rem;
+  }
+   .config-item {
+       min-width: unset; /* Remove min-width */
+   }
+   .config-item select {
+       font-size: 1rem; /* Larger font for easier tapping */
+   }
+
+  /* Table transformation for mobile */
+  .disponibilidad-container table,
+  .disponibilidad-container thead,
+  .disponibilidad-container tbody,
+  .disponibilidad-container th,
+  .disponibilidad-container td,
+  .disponibilidad-container tr {
+    display: block; /* Stack everything */
+  }
+
+  .disponibilidad-container thead tr {
+    position: absolute; /* Hide table headers */
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .disponibilidad-container tr {
+    margin-bottom: 1rem; /* Space between each "day" block */
+    border: 1px solid #eee; /* Add border around each day block */
+    border-radius: 6px;
+    background-color: #fff; /* White background for each block */
+    padding: 0.8rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+
+  .disponibilidad-container td {
+    border: none; /* Remove internal borders */
+    border-bottom: 1px dashed #f0f0f0; /* Use dashed line as separator inside block */
+    position: relative;
+    padding-left: 50%; /* Make space for the label */
+    text-align: right; /* Align content to the right */
+    display: flex; /* Use flex for alignment */
+    justify-content: space-between; /* Space between label and content */
+    align-items: center; /* Center items vertically */
+    min-height: 40px; /* Ensure minimum height for tappable area */
+  }
+   .disponibilidad-container td:last-child {
+       border-bottom: none; /* Remove last dashed line */
+   }
+
+
+  /* Add data labels using ::before */
+  .disponibilidad-container td::before {
+    content: attr(data-label); /* Use data-label attribute for text */
+    position: absolute;
+    left: 0.8rem; /* Position label on the left */
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left; /* Align label text left */
+    font-weight: 600; /* Make labels bold */
+    color: #555; /* Label color */
+    font-size: 0.9rem;
+  }
+
+  /* Specific label overrides */
+  .disponibilidad-container td:nth-of-type(1)::before { content: "Día"; }
+  .disponibilidad-container td:nth-of-type(2)::before { content: "Disponible"; }
+  .disponibilidad-container td:nth-of-type(3)::before { content: "Desde"; }
+  .disponibilidad-container td:nth-of-type(4)::before { content: "Hasta"; }
+
+  /* Adjustments for specific cells in mobile view */
+  .disponibilidad-container td:first-child {
+      padding-left: 0.8rem; /* Reset padding */
+      text-align: right; /* Align day name right */
+      font-size: 1.1rem; /* Make day name slightly larger */
+      font-weight: 600;
+      color: var(--primary-color);
+      border-bottom: 1px solid #eee; /* Solid line below day name */
+      margin-bottom: 0.5rem; /* Space below day name */
+  }
+   .disponibilidad-container td:first-child::before {
+       display: none; /* Hide the "Día" label itself */
+   }
+
+  .disponibilidad-container input[type="checkbox"] {
+      /* Ensure checkbox is easily tappable */
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0; /* Reset margin if any */
+  }
+
+  .disponibilidad-container select {
+      /* Make selects easier to tap */
+      padding: 0.6rem;
+      font-size: 1rem;
+      min-width: 100px; /* Adjust min-width if needed */
+      margin-left: auto; /* Push select to the right */
+  }
 }

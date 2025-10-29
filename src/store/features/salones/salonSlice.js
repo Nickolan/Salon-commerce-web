@@ -115,6 +115,31 @@ export const updateSalonStatusAdmin = createAsyncThunk(
   }
 );
 
+export const deleteSalon = createAsyncThunk(
+  'salones/deleteSalon',
+  async (salonId, { getState, rejectWithValue }) => { // Recibe solo el ID
+    try {
+      const token = getState().auth.token;
+      if (!token) return rejectWithValue('No autenticado.');
+
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+
+      console.log(salonId, config);
+      
+      // Realiza la petición DELETE al endpoint específico del salón
+      await axios.delete(`${API_URL}/${salonId}`, config);
+
+      // Si la petición es exitosa (código 2xx), devolvemos el ID del salón eliminado
+      // para poder quitarlo del estado en el reducer.
+      return { salonId }; // Devolver el ID en un objeto
+    } catch (error) {
+      console.error("Error en deleteSalon thunk:", error); // Mejor log
+      const message = error.response?.data?.message || error.message || 'Error al eliminar el salón.';
+      return rejectWithValue(message);
+    }
+  }
+);
+
 export const fetchReseniasBySalonId = createAsyncThunk(
   'salones/fetchReseniasBySalonId',
   async (salonId, { rejectWithValue }) => {
@@ -476,6 +501,33 @@ const salonSlice = createSlice({
           state.adminSalonesStatus = 'failed'; // Usar nuevo status
           state.adminSalonesError = action.payload; // Usar nuevo error
       })
+      .addCase(deleteSalon.pending, (state) => {
+        // Puedes usar el estado 'status' general o uno específico como 'deleteStatus'
+        state.status = 'loading'; // Indica carga general
+        state.error = null; // Limpia errores previos
+      })
+      .addCase(deleteSalon.fulfilled, (state, action) => {
+        state.status = 'succeeded'; // O 'idle' si prefieres
+        const deletedSalonId = action.payload.salonId; // Obtiene el ID del payload
+
+        // Filtra el salón eliminado de todas las listas relevantes
+        state.salones = state.salones.filter(s => s.id_salon !== deletedSalonId);
+        state.mySalones = state.mySalones.filter(s => s.id_salon !== deletedSalonId); //
+        state.adminSalones = state.adminSalones.filter(s => s.id_salon !== deletedSalonId); //
+        state.resultadosSalones = state.resultadosSalones.filter(s => s.id_salon !== deletedSalonId); //
+        state.destacados = state.destacados.filter(s => s.id_salon !== deletedSalonId); //
+        state.visitados = state.visitados.filter(s => s.id_salon !== deletedSalonId); //
+        state.cercanos = state.cercanos.filter(s => s.id_salon !== deletedSalonId); //
+
+        // Si el salón eliminado era el seleccionado, límpialo
+        if (state.selectedSalon && state.selectedSalon.id_salon === deletedSalonId) { //
+          state.selectedSalon = null; //
+        }
+      })
+      .addCase(deleteSalon.rejected, (state, action) => {
+        state.status = 'failed'; // Indica que la operación falló
+        state.error = action.payload; // Guarda el mensaje de error
+      });
   },
 });
 
