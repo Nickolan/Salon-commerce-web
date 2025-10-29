@@ -8,14 +8,25 @@ const horas = Array.from({ length: 24 }, (_, i) =>
 // ✅ Recibimos 'formData' y 'handleChange' del padre
 export default function Disponibilidad({ disponibilidad, setDisponibilidad, formData, handleChange }) {
   const toggleDisponible = (index) => {
+    console.log("toggleDispnible");
+
+    console.log(index);
+    
+    
     const copia = [...disponibilidad];
+    
     copia[index].disponible = !copia[index].disponible;
+    console.log(copia);
+    
     setDisponibilidad(copia);
   };
 
   const cambiarHora = (index, campo, valor) => {
     const copia = [...disponibilidad];
     copia[index][campo] = valor;
+
+    console.log(copia);
+    
     setDisponibilidad(copia);
   };
 

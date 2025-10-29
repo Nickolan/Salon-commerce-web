@@ -8,7 +8,6 @@ import './index.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* Envolvemos la aplicación con el Provider */}
     <Provider store={store}>
       <BrowserRouter>
         <App />

@@ -1,9 +1,3 @@
-:root {
-  --primary-color: #2b2d42;
-  --accent-color: #ef233c;
-  --light-color: #edf2f4;
-}
-
 /* Navbar general */
 .navbar {
   position: fixed;
@@ -25,7 +19,7 @@
   padding: 0 1.5rem;
 }
 
-/* Título clásico restaurado */
+/* Título */
 .navbar-title h2 {
   color: white !important;
   font-size: 2rem;
@@ -42,7 +36,7 @@
   cursor: pointer;
 }
 
-/* Contenedor de botones */
+/* Contenedor de botones (escritorio) */
 .buttons-container {
   display: flex;
   flex-direction: row;
@@ -59,6 +53,7 @@
   text-decoration: none;
   transition: 0.3s;
   font-weight: 500;
+  white-space: nowrap; /* Evita que el texto del botón se rompa */
 }
 
 .buttons-container .button:hover {
@@ -66,7 +61,7 @@
   color: var(--primary-color);
 }
 
-/* Usuario */
+/* Usuario (escritorio) */
 .datos_de_usuario {
   display: flex;
   align-items: center;
@@ -92,58 +87,90 @@
 .nombre_de_usuario {
   color: white;
   font-size: 1rem;
+  white-space: nowrap; /* Evita que el nombre se rompa */
 }
 
 /* 📱 Responsive (móviles) */
 @media screen and (max-width: 950px) {
   .menu-toggle {
-    display: block;
+    display: block; /* Muestra el botón hamburguesa */
   }
 
   .buttons-container {
+    /* Oculto por defecto y posicionado para desplegarse */
     position: absolute;
-    top: 80px;
-    right: 0;
+    top: 80px; /* Debajo de la navbar */
+    left: 0;   /* Alineado a la izquierda */
     width: 100%;
-    flex-direction: column;
-    align-items: center;
     background-color: var(--primary-color);
     border-top: 1px solid rgba(255, 255, 255, 0.2);
-    max-height: 0;
+    max-height: 0; /* Oculto por defecto */
     overflow: hidden;
-    transition: max-height 0.4s ease;
-    padding: 0;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Transición suave */
+    padding: 0 1.5rem; /* Padding horizontal inicial 0 */
+    /* 👇 Cambios para apilar y centrar */
+    display: flex; /* Asegura flexbox */
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center; /* Centra los elementos horizontalmente */
+    gap: 1rem; /* Espacio entre elementos apilados */
   }
 
   .buttons-container.active {
-    max-height: 400px;
-    padding: 1rem 0;
+    max-height: 500px; /* Altura suficiente para mostrar todo */
+    padding: 1.5rem; /* Añade padding vertical cuando está activo */
+  }
+
+  /* Estilos para los elementos dentro del menú desplegado */
+  .buttons-container > * { /* Aplica a hijos directos (Link, div.datos_de_usuario) */
+     width: 100%; /* Ocupa todo el ancho disponible */
+     display: flex; /* Usa flex para centrar contenido interno */
+     justify-content: center; /* Centra el contenido (texto del botón, etc.) */
   }
 
   .buttons-container .button {
-    width: 80%;
+    width: auto; /* El ancho se ajusta al contenido */
+    max-width: 300px; /* Un ancho máximo opcional */
+    padding: 0.6rem 1rem; /* Padding un poco más grande para móvil */
     text-align: center;
   }
 
+  /* Contenedor de datos de usuario en móvil */
   .datos_de_usuario {
-    flex-direction: column;
-    gap: 0.8rem;
+    width: 100%; /* Ocupa todo el ancho */
+    display: flex;
+    flex-direction: column; /* Apila imagen/nombre y botón de logout */
+    align-items: center; /* Centra los elementos */
+    gap: 1rem; /* Espacio entre link de perfil y botón logout */
   }
+
+  .usuario_link {
+     /* Mantiene imagen y nombre juntos, centrados */
+     justify-content: center;
+     margin-bottom: 0.5rem; /* Espacio antes del botón logout */
+  }
+
+  /* Botón de logout dentro de datos_de_usuario */
+  .datos_de_usuario .button {
+    width: auto; /* Ajusta al contenido */
+    max-width: 300px;
+    padding: 0.6rem 1rem;
+  }
+
+  /* Oculta animación por ahora para simplificar */
+  /* .buttons-container.active .button,
+  .buttons-container.active .datos_de_usuario {
+    animation: none;
+  } */
 }
 
-/* Animación suave */
-.buttons-container.active .button,
-.buttons-container.active .datos_de_usuario {
-  animation: fadeIn 0.4s ease forwards;
-}
-
-@keyframes fadeIn {
+/* Puedes descomentar la animación si quieres ajustarla */
+/* @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-10px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
+} */

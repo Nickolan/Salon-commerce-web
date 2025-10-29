@@ -1,99 +1,97 @@
-.screen-wrapper{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.searchbar_homescreen{
-  margin-top: -1.2rem;
+/* Contenedor principal de la pantalla */
+.homescreen-wrapper {
   width: 100%;
-}
-.screen-wrapper .title {
-  width: 100vw;
-  margin-left: -2rem;
-  margin-right: -2rem;
-  background-color: #6A0DAD;
-  color: #fff;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  height: 10rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  text-align: left;
-  align-items: flex-start;
-  padding-left: 4rem;
+  align-items: center;
+  padding-bottom: 4rem; /* Espacio para el footer */
+}
+
+/* Sección del título y bienvenida */
+.homescreen-header {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 8rem 2rem 5rem 2rem; /* Aumentamos el padding para más impacto visual */
+  text-align: center;
   box-sizing: border-box;
 }
 
-.screen-wrapper .title h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+.homescreen-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
 }
 
-
-.screen-wrapper .subtitulos{
-  flex: 1;
+.homescreen-header h2 {
+  font-size: 1.2rem;
+  font-weight: 300;
+  margin: 0;
+  opacity: 0.9;
 }
 
-.screen-wrapper .title h2 {
-  font-size: 1.3rem;
-  font-weight: normal;
+/* Contenedor de la barra de búsqueda */
+.homescreen-searchbar {
+  margin-top: 1rem; /* Efecto de superposición sobre el header */
+  width: 100%;
+  max-width: 800px;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  position: relative; /* Le dice al navegador que este elemento participa en el apilamiento */
+  z-index: 10
 }
 
-.screen-wrapper .logo-group {
-  position: relative;
-  margin-bottom: 1.5rem;
+/* Contenedor para las secciones de carruseles */
+.homescreen-content {
+  width: 100%;
+  max-width: 1200px; /* Ancho máximo para el contenido */
+  padding: 2rem 1rem;
+  box-sizing: border-box;
 }
 
-.screen-wrapper .logo-group h3 {
-  color: #6A0DAD;
-  font-size: 1.3rem;
+.carousel-section {
+  margin-bottom: 3rem;
+}
+
+.carousel-section h3 {
+  color: var(--primary-color);
+  font-size: 1.8rem;
   font-weight: bold;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-  padding-left: 2%;
-  text-align: left;
-}
-
-.screen-wrapper .logos-row {
-  display: flex;
-  justify-content: flex-start;
-  gap: 1rem;
   margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-  width: 100%;
-  padding: 0 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0e6ff;
 }
 
-.screen-wrapper .logo {
-  width: 20%;
-  max-width: 120px;
-  height: auto;
-  margin: 0.5rem;
-  object-fit: cover;
+/* Estilos para los mensajes de estado (Cargando, Error, etc.) */
+.status-message {
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+  background-color: #f9f9f9;
+  border-radius: 8px;
 }
 
-/* Estilos del carrusel */
-.carrusel-container {
-  padding: 20px 0;
+.status-message.error {
+  color: #d8000c;
+  background-color: #ffd2d2;
 }
 
-.slick-slide > div {
-  height: 9.5rem;
-  padding: 10px;
-}
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+  .homescreen-header {
+    padding: 6rem 1rem 4rem 1rem;
+  }
 
-.slick-slide img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}
+  .homescreen-header h1 {
+    font-size: 2rem;
+  }
 
-.slick-dots {
-  bottom: -50px;
-}
+  .homescreen-header h2 {
+    font-size: 1rem;
+  }
 
-.slick-dots li button:before {
-  font-size: 12px;
-  color: #6A0DAD;
+  .carousel-section h3 {
+    font-size: 1.5rem;
+  }
 }

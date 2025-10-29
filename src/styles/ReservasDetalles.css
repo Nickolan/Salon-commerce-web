@@ -1,290 +1,139 @@
-.pagina-contenedor {
-  display: flex;
-  min-height: calc(100vh - 120px);
-  margin-top: 80px;
-  width: 90%;
-  gap: 20px;
-  padding: 0 20px;
-  box-sizing: border-box;
+.detalles-reserva-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 100px 1rem 4rem 1rem;
+  min-height: calc(100vh - 80px);
 }
 
-.pagina-contenedor.con-sidebar .detalles-reservas {
-  flex: 0 0 calc(100% - 420px); /* 100% menos el ancho del sidebar */
-  max-width: calc(100% - 420px);
-}
-
-.pagina-contenedor:not(.con-sidebar) .detalles-reservas {
-  flex: 1;
-  max-width: 100%;
-  width: 100%;
-}
-
-.detalles-reservas {
-  margin-top: 0;
-  padding: 20px;
-  margin-left: 0;
-  margin-right: auto;
-  transition: all 0.3s ease;
-  width: 100%;
-}
-
-.detalles-reservas .titulo {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: #6A0DAD;
-  width: 100%;
-}
-
-.detalles-reservas .titulo h1 {
-  margin: 0;
-}
-
-.detalles-reservas .icon {
-  font-size: 2rem;
-  cursor: pointer;
-  color: #6A0DAD;
-}
-
-.detalles-reservas .salon-card {
-  display: flex;
-  width: 100%;
-  max-width: none; 
-  margin: 20px 0;
-  border: 1px solid #6A0DAD;
-  border-radius: 10px;
-  padding: 15px;
-  gap: 20px;
-  background-color: #f9f9f9;
-  box-sizing: border-box;
-}
-
-.detalles-reservas p {
-  color: #6A0DAD;
-}
-
-.detalles-reservas .salon-izquierda {
-  flex: 2;
-}
-
-.detalles-reservas .salon-izquierda h3 {
-  margin-top: 0;
-  color: #6A0DAD;
-}
-
-.detalles-reservas .salon-ubicacion {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.detalles-reservas .salon-ubicacion .map-icon {
-  color: #6A0DAD;
-}
-
-.detalles-reservas .salon-derecha {
-  flex: 1;
-  max-width: 600px; /* Limitamos el ancho de la imagen */
-}
-
-.detalles-reservas .salon-derecha .salon-imagen {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.detalles-reservas .cards-container {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 20px;
-  gap: 20px;
-  width: 100%;
-  max-width: none;
-  flex-wrap: wrap; 
-}
-
-.detalles-reservas .card-estado,
-.detalles-reservas .card-vendedor,
-.detalles-reservas .card-info {
-  flex: 1;
-  border: 1px solid #6A0DAD;
-  border-radius: 10px;
-  padding: 15px;
-  background-color: #f9f9f9;
-  min-width: 200px;
-  max-width: 400px; 
-}
-
-.detalles-reservas .card-estado h4,
-.detalles-reservas .card-vendedor h4,
-.detalles-reservas .card-info h4 {
-  margin-top: 0;
-  color: #6A0DAD;
-}
-
-.detalles-reservas .horas {
-  display: flex;
-  gap: 10px;
-}
-
-.detalles-reservas .ver-comprobante {
-  color: #6A0DAD;
-  text-decoration: none;
-  font-weight: bold;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  font-size: inherit;
-}
-
-.detalles-reservas .ver-comprobante:hover {
-  text-decoration: underline;
-}
-
-.detalles-reservas .cargando {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  font-size: 18px;
-  color: #6A0DAD;
-  background-color: #f3f3fe;
-  border-radius: 10px;
-  margin: 20px 0;
-  width: 100%;
-}
-
-.detalles-reservas .error {
+.detalles-reserva-page.loading,
+.detalles-reserva-page.error {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 200px;
-  font-size: 18px;
-  color: #d32f2f;
-  background-color: #ffebee;
-  border: 2px dashed #d32f2f;
-  border-radius: 10px;
-  margin: 20px 0;
-  padding: 20px;
   text-align: center;
-  gap: 10px;
-  width: 100%;
 }
+.detalles-reserva-page.error h1 { color: #dc3545; }
+.detalles-reserva-page.error p { color: #721c24; }
 
-.detalles-reservas .error-icon {
-  font-size: 48px;
-  color: #d32f2f;
-}
 
-.detalles-reservas .error-message {
-  font-size: 16px;
-  margin: 0;
-}
-
-.detalles-reservas .error-submessage {
-  font-size: 14px;
-  color: #666;
-  margin: 0;
-}
-
-.detalles-reservas .cancelar-button-container {
+.detalles-reserva-header {
   display: flex;
-  justify-content: flex-start;
-  margin-top: 30px;
-  padding-left: 0;
-  width: 100%;
-  max-width: none;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap; /* Para pantallas pequeñas */
+  gap: 1rem;
 }
 
-.detalles-reservas .cancelar-button {
-  background-color: #6A0DAD;
-  color: #fff;
-  padding: 12px 30px;
-  border: none;
-  border-radius: 10px;
-  text-decoration: none;
+.detalles-reserva-header h1 {
+  color: var(--primary-color);
+  margin: 0;
+  font-size: 1.8rem;
+  flex-grow: 1; /* Ocupa espacio disponible */
+}
+
+/* Reutilizamos el estilo de la etiqueta de estado */
+.detalles-reserva-header .reserva-estado-tag {
+  /* Mismos estilos que en ItemReserva.css */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 1rem; /* Un poco más grande */
+  border-radius: 20px;
+  font-size: 0.9rem;
   font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-  display: inline-block;
+  white-space: nowrap;
+}
+.detalles-reserva-header .reserva-estado-tag svg { margin-bottom: -2px; }
+.detalles-reserva-header .estado-confirmada { background-color: #d4edda; color: #155724; }
+.detalles-reserva-header .estado-cancelada { background-color: #f8d7da; color: #721c24; }
+.detalles-reserva-header .estado-completada { background-color: #d1ecf1; color: #0c5460; }
+.detalles-reserva-header .estado-pendiente,
+.detalles-reserva-header .estado-creada { background-color: #fff3cd; color: #856404; }
+
+
+.detalles-reserva-content {
+  display: grid;
+  gap: 2rem;
 }
 
-.detalles-reservas .cancelar-button:hover {
-  background-color: #5a0b9d;
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(106, 13, 173, 0.3);
+.detalle-seccion {
+  background-color: #fdfcff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #eee;
 }
 
-@media (max-width: 768px) {
-  .pagina-contenedor {
-    flex-direction: column;
-    margin-top: 60px;
-    padding: 0 15px;
-    gap: 0;
-  }
-  
-  .pagina-contenedor.con-sidebar .detalles-reservas,
-  .pagina-contenedor:not(.con-sidebar) .detalles-reservas {
-    flex: 1;
-    max-width: 100%;
-    width: 100%;
-    padding: 15px 0;
-  }
-  
-  .detalles-reservas .cargando,
-  .detalles-reservas .error {
-    height: 150px;
-    font-size: 16px;
-    padding: 15px;
-  }
-  
-  .detalles-reservas .error-icon {
-    font-size: 36px;
-  }
-  
-  .detalles-reservas .cancelar-button {
-    padding: 10px 25px;
-    font-size: 14px;
-  }
-  
-  .detalles-reservas .cards-container {
-    flex-direction: column;
-    width: 100%;
-    gap: 15px;
-  }
-  
-  .detalles-reservas .card-estado,
-  .detalles-reservas .card-vendedor,
-  .detalles-reservas .card-info {
-    max-width: none;
-    width: 100%;
-  }
-  
-  .detalles-reservas .salon-card {
-    flex-direction: column;
-    width: 100%;
-    gap: 15px;
-  }
-  
-  .detalles-reservas .salon-derecha {
-    max-width: none;
-    width: 100%;
-  }
-  
-  .detalles-reservas .salon-derecha .salon-imagen {
-    height: 150px;
-  }
+.detalle-seccion h2 {
+  font-size: 1.3rem;
+  color: #444;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
-  .pagina-contenedor.con-sidebar .detalles-reservas {
-    flex: 0 0 calc(100% - 320px);
-    max-width: calc(100% - 320px);
-  }
+.detalle-seccion p {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-size: 1rem;
+}
+
+.detalle-seccion p .icono {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.salon-nombre-link {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+.salon-nombre-link:hover {
+  text-decoration: underline;
+  color: #5a1a8b;
+}
+
+.acciones-reserva {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los botones pasen a la siguiente línea */
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Reutilizamos estilos de ItemReserva.css para los botones */
+.acciones-reserva .btn-accion {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  /* ... (copia los estilos .btn-accion, .cancelar, .resenia de ItemReserva.css) ... */
+}
+.acciones-reserva .btn-accion.volver { border-color: #6c757d; color: #6c757d; }
+.acciones-reserva .btn-accion.volver:hover { background-color: #6c757d; color: white; }
+
+.info-cancelacion {
+    font-style: italic;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+    .detalles-reserva-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .detalles-reserva-header h1 {
+        font-size: 1.6rem;
+    }
 }

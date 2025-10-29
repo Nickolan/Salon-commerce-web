@@ -91,3 +91,26 @@
   font-weight: normal;
   padding: 5px 0;
 }
+
+/* --- Estilos para la foto en la página de Perfil --- */
+.profile-wrapper .titulo {
+  display: flex; /* Cambiamos a flex para alinear foto y texto */
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.profile-page-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary-color);
+  flex-shrink: 0; /* Evita que la imagen se encoja */
+}
+
+.profile-wrapper .nombre_de_usuario {
+  align-items: flex-start; /* Alinea el botón de editar con el nombre */
+  flex-direction: column; /* Apila nombre y botón */
+  gap: 0.5rem;
+}

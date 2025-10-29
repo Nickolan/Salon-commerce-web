@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/features/auth/authSlice";
 import { FiMenu, FiX } from "react-icons/fi";
@@ -7,11 +7,14 @@ import "./Navbar.css";
 
 function Navbar() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
+  // Leemos el estado de autenticación y los datos del usuario del store
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate('/')
     setMenuOpen(false);
   };
 
@@ -33,6 +36,15 @@ function Navbar() {
 
         {/* Contenedor de botones */}
         <div className={`buttons-container ${menuOpen ? "active" : ""}`}>
+
+          {
+            isAuthenticated && user && user.es_administrador && (
+              <Link to="/admin" onClick={() => setMenuOpen(false)}>
+                <div className="button">Administracion</div>
+              </Link>
+            )
+          }
+
           {isAuthenticated && user && (
             <Link to="/publicar" onClick={() => setMenuOpen(false)}>
               <div className="button">Registra tu salón</div>

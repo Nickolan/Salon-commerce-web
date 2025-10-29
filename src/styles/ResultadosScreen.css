@@ -1,55 +1,74 @@
-.resultados_principal {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 15px 1rem;
-  gap: 2rem;
-  width: 100%;
-  box-sizing: border-box;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* Sidebar */
-.div_sidebarfiltros {
-  width: 300px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 20px; 
-  align-self: flex-start; 
-}
-
-/* Contenido principal */
-.div_contenido {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding-right: 1rem;
-}
-
-/* Lista de resultados */
-.caja_listaresultados {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 900px;
-}
-
-/* --- MEDIA QUERIES --- */
-@media (max-width: 1024px) {
-  .resultados_principal {
-    flex-direction: column;
-  }
-  .div_sidebarfiltros {
+/* Contenedor principal de la página con dos columnas */
+.pagina-resultados {
+    display: flex;
     width: 100%;
-    position: relative;
-    top: 0;
-    margin-left: 0;
-    margin-bottom: 20px;
-  }
-  .div_contenido {
-    padding-right: 0;
-  }
+    max-width: 1400px; /* Ancho máximo para el contenido */
+    margin: 0 auto;
+}
+
+/* Columna izquierda para los filtros */
+.resultados-sidebar {
+    width: 280px; /* Ancho fijo para la barra de filtros */
+    flex-shrink: 0; /* Evita que la barra se encoja */
+    padding: 2rem 1.5rem;
+    border-right: 1px solid #e0e0e0;
+    position: sticky; /* Fija la barra lateral al hacer scroll */
+    top: 80px;
+    height: calc(100vh - 80px); /* Ocupa toda la altura visible */
+    overflow-y: auto; /* Permite scroll si los filtros son muchos */
+}
+
+/* Columna derecha para el contenido principal */
+.resultados-main {
+    flex-grow: 1; /* Ocupa el resto del espacio disponible */
+    padding: 2rem;
+    min-width: 0; /* Importante para que Flexbox funcione correctamente */
+}
+
+.resultados-searchbar-wrapper {
+    margin-bottom: 2rem;
+}
+
+.resultados-header {
+    margin-bottom: 1.5rem;
+}
+
+.resultados-contador {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.resultados_lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Espacio entre cada item de salón */
+}
+
+/* Estilos para los mensajes de estado */
+.status-message {
+    padding: 3rem 1rem;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #555;
+    background-color: #f7f7f7;
+    border-radius: 12px;
+}
+
+.status-message.error {
+    color: #d8000c;
+    background-color: #ffd2d2;
+}
+
+/* --- Media Queries para Responsividad --- */
+@media (max-width: 992px) {
+    .resultados-sidebar {
+        /* En pantallas medianas, ocultamos la barra lateral */
+        /* A futuro, aquí se podría implementar un botón para mostrarla como un menú flotante */
+        display: none; 
+    }
+
+    .resultados-main {
+        padding: 1.5rem;
+    }
 }

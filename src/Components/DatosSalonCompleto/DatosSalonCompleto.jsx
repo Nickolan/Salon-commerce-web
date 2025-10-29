@@ -29,33 +29,33 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
   const [mapCenter, setMapCenter] = useState(defaultCenter);
   const [geocodingError, setGeocodingError] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
+  const [imagenSeleccionada, setImagenSeleccionada] = useState('');
 
   useEffect(() => {
-    if (isLoaded && salon && salon.ubicacion) {
+    // Inicializar imagen seleccionada si hay fotos
+    if (salon?.fotos && salon.fotos.length > 0 && !imagenSeleccionada) {
+      setImagenSeleccionada(salon.fotos[0]);
+    } else if (!salon?.fotos || salon.fotos.length === 0) {
+      setImagenSeleccionada(''); // Resetear si no hay fotos
+    }
+
+    // Lógica de Geocoding (sin cambios)
+    if (isLoaded && salon?.direccion) { // Usar direccion en lugar de ubicacion si aplica
       setIsGeocoding(true);
       setGeocodingError(false);
-      
       try {
         const geocoder = new window.google.maps.Geocoder();
-        
-        geocoder.geocode({ address: salon.ubicacion }, (results, status) => {
+        geocoder.geocode({ address: salon.direccion }, (results, status) => {
           setIsGeocoding(false);
-          
-          if (status === 'OK' && results[0]) {
+          if (status === 'OK' && results?.[0]) {
             const location = results[0].geometry.location;
-            setMapCenter({
-              lat: location.lat(),
-              lng: location.lng()
-            });
+            setMapCenter({ lat: location.lat(), lng: location.lng() });
           } else {
             console.error('Error en geocoding:', status);
             setGeocodingError(true);
-            // Usar coordenadas del salón si están disponibles
+            // Usar coordenadas del salón si existen
             if (salon.latitud && salon.longitud) {
-              setMapCenter({
-                lat: parseFloat(salon.latitud),
-                lng: parseFloat(salon.longitud)
-              });
+              setMapCenter({ lat: parseFloat(salon.latitud), lng: parseFloat(salon.longitud) });
             }
           }
         });
@@ -64,13 +64,36 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
         setIsGeocoding(false);
         setGeocodingError(true);
       }
+    } else if (salon?.latitud && salon?.longitud) {
+        // Si no hay dirección pero sí lat/lng, usar esas coordenadas directamente
+        setMapCenter({ lat: parseFloat(salon.latitud), lng: parseFloat(salon.longitud) });
+        setGeocodingError(false); // No es un error de geocoding si tenemos coords
+        setIsGeocoding(false);
+    } else if (!salon?.direccion) {
+        // Si no hay ni dirección ni coordenadas
+        setGeocodingError(true);
+        setIsGeocoding(false);
     }
-  }, [isLoaded, salon]);
+
+  }, [isLoaded, salon, imagenSeleccionada]);
+
+  const handleThumbnailClick = (urlImagen) => {
+    setImagenSeleccionada(urlImagen);
+  };
 
   // Manejar error de imagen
   const handleImageError = (e) => {
-    e.target.style.display = 'none';
+    // Intenta mostrar la siguiente imagen si la actual falla, o un placeholder
+    const currentIndex = salon.fotos.indexOf(imagenSeleccionada);
+    if (currentIndex !== -1 && currentIndex < salon.fotos.length - 1) {
+      setImagenSeleccionada(salon.fotos[currentIndex + 1]);
+    } else {
+      // Si era la última o no se encontró, muestra el placeholder
+      setImagenSeleccionada(''); // Indica que no hay imagen válida
+    }
   };
+
+  
 
   // Componente para mostrar cuando hay error de carga
   const ErrorMapPlaceholder = () => (
@@ -94,7 +117,12 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
   );
 
   // Determinar si mostrar placeholder de imagen
-  const shouldShowImagePlaceholder = !salon.fotos || salon.fotos.length === 0;
+  const shouldShowImagePlaceholder = !imagenSeleccionada;
+
+  console.log(salon.equipamientos);
+
+  
+  
 
   if (!salon) {
     return <div>No se encontró información del salón</div>;
@@ -115,7 +143,7 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
               <div className="mapa-contenedor">
                 <GoogleMap
                   mapContainerStyle={containerStyle}
-                  center={mapCenter}
+                  center={{lat: salon.latitud, lng: salon.longitud}}
                   zoom={15}
                   options={{
                     streetViewControl: false,
@@ -125,7 +153,7 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
                   }}
                 >
                   <Marker 
-                    position={mapCenter}
+                    position={{lat: salon.latitud, lng: salon.longitud}}
                     icon={redMarkerIcon}
                     title={salon.nombre}
                   />
@@ -143,31 +171,42 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
         </div>
 
         <div className="columna-derecha">
-          <div className="imagen-salon">
-            {salon.fotos && salon.fotos.length > 0 ? (
-              <img 
-                src={salon.fotos[0]} 
-                alt={`Imagen de ${salon.nombre}`}
-                onError={handleImageError}
-              />
-            ) : null}
-            
-            {shouldShowImagePlaceholder && (
-              <div className="imagen-placeholder">
-                No hay imagen disponible
+          <div className="galeria-imagenes">
+            <div className="imagen-principal-salon">
+              {imagenSeleccionada ? (
+                <img
+                  src={imagenSeleccionada}
+                  alt={`Imagen principal de ${salon.nombre}`}
+                  onError={handleImageError} // Manejo de error para la imagen principal
+                />
+              ) : (
+                <div className="imagen-placeholder">
+                  No hay imagen disponible
+                </div>
+              )}
+            </div>
+
+            {/* Contenedor de Thumbnails (solo si hay más de una foto) */}
+            {salon.fotos && salon.fotos.length > 1 && (
+              <div className="galeria-thumbnails">
+                {salon.fotos.map((fotoUrl, index) => (
+                  <img
+                    key={index}
+                    src={fotoUrl}
+                    alt={`Thumbnail ${index + 1} de ${salon.nombre}`}
+                    className={`thumbnail ${fotoUrl === imagenSeleccionada ? 'active' : ''}`}
+                    onClick={() => handleThumbnailClick(fotoUrl)}
+                    onError={(e) => e.target.style.display = 'none'} // Oculta thumbnails rotos
+                  />
+                ))}
               </div>
             )}
           </div>
 
           <div className="detalles-secundarios">
             <div className='equipamiento'>
-              {salon.equipamientos_json ? (
-                <>
-                  {salon.equipamientos_json.wifi && <h3>Wi-Fi</h3>}
-                  {salon.equipamientos_json.proyector && <h3>Proyector</h3>}
-                  {salon.equipamientos_json.pizarra && <h3>Pizarra</h3>}
-                  {salon.equipamientos_json.aire_acondicionado && <h3>Aire Acondicionado</h3>}
-                </>
+              {salon.equipamientos && salon.equipamientos.length > 0 ? (
+                salon.equipamientos.map((e, index) => <h3 key={index}>{e}</h3>)
               ) : (
                 <h3>No hay equipamiento listado</h3>
               )}

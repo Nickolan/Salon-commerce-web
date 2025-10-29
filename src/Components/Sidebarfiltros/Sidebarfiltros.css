@@ -1,47 +1,89 @@
-.caja_sidebarfiltros{
-    color: var(--primary-color);
-    width: 100%;
-    max-width: 500px;
-    padding-top: 20px;
-    margin-bottom: 20px;
-}
-
-.h2titulo, .h4subtitulos{
-    font-weight: bold;
-}
-
-.precio-wrapper,
-.horarios-wrapper{
+.sidebar-filtros {
   display: flex;
-  gap: 0.5rem;
-  width: 100%;
+  flex-direction: column;
+  gap: 1.5rem; /* Espacio entre grupos de filtros */
 }
 
-.preciomaximo, .preciominimo,
-.input_inicio, .input_fin, .input_fecha{
-  border: 1px solid var(--primary-color);
-  border-radius: 8px;
-  flex: 1;
-  min-width: 0;
-  padding: 0.4rem;
+.sidebar-filtros h4 {
+  color: var(--primary-color);
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filtro-grupo label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.filtro-grupo input[type="number"],
+.filtro-grupo select {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  width: 100%;
   box-sizing: border-box;
 }
 
-.boton_aplicar{
-  border: 1px solid var(--primary-color);
-  border-radius: 8px;
-  width: 100%;
-  padding: 0.5rem 0;
-  margin-top: 1rem;
+.precio-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.precio-inputs span {
+  color: #888;
+}
+
+.equipamientos-checkboxes {
+  max-height: 200px; /* Limita la altura si hay muchos equipamientos */
+  overflow-y: auto; /* Permite scroll */
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.5rem;
+  border: 1px solid #eee;
+  border-radius: 6px;
+}
+
+.equipamientos-checkboxes div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.equipamientos-checkboxes input[type="checkbox"] {
   cursor: pointer;
 }
 
-/* MEDIA QUERIES */
-@media (max-width: 768px){
-  .caja_sidebarfiltros{
-    padding-top: 10px;
-  }
-  .precio-wrapper, .horarios-wrapper{
-    flex-direction: column;
-  }
+.equipamientos-checkboxes label {
+  font-weight: normal;
+  font-size: 0.9rem;
+  color: #555;
+  cursor: pointer;
+}
+
+.boton-aplicar-filtros {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1rem;
+}
+
+.boton-aplicar-filtros:hover {
+  background-color: #5a1a8b; /* Un tono más oscuro */
 }

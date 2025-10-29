@@ -1,10 +1,3 @@
-:root {
-  --primary-color: #2b2d42;
-  --accent-color: #ef233c;
-  --light-color: #edf2f4;
-  --background-color: #f8f9fa;
-}
-
 /* ====== CONTENEDOR PRINCIPAL ====== */
 .reservaciones-container {
   padding-top: 20px;

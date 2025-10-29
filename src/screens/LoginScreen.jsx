@@ -89,7 +89,7 @@ function LoginScreen() {
         </form>
 
         <div className="login-links">
-          <Link to="/recuperar-contraseña">Olvidé mi contraseña</Link>
+          <Link to="/forgot-password">Olvidé mi contraseña</Link>
           <Link to="/registro">Crear cuenta</Link>
         </div>
       </div>

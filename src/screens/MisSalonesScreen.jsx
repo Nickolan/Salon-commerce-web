@@ -1,96 +1,113 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // 👈 1. Importar useEffect
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux'; // 👈 2. Importar hooks
+import { fetchMySalones, updateSalonStatusAdmin } from '../store/features/salones/salonSlice'; // 👈 3. Importar thunk
 import BarraBusqueda from '../Components/BarraBusqueda/BarraBusqueda';
 import "../styles/MisSalonesScreen.css";
-import Salones from "../utils/Salones.json";
 import { FiEdit, FiXCircle, FiUsers, FiMapPin, FiDollarSign } from "react-icons/fi";
+import ItemMiSalon from '../Components/ItemMiSalon/ItemMiSalon';
+import Swal from 'sweetalert2'
 
-const USUARIO_ACTUAL = 2; //simulación de un usuario
+const SalonStatus = {
+    OCULTA: 'oculta',
+    BORRADOR: 'borrador',
+    APROBADA: 'aprobada',
+    RECHAZADA: 'rechazada'
+};
+
 
 const MisSalonesScreen = () => {
+    const dispatch = useDispatch();
     
-    const [salones, setSalones] = useState(Salones);
+    // 👈 4. Obtener datos del store de Redux
+    const { mySalones, status, error } = useSelector((state) => state.salones);
+    const { isAuthenticated } = useSelector((state) => state.auth);
+
     const [salonBuscado, setSalonBuscado] = useState("");
 
-    const normalizarTexto = (text) =>
-        text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim(); //para poder buscar sin importar espacios, acentos ni mayusculas
+    // 👈 5. Cargar los salones del usuario cuando el componente se monta
+    useEffect(() => {
+        if (isAuthenticated) {
+            dispatch(fetchMySalones());
+        }
+    }, [dispatch, isAuthenticated]);
 
     const handleSearch = (query) => {
         setSalonBuscado(query);
     };
 
-    const salonesFiltrados = salones
-        .filter( salon => salon.id_publicador === USUARIO_ACTUAL)
-        .filter(salon => normalizarTexto(salon.nombre).includes(normalizarTexto(salonBuscado))
-    ); //para recorrer todos los salones y que retorne solo los que cumplan con la normalización del texto
+    const normalizarTexto = (text = '') =>
+        text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+
+    // 👈 6. Filtrar sobre los datos del store
+    const salonesFiltrados = mySalones.filter(salon => 
+        normalizarTexto(salon.nombre).includes(normalizarTexto(salonBuscado))
+    );
 
     const handleCancelar = (id) => {
-        if (window.confirm("¿Deseas cancelar este salón?")) {
-            setSalones(prev => prev.filter(s => s.id_salon !== id));
-        } //muestra un mensaje en pantalla, si confirmás, filtra la lista eliminando al salón con ese id y settea los salones
+       if (window.confirm("¿Deseas eliminar este salón? (Esta acción es irreversible)")) {
+            // Aquí iría la lógica para llamar a la API de borrado
+            console.log(`Eliminar salón con ID: ${id}`);
+        }
     }
+
+    const handleHideSalon = (salonId) => {
+        console.log(salonId);
+        
+    Swal.fire({
+      title: '¿Ocultar este salón?',
+      text: "El salón no será visible en las búsquedas, pero podrás reactivarlo.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, ocultar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(updateSalonStatusAdmin({ salonId, nuevoEstado: SalonStatus.OCULTA })) // Llama al thunk con el estado 'oculta'
+          .unwrap()
+          .then(() => Swal.fire('Oculto', 'El salón ha sido ocultado.', 'success'))
+          .catch((err) => Swal.fire('Error', `No se pudo ocultar el salón: ${err?.message || 'Error desconocido'}`, 'error'));
+      }
+    });
+  };
+    
+    // 👈 7. Renderizado condicional según el estado de la petición
+   const renderContent = () => {
+        if (status === 'loading') {
+            return <p className='sin-resultados'>Cargando tus salones...</p>;
+        }
+        if (status === 'failed') {
+            return <p className='sin-resultados'>Error al cargar: {error}</p>;
+        }
+        if (salonesFiltrados.length === 0) {
+            return <p className='sin-resultados'>No se encontraron salones.</p>;
+        }
+        // Simplemente mapeamos y pasamos los datos al nuevo componente
+        return salonesFiltrados.map(salon => (
+            <ItemMiSalon 
+                key={salon.id_salon} 
+                salon={salon}
+                onCancelar={handleCancelar}
+                onHide={handleHideSalon}
+            />
+        ));
+    };
 
     return (
         <div className='pagina-misSalones'>
             <h1 className='titulo'>Mis Salones</h1>
-
             <BarraBusqueda 
-                placeholder='Buscar salón...' 
+                placeholder='Buscar en mis salones...' 
                 onSearch={handleSearch} 
                 totalSalones={salonesFiltrados.length} 
             />
-
             <div className='listado-salones'>
-                {salonesFiltrados.length === 0 ? (
-                    <p className='sin-resultados'>No se encontraron salones.</p>
-                ) : (
-                    salonesFiltrados.map(salon => (
-                        <div key={salon.id_salon} className='card-salon'>
-                            <div className='card-imagen-wrapper'>
-                                <img 
-                                    src={salon.fotos[0]} 
-                                    alt={salon.nombre} 
-                                    className='card-imagen' 
-                                />
-                            </div>
-
-                            <div className='card-izquierda'>
-                                <div className='salon-nombre-capacidad'>
-                                    <p className='salon-nombre'>{salon.nombre}</p>
-                                    <p className='salon-caracteristica'>
-                                         - {salon.capacidad}
-                                        <FiUsers className='icono'/>
-                                    </p>
-                                </div>
-                                <p className='salon-caracteristica'>
-                                    <FiMapPin className='icono' />
-                                    {salon.ubicacion}
-                                </p>
-                                <p className='salon-caracteristica'>
-                                    <FiDollarSign className='icono' />
-                                    {salon.precio_por_hora} por hora
-                                </p>
-                            </div>
-
-                            <div className='card-derecha'>
-                                <div className='botones'>
-                                    <Link to="/editar-salon">
-                                        <button><FiEdit/></button>
-                                    </Link>
-                                    <button onClick={() => handleCancelar(salon.id_salon)}>
-                                        <FiXCircle/>
-                                    </button>
-                                </div>
-                                <div className='estado-publicacion'>
-                                    <p>{salon.estado_publicacion}</p>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                )}
+                {renderContent()}
             </div>
         </div>
-    )
+    );
 }
 
 export default MisSalonesScreen;

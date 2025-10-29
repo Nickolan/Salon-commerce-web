@@ -6,17 +6,25 @@ const EquipamientoYReglas = ({ reglas, setReglas, equipamientoSeleccionado, setE
 
   // Lista fija de equipamientos
   const equipamientos = [
-    "Proyector",
-    "Pizarra blanca",
-    "Marcadores",
-    "WiFi",
-    "Aire acondicionado",
-    "Sillas ergonómicas",
-    "Mesas grupales",
-    "Iluminación LED",
-    "Sistema de sonido",
-    "Enchufes múltiples",
-  ];
+  "WiFi",
+  "Pizarra",
+  "Proyector",
+  "Pantalla TV",
+  "Aire Acondicionado",
+  "Calefacción",
+  "Enchufes múltiples",
+  "Mesas Grupales",
+  "Sillas Ergonómicas",
+  "Cafetera",
+  "Dispensador de Agua",
+  "Baño Privado",
+  "Acceso Silla Ruedas",
+  "Estacionamiento",
+  "Pizarra blanca",
+  "Iluminación LED",
+  "Marcadores",
+  "Sistema de sonido",
+];
 
   const handleInputChange = (e) => {
     setRegla(e.target.value);

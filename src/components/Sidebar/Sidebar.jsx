@@ -35,7 +35,7 @@ const Sidebar = () => {
           <div className="side-links">
             <div className="link-item">
               <IoLockClosedOutline alt="Mis Reservas" className="logo" />
-              <Link to="/">Mis Reservas</Link>
+              <Link to="/mis-reservas">Mis Reservas</Link>
             </div>
             <div className="link-item">
               <FaRegHeart alt="Favoritos" className="logo" />

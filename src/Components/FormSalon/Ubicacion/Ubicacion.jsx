@@ -35,14 +35,14 @@ const Ubicacion = ({ isLoaded, salon, handleChange }) => {
 
       // ✅ Ahora sí: actualizamos el formData del padre
       handleChange({
-  target: { name: "direccion", value: direccionFormateada, type: "text" },
-});
-handleChange({
-  target: { name: "latitud", value: lat, type: "number" },
-});
-handleChange({
-  target: { name: "longitud", value: lng, type: "number" },
-});
+        target: { name: "direccion", value: direccionFormateada, type: "text" },
+      });
+      handleChange({
+        target: { name: "latitud", value: lat, type: "number" },
+      });
+      handleChange({
+        target: { name: "longitud", value: lng, type: "number" },
+      });
 
 
     }
@@ -83,7 +83,6 @@ handleChange({
             zoom={14}
             onLoad={(map) => (mapRef.current = map)}
           >
-            {/* 🔹 marcador que se actualiza con la dirección */}
             <Marker position={coords} />
           </GoogleMap>
         )}

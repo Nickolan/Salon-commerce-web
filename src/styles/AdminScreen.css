@@ -6,18 +6,131 @@
   background-color: transparent;
 }
 
-.sidebar-container {
+.admin-screen .sidebar-container {
   width: 20%;
   height: 100%;
   background-color: transparent;
 }
 
-.main-content-container {
+.admin-screen .main-content-container {
   width: 80%; 
   height: 100%;
   display: flex;
   flex-direction: column;
 }
+
+/* Ejemplo de estilos para el panel de admin */
+.admin-panel {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.admin-panel h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.filtros-admin {
+    margin-bottom: 15px;
+}
+
+.admin-select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.admin-table-container {
+    max-height: 500px; /* O la altura que prefieras */
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    position: sticky; /* Encabezados fijos */
+    top: 0;
+    z-index: 1;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.acciones-admin button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.btn-admin { /* Estilo base */
+    color: white;
+}
+.btn-approve { background-color: #28a745; }
+.btn-reject, .btn-delete, .btn-cancel { background-color: #dc3545; }
+.btn-hide { background-color: #ffc107; color: #333; }
+.btn-show { background-color: #17a2b8; }
+.btn-complete { background-color: #007bff; }
+
+
+.status-badge {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    color: white;
+    display: inline-block; /* Asegura padding */
+    min-width: 70px; /* Ancho mínimo para consistencia */
+    text-align: center;
+}
+
+.status-aprobada, .status-reserva-confirmada, .status-reserva-completada { background-color: #28a745; }
+.status-borrador, .status-reserva-creada { background-color: #6c757d; }
+.status-oculta { background-color: #ffc107; color: #333; }
+.status-rechazada, .status-reserva-cancelada { background-color: #dc3545; }
+
+.role-badge { /* Similar a status-badge */
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    color: white;
+    display: inline-block;
+    min-width: 70px;
+    text-align: center;
+    margin-right: 5px;
+}
+.admin { background-color: #dc3545;}
+.publicador { background-color: #007bff;}
+.user { background-color: #6c757d;}
+
+.loading-message, .error-message, .no-results {
+    padding: 15px;
+    text-align: center;
+    color: #666;
+}
+.error-message { color: #dc3545; }
+.no-results { font-style: italic; }
 
 /* --- ESTILOS RESPONSIVOS --- */
 @media (max-width: 900px) {

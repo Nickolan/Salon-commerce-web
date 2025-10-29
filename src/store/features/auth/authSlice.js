@@ -11,6 +11,9 @@ const initialState = {
   isAuthenticated: !!userToken,
   status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
+  adminUsers: [], // <-- NUEVO ESTADO
+  adminUsersStatus: 'idle', // <-- NUEVO ESTADO
+  adminUsersError: null, // <-- NUEVO ESTADO
 };
 
 const API_URL = 'http://localhost:3000/usuarios';
@@ -43,6 +46,22 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const registerUser = createAsyncThunk(
+  'auth/registerUser',
+  async (userData, { rejectWithValue }) => {
+    try {
+      const payload = { ...userData, contrasenia: userData.contraseña };
+      delete payload.contraseña;
+
+      const response = await axios.post(`${API_URL}/registro`, payload);
+      // La respuesta ahora contiene { accessToken, user }
+      return response.data; 
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error desconocido en el registro');
+    }
+  }
+);
+
 // --- 👇 THUNK ASÍNCRONO NUEVO PARA ACTUALIZAR EL USUARIO ---
 export const updateUser = createAsyncThunk(
   'auth/updateUser',
@@ -66,6 +85,78 @@ export const updateUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Error al actualizar el perfil.');
+    }
+  }
+);
+
+export const revalidateSession = createAsyncThunk(
+  'auth/revalidateSession',
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      if (!token) {
+        return rejectWithValue('No se encontró token.');
+      }
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      // Llamamos al nuevo endpoint '/perfil'
+      const response = await axios.get(`${API_URL}/perfil`, config);
+      
+      console.log('✅ [revalidateSession] Datos recibidos de la API:', response.data); // Log 1
+
+      return { user: response.data, token };
+    } catch (error) {
+      // Si el token es inválido o expiró, la API devolverá un error 401
+      return rejectWithValue(error.response?.data?.message || 'Sesión inválida.');
+    }
+  }
+);
+
+export const uploadProfilePic = createAsyncThunk(
+  'auth/uploadProfilePic',
+  async (formData, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+      if (!token) {
+        return rejectWithValue('No se encontró token de autenticación.');
+      }
+
+      // IMPORTANTE: Al enviar FormData, axios configura el Content-Type automáticamente
+      const response = await axios.post(
+        `${API_URL}/upload-perfil-pic`, 
+        formData, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data', // Asegurarse de setear esto
+          },
+        }
+      );
+
+      // El backend devuelve el usuario actualizado (sin contraseña)
+      return response.data; 
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error al subir la imagen.');
+    }
+  }
+);
+
+export const fetchAdminUsersByMonth = createAsyncThunk(
+  'auth/fetchAdminUsersByMonth',
+  async (month, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth; // Asumiendo que necesitas token para admin
+      if (!token) return rejectWithValue('No autenticado.');
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { month } // Enviar mes como query param
+      };
+      // Ajusta la URL si tu endpoint es diferente (ej. /admin/usuarios)
+      const response = await axios.get(`${API_URL}/admin`, config); // O ${API_URL}/admin?month=${month}
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error al cargar usuarios admin.');
     }
   }
 );
@@ -113,6 +204,69 @@ const authSlice = createSlice({
       .addCase(updateUser.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+      })
+      .addCase(registerUser.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        // La lógica es idéntica a la de un login exitoso
+        state.status = 'succeeded';
+        state.isAuthenticated = true;
+        state.token = action.payload.accessToken;
+        state.user = action.payload.user;
+        localStorage.setItem('token', action.payload.accessToken);
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+        state.isAuthenticated = false;
+        state.user = null;
+        state.token = null;
+        localStorage.removeItem('token');
+      })
+      .addCase(revalidateSession.pending, (state) => {
+        state.status = 'revalidating'; // Un estado específico para no mostrar "cargando..." en toda la app
+      })
+      .addCase(revalidateSession.fulfilled, (state, action) => {
+        console.log('✅ [Reducer] Actualizando estado con:', action.payload.user); // Log 3
+        state.status = 'succeeded';
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+      })
+      .addCase(revalidateSession.rejected, (state) => {
+        console.log("limpiando todo");
+        
+        // Si la revalidación falla, limpiamos todo
+        state.status = 'idle';
+        state.isAuthenticated = false;
+        state.user = null;
+        state.token = null;
+        localStorage.removeItem('accessToken');
+      })
+      .addCase(uploadProfilePic.pending, (state) => {
+        state.status = 'loading'; // Podemos reusar el status 'loading'
+      })
+      .addCase(uploadProfilePic.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.user = action.payload; // Actualiza el usuario en el store con la nueva foto
+      })
+      .addCase(uploadProfilePic.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(fetchAdminUsersByMonth.pending, (state) => {
+        state.adminUsersStatus = 'loading';
+      })
+      .addCase(fetchAdminUsersByMonth.fulfilled, (state, action) => {
+        state.adminUsersStatus = 'succeeded';
+        state.adminUsers = action.payload;
+        state.adminUsersError = null;
+      })
+      .addCase(fetchAdminUsersByMonth.rejected, (state, action) => {
+        state.adminUsersStatus = 'failed';
+        state.adminUsersError = action.payload;
       });
   },
 });

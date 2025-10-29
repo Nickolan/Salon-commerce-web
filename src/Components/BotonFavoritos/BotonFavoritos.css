@@ -1,45 +1,58 @@
-.salon-card-fav-btn {
-    position: absolute;
-    top: 0.2rem;
-    right: 0.2rem;
-    width: 1.4rem;
-    height: 1.4rem;
-    display: flex;
+/* Estilos base del botón */
+.boton-favorito {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    font-size: 0;
+    gap: 0.5rem;
     cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 2;
-    background-color: transparent;
-    outline: none;
+    background: none;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.boton-favorito:hover {
+    background-color: #f3e8fb;
+    transform: translateY(-2px);
+}
+
+.boton-favorito:active {
+    transform: scale(0.95);
+}
+
+.boton-favorito .fav-icon {
+    font-size: 1.1rem;
+}
+
+/* Estilo para el corazón cuando es favorito */
+.boton-favorito.es-favorito .fav-icon {
+    color: #e44d5d; /* Un color rojo/rosa para el favorito */
+}
+
+/* Variante pequeña, solo ícono (para las tarjetas) */
+.boton-favorito.icon-only {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border-radius: 50%;
     border: none;
-    pointer-events: auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 10;
 }
 
-.salon-card-fav-btn svg {
-    width: 1.1rem;
-    height: 1.1rem;
-    transition: all 0.3s ease;
+.boton-favorito.icon-only .fav-icon {
+    font-size: 1.3rem;
 }
 
-.salon-card-fav-btn.-true svg {
-    color: var(--primary-color);
-}
-
-.salon-card-fav-btn.-false svg {
-    color: var(--primary-color);
-}
-
-.salon-card-fav-btn:hover {
-    transform: scale(1.2);
-}
-
-.salon-card-fav-btn:active {
-    transform: scale(0.9);
-}
-
-.salon-card-fav-btn:focus {
-    outline: none;
+.boton-favorito.icon-only .fav-text {
+    display: none; /* Ocultamos el texto en esta variante */
 }

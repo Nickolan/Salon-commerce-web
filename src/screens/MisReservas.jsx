@@ -1,102 +1,100 @@
-import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import BarraBusqueda from '../Components/BarraBusqueda/BarraBusqueda';
-import Salones from "../utils/Salones.json";
-import Reservas from "../utils/Reservas.json";
-import Transacciones from "../utils/Transacciones.json";
-import ItemReserva from '../components/ItemReserva/ItemReserva';
-import "../styles/MisReservas.css";
+import React, { useState, useEffect, useMemo } from 'react'; // 👈 Importar useState y useMemo
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { fetchMisReservas } from '../store/features/reservas/reservasSlice';
 
-// SE DEBE IMPLEMENTAR LA LÓGICA PARA QUE NO APAREZCA MAS EL BOTÓN "OPINAR" EN EL SALÓN
+import BarraBusqueda from '../Components/BarraBusqueda/BarraBusqueda'; // 👈 Re-importar BarraBusqueda
+import ItemReserva from '../Components/ItemReserva/ItemReserva';
+import '../styles/MisReservas.css';
 
-const USUARIO_ACTUAL = 2;
+const MisReservasScreen = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-const MisReservas = () => {
-    const navigate = useNavigate(); 
+    // Obtener datos y estado desde Redux (sin cambios)
+    const { misReservas, misReservasStatus, error } = useSelector((state) => state.reservas);
+    const { isAuthenticated } = useSelector((state) => state.auth);
 
-    const [reservas, setReservas] = useState(Reservas);
-    const [salones, setSalones] = useState(Salones);
-    const [salonBuscado, setSalonBuscado] = useState("");
+    // --- 👇 AÑADIR ESTADO PARA LA BÚSQUEDA ---
+    const [query, setQuery] = useState("");
+    // ----------------------------------------
 
-    const normalizarTexto = (text) =>
+    // Efecto para cargar las reservas y proteger la ruta (sin cambios)
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/login");
+        } else {
+            if (misReservasStatus === 'idle' || misReservasStatus === 'failed') {
+                dispatch(fetchMisReservas());
+            }
+        }
+    }, [isAuthenticated, misReservasStatus, dispatch, navigate]);
+
+    // --- 👇 FUNCIÓN PARA NORMALIZAR TEXTO (para búsqueda insensible) ---
+    const normalizarTexto = (text = '') =>
         text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    // -----------------------------------------------------------------
 
-    // Función para formatear la fecha
-    const formatearFecha = (fecha) => {
-        const fechaObj = new Date(fecha);
-        const opciones = { day: 'numeric', month: 'long' };
-        return fechaObj.toLocaleDateString('es-ES', opciones);
-    };
+    // --- 👇 LÓGICA DE FILTRADO CON useMemo ---
+    const reservasFiltradas = useMemo(() => {
+        if (!misReservas) return []; // Seguridad si misReservas es undefined
 
-    const formatearHora = (hora) => {
-        return hora.slice(0, 5);
-    };
+        // Si no hay query, devolvemos todas las reservas
+        if (!query.trim()) {
+            return misReservas;
+        }
 
-    const obtenerEstadoReserva = (reserva) => {
-        const hoy = new Date();
-        const fechaReserva = new Date(reserva.fecha_reserva);
-        return fechaReserva > hoy ? "Por realizar" : "Completado";
-    };
+        const queryNormalizada = normalizarTexto(query);
 
-    const handleSearch = (query) => {
-        setSalonBuscado(query);
-    };
-
-    const reservasConTransacciones = Transacciones.map(
-        (transaccion) => transaccion.reserva.id_reserva
-    );
-
-    const reservasFiltradas = reservas.filter((reserva) =>
-        reservasConTransacciones.includes(reserva.id_reserva)
-    );
-
-    const reservasUnicas = [
-        ...new Map(reservasFiltradas.map((reserva) => [reserva.id_reserva, reserva])).values(),
-    ];
-
-    const reservasFiltradasPorBusqueda = reservasUnicas.filter((reserva) => {
-        const salon = salones.find((s) => s.id_salon === reserva.id_salon);
-        return salon && normalizarTexto(salon.nombre).includes(normalizarTexto(salonBuscado));
-    });
-
-    const reservasAMostrar = salonBuscado ? reservasFiltradasPorBusqueda : reservasUnicas;
+        // Filtramos buscando coincidencias en el nombre del salón
+        return misReservas.filter(reserva =>
+            reserva.salon && normalizarTexto(reserva.salon.nombre).includes(queryNormalizada)
+        );
+    }, [misReservas, query]); // Recalcular solo si cambian las reservas o la query
+    // -----------------------------------------
 
 
-    const handleOpinar = (id_salon) => {
-        navigate(`/reseniar/${id_salon}`);
+    // Función para renderizar el contenido (ahora usa reservasFiltradas)
+    const renderContent = () => {
+        if (misReservasStatus === 'loading') {
+            return <p className="status-message">Cargando tus reservas...</p>;
+        }
+        if (misReservasStatus === 'failed') {
+            return <p className="status-message error">Error al cargar tus reservas: {error}</p>;
+        }
+        // Usamos reservasFiltradas para el conteo y el mapeo
+        if (misReservasStatus === 'succeeded' && reservasFiltradas.length === 0) {
+             // Distinguimos si no hay reservas o si el filtro no encontró nada
+             if (misReservas.length === 0) {
+                 return <p className="status-message">Aún no tienes ninguna reserva.</p>;
+             } else {
+                 return <p className="status-message">No se encontraron reservas que coincidan con tu búsqueda.</p>;
+             }
+        }
+        return (
+            <div className="lista-reservas">
+                {reservasFiltradas.map((reserva) => ( // Mapeamos sobre reservasFiltradas
+                    <ItemReserva key={reserva.id_reserva} reserva={reserva} />
+                ))}
+            </div>
+        );
     };
 
     return (
-        <div className='pagina-misReservas'>
-            <h1 className='titulo'>Mis Reservas</h1>
+        <div className="pagina-mis-reservas">
+            <h1 className="titulo-mis-reservas">Mis Reservas</h1>
+
+            {/* --- 👇 REINTEGRAMOS LA BARRA DE BÚSQUEDA --- */}
             <BarraBusqueda
-                placeholder='Buscar reservas...'
-                onSearch={handleSearch}
-                totalSalones={reservasAMostrar.length}
+                placeholder="Buscar por nombre de salón..."
+                onSearch={setQuery} // Pasamos setQuery directamente
+                totalSalones={reservasFiltradas.length} // Usamos el conteo filtrado
             />
-            <div className='listado-reservas'>
-                {reservasAMostrar.length === 0 ? (
-                    <p className='sin-resultados'>No se encontraron reservas.</p>
-                ) : (
-                    reservasAMostrar.map((reserva) => {
-                        const salon = salones.find((s) => s.id_salon === reserva.id_salon);
-                        const estado = obtenerEstadoReserva(reserva);
-                        return (
-                            <ItemReserva
-                                key={reserva.id_reserva}
-                                reserva={reserva}
-                                salon={salon}
-                                estado={estado}
-                                formatearFecha={formatearFecha}
-                                formatearHora={formatearHora}
-                                onOpinar={() => handleOpinar(salon.id_salon)} // 👈 Nuevo prop
-                            />
-                        );
-                    })
-                )}
-            </div>
+            {/* ------------------------------------------- */}
+
+            {renderContent()}
         </div>
     );
 };
 
-export default MisReservas;
+export default MisReservasScreen;

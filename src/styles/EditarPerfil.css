@@ -182,6 +182,115 @@
   background-color: #5a0c9a;
 }
 
+/* --- Estilos para la Foto de Perfil --- */
+.profile-pic-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 2rem auto; /* Centrar la foto */
+}
+
+.profile-pic {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--primary-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.edit-pic-button {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: white;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1.2rem;
+  padding: 0; /* Reset padding */
+}
+
+.edit-pic-button:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.edit-pic-button:disabled {
+  background-color: #eee;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Spinner pequeño para el botón */
+.spinner-small {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(106, 13, 173, 0.3); /* Color primario claro */
+  border-top-color: var(--primary-color); /* Color primario */
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Añade esto al final de tu archivo src/styles/EditarPerfil.css */
+
+.EditProfile-page .input-container .logo-mapa {
+  position: absolute;
+  left: 12px; /* Icono al inicio */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  color: #aaa;
+}
+
+/* Ajustamos el padding-left del input de ubicación para que no se pise con el icono */
+.EditProfile-page .form-group input[name="ubicacion"],
+.EditProfile-page .form-group .autocomplete-input { /* Asumiendo que usas la clase de Ubicacion.jsx */
+  padding-left: 40px !important; /* Espacio para el icono de mapa */
+  padding-right: 45px !important; /* Espacio para el icono de editar/guardar */
+  flex: 1;
+  border: none;
+  border-bottom: 2px solid #6A0DAD;
+  border-radius: 0;
+  background-color: transparent;
+  font-size: 1rem;
+  outline: none;
+  color: #6A0DAD;
+  transition: border-color 0.3s;
+  width: 100%; /* Asegura que ocupe el espacio */
+  box-sizing: border-box;
+}
+
+.EditProfile-page .form-group input[name="ubicacion"]:disabled,
+.EditProfile-page .form-group .autocomplete-input:disabled {
+  border-bottom: 2px solid #ccc !important;
+  color: #666 !important;
+  background-color: #fff;
+}
+
+/* Estilos para mostrar las coordenadas (opcional) */
+.info-ubicacion {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 5px;
+  text-align: left;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 768px) {
   .EditProfile-page .containers-wrapper {
     flex-direction: column;

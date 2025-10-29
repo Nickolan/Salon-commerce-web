@@ -1,32 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { addFavorito, removeFavorito } from "../../store/features/favoritos/favoritosSlice";
 import "./BotonFavoritos.css"; 
-import Favoritos from "../../utils/Favoritos.json";
 
-const USUARIO_ACTUAL = 2; 
+// Añadimos props para controlar el estilo y el texto
+const BotonFavoritos = ({ id_salon, showText = false, text = "Guardar", isIconOnly = false }) => {
+    const dispatch = useDispatch();
 
-const BotonFavoritos = ({id_salon}) => {
+    const { isAuthenticated, user } = useSelector((state) => state.auth);
+    const { favoritos } = useSelector((state) => state.favoritos);
 
-    const [esFavorito, setEsFavorito] = useState(false);
-
-    useEffect(() => { 
-            //useEffect ejecuta código después de la renderización del componente, en este caso siempre que id_salon cambien (2do parámetro) se va a ejecutar el useEffect
-            const inicial = Favoritos.filter(f => f.id_usuario === USUARIO_ACTUAL).map(f => f.id_salon);
-            setEsFavorito(inicial.includes(id_salon));
-    
-        }, [id_salon]);
+    const favorito = favoritos.find(fav => fav.salon.id_salon === id_salon);
+    const esFavorito = !!favorito;
 
     const handleToggleFavorito = (e) => {
         e.stopPropagation();
-        setEsFavorito(prev => !prev); 
-    } 
+        if (!isAuthenticated || !user) {
+            alert("Debes iniciar sesión para agregar a favoritos.");
+            return;
+        }
+        
+
+        if (esFavorito) {
+            dispatch(removeFavorito({ id_favorito: favorito.id_favorito, id_salon }));
+        } else {
+            dispatch(addFavorito(id_salon));
+        }
+    };
+
+    if (!isAuthenticated) {
+        return null; 
+    }
+
+    // Componemos las clases CSS dinámicamente
+    const buttonClass = `boton-favorito ${esFavorito ? 'es-favorito' : ''} ${isIconOnly ? 'icon-only' : ''}`;
 
     return (
         <button
-            className={`salon-card-fav-btn ${esFavorito ? "-true" : "-false"}`}
-            onClick={(e) => handleToggleFavorito(e)}
+            className={buttonClass}
+            onClick={handleToggleFavorito}
+            aria-label={esFavorito ? 'Quitar de favoritos' : 'Añadir a favoritos'}
         >
-            {esFavorito ? <FaHeart /> : <FaRegHeart />}
+            {esFavorito ? <FaHeart className="fav-icon" /> : <FaRegHeart className="fav-icon" />}
+            {showText && <span className="fav-text">{esFavorito ? 'Guardado' : text}</span>}
         </button>
     );
 };

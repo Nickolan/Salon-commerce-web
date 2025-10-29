@@ -18,6 +18,10 @@
   z-index: 10; 
 }
 
+.info_principal .titulo{
+    font-size:23px;
+    text-align: start;
+}
 .imagen-wrapper {
   position: relative;
   width: 200px;

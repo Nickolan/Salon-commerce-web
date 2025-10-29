@@ -1,35 +1,51 @@
-import React, { useState } from 'react';
+// src/screens/DetallesSalon.jsx
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSalonById, fetchReseniasBySalonId } from '../store/features/salones/salonSlice';
+
 import '../styles/DetallesSalon.css';
-import Salones from '../utils/Salones.json';
 import { CiShoppingCart } from "react-icons/ci";
 import { FaRegMap } from "react-icons/fa";
-import { IoMdStarOutline, IoMdStarHalf, IoMdStar } from "react-icons/io";
-import Resenias from '../utils/Resenias.json';
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
 import ListasResenias from '../components/ListasResenias/ListasResenias';
 import DatosSalonCompleto from '../components/DatosSalonCompleto/DatosSalonCompleto';
+import BotonFavoritos from '../Components/BotonFavoritos/BotonFavoritos';
+import { IoMdStar, IoMdStarHalf, IoMdStarOutline } from 'react-icons/io';
 
 const DetallesSalon = ({ isLoaded }) => {
-  const salon = Salones.find(salon => salon.precio_por_hora === 5000.0) || {};
-  const opDestacados = Resenias
-    .filter(resenia => resenia.id_usuario && resenia.nombre_usuario)
-    .slice(-4);
-
+  const { id } = useParams(); // Obtenemos el ID de la URL
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Obtenemos los datos del estado global de Redux
+  const { selectedSalon, resenias, status, error } = useSelector((state) => state.salones);
+
+  console.log(selectedSalon);
+
+  const {
+    isAuthenticated,
+    user
+  } = useSelector((state) => state.auth);
+
+  const [esFavorito, setEsFavorito] = useState(false); // La lógica de favoritos se mantiene local por ahora
+
   const calcularPromedio = () => {
-    if (opDestacados.length === 0) return 0;
-    const suma = opDestacados.reduce((total, opinion) => total + opinion.calificacion, 0);
-    const promedio = suma / opDestacados.length;
+    if (!resenias || resenias.length === 0) return 0; // 👈 CORRECCIÓN 1: Usar 'resenias'
+    const suma = resenias.reduce((total, opinion) => total + opinion.calificacion, 0);
+    const promedio = suma / resenias.length; // 👈 CORRECCIÓN 2: Usar 'resenias.length'
     return Math.round(promedio * 10) / 10;
   };
 
   const promedioCalificacion = calcularPromedio();
 
-  const handleReservarClick = () => {
-    navigate('/');
-  };
+  // Usamos useEffect para cargar los datos cuando el componente se monta o el ID cambia
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchSalonById(id));
+      dispatch(fetchReseniasBySalonId(id));
+    }
+  }, [id, dispatch]);
 
   const renderizarEstrellas = (calificacion) => {
     const estrellas = [];
@@ -48,34 +64,52 @@ const DetallesSalon = ({ isLoaded }) => {
     return estrellas;
   };
 
-  const [esFavorito, setEsFavorito] = useState(false);
+  const handleReservarClick = () => {
+    navigate(`/reservar/${id}`);
+  };
+
   const toggleFavorito = () => {
     setEsFavorito(!esFavorito);
   };
 
+  // Renderizado condicional mientras cargan los datos
+  if (status === 'loading') {
+    return <div className='detalles-Salon' style={{ paddingTop: '100px' }}><h1>Cargando...</h1></div>;
+  }
+
+  if (status === 'failed' || !selectedSalon) {
+    return <div className='detalles-Salon' style={{ paddingTop: '100px' }}><h1>Error: Salón no encontrado</h1><p>{error}</p></div>;
+  }
+
+  // Una vez que los datos están listos, renderizamos el componente
   return (
     <div className='detalles-Salon'>
       <div className='titulo'>
         <div className="titulo-izquierda">
-          <h1>{salon.nombre}</h1>
+          <h1>{selectedSalon.nombre}</h1>
           <div className="direccion">
-            <FaRegMap className="logo"/>
-            <h2>{salon.ubicacion}</h2>
-            <CiShoppingCart className="logo"/>
-            <h2>Connect Business Rooms</h2>
+            <FaRegMap className="logo" />
+            <h2>{selectedSalon.direccion}</h2>
           </div>
         </div>
         <div className="titulo-derecha">
-          <div className="derecha-superior">
-            {esFavorito ? (
-              <FaHeart className="logo favorito-lleno" onClick={toggleFavorito}/>
-            ) : (
-              <FaRegHeart className="logo favorito-vacio" onClick={toggleFavorito} />
-            )}
-            <div className="reservar-button" onClick={handleReservarClick}>
-              <span className="reservar-texto">Reservar</span>
-            </div>
-          </div>
+          {
+            !user || user.id_usuario !== selectedSalon.publicador.id_usuario && (
+              <div className="derecha-superior">
+                <BotonFavoritos
+                  id_salon={selectedSalon.id_salon}
+                  showText={true}
+                />
+
+
+                <div className="reservar-button" onClick={handleReservarClick}>
+                  <span className="reservar-texto">Reservar</span>
+                </div>
+
+              </div>
+            )
+          }
+
           <div className="estrellas">
             {renderizarEstrellas(promedioCalificacion)}
             <span className="promedio-texto">({promedioCalificacion})</span>
@@ -84,8 +118,12 @@ const DetallesSalon = ({ isLoaded }) => {
       </div>
 
       <div className='detalles'>
-        <DatosSalonCompleto salon={salon} isLoaded={isLoaded} />
-        <ListasResenias opDestacados={opDestacados} />
+        <DatosSalonCompleto salon={selectedSalon} isLoaded={isLoaded} />
+        {/* Pasamos las reseñas obtenidas de la API al componente */}
+        <ListasResenias
+          resenias={resenias} // 👈 Pasar 'resenias' como prop 'resenias'
+          renderizarEstrellas={renderizarEstrellas}
+        />
       </div>
     </div>
   );

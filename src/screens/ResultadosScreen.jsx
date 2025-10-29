@@ -1,121 +1,116 @@
-import React, { Fragment, useState, useMemo } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import Searchbar from "../Components/SearchBar/searchbar";
-import Sidebarfiltros from "../Components/Sidebarfiltros/Sidebarfiltros";
-import ListaResultados from "../Components/ListaResultados/ListaResultados";
-import salonesData from "../utils/Salones.json";
-import "../styles/ResultadosScreen.css";
-
-function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a =
-    Math.sin(dLat/2)**2 +
-    Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return R * c;
-}
+import React, { useState, useMemo } from 'react'; // 👈 Importar useMemo
+import { useSelector } from 'react-redux';
+import Searchbar from '../Components/SearchBar/searchbar';
+import Sidebarfiltros from '../Components/Sidebarfiltros/Sidebarfiltros';
+import ItemSalonDetallado from '../Components/Item-salon-detallado/ItemSalonDetallado';
+import '../styles/ResultadosScreen.css';
 
 const ResultadosScreen = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
- const { ubicacion, personas, lat, lng } = useMemo(() => {
-    const queryParams = new URLSearchParams(location.search);
+    const { resultadosSalones, status, error } = useSelector((state) => state.salones);
+    const [filtros, setFiltros] = useState({
+        precioMin: 0,
+        precioMax: Infinity, // Usamos Infinity para no limitar inicialmente
+        capacidadMin: 1,
+        equipamientos: [],
+        orden: 'cercania',
+    });
 
-    let u = queryParams.get("ubicacion") || "";
-    let p = parseInt(queryParams.get("personas")) || 1;
-    let la = parseFloat(queryParams.get("lat"));
-    let ln = parseFloat(queryParams.get("lng"));
+    const handleFiltrosChange = (nuevosFiltros) => {
+        setFiltros(nuevosFiltros);
+    };
 
-    if ((isNaN(la) || isNaN(ln)) && u.includes(",")) {
-      [la, ln] = u.split(",").map(parseFloat);
-    }
+    // 👈 Usamos useMemo para recalcular los salones filtrados solo cuando cambian los resultados o los filtros
+    const salonesFiltrados = useMemo(() => {
+        if (!resultadosSalones) return [];
 
-    return { ubicacion: u, personas: p, lat: la, lng: ln };
-  }, [location.search]);
-  const [filtros, setFiltros] = useState({
-    precioMin: "",
-    precioMax: "",
-    puntaje: "",
-    equipamiento: []
-  });
-  
+        let filtrados = [...resultadosSalones]; // Copiamos para no mutar el estado de Redux
 
-  const handleFilterChange = (nuevosFiltros) => {
-    setFiltros(nuevosFiltros);
-  };
-  const horaAminutos = (horaStr) => {
-  if (!horaStr || typeof horaStr !== "string" || !horaStr.includes(":")) {
-    return 0;
-  }
-  const [h, m] = horaStr.split(":").map(Number);
-  return (h || 0) * 60 + (m || 0);
-};
+        // Aplicar filtro de precio
+        filtrados = filtrados.filter(salon =>
+            salon.precio_por_hora >= filtros.precioMin && salon.precio_por_hora <= filtros.precioMax
+        );
 
-  const salonesCercanos = useMemo(() => {
-    if (isNaN(lat) || isNaN(lng)) return salonesData;
+        // Aplicar filtro de capacidad
+        filtrados = filtrados.filter(salon => salon.capacidad >= filtros.capacidadMin);
 
-   return salonesData.filter(s => {
-  if (!s.latitud || !s.longitud) return false;
-  const distancia = calcularDistanciaKm(lat, lng, s.latitud, s.longitud);
-  return distancia <= 5 && s.capacidad >= personas;
-});
-  }, [lat, lng, personas]);
+        // Aplicar filtro de equipamientos (si hay alguno seleccionado)
+        if (filtros.equipamientos.length > 0) {
+            filtrados = filtrados.filter(salon =>
+                filtros.equipamientos.every(eq => salon.equipamientos?.includes(eq))
+            );
+        }
 
-const salonesFiltradosFinal = useMemo(() => {
-  return salonesCercanos.filter(s => {
-    // Precio
-    if (filtros.precioMin && s.precio_por_hora < filtros.precioMin) return false;
-    if (filtros.precioMax && s.precio_por_hora > filtros.precioMax) return false;
+        // Aplicar ordenamiento
+        switch (filtros.orden) {
+            case 'precio_asc':
+                filtrados.sort((a, b) => a.precio_por_hora - b.precio_por_hora);
+                break;
+            case 'precio_desc':
+                filtrados.sort((a, b) => b.precio_por_hora - a.precio_por_hora);
+                break;
+            // 'cercania' es el orden por defecto de la API, no hacemos nada extra
+            case 'cercania':
+            default:
+                // La API ya los devuelve ordenados por distancia
+                break;
+            // case 'mejor_valorados': // A implementar a futuro
+            //   filtrados.sort((a, b) => (b.promedioResenias || 0) - (a.promedioResenias || 0));
+            //   break;
+        }
 
-    // Estrellas
-    if (filtros.puntaje && s.resenia < Number(filtros.puntaje)) return false;
+        return filtrados;
 
-    // Equipamiento
-    const equipamientosSalon = s.equipamientos || Object.keys(s.equipamientos_json || {}).filter(k => s.equipamientos_json[k]);
-if (filtros.equipamiento.length > 0 &&
-    !filtros.equipamiento.every(eq => equipamientosSalon.includes(eq))) return false;
+    }, [resultadosSalones, filtros]); // Dependencias del useMemo
 
-    // Horas (solo minutos)
-    const inicioSalon = horaAminutos(s.disponibilidad_inicio);
-    const finSalon = horaAminutos(s.disponibilidad_fin);
+    // ... (El resto del componente, incluyendo renderResultados, se mantiene igual,
+    //      pero ahora usará la variable `salonesFiltrados` que ya está procesada)
 
-    if (filtros.inicio) {
-      const inicioFiltro = horaAminutos(filtros.inicio);
-      if (inicioFiltro < inicioSalon) return false;
-    }
+    const renderResultados = () => {
+      // ... (código existente, usando salonesFiltrados) ...
+       if (status === 'loading') {
+            return <p className="status-message">Buscando los mejores salones para ti...</p>;
+        }
+        if (status === 'failed') {
+            return <p className="status-message error">Hubo un error en la búsqueda: {error}</p>;
+        }
+        // Ahora verificamos salonesFiltrados después de aplicar los filtros locales
+        if (status === 'succeeded' && salonesFiltrados.length === 0) {
+            // Distinguimos si no hubo resultados iniciales o si los filtros los eliminaron todos
+            if (resultadosSalones.length === 0) {
+              return <p className="status-message">No se encontraron salones con esos criterios iniciales. ¡Intenta ampliar tu búsqueda!</p>;
+            } else {
+              return <p className="status-message">No hay salones que coincidan con los filtros aplicados.</p>;
+            }
+        }
+        return (
+            <div className='resultados_lista'>
+                {salonesFiltrados.map((salon) => (
+                    <ItemSalonDetallado key={salon.id_salon} salon={salon} />
+                ))}
+            </div>
+        );
+    };
 
-    if (filtros.fin) {
-      const finFiltro = horaAminutos(filtros.fin);
-      if (finFiltro > finSalon) return false;
-    }
- // Fecha
-    if (filtros.fecha) {
-      const fechaFiltro = new Date(filtros.fecha);
-      if (s.fecha) {
-        const fechaSalon = new Date(s.fecha);
-        if (fechaFiltro < fechaSalon || fechaFiltro > fechaSalon) return false;
-      }
-    }
 
-    return true;
-  });
-}, [salonesCercanos, filtros]);
-
-  return (
-    <Fragment>
-      <div className="resultados_principal">
-        <div className="div_sidebarfiltros">
-          <Sidebarfiltros onFilterChange={handleFilterChange} />
+    return (
+        <div className='pagina-resultados'>
+            <aside className='resultados-sidebar'>
+                <Sidebarfiltros onFiltrosChange={handleFiltrosChange} />
+            </aside>
+            <main className='resultados-main'>
+                <div className='resultados-searchbar-wrapper'>
+                    <Searchbar />
+                </div>
+                <div className='resultados-header'>
+                    <p className='resultados-contador'>
+                         {/* Mostramos el conteo de los salones YA filtrados */}
+                        {status === 'succeeded' && `${salonesFiltrados.length} salones encontrados`}
+                    </p>
+                </div>
+                {renderResultados()}
+            </main>
         </div>
-        <div className="div_contenido">
-          <Searchbar key={`${ubicacion}-${personas}`} ubicacionInicial={ubicacion} personasInicial={personas.toString()} />
-          <ListaResultados salones={salonesFiltradosFinal} />
-        </div>
-      </div>
-    </Fragment>
-  );
-};
+    );
+}
 
 export default ResultadosScreen;
