@@ -11,63 +11,70 @@ const formatDisplayMonth = (yyyyMm) => {
 const PanelIngresos = ({ transacciones, reservas, salones, usuarios, selectedMonth }) => { 
   const [selectedTransaccion, setSelectedTransaccion] = useState(null); 
 
+  const transaccionesAprobadas = useMemo(() => {
+    if (!transacciones) return [];
+    return transacciones.filter(t => t.estado_transaccion === 'aprobado');
+  }, [transacciones]); 
+
   useEffect(() => { 
-    // Deselect if the current transaction is not in the new list
-    if (selectedTransaccion && !transacciones.find(t => t.id_transaccion === selectedTransaccion.id_transaccion)) { 
+    if (selectedTransaccion && !transaccionesAprobadas.find(t => t.id_transaccion === selectedTransaccion.id_transaccion)) { 
         setSelectedTransaccion(null); 
     }
-  }, [transacciones, selectedTransaccion]); 
+  }, [transaccionesAprobadas, selectedTransaccion]); 
 
-  // Helper function to format currency
   const formatCurrency = (number) => { 
     return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(number); 
   };
 
-  // Calculate details for the selected transaction using useMemo
+  // --- LÓGICA CORREGIDA AQUÍ ---
   const ingresoDetails = useMemo(() => { 
     if (!selectedTransaccion) return null; 
 
-    console.log("RESERVA",selectedTransaccion.reserva);
+    // 1. Obtenemos los IDs directamente de 'detalles_pago' (según tu JSON de backend)
+    const idSalonAsociado = selectedTransaccion.detalles_pago?.id_salon;
+    const idClienteAsociado = selectedTransaccion.detalles_pago?.id_arrendatario;
+
+    // 2. Verificamos que existan
+    if (!idSalonAsociado) {
+      return { error: `La transacción ${selectedTransaccion.id_transaccion} no tiene un id_salon en detalles_pago.` };
+    }
+    if (!idClienteAsociado) {
+      return { error: `La transacción ${selectedTransaccion.id_transaccion} no tiene un id_arrendatario en detalles_pago.` };
+    }
+
+    // 3. Buscamos el salón en la lista completa de 'salones' (la prop)
+    const salon = salones.find(s => s.id_salon === idSalonAsociado);
+    if (!salon) return { error: `No se encontró el salón con ID ${idSalonAsociado}` }; 
     
-    // Find the associated reservation
-    const reserva = selectedTransaccion.reserva
-    console.log(reserva);
+    // 4. Buscamos al cliente en la lista completa de 'usuarios' (la prop)
+    const cliente = usuarios.find(u => u.id_usuario === idClienteAsociado);
+    if (!cliente) return { error: `No se encontró el cliente con ID ${idClienteAsociado}` };
     
-    if (!reserva) return { error: `No se encontró la reserva con ID ${selectedTransaccion.reserva.id_reserva}` }; 
-    // Find the associated salon
-    const salon = reserva.salon // 
-    if (!salon) return { error: `No se encontró el salón con ID ${reserva.id_salon}` }; // 
-    // Find the client (renter)
-    const cliente = reserva.arrendatario; // 
-    // Find the vendor (publisher)
-    const vendedor = salon.publicador; // 
-    return { // 
-      // Format vendor name or show 'No encontrado'
-      vendedor: vendedor ? `${vendedor.nombre} ${vendedor.apellido}` : 'No encontrado', // 
-      // Format client name or show 'No encontrado'
-      cliente: cliente ? `${cliente.nombre} ${cliente.apellido}` : 'No encontrado', // 
-      // Get salon name
-      salon: salon.nombre, // 
-      // Calculate platform's earning (10%)
-      montoPropio: selectedTransaccion.monto_pagado * 0.10, // 
+    // 5. Buscamos al vendedor (publicador) usando el salón que encontramos
+    const vendedor = usuarios.find(u => u.id_usuario === salon.publicador.id_usuario);
+    if (!vendedor) return { error: `No se encontró el vendedor (publicador) con ID ${salon.publicador.id_usuario}`};
+    
+    return { 
+      vendedor: `${vendedor.nombre} ${vendedor.apellido}`, 
+      cliente: `${cliente.nombre} ${cliente.apellido}`, 
+      salon: salon.nombre, 
+      montoPropio: selectedTransaccion.monto_pagado * 0.10, 
     };
-  }, [selectedTransaccion, reservas, salones, usuarios]); 
+  }, [selectedTransaccion, salones, usuarios]); // Ya no dependemos de 'reservas'
 
   return (
     <div className="admin-panel"> 
       <h2 className="panel-title">Ingresos ({formatDisplayMonth(selectedMonth)})</h2> 
-      <SearchbarAdmin // 
-        items={transacciones} // 
-        onSelect={setSelectedTransaccion} // 
-        placeholder="Buscar por ID de transacción..." // 
-        displayKey="id_transaccion" // 
+      <SearchbarAdmin
+        items={transaccionesAprobadas} 
+        onSelect={setSelectedTransaccion} 
+        placeholder="Buscar por ID de transacción..." 
+        displayKey="id_transaccion" 
       />
 
-      {/* Display transaction details if available and one is selected */}
-      {transacciones.length > 0 && selectedTransaccion && ( // 
+      {transaccionesAprobadas.length > 0 && selectedTransaccion && ( 
         <div className="details-container"> 
-          {/* Show error if related data wasn't found */}
-          {ingresoDetails.error ? <p style={{color: 'red'}}>{ingresoDetails.error}</p> : // 
+          {ingresoDetails.error ? <p style={{color: 'red'}}>{ingresoDetails.error}</p> : 
             <> 
               <div className="detail-item"><strong>ID Transacción</strong><span>{selectedTransaccion.id_transaccion}</span></div> 
               <div className="detail-item"><strong>Vendedor</strong><span>{ingresoDetails.vendedor}</span></div> 
@@ -82,12 +89,12 @@ const PanelIngresos = ({ transacciones, reservas, salones, usuarios, selectedMon
         </div>
       )}
 
-      {/* Message when no transactions are found */}
-      {transacciones.length === 0 && ( // 
-        <p>No se encontraron transacciones para el mes seleccionado.</p> // 
+      {transaccionesAprobadas.length === 0 && ( 
+        <p>No se encontraron ingresos (transacciones aprobadas) para el mes seleccionado.</p> 
       )}
     </div>
   );
 };
 
 export default PanelIngresos;
+
