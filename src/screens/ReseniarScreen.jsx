@@ -124,11 +124,14 @@ const formatearFecha = (fecha) => {
     return <p>Error al cargar los datos.</p>;
   }
 
+  console.log(selectedSalon);
+  
+
   // -----------------------------
 
   return (
     <div className="reseniar-container">
-      <img src={selectedSalon.fotos > 0 ? selectedSalon.fotos[0] : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} alt={selectedSalon.nombre} className="reseniar-imagen" />
+      <img src={selectedSalon.fotos.length > 0 ? selectedSalon.fotos[0] : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} alt={selectedSalon.nombre} className="reseniar-imagen" />
       <h2 className="reseniar-nombre">{selectedSalon.nombre}</h2>
 
       <div className="reseniar-info-reserva">

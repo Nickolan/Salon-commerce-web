@@ -62,15 +62,15 @@ export const cancelarReserva = createAsyncThunk(
       if (!token) {
         return rejectWithValue('Usuario no autenticado.');
       }
-      
+
       const config = { headers: { Authorization: `Bearer ${token}` } };
       const payload = { id_reserva, motivo };
 
       // Llamamos al endpoint de CANCELACIONES, no de reservas
       const response = await axios.post(CANCELACIONES_API_URL, payload, config);
-      
+
       // Devolvemos la reserva actualizada (que viene dentro del objeto cancelación)
-      return response.data.reserva; 
+      return response.data.reserva;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Error al cancelar la reserva.');
     }
@@ -82,23 +82,23 @@ export const generarLinkDePago = createAsyncThunk(
   async (datosParaPago, { getState, rejectWithValue }) => {
     // datosParaPago = { id_salon, fecha_reserva, hora_inicio, hora_fin, metodoPago, id_arrendatario, total }
     try {
-      console.log("Datos para pago: ",datosParaPago);
-      
+      console.log("Datos para pago: ", datosParaPago);
+
       const { auth } = getState();
       const token = auth.token;
       if (!token) {
         return rejectWithValue('Usuario no autenticado.');
       }
-      
+
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      
+
       // Llamamos a un NUEVO endpoint del backend que crearemos
       // Nota: No llamamos a /api/reservas, sino a un endpoint de pago
       const response = await axios.post('http://localhost:3000/pagos/crear-checkout', // <-- NUEVO ENDPOINT
-        datosParaPago, 
+        datosParaPago,
         config
       );
-      
+
       // El backend nos devolverá la URL de pago de MercadoPago/Coinbase
       return response.data; // Ej: { urlPago: "https://..." }
     } catch (error) {
@@ -114,7 +114,7 @@ export const fetchAvailableSlots = createAsyncThunk(
     try {
       const response = await axios.get(`${FRANJAS_API_URL}/disponibles/${id_salon}`);
       // Convertimos las fechas string a objetos Date para el calendario
-      
+
       return response.data.map(slot => ({
         ...slot,
         start: new Date(slot.start),
@@ -129,7 +129,7 @@ export const fetchAvailableSlots = createAsyncThunk(
 // Thunk para crear una reserva
 export const createReserva = createAsyncThunk(
   'reservas/createReserva',
-  async ({ id_salon, fecha_reserva, hora_inicio, hora_fin, id_arrendatario }, { getState, rejectWithValue }) => {
+  async ({ id_salon, fecha_reserva, hora_inicio, hora_fin, id_arrendatario, totalPagarCrypto, selectedCryptoCode }, { getState, rejectWithValue }) => {
     try {
       const { auth } = getState();
       const token = auth.token;
@@ -147,8 +147,31 @@ export const createReserva = createAsyncThunk(
       };
 
       console.log(payload);
-      
+
       const response = await axios.post(API_URL, payload, config);
+
+      console.log("Reserva creada");
+
+      console.log(response.data);
+
+      const reserva = response.data
+
+      // Crear transaccion completa
+      const transaccionDTO = {
+        id_reserva: reserva.id_reserva,
+        monto_pagado: totalPagarCrypto,
+        metodo_pago: selectedCryptoCode,
+        estado_transaccion: reserva.estado_reserva == "creada" ? "aprobado" : "rechazado"
+      }
+
+      console.log(transaccionDTO);
+
+      console.log("Creando transaccion");
+
+      await axios.post(API_URL_TRANSACCIONES, transaccionDTO )
+
+      console.log("transaccion creada");
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Error al crear la reserva.');
@@ -229,6 +252,29 @@ export const updateReservaStatus = createAsyncThunk(
   }
 );
 
+export const confirmarRechazarReserva = createAsyncThunk(
+  'reservas/confirmarRechazarReserva',
+  async ({ idReserva, nuevoEstado }, { getState, rejectWithValue }) => {
+    try {
+      const { auth } = getState();
+      const token = auth.token;
+      if (!token) {
+        return rejectWithValue('Usuario no autenticado.');
+      }
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const payload = { estado_reserva: nuevoEstado };
+
+      // Llamada al nuevo endpoint del backend
+      const response = await axios.patch(`${API_URL}/${idReserva}/decision-propietario`, payload, config); // Usa PATCH
+
+      return response.data; // Devuelve la reserva actualizada por el backend
+    } catch (error) {
+      console.error("Error al actualizar estado (thunk):", error.response?.data);
+      return rejectWithValue(error.response?.data?.message || `Error al ${nuevoEstado === 'confirmada' ? 'confirmar' : 'rechazar'} la reserva.`);
+    }
+  }
+);
+
 
 const initialState = {
   availableSlots: [],
@@ -240,7 +286,7 @@ const initialState = {
   misReservasStatus: 'idle',
   selectedReservaStatus: 'idle',
   error: null,
-  reservasRecibidas: [], 
+  reservasRecibidas: [],
   reservasRecibidasStatus: 'idle',
   pagoStatus: 'idle', // <-- NUEVO: Estado para el link de pago
   pagoError: null,
@@ -265,18 +311,18 @@ const reservasSlice = createSlice({
       state.selectedSlots = [];
     },
     resetReservaStatus: (state) => { // Ensure this resets update status too
-       state.reservaStatus = 'idle';
-       state.pagoStatus = 'idle';
-       state.updateStatus = 'idle'; // Reset update status
-       state.error = null;
-       state.pagoError = null;
-       state.updateError = null; // Reset update error
-     },
-     clearSelectedReserva: (state) => { // Ensure this resets update status too
-        state.selectedReserva = null;
-        state.selectedReservaStatus = 'idle';
-        state.updateStatus = 'idle'; // Reset on clearing
-        state.updateError = null;
+      state.reservaStatus = 'idle';
+      state.pagoStatus = 'idle';
+      state.updateStatus = 'idle'; // Reset update status
+      state.error = null;
+      state.pagoError = null;
+      state.updateError = null; // Reset update error
+    },
+    clearSelectedReserva: (state) => { // Ensure this resets update status too
+      state.selectedReserva = null;
+      state.selectedReservaStatus = 'idle';
+      state.updateStatus = 'idle'; // Reset on clearing
+      state.updateError = null;
     },
   },
   extraReducers: (builder) => {
@@ -423,12 +469,33 @@ const reservasSlice = createSlice({
         // Update in reservasRecibidas list if present
         const indexRec = state.reservasRecibidas.findIndex(r => r.id_reserva === updatedReserva.id_reserva);
         if (indexRec !== -1) {
-            state.reservasRecibidas[indexRec] = updatedReserva;
+          state.reservasRecibidas[indexRec] = updatedReserva;
         }
       })
       .addCase(updateReservaStatus.rejected, (state, action) => {
         state.updateStatus = 'failed';
         state.updateError = action.payload;
+      })
+      .addCase(confirmarRechazarReserva.pending, (state) => {
+        // Opcional: podrías usar un estado específico como 'updatingStatus'
+        state.reservasRecibidasStatus = 'loading'; // Reutilizamos el status
+        state.error = null;
+      })
+      .addCase(confirmarRechazarReserva.fulfilled, (state, action) => {
+        state.reservasRecibidasStatus = 'succeeded';
+        const reservaActualizada = action.payload;
+        // Buscar y reemplazar en la lista de reservas recibidas
+        const index = state.reservasRecibidas.findIndex(
+          (r) => r.id_reserva === reservaActualizada.id_reserva
+        );
+        if (index !== -1) {
+          state.reservasRecibidas[index] = reservaActualizada;
+        }
+        state.error = null;
+      })
+      .addCase(confirmarRechazarReserva.rejected, (state, action) => {
+        state.reservasRecibidasStatus = 'failed';
+        state.error = action.payload; // Guardamos el error específico
       });
   },
 });

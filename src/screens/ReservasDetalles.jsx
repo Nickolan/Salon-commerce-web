@@ -20,6 +20,9 @@ const ReservasDetalles = () => {
     const { selectedReserva, selectedReservaStatus, error, updateStatus, updateError } = useSelector((state) => state.reservas);
     const { isAuthenticated, user } = useSelector((state) => state.auth);
 
+    const soyPublicador = user.id_usuario === selectedReserva?.salon?.publicador?.id_usuario;
+    const soyArrendatario = user.id_usuario === selectedReserva?.arrendatario?.id_usuario;
+
     // Efecto para cargar los datos y limpiar al salir
     useEffect(() => {
         if (!isAuthenticated) {
@@ -134,7 +137,7 @@ const ReservasDetalles = () => {
         
         
 
-        return esPublicador && estadoCorrecto && tiempoPasado;
+        return esPublicador && estadoCorrecto && !tiempoPasado;
     }, [selectedReserva, user]);
 
     // Renderizado condicional principal
@@ -191,12 +194,12 @@ const ReservasDetalles = () => {
                 )}
 
                 {/* Aquí podrías añadir detalles del pago si los tienes */}
-                {/* <section className="detalle-seccion pago-info">
+                <section className="detalle-seccion pago-info">
                     <h2>Detalles del Pago</h2>
                     <p><FiDollarSign className="icono"/> Monto: ${selectedReserva.transacciones?.[0]?.monto_pagado || 'N/A'}</p>
                     <p>Método: {selectedReserva.transacciones?.[0]?.metodo_pago || 'N/A'}</p>
                     <p>Estado: {selectedReserva.transacciones?.[0]?.estado_transaccion || 'N/A'}</p>
-                </section> */}
+                </section>
 
                 {/* Acciones posibles */}
                 <section className="detalle-seccion acciones-reserva">
@@ -206,7 +209,7 @@ const ReservasDetalles = () => {
                             Cancelar Reserva
                         </button>
                     )}
-                    {estado_reserva === 'completada' && !selectedReserva.resenia && (
+                    {soyArrendatario && estado_reserva === 'completada' && !selectedReserva.resenia && (
                         <button className="btn-accion resenia">Dejar Reseña</button>
                     )}
                     {estado_reserva === 'cancelada' && selectedReserva.cancelacion && (

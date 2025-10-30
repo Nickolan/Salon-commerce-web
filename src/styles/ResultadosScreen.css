@@ -1,28 +1,35 @@
-/* Contenedor principal de la página con dos columnas */
+/* src/styles/ResultadosScreen.css */
+
+/* --- Layout Principal --- */
 .pagina-resultados {
     display: flex;
     width: 100%;
-    max-width: 1400px; /* Ancho máximo para el contenido */
+    max-width: 1400px;
     margin: 0 auto;
 }
 
-/* Columna izquierda para los filtros */
+/* --- Sidebar (Filtros) --- */
 .resultados-sidebar {
-    width: 280px; /* Ancho fijo para la barra de filtros */
-    flex-shrink: 0; /* Evita que la barra se encoja */
+    width: 280px;
+    flex-shrink: 0;
     padding: 2rem 1.5rem;
     border-right: 1px solid #e0e0e0;
-    position: sticky; /* Fija la barra lateral al hacer scroll */
-    top: 80px;
-    height: calc(100vh - 80px); /* Ocupa toda la altura visible */
-    overflow-y: auto; /* Permite scroll si los filtros son muchos */
+    background-color: #fff; /* Fondo blanco para que se vea bien en off-canvas */
+    /* --- Estilos Sticky para Escritorio --- */
+    position: sticky;
+    top: 80px; /* Alinear debajo del Navbar */
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    /* --- Transición para Off-canvas --- */
+    transition: transform 0.3s ease-in-out;
+    z-index: 1100; /* Asegura que esté sobre el contenido pero debajo del backdrop */
 }
 
-/* Columna derecha para el contenido principal */
+/* --- Contenido Principal --- */
 .resultados-main {
-    flex-grow: 1; /* Ocupa el resto del espacio disponible */
+    flex-grow: 1;
     padding: 2rem;
-    min-width: 0; /* Importante para que Flexbox funcione correctamente */
+    min-width: 0;
 }
 
 .resultados-searchbar-wrapper {
@@ -30,6 +37,9 @@
 }
 
 .resultados-header {
+    display: flex; /* Para alinear botón y contador */
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 1.5rem;
 }
 
@@ -37,15 +47,52 @@
     font-size: 1.1rem;
     font-weight: 500;
     color: #333;
+    margin: 0; /* Quitar margen por defecto */
 }
 
 .resultados_lista {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Espacio entre cada item de salón */
+    gap: 1.5rem;
 }
 
-/* Estilos para los mensajes de estado */
+/* --- Botón para abrir filtros (Solo visible en móvil) --- */
+.filtros-toggle-btn {
+    display: none; /* Oculto por defecto en escritorio */
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: inline-flex; /* Cambiado para que funcione con flex en header */
+    align-items: center;
+    gap: 0.5rem;
+}
+.filtros-toggle-btn svg {
+    font-size: 1.1rem;
+}
+
+
+/* --- Backdrop (Fondo semitransparente detrás del sidebar abierto) --- */
+.filtros-backdrop {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1050; /* Debe estar debajo del sidebar pero sobre el contenido */
+}
+.filtros-backdrop.open {
+    display: block; /* Mostrar cuando el sidebar está abierto */
+}
+
+
+/* --- Mensajes de estado (sin cambios) --- */
 .status-message {
     padding: 3rem 1rem;
     text-align: center;
@@ -54,7 +101,6 @@
     background-color: #f7f7f7;
     border-radius: 12px;
 }
-
 .status-message.error {
     color: #d8000c;
     background-color: #ffd2d2;
@@ -62,13 +108,52 @@
 
 /* --- Media Queries para Responsividad --- */
 @media (max-width: 992px) {
+    .pagina-resultados {
+        padding-top: 60px; /* Ajustar si el navbar cambia en tabletas */
+    }
+
     .resultados-sidebar {
-        /* En pantallas medianas, ocultamos la barra lateral */
-        /* A futuro, aquí se podría implementar un botón para mostrarla como un menú flotante */
-        display: none; 
+        /* --- Estilos Off-Canvas --- */
+        position: fixed; /* Cambia a fijo para superponerse */
+        left: 0;
+        top: 0; /* Desde la parte superior de la ventana */
+        height: 100vh; /* Altura completa */
+        border-right: 1px solid #ccc; /* Borde visible */
+        box-shadow: 4px 0px 15px rgba(0,0,0,0.1); /* Sombra para destacar */
+        transform: translateX(-100%); /* Oculto fuera de la pantalla a la izquierda */
+    }
+
+    .resultados-sidebar.open {
+        transform: translateX(0%); /* Visible al aplicar la clase 'open' */
     }
 
     .resultados-main {
         padding: 1.5rem;
     }
+
+    /* Mostrar el botón de filtros */
+    .filtros-toggle-btn {
+        display: inline-flex; /* Asegura que se muestre */
+    }
+
+    .resultados-header {
+        /* Aseguramos espacio para el botón */
+        flex-wrap: wrap; /* Permitir que el contador baje si no cabe */
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) { /* Móviles más pequeños */
+     .resultados-sidebar {
+         width: 80%; /* Hacer el sidebar un poco más ancho en móviles */
+     }
+     .resultados-main {
+         padding: 1rem;
+     }
+     .filtros-toggle-btn span {
+         display: none; /* Ocultar texto del botón, dejar solo icono */
+     }
+     .filtros-toggle-btn {
+         padding: 0.6rem; /* Ajustar padding para botón de icono */
+     }
 }

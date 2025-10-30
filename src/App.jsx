@@ -13,7 +13,7 @@ import Footer from './components/Footer/Footer';
 import RegistroScreen from "./screens/RegistroScreen";
 import NuevoSalonScreen from './screens/NuevoSalonScreen';
 import TerminosYCondicionesScreen from './screens/TerminosYCondicionesScreen';
-import Reservacionesrec from './Components/reservaciones_recibidas/reservacionesrec';
+import Reservacionesrec from './Components/reservaciones_recibidas/Reservacionesrec';
 import ResultadosScreen from './screens/ResultadosScreen';
 import DetallesSalon from './screens/DetallesSalon';
 import MisReservas from './screens/MisReservas';

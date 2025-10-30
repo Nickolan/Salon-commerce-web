@@ -26,6 +26,8 @@ const ItemReserva = ({ reserva }) => {
         return { icon: <FiCheckCircle />, className: 'estado-confirmada', texto: 'Confirmada' };
       case 'cancelada':
         return { icon: <FiXCircle />, className: 'estado-cancelada', texto: 'Cancelada' };
+      case 'rechazada':
+        return { icon: <FiXCircle />, className: 'estado-cancelada', texto: 'Rechazada' };
       case 'completada':
         return { icon: <FiCheckCircle />, className: 'estado-completada', texto: 'Completada' };
       case 'creada':

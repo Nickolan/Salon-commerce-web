@@ -18,9 +18,11 @@
 /* Colores de borde según estado */
 .item-reserva.estado-confirmada { border-left-color: #28a745; }
 .item-reserva.estado-cancelada { border-left-color: #dc3545; }
+.item-reserva.estado-rechazada { border-left-color: #dc3545; }
 .item-reserva.estado-completada { border-left-color: #17a2b8; }
 .item-reserva.estado-creada,
 .item-reserva.estado-pendiente { border-left-color: #ffc107; }
+
 
 /* Contenedor de la imagen */
 .reserva-imagen-wrapper {
