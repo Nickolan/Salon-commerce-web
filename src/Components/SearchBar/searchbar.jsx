@@ -49,7 +49,7 @@ const Searchbar = () => {
           className="search-input location"
         />
       </div>
-      <div className="search-input-wrapper capacity">
+      {/* <div className="search-input-wrapper capacity">
         <input
           type="number"
           value={capacidad}
@@ -58,7 +58,7 @@ const Searchbar = () => {
           className="search-input"
         />
         <span>personas</span>
-      </div>
+      </div> */}
       <button className="search-button" onClick={handleSearch}>
         <FaSearch />
         <span>Buscar</span>

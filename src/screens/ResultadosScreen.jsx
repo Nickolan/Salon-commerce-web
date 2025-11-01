@@ -1,13 +1,13 @@
 // src/screens/ResultadosScreen.jsx
-import React, { useState, useMemo, useEffect } from 'react'; // <-- Import useEffect
+import React, { useState, useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Searchbar from '../Components/SearchBar/searchbar';
 import Sidebarfiltros from '../Components/Sidebarfiltros/Sidebarfiltros';
 import ItemSalonDetallado from '../Components/Item-salon-detallado/ItemSalonDetallado';
 import '../styles/ResultadosScreen.css';
-import { FiFilter, FiX } from "react-icons/fi"; // <-- Importar iconos para el botón
+import { FiFilter, FiX } from "react-icons/fi";
 
-const ResultadosScreen = ({ isLoaded }) => { // <-- Asegúrate de recibir isLoaded si Searchbar lo necesita
+const ResultadosScreen = ({ isLoaded }) => {
     const { resultadosSalones, status, error } = useSelector((state) => state.salones);
     const [filtros, setFiltros] = useState({
         precioMin: 0,
@@ -16,21 +16,24 @@ const ResultadosScreen = ({ isLoaded }) => { // <-- Asegúrate de recibir isLoad
         equipamientos: [],
         orden: 'cercania',
     });
-
-    // --- 👇 ESTADO PARA CONTROLAR EL SIDEBAR MÓVIL ---
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-    // --------------------------------------------------
 
+    // --- 👇 1. MODIFICAMOS ESTA FUNCIÓN ---
+    // Esta función ahora SOLO actualiza el estado de los filtros.
+    // Ya no cierra el sidebar.
     const handleFiltrosChange = (nuevosFiltros) => {
         setFiltros(nuevosFiltros);
-        // Opcional: Cerrar el sidebar en móvil al aplicar filtros
-        if (window.innerWidth <= 992) {
-             setIsFiltersOpen(false);
-        }
+        // La línea que cerraba el sidebar (setIsFiltersOpen(false)) SE ELIMINA de aquí.
     };
 
+    // --- 👇 2. CREAMOS UNA NUEVA FUNCIÓN PARA CERRAR EL SIDEBAR ---
+    // Esta función se pasará al botón "Aplicar" dentro del sidebar.
+    const handleAplicarYcerrar = () => {
+        setIsFiltersOpen(false);
+    };
+    
+    // (useMemo de salonesFiltrados sin cambios)
     const salonesFiltrados = useMemo(() => {
-        // ... (lógica de filtrado sin cambios) ...
         if (!resultadosSalones) return [];
         let filtrados = [...resultadosSalones];
         filtrados = filtrados.filter(salon =>
@@ -56,24 +59,21 @@ const ResultadosScreen = ({ isLoaded }) => { // <-- Asegúrate de recibir isLoad
         return filtrados;
     }, [resultadosSalones, filtros]);
 
-    // --- 👇 EFECTO PARA BLOQUEAR SCROLL CUANDO EL SIDEBAR ESTÁ ABIERTO ---
+    // (useEffect de bloquear scroll sin cambios)
     useEffect(() => {
         if (isFiltersOpen && window.innerWidth <= 992) {
-            document.body.style.overflow = 'hidden'; // Bloquear scroll del body
+            document.body.style.overflow = 'hidden';
         } else {
-            document.body.style.overflow = ''; // Restaurar scroll
+            document.body.style.overflow = '';
         }
-        // Limpieza al desmontar
         return () => {
              document.body.style.overflow = '';
         };
     }, [isFiltersOpen]);
-    // -----------------------------------------------------------------
 
-
+    // (renderResultados sin cambios)
     const renderResultados = () => {
-        // ... (lógica de renderizado sin cambios) ...
-        if (status === 'loading') {
+       if (status === 'loading') {
             return <p className="status-message">Buscando los mejores salones para ti...</p>;
         }
         if (status === 'failed') {
@@ -95,35 +95,29 @@ const ResultadosScreen = ({ isLoaded }) => { // <-- Asegúrate de recibir isLoad
         );
     };
 
-
     return (
-        // Añadimos una clase al contenedor principal cuando el sidebar está abierto
-        // para posibles estilos globales (aunque no es estrictamente necesario aquí)
         <div className={`pagina-resultados ${isFiltersOpen ? 'filters-open' : ''}`}>
-
-            {/* --- 👇 SIDEBAR CON CLASE CONDICIONAL --- */}
             <aside className={`resultados-sidebar ${isFiltersOpen ? 'open' : ''}`}>
-                <Sidebarfiltros onFiltrosChange={handleFiltrosChange} />
+                {/* --- 👇 3. PASAMOS LA NUEVA PROP onAplicar --- */}
+                <Sidebarfiltros 
+                    onFiltrosChange={handleFiltrosChange} 
+                    onAplicar={handleAplicarYcerrar} 
+                />
             </aside>
-            {/* -------------------------------------- */}
 
-            {/* --- 👇 BACKDROP CONDICIONAL --- */}
             {isFiltersOpen && (
                 <div
                     className="filtros-backdrop open"
-                    onClick={() => setIsFiltersOpen(false)} // Cerrar al hacer clic fuera
+                    onClick={() => setIsFiltersOpen(false)}
                 ></div>
             )}
-            {/* ----------------------------- */}
-
 
             <main className='resultados-main'>
+                {/* ... (resto del JSX sin cambios) ... */}
                 <div className='resultados-searchbar-wrapper'>
-                    {/* Renderiza Searchbar solo si isLoaded es true, si es necesario */}
                      { isLoaded !== false && <Searchbar /> }
                 </div>
                 <div className='resultados-header'>
-                     {/* --- 👇 BOTÓN PARA ABRIR/CERRAR FILTROS --- */}
                      <button
                         className="filtros-toggle-btn"
                         onClick={() => setIsFiltersOpen(!isFiltersOpen)}
@@ -131,8 +125,6 @@ const ResultadosScreen = ({ isLoaded }) => { // <-- Asegúrate de recibir isLoad
                         {isFiltersOpen ? <FiX /> : <FiFilter />}
                         <span>{isFiltersOpen ? 'Cerrar' : 'Filtros'}</span>
                     </button>
-                    {/* ----------------------------------------- */}
-
                     <p className='resultados-contador'>
                         {status === 'succeeded' && `${salonesFiltrados.length} salones encontrados`}
                     </p>

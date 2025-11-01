@@ -44,6 +44,23 @@
   color: #888;
 }
 
+.precio-inputs input {
+  /* flex: 1; le dice a ambos inputs que compartan el 
+    espacio disponible por igual.
+  */
+  flex: 1;
+  
+  /* width: auto; (o width: 0;) permite que 'flex: 1' 
+    controle el tamaño en lugar del 'width: 100%'.
+  */
+  width: auto;
+  
+  /* Un ancho mínimo para que no se colapsen si el 
+    espacio es muy pequeño.
+  */
+  min-width: 60px; 
+}
+
 .equipamientos-checkboxes {
   max-height: 200px; /* Limita la altura si hay muchos equipamientos */
   overflow-y: auto; /* Permite scroll */

@@ -67,7 +67,6 @@
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: bold;
-    display: inline-flex; /* Cambiado para que funcione con flex en header */
     align-items: center;
     gap: 0.5rem;
 }
