@@ -8,8 +8,7 @@ import Navbar from './Components/Navbar';
 import LoginScreen from './screens/LoginScreen';
 import MisSalonesScreen from './screens/MisSalonesScreen'
 import salonesData from './utils/Salones.json'
-//import Footer from './Components/Footer/Footer';
-import Footer from './Components/Footer/Footer.jsx'
+import Footer from './Components/Footer2/Footer'
 
 import RegistroScreen from "./screens/RegistroScreen";
 import NuevoSalonScreen from './screens/NuevoSalonScreen';
