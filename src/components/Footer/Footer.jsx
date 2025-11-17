@@ -9,33 +9,37 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer fixed-on-bottom">
+    <div className="footer fixed-on-bottom">
       <div className="footer-container">
         <div className="footer-links">
           {/* Es mejor usar rutas relativas o completas en lugar de '#' */}
-          <a href="/contacto">Contáctanos</a>
-          <a href="/politica-de-privacidad">Política de Privacidad</a>
+          <Link to={"/contacto"}>Contáctanos</Link>
+          <Link to={"/politica-de-privacidad"}>Política de Privacidad</Link>
           <Link to={"/terminos&condiciones"}>
             <span>Terminos y Condiciones</span>
           </Link>
         </div>
+
+        {
+          currentYear && <p className="copyright">© {currentYear} Focus Room. Todos los derechos reservados.</p>
+        }
         
-        <p className="copyright">© {currentYear} Focus Room. Todos los derechos reservados.</p>
+        
         
         <div className="social-buttons">
           {/* Reemplaza con las URLs reales de tus perfiles */}
-          <a href="https://twitter.com/tu-usuario" target="_blank" rel="noopener noreferrer" className="social-btn twitter" aria-label="Twitter">
+          <Link to={"https://twitter.com/tu-usuario"} target="_blank"className="social-btn twitter">
             <FaTwitter />
-          </a>
-          <a href="https://facebook.com/tu-pagina" target="_blank" rel="noopener noreferrer" className="social-btn facebook" aria-label="Facebook">
+          </Link>
+          <Link to={"https://facebook.com/tu-pagina"} target="_blank"className="social-btn facebook" >
             <FaFacebookF />
-          </a>
-          <a href="https://instagram.com/tu-usuario" target="_blank" rel="noopener noreferrer" className="social-btn instagram" aria-label="Instagram">
+          </Link>
+          <Link to={"https://instagram.com/tu-usuario"} target="_blank"className="social-btn instagram">
             <FaInstagram />
-          </a>
+          </Link>
         </div>
       </div>
-    </footer>
+    </div>
   );
 };
 
