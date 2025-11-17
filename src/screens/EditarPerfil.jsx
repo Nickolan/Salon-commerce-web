@@ -8,7 +8,7 @@ import { StandaloneSearchBox } from "@react-google-maps/api";
 import "../styles/EditarPerfil.css"; // Asegúrate que la ruta sea correcta
 import { LiaEditSolid } from "react-icons/lia";
 import { IoSaveOutline } from "react-icons/io5";
-import Sidebar from '../components/Sidebar/Sidebar'; // Asegúrate que la ruta sea correcta
+import Sidebar from '../Components/Sidebar/Sidebar';
 import { FaCamera, FaMapMarkerAlt } from 'react-icons/fa';
 
 const EditarPerfil = ({ isLoaded }) => { // Asegúrate de recibir isLoaded si lo usas con Google Maps API
