@@ -8,9 +8,9 @@ import '../styles/DetallesSalon.css';
 import { CiShoppingCart } from "react-icons/ci";
 import { FaRegMap } from "react-icons/fa";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import ListasResenias from '../components/ListasResenias/ListasResenias.jsx';
-import DatosSalonCompleto from '../components/DatosSalonCompleto/DatosSalonCompleto.jsx';
+import DatosSalonCompleto from '../Components/DatosSalonCompleto/DatosSalonCompleto';
 import BotonFavoritos from '../Components/BotonFavoritos/BotonFavoritos.jsx';
+import ListasResenias from '../Components/ListasResenias/ListasResenias'
 import { IoMdStar, IoMdStarHalf, IoMdStarOutline } from 'react-icons/io';
 
 const DetallesSalon = ({ isLoaded }) => {
