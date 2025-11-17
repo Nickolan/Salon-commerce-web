@@ -4,7 +4,7 @@ import './Footer.css';
 import { FaTwitter, FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const Footer = () => {
+const Footer = () => { 
   // Obtenemos el año actual dinámicamente
   const currentYear = new Date().getFullYear();
 

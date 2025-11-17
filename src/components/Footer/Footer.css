@@ -7,7 +7,7 @@
     width: 100%;
     /* Un borde superior es a menudo más sutil y elegante que un borde completo */
     border-top: 2px solid #333;
-}
+} 
 
 /* Contenedor principal dentro del footer */
 .footer-container {
