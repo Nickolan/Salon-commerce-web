@@ -25,13 +25,8 @@ import {
 import '../styles/ReservarSalonScreen.css';
 import axios from 'axios';
 
-// --- CONFIGURACIÓN DE CRIPTOMONEDA ---
 // FIAT_CODE se mantiene fijo para ARS
 const FIAT_CODE = 'ARS';
-// Usaremos la API base para obtener todas las tasas de cambio
-const COINBASE_API_URL = `https://api.coinbase.com/v2/exchange-rates?currency=USD`; // Usamos USD como base para obtener una lista de tasas
-const SUPPORTED_CRYPTOS = ['BTC', 'ETH', 'USDC', 'DOGE']; // Criptomonedas que quieres mostrar al usuario
-// ------------------------------------
 
 // Configuración del localizador (sin cambios)
 const locales = { 'es': es };
@@ -69,15 +64,6 @@ const ReservarSalonScreen = () => {
   const [currentView, setCurrentView] = useState('week');
   const [metodoPago, setMetodoPago] = useState("");
 
-  // --- 👇 ESTADOS ACTUALIZADOS PARA LA TASA DE CAMBIO 👇 ---
-  // Guardaremos todas las tasas de cambio disponibles (e.g., USD -> ARS, USD -> BTC, USD -> ETH)
-  const [exchangeRates, setExchangeRates] = useState(null);
-  // Estado para la criptomoneda seleccionada por el usuario
-  const [selectedCryptoCode, setSelectedCryptoCode] = useState(SUPPORTED_CRYPTOS[0]);
-  const [coinbaseLoading, setCoinbaseLoading] = useState(true);
-  const [coinbaseError, setCoinbaseError] = useState(null);
-  // ---------------------------------------------------------
-
   const { selectedSalon, status: salonStatus, error: salonError } = useSelector((state) => state.salones);
   const { availableSlots, selectedSlots, slotsStatus, reservaStatus, error: reservaError, pagoStatus, pagoError } = useSelector((state) => state.reservas);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -96,81 +82,6 @@ const ReservarSalonScreen = () => {
       console.error("No se encontró ID de salón en la URL");
     }
   }, [salonId, dispatch, isAuthenticated, navigate]);
-
-  // --- 👇 EFECTO PARA OBTENER TODAS LAS TASAS DE CAMBIO 👇 ---
-  useEffect(() => {
-    async function fetchExchangeRates() {
-      try {
-        setCoinbaseLoading(true);
-        const response = await fetch(COINBASE_API_URL);
-
-        if (!response.ok) {
-          throw new Error(`Error en la API: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (!data.data || !data.data.rates) {
-          throw new Error('Formato de datos de Coinbase inesperado.');
-        }
-
-        setExchangeRates(data.data.rates);
-        setCoinbaseError(null);
-      } catch (err) {
-        console.error("Error al obtener las tasas de cambio de Coinbase:", err);
-        setCoinbaseError("No se pudo obtener la tasa de cambio de Coinbase.");
-      } finally {
-        setCoinbaseLoading(false);
-      }
-    }
-
-    fetchExchangeRates();
-    // Opcional: Actualizar la tasa cada 30 segundos
-    const intervalId = setInterval(fetchExchangeRates, 30000);
-
-    // Limpieza al desmontar el componente
-    return () => clearInterval(intervalId);
-  }, []);
-  // -----------------------------------------------------------------
-
-  // --- 👇 LÓGICA DE TASAS DE CAMBIO DINÁMICAS 👇 ---
-  // Calcula la tasa de cambio de 1 Crypto a ARS (ej: 1 ETH = X ARS)
-  const getCryptoToARS_Rate = () => {
-    if (!exchangeRates) return null;
-
-    // Tasa: 1 USD = X ARS
-    const ARS_per_USD = parseFloat(exchangeRates[FIAT_CODE]);
-    // Tasa: 1 USD = Y CRYPTO (ej: 1 USD = 0.00025 ETH)
-    // Para obtener la tasa: 1 CRYPTO = Z USD, hacemos 1 / (USD_per_CRYPTO)
-    const USD_per_CRYPTO = parseFloat(exchangeRates[selectedCryptoCode]);
-
-    // Tasa final: 1 CRYPTO = (1 / (USD_per_CRYPTO)) * ARS_per_USD
-    const ARS_per_CRYPTO = (1 / USD_per_CRYPTO) * ARS_per_USD;
-
-    return isNaN(ARS_per_CRYPTO) ? null : ARS_per_CRYPTO;
-  };
-
-  const currentRate = getCryptoToARS_Rate();
-
-  // --- FUNCIÓN 1: ARS a Crypto (Solución de tu líder) ---
-  const convertARSToCrypto = (amountARS) => {
-    if (!currentRate || typeof amountARS !== 'number' || amountARS <= 0) {
-      return 0;
-    }
-    // Conversión: Cantidad_ARS / Tasa_ARS_por_1_CRYPTO
-    return amountARS / currentRate;
-  };
-  // -------------------------------------------------------------
-
-  // --- FUNCIÓN 2: Crypto a ARS (Solución de tu líder) ---
-  const convertCryptoToARS = (amountCrypto) => {
-    if (!currentRate || typeof amountCrypto !== 'number' || amountCrypto <= 0) {
-      return 0;
-    }
-    // Conversión: Cantidad_CRYPTO * Tasa_ARS_por_1_CRYPTO
-    return amountCrypto * currentRate;
-  };
-  // -------------------------------------------------------------
 
   // handleSelectSlotOrEvent (sin cambios)
   const handleSelectSlotOrEvent = (slotInfo) => {
@@ -206,18 +117,11 @@ const ReservarSalonScreen = () => {
   // Cálculo del total a pagar en ARS (sin cambios)
   const totalPagarARS = selectedSlots.reduce((acc, slot) => acc + slot.resource.precio, 0);
 
-  // Cálculo del total a pagar en Crypto (dinámico)
-  const totalPagarCrypto = convertARSToCrypto(totalPagarARS);
-
-  // handleConfirmarReserva (Lógica de pago y SIMULACIÓN)
+  // handleConfirmarReserva (Lógica de pago)
   const handleConfirmarReserva = async () => {
     // 1. Validar
     if (selectedSlots.length === 0 || !salonId || !metodoPago) {
       Swal.fire('Información Incompleta', 'Por favor, selecciona un rango horario y un método de pago.', 'warning');
-      return;
-    }
-    if (metodoPago === 'coinbase' && (!currentRate || coinbaseLoading)) {
-      Swal.fire('Error', 'Esperando la tasa de cambio de Coinbase. Por favor, inténtalo de nuevo.', 'warning');
       return;
     }
 
@@ -230,8 +134,7 @@ const ReservarSalonScreen = () => {
     const horaInicio = format(primerSlot.start, 'HH:mm');
     const horaFin = format(ultimoSlot.end, 'HH:mm');
 
-    const totalMoneda = metodoPago === 'coinbase' ? totalPagarCrypto : totalPagarARS;
-    const monedaCodigo = metodoPago === 'coinbase' ? selectedCryptoCode : FIAT_CODE;
+    const totalMoneda = totalPagarARS;
 
     const datosParaPago = { // Usaremos esto también para crear la reserva
       id_salon: parseInt(salonId),
@@ -249,8 +152,8 @@ const ReservarSalonScreen = () => {
       Vas a reservar <b>${selectedSalon?.nombre || 'este salón'}</b> para el <br/>
       <b>${format(primerSlot.start, 'eeee dd \'de\' MMMM', { locale: es })}</b><br/>
       de <b>${horaInicio}</b> a <b>${horaFin}</b> (${selectedSlots.length} franja${selectedSlots.length > 1 ? 's' : ''}).<br/>
-      Precio Total: <b>${metodoPago === 'coinbase' ? `${totalPagarCrypto.toFixed(8)} ${selectedCryptoCode}` : `$${totalPagarARS.toFixed(2)} ${FIAT_CODE}`}</b><br/>
-      Método de pago: <b>${metodoPago === 'mercadoPago' ? 'Mercado Pago' : `Coinbase (${selectedCryptoCode})`}</b>
+      Precio Total: <b>$${totalPagarARS.toFixed(2)} ${FIAT_CODE}</b><br/>
+      Método de pago: <b>Mercado Pago</b>
     `;
 
     // 4. Mostrar el Swal de confirmación
@@ -267,66 +170,7 @@ const ReservarSalonScreen = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
 
-        if (metodoPago === 'coinbase') {
-          // --- 👇 MODIFICACIÓN AQUÍ 👇 ---
-          // 5. SIMULACIÓN DE PAGO DE COINBASE Y CREACIÓN DE RESERVA
-          try {
-            // Mostramos el mensaje de éxito simulado primero
-            await Swal.fire({ // Usamos await para esperar que se cierre el Swal
-              title: 'Simulación Exitosa',
-              text: `Se ha simulado el envío de ${totalPagarCrypto.toFixed(8)} ${selectedCryptoCode}. Creando reserva...`,
-              icon: 'success',
-              timer: 2000, // Damos tiempo para leer el mensaje
-              showConfirmButton: false,
-              timerProgressBar: true,
-            });
-
-            // Ahora, despachamos la acción para crear la reserva real en el backend
-            // Usamos los mismos datos que hubiéramos usado para el pago,
-            // pero llamamos a createReserva. Asegúrate que createReserva acepte
-            // los datos necesarios o ajusta el payload.
-            const reservaPayload = {
-              id_salon: datosParaPago.id_salon,
-              fecha_reserva: datosParaPago.fecha_reserva,
-              hora_inicio: datosParaPago.hora_inicio,
-              hora_fin: datosParaPago.hora_fin,
-              id_arrendatario: datosParaPago.id_arrendatario,
-              totalPagarCrypto,
-              selectedCryptoCode
-              // Añade franjaIds si tu backend createReserva lo requiere
-              // franjaIds: datosParaPago.franjaIds
-            };
-
-            console.log("Despachando createReserva con:", reservaPayload); // Debug
-            const resultAction = await dispatch(createReserva(reservaPayload));
-            
-            
-            
-
-            // El useEffect que maneja createReserva.fulfilled/rejected
-            // se encargará de mostrar el Swal final y limpiar/recargar.
-            // Ya no necesitamos limpiar aquí manualmente.
-
-            // Manejo de error específico de la creación de reserva si el useEffect no es suficiente
-            if (createReserva.rejected.match(resultAction)) {
-              console.log(resultAction.payload);
-              
-              Swal.fire('Error al Crear Reserva', resultAction.payload || 'No se pudo registrar la reserva después de la simulación.', 'error');
-              // Podrías necesitar recargar los slots aquí si falla
-              dispatch(fetchAvailableSlots(salonId));
-            }
-
-
-          } catch (error) {
-            // Error inesperado durante el proceso
-            console.error("Error en flujo Coinbase simulado:", error);
-            Swal.fire('Error Inesperado', 'Ocurrió un problema al procesar la reserva simulada.', 'error');
-            // Asegurarse de recargar slots en caso de error
-            dispatch(fetchAvailableSlots(salonId));
-          }
-          // --- 👆 FIN DE LA MODIFICACIÓN 👆 ---
-
-        } else if (metodoPago === 'mercadoPago') {
+        if (metodoPago === 'mercadoPago') {
           // 5. FLUJO DE PAGO REAL (MERCADO PAGO)
           const resultAction = await dispatch(generarLinkDePago(datosParaPago));
 
@@ -448,36 +292,6 @@ const ReservarSalonScreen = () => {
             />
             <span className="payment-text">Mercado Pago</span>
           </label>
-          <label className={`payment-label ${metodoPago === "coinbase" ? "selected" : ""}`}>
-            <input
-              type="radio"
-              name="metodoPago"
-              value="coinbase"
-              checked={metodoPago === "coinbase"}
-              onChange={(e) => setMetodoPago(e.target.value)}
-            />
-            <span className="payment-text">Coinbase</span>
-
-            {/* 👇 Selector de Criptomoneda y Display de la tasa de cambio 👇 */}
-            {metodoPago === "coinbase" && (
-              <div className='coinbase-options'>
-                <select
-                  value={selectedCryptoCode}
-                  onChange={(e) => setSelectedCryptoCode(e.target.value)}
-                  disabled={coinbaseLoading}
-                >
-                  {SUPPORTED_CRYPTOS.map(code => (
-                    <option key={code} value={code}>{code}</option>
-                  ))}
-                </select>
-                <small className='coinbase-rate-display'>
-                  {coinbaseLoading ? 'Cargando tasa...' : coinbaseError ? 'Error de tasa' : `1 ${selectedCryptoCode} ≈ $${currentRate?.toFixed(2) || '...'} ${FIAT_CODE}`}
-                </small>
-              </div>
-            )}
-            {/* ------------------------------------------------------------- */}
-
-          </label>
         </div>
       </div>
 
@@ -493,19 +307,13 @@ const ReservarSalonScreen = () => {
             <hr />
 
             <strong>Precio Total ({FIAT_CODE}):</strong> **${totalPagarARS.toFixed(2)}** <br />
-
-            {metodoPago === "coinbase" && currentRate && (
-              <p className='precio-crypto'>
-                <strong>Pagar en {selectedCryptoCode}:</strong>
-                **{totalPagarCrypto.toFixed(8)} {selectedCryptoCode}** </p>
-            )}
           </p>
           <div className="confirmacion-botones">
             <button
               onClick={handleConfirmarReserva}
-              disabled={pagoStatus === 'loading' || reservaStatus === 'loading' || !metodoPago || (metodoPago === 'coinbase' && (!currentRate || coinbaseLoading))} // Añadir reservaStatus === 'loading'
+              disabled={pagoStatus === 'loading' || reservaStatus === 'loading' || !metodoPago} // Añadir reservaStatus === 'loading'
               className='boton-confirmar'
-              title={!metodoPago ? "Selecciona un método de pago" : (metodoPago === 'coinbase' && !currentRate ? 'Esperando tasas de cambio' : '')}
+              title={!metodoPago ? "Selecciona un método de pago" : ''}
             >
               {(pagoStatus === 'loading' || reservaStatus === 'loading') ? 'Procesando...' : 'Confirmar y Pagar'}
             </button>

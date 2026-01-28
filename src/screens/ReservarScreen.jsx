@@ -272,21 +272,7 @@ const ReservarScreen = () => {
             </label>
           </div>
 
-          <div className="payment-row">
-            <label
-              className="payment-label"
-              onClick={() => setMetodoPago(metodoPago === "coinbase" ? "" : "coinbase")}
-            >
-              <input
-                type="radio"
-                name="metodoPago"
-                value="coinbase"
-                checked={metodoPago === "coinbase"}
-                readOnly
-              />
-              <span className="payment-text">Coinbase</span>
-            </label>
-          </div>
+
         </div>
 
         <div className="reservar-boton-pago">

@@ -129,7 +129,7 @@ export const fetchAvailableSlots = createAsyncThunk(
 // Thunk para crear una reserva
 export const createReserva = createAsyncThunk(
   'reservas/createReserva',
-  async ({ id_salon, fecha_reserva, hora_inicio, hora_fin, id_arrendatario, totalPagarCrypto, selectedCryptoCode }, { getState, rejectWithValue }) => {
+  async ({ id_salon, fecha_reserva, hora_inicio, hora_fin, id_arrendatario }, { getState, rejectWithValue }) => {
     try {
       const { auth } = getState();
       const token = auth.token;
@@ -153,24 +153,6 @@ export const createReserva = createAsyncThunk(
       console.log("Reserva creada");
 
       console.log(response.data);
-
-      const reserva = response.data
-
-      // Crear transaccion completa
-      const transaccionDTO = {
-        id_reserva: reserva.id_reserva,
-        monto_pagado: totalPagarCrypto,
-        metodo_pago: selectedCryptoCode,
-        estado_transaccion: reserva.estado_reserva == "creada" ? "aprobado" : "rechazado"
-      }
-
-      console.log(transaccionDTO);
-
-      console.log("Creando transaccion");
-
-      await axios.post(API_URL_TRANSACCIONES, transaccionDTO )
-
-      console.log("transaccion creada");
 
       return response.data;
     } catch (error) {
