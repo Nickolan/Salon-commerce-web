@@ -1,0 +1,154 @@
+/* --- BOTÓN FLOTANTE DE APERTURA --- */
+.chat-opener-btn {
+  position: fixed;
+  right: 0; /* Pegado al borde derecho */
+  top: 50%; /* Centrado verticalmente */
+  transform: translateY(-50%);
+  width: 50px; /* Ancho del botón */
+  height: 250px; /* Alto del botón */
+  background-color: #6a1b9a; /* Color Púrpura Principal */
+  color: white;
+  border: none;
+  border-radius: 20px 0 0 20px; /* Solo redondeamos la izquierda */
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: -4px 0 10px rgba(0,0,0,0.2);
+  transition: transform 0.4s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Efecto hover para el botón */
+.chat-opener-btn:hover {
+  background-color: #8e24aa;
+  width: 55px; /* Pequeño efecto de estiramiento */
+}
+
+/* Estado cuando el chat está abierto: El botón se va a la derecha */
+.chat-opener-btn.hide-btn {
+  transform: translate(100%, -50%); /* 100% lo saca de la pantalla */
+}
+
+
+/* --- CONTENEDOR LATERAL (SIDEBAR) --- */
+.chat-sidebar {
+  position: fixed;
+  right: -400px; /* Oculto completamente a la derecha */
+  top: 0;
+  height: 100vh; /* Altura completa de la pantalla */
+  width: 350px;
+  background: white;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+  transition: right 0.4s ease-in-out;
+  z-index: 1001; /* Por encima del botón */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estado abierto: Entra en pantalla */
+.chat-sidebar.open {
+  right: 0;
+}
+
+
+/* --- HEADER --- */
+.chat-header {
+  background-color: #6a1b9a;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+.header-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.close-panel-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.close-panel-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+/* --- BUSCADOR --- */
+.search-container {
+  padding: 15px;
+  background-color: #f3e5f5; /* Lila muy claro */
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.chat-searchbar {
+  background-color: #ab47bc !important; /* Lila intermedio */
+  border: none !important;
+  border-radius: 8px;
+  padding: 8px 11px !important;
+}
+
+/* Customización profunda de inputs de Ant Design */
+.chat-searchbar input {
+  background-color: transparent !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+.chat-searchbar input::placeholder {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.chat-searchbar .anticon {
+  color: white !important;
+}
+
+
+/* --- LISTA --- */
+.chat-list-scroll {
+  flex: 1; /* Ocupa el resto del espacio */
+  overflow-y: auto; /* Scroll vertical */
+  background-color: white;
+}
+
+/* Estilo del scrollbar para que sea sutil */
+.chat-list-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-list-scroll::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.chat-item {
+  padding: 15px 20px !important;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.chat-item:hover {
+  background-color: #fafafa;
+}
+
+.chat-item-name {
+  font-size: 1rem;
+  font-weight: 700; /* Bold */
+  color: #333;
+}
+
+.chat-item-last-msg {
+  color: #757575; /* Gris oscuro */
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
