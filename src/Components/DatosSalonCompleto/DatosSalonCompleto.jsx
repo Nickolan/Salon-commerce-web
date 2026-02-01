@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './DatosSalonCompleto.css';
 import { FaRegMap, FaExclamationTriangle } from "react-icons/fa";
 import { GoogleMap, Marker } from "@react-google-maps/api";
+import { useSelector } from 'react-redux';
+import BotonContactar from '../Botones/BotonContactar/BotonContactar';
 
 const containerStyle = {
   width: "100%",
@@ -26,6 +28,9 @@ const redMarkerIcon = {
 };
 
 const DatosSalonCompleto = ({ salon, isLoaded }) => {
+
+  const { isAuthenticated, user, isAdmin, status: authStatus } = useSelector((state) => state.auth);
+
   const [mapCenter, setMapCenter] = useState(defaultCenter);
   const [geocodingError, setGeocodingError] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
@@ -119,7 +124,7 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
   // Determinar si mostrar placeholder de imagen
   const shouldShowImagePlaceholder = !imagenSeleccionada;
 
-  console.log(salon.equipamientos);
+  console.log(salon);
 
   
   
@@ -130,6 +135,8 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
 
   return (
     <div className='datosSalonCompleto'>
+      
+      
       <div className="contenedor-principal">
         <div className="columna-izquierda">
           <div className="mapa-ubicacion">
@@ -169,6 +176,7 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
             <span className="precio-label">por hora</span>
           </div>
         </div>
+        
 
         <div className="columna-derecha">
           <div className="galeria-imagenes">
@@ -201,6 +209,7 @@ const DatosSalonCompleto = ({ salon, isLoaded }) => {
                 ))}
               </div>
             )}
+            
           </div>
 
           <div className="detalles-secundarios">
