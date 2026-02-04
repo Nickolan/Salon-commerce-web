@@ -10,8 +10,9 @@ import { FaRegMap } from "react-icons/fa";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import DatosSalonCompleto from '../Components/DatosSalonCompleto/DatosSalonCompleto';
 import BotonFavoritos from '../Components/BotonFavoritos/BotonFavoritos.jsx';
-import ListasResenias from '../Components/ListasResenias/ListasResenias'
+import ListasResenias from '../Components/ListasResenias/ListasResenias';
 import { IoMdStar, IoMdStarHalf, IoMdStarOutline } from 'react-icons/io';
+import PreguntasComponent from '../Components/Q&A/Questions/PreguntasComponent.jsx'; 
 
 const DetallesSalon = ({ isLoaded }) => {
   const { id } = useParams(); // Obtenemos el ID de la URL
@@ -21,19 +22,17 @@ const DetallesSalon = ({ isLoaded }) => {
   // Obtenemos los datos del estado global de Redux
   const { selectedSalon, resenias, status, error } = useSelector((state) => state.salones);
 
-  console.log(selectedSalon);
-
   const {
     isAuthenticated,
     user
   } = useSelector((state) => state.auth);
 
-  const [esFavorito, setEsFavorito] = useState(false); // La lógica de favoritos se mantiene local por ahora
+  const [esFavorito, setEsFavorito] = useState(false);
 
   const calcularPromedio = () => {
-    if (!resenias || resenias.length === 0) return 0; // 👈 CORRECCIÓN 1: Usar 'resenias'
+    if (!resenias || resenias.length === 0) return 0;
     const suma = resenias.reduce((total, opinion) => total + opinion.calificacion, 0);
-    const promedio = suma / resenias.length; // 👈 CORRECCIÓN 2: Usar 'resenias.length'
+    const promedio = suma / resenias.length;
     return Math.round(promedio * 10) / 10;
   };
 
@@ -81,7 +80,15 @@ const DetallesSalon = ({ isLoaded }) => {
     return <div className='detalles-Salon' style={{ paddingTop: '100px' }}><h1>Error: Salón no encontrado</h1><p>{error}</p></div>;
   }
 
-  // Una vez que los datos están listos, renderizamos el componente
+  console.log('=== DEBUG DETALLES SALON ===');
+  console.log('Usuario autenticado:', isAuthenticated);
+  console.log('Usuario completo:', user);
+  console.log('Usuario ID:', user?.id_usuario);
+  console.log('Salon ID:', id);
+  console.log('=== VERIFICACIÓN USUARIO ACTUAL ===');
+  console.log('Usuario en Redux:', user);
+  console.log('¿Es el dueño del salón?', user?.id_usuario === selectedSalon?.publicador?.id_usuario);
+
   return (
     <div className='detalles-Salon'>
       <div className='titulo'>
@@ -101,11 +108,9 @@ const DetallesSalon = ({ isLoaded }) => {
                   showText={true}
                 />
 
-
                 <div className="reservar-button" onClick={handleReservarClick}>
                   <span className="reservar-texto">Reservar</span>
                 </div>
-
               </div>
             )
           }
@@ -119,9 +124,17 @@ const DetallesSalon = ({ isLoaded }) => {
 
       <div className='detalles'>
         <DatosSalonCompleto salon={selectedSalon} isLoaded={isLoaded} />
+
+        {/* AÑADIR COMPONENTE DE PREGUNTAS Y RESPUESTAS */}
+        <PreguntasComponent
+          salonId={id}
+          usuarioAutenticado={isAuthenticated}
+          usuarioId={user?.id_usuario}
+        />
+        
         {/* Pasamos las reseñas obtenidas de la API al componente */}
         <ListasResenias
-          resenias={resenias} // 👈 Pasar 'resenias' como prop 'resenias'
+          resenias={resenias}
           renderizarEstrellas={renderizarEstrellas}
         />
       </div>
