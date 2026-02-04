@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Input, Avatar, List } from 'antd';
 import { SearchOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { toggleSidebar, abrirChatEspecifico, obtenerConversaciones } from '../../../store/features/chat/chatSlice';
+import { toggleSidebar, abrirChatEspecifico, obtenerConversaciones, agregarMensajeEnVivo } from '../../../store/features/chat/chatSlice';
+import { socketService } from '../../../services/socketService';
 import ChatWindow from '../ChatWindow/ChatWindow';
 import './ChatListSidebar.css';
 
-// Función helper para decodificar ID (puedes moverla a utils)
+// Función helper segura
 const getMyId = () => {
     const token = localStorage.getItem('accessToken');
     if (!token) return null;
@@ -23,22 +24,45 @@ const ChatListSidebar = () => {
   const { isOpen, activeChat, conversaciones } = useSelector(state => state.chat);
   const [busqueda, setBusqueda] = useState('');
   
-  // 1. OBTENEMOS MI ID REAL
   const currentUserId = getMyId(); 
 
   useEffect(() => {
     if (isOpen) dispatch(obtenerConversaciones());
   }, [dispatch, isOpen]);
 
-  // 2. LÓGICA DE FILTRADO DINÁMICA
+  useEffect(() => {
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    socketService.connect(token);
+
+    // CORRECCIÓN 3: 'nuevo_mensaje' -> 'new_message'
+    socketService.on('new_message', (mensaje) => {
+      console.log('📩 Mensaje recibido:', mensaje);
+      dispatch(agregarMensajeEnVivo(mensaje)); 
+    });
+  }
+
+  return () => {
+    // CORRECCIÓN 3: Desuscribirse del nombre correcto
+    socketService.off('new_message');
+  };
+}, [dispatch]);
+
   const chatsFiltrados = conversaciones.filter(chat => {
-    // Definir quién es el "otro"
     const esPublicante = chat.publicante_id === currentUserId;
     const otroUsuario = esPublicante ? chat.cliente : chat.publicante;
-
-    // Filtrar por el nombre del OTRO (sea cliente o publicante)
-    return otroUsuario?.nombre.toLowerCase().includes(busqueda.toLowerCase());
+    
+    // Safety check por si otroUsuario viene null
+    const nombreCompleto = `${otroUsuario?.nombre || ''} ${otroUsuario?.apellido || ''}`.toLowerCase();
+    
+    return nombreCompleto.includes(busqueda.toLowerCase());
   });
+
+  // Helper para renderizar nombre seguro
+  const getDisplayName = (usuario) => {
+    if (!usuario) return "Usuario Desconocido";
+    return `${usuario.nombre || ''} ${usuario.apellido || ''}`.trim() || "Usuario";
+  };
 
   return (
     <>
@@ -55,7 +79,7 @@ const ChatListSidebar = () => {
           <ChatWindow 
             chat={activeChat}
             currentUserId={currentUserId}
-            onBack={() => dispatch(abrirChatEspecifico(null))} // null cierra la ventana, vuelve a lista
+            onBack={() => dispatch(abrirChatEspecifico(null))} 
           />
         ) : (
           <>
@@ -81,7 +105,6 @@ const ChatListSidebar = () => {
                 itemLayout="horizontal"
                 dataSource={chatsFiltrados}
                 renderItem={(chat) => {
-                  // 3. DETERMINAR VISUALMENTE QUIÉN ES EL OTRO EN CADA ITEM
                   const esPublicante = chat.publicante_id === currentUserId;
                   const otroUsuario = esPublicante ? chat.cliente : chat.publicante;
                   
@@ -89,18 +112,25 @@ const ChatListSidebar = () => {
                       ? chat.mensajes[chat.mensajes.length - 1] 
                       : null;
 
+                  // Lógica para cortar mensaje largo en la vista previa
+                  const previewMsg = ultimoMensaje 
+                    ? (ultimoMensaje.contenido.length > 30 
+                        ? ultimoMensaje.contenido.substring(0, 30) + '...' 
+                        : ultimoMensaje.contenido)
+                    : 'Sin mensajes';
+
                   return (
                     <List.Item 
                       className="chat-item"
                       onClick={() => dispatch(abrirChatEspecifico(chat))}
                     >
                       <List.Item.Meta
-                        // Usamos los datos de "otroUsuario"
-                        avatar={<Avatar size={50} src={otroUsuario?.foto_perfil || "https://via.placeholder.com/50"} />}
-                        title={<span className="chat-item-name">{otroUsuario?.nombre + " " + otroUsuario?.apellido || "Usuario"}</span>}
+                        // OJO: Unifiqué a .foto (revisa tu BD si es foto o foto_perfil)
+                        avatar={<Avatar size={50} src={otroUsuario?.foto || otroUsuario?.foto_perfil || "https://via.placeholder.com/50"} />}
+                        title={<span className="chat-item-name">{getDisplayName(otroUsuario)}</span>}
                         description={
                           <div className="chat-item-last-msg">
-                             {ultimoMensaje ? ultimoMensaje.contenido : 'Sin mensajes'}
+                             {previewMsg}
                           </div>
                         }
                       />

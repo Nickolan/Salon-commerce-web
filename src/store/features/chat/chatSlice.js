@@ -118,7 +118,27 @@ const chatSlice = createSlice({
         }
         // También actualizamos la lista general si es necesario
         // ... lógica para actualizar preview en lista ...
-    }
+    },
+    agregarMensajeEnVivo: (state, action) => {
+        const nuevoMensaje = action.payload;
+        
+        // 1. Si tengo el chat abierto y es el mismo ID, lo agrego a la vista
+        if (state.activeChat && state.activeChat.id === nuevoMensaje.conversacion_id) {
+          state.activeChat.mensajes.push(nuevoMensaje);
+        }
+  
+        // 2. Actualizo la lista de conversaciones (para que se vea el último mensaje en el sidebar)
+        const chatEnLista = state.conversaciones.find(c => c.id === nuevoMensaje.conversacion_id);
+        if (chatEnLista) {
+          if (!chatEnLista.mensajes) chatEnLista.mensajes = [];
+          chatEnLista.mensajes.push(nuevoMensaje);
+          // Opcional: Mover este chat al principio de la lista (tipo WhatsApp)
+          state.conversaciones = [
+              chatEnLista, 
+              ...state.conversaciones.filter(c => c.id !== nuevoMensaje.conversacion_id)
+          ];
+        }
+      }
   },
   extraReducers: (builder) => {
     builder
@@ -159,5 +179,5 @@ const chatSlice = createSlice({
   }
 });
 
-export const { toggleSidebar, cerrarChatActivo, abrirChatEspecifico, recibirMensajeEnVivo } = chatSlice.actions;
+export const { toggleSidebar, agregarMensajeEnVivo, cerrarChatActivo, abrirChatEspecifico, recibirMensajeEnVivo } = chatSlice.actions;
 export default chatSlice.reducer;

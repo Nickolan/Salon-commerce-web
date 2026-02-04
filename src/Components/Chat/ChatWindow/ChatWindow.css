@@ -104,6 +104,15 @@
   word-wrap: break-word;
 }
 
+.msg-avatar {
+  /* ... otras propiedades que ya tenías ... */
+  
+  flex-shrink: 0; /* <--- ESTA LÍNEA ES LA SOLUCIÓN */
+  
+  /* Opcional: Para asegurar que la imagen interna no se deforme si usas img directo */
+  object-fit: cover; 
+}
+
 /* Color Usuario Propio: #7600CC con 65% opacidad */
 .my-bubble {
   background-color: rgba(118, 0, 204, 0.65);
