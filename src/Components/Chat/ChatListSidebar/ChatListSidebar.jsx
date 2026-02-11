@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Input, Avatar, List } from 'antd';
+import { Input, Avatar, List, Badge } from 'antd';
 import { SearchOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { toggleSidebar, abrirChatEspecifico, obtenerConversaciones, agregarMensajeEnVivo } from '../../../store/features/chat/chatSlice';
+import { 
+  toggleSidebar, 
+  abrirChatEspecifico, 
+  obtenerConversaciones, 
+  agregarMensajeEnVivo 
+} from '../../../store/features/chat/chatSlice';
 import { socketService } from '../../../services/socketService';
 import ChatWindow from '../ChatWindow/ChatWindow';
 import './ChatListSidebar.css';
 
-// Función helper segura
+// Función helper segura para obtener mi ID desde el Token
 const getMyId = () => {
     const token = localStorage.getItem('accessToken');
     if (!token) return null;
@@ -24,41 +29,50 @@ const ChatListSidebar = () => {
   const { isOpen, activeChat, conversaciones } = useSelector(state => state.chat);
   const [busqueda, setBusqueda] = useState('');
   
+  // 1. OBTENEMOS MI ID REAL
   const currentUserId = getMyId(); 
 
+  // 2. EFECTO: CARGAR CONVERSACIONES AL ABRIR
   useEffect(() => {
-    if (isOpen) dispatch(obtenerConversaciones());
+    if (isOpen) {
+        dispatch(obtenerConversaciones());
+    }
   }, [dispatch, isOpen]);
 
+  // 3. EFECTO GLOBAL: CONEXIÓN SOCKET Y ESCUCHA DE MENSAJES
   useEffect(() => {
-  const token = localStorage.getItem('accessToken');
-  if (token) {
-    socketService.connect(token);
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      // Conectamos el socket (si no estaba conectado)
+      socketService.connect(token);
 
-    // CORRECCIÓN 3: 'nuevo_mensaje' -> 'new_message'
-    socketService.on('new_message', (mensaje) => {
-      console.log('📩 Mensaje recibido:', mensaje);
-      dispatch(agregarMensajeEnVivo(mensaje)); 
-    });
-  }
+      // Escuchamos mensajes nuevos de CUALQUIER chat
+      socketService.on('new_message', (mensaje) => {
+        console.log('📩 Mensaje recibido en Sidebar:', mensaje);
+        // Esto actualizará la lista y subirá el contador si el chat está cerrado
+        dispatch(agregarMensajeEnVivo(mensaje)); 
+      });
+    }
 
-  return () => {
-    // CORRECCIÓN 3: Desuscribirse del nombre correcto
-    socketService.off('new_message');
-  };
-}, [dispatch]);
+    // Limpieza al desmontar
+    return () => {
+      socketService.off('new_message');
+    };
+  }, [dispatch]);
 
+  // 4. FILTRADO DE CHATS (BUSCADOR)
   const chatsFiltrados = conversaciones.filter(chat => {
+    // Definir quién es el "otro"
     const esPublicante = chat.publicante_id === currentUserId;
     const otroUsuario = esPublicante ? chat.cliente : chat.publicante;
     
-    // Safety check por si otroUsuario viene null
+    // Búsqueda segura (evita error si nombre es null)
     const nombreCompleto = `${otroUsuario?.nombre || ''} ${otroUsuario?.apellido || ''}`.toLowerCase();
     
     return nombreCompleto.includes(busqueda.toLowerCase());
   });
 
-  // Helper para renderizar nombre seguro
+  // Helper para mostrar nombre
   const getDisplayName = (usuario) => {
     if (!usuario) return "Usuario Desconocido";
     return `${usuario.nombre || ''} ${usuario.apellido || ''}`.trim() || "Usuario";
@@ -66,6 +80,7 @@ const ChatListSidebar = () => {
 
   return (
     <>
+      {/* BOTÓN FLOTANTE PARA ABRIR SIDEBAR */}
       <button 
         className={`chat-opener-btn ${isOpen ? 'hide-btn' : ''}`} 
         onClick={() => dispatch(toggleSidebar(true))}
@@ -73,15 +88,18 @@ const ChatListSidebar = () => {
         <LeftOutlined style={{ fontSize: '24px' }} />
       </button>
 
+      {/* CONTENEDOR SIDEBAR */}
       <div className={`chat-sidebar ${isOpen ? 'open' : ''}`}>
         
+        {/* VISTA 1: VENTANA DE CHAT ACTIVA */}
         {activeChat ? (
           <ChatWindow 
             chat={activeChat}
             currentUserId={currentUserId}
-            onBack={() => dispatch(abrirChatEspecifico(null))} 
+            onBack={() => dispatch(abrirChatEspecifico(null))} // null cierra chat, vuelve a lista
           />
         ) : (
+          /* VISTA 2: LISTADO DE CONVERSACIONES */
           <>
             <div className="chat-header">
               <span className="header-title">Mensajes</span>
@@ -105,14 +123,16 @@ const ChatListSidebar = () => {
                 itemLayout="horizontal"
                 dataSource={chatsFiltrados}
                 renderItem={(chat) => {
+                  // Determinar datos del otro usuario
                   const esPublicante = chat.publicante_id === currentUserId;
                   const otroUsuario = esPublicante ? chat.cliente : chat.publicante;
                   
+                  // Último mensaje para preview
                   const ultimoMensaje = chat.mensajes && chat.mensajes.length > 0 
                       ? chat.mensajes[chat.mensajes.length - 1] 
                       : null;
 
-                  // Lógica para cortar mensaje largo en la vista previa
+                  // Recortar texto largo
                   const previewMsg = ultimoMensaje 
                     ? (ultimoMensaje.contenido.length > 30 
                         ? ultimoMensaje.contenido.substring(0, 30) + '...' 
@@ -125,11 +145,23 @@ const ChatListSidebar = () => {
                       onClick={() => dispatch(abrirChatEspecifico(chat))}
                     >
                       <List.Item.Meta
-                        // OJO: Unifiqué a .foto (revisa tu BD si es foto o foto_perfil)
-                        avatar={<Avatar size={50} src={otroUsuario?.foto || otroUsuario?.foto_perfil || "https://via.placeholder.com/50"} />}
-                        title={<span className="chat-item-name">{getDisplayName(otroUsuario)}</span>}
+                        avatar={
+                          // BADGE: Muestra contador si es > 0
+                          <Badge count={chat.unread_count} overflowCount={99} offset={[-5, 5]}>
+                             <Avatar 
+                               size={50} 
+                               src={otroUsuario?.foto || otroUsuario?.foto_perfil || "https://via.placeholder.com/50"} 
+                             />
+                          </Badge>
+                        }
+                        title={
+                            <span className="chat-item-name">
+                                {getDisplayName(otroUsuario)}
+                            </span>
+                        }
                         description={
-                          <div className="chat-item-last-msg">
+                          // Si hay mensajes no leídos, ponemos el texto en negrita (clase unread-bold)
+                          <div className={`chat-item-last-msg ${chat.unread_count > 0 ? 'unread-bold' : ''}`}>
                              {previewMsg}
                           </div>
                         }

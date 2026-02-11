@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios'
 
-// URL BASE DE TU BACKEND (Ajusta si es diferente, ej: localhost:3000)
+// URL BASE DE TU BACKEND (Ajusta si usas otro puerto)
 const API_URL = 'http://localhost:3000/chat'; 
 
 // --- HELPER PARA HEADERS CON TOKEN ---
@@ -13,9 +12,10 @@ const getAuthHeaders = () => {
   };
 };
 
-// --- THUNKS (ACCIONES ASÍNCRONAS) ---
+// --- THUNKS (ACCIONES ASÍNCRONAS HTTP) ---
 
 // 1. Obtener todas mis conversaciones (GET /chat/conversaciones)
+// Esto trae la lista con el campo 'unread_count' calculado por el backend
 export const obtenerConversaciones = createAsyncThunk(
   'chat/obtenerConversaciones',
   async (_, { rejectWithValue }) => {
@@ -32,7 +32,8 @@ export const obtenerConversaciones = createAsyncThunk(
   }
 );
 
-// 2. Iniciar o recuperar chat con publicante (POST /chat/conversacion)
+// 2. Iniciar o recuperar chat (POST /chat/conversacion)
+// Usado por el botón "Contactar" en el perfil del salón
 export const iniciarConversacion = createAsyncThunk(
   'chat/iniciar',
   async ({ publicanteId }, { rejectWithValue }) => {
@@ -40,7 +41,7 @@ export const iniciarConversacion = createAsyncThunk(
       const response = await fetch(`${API_URL}/conversacion`, {
         method: 'POST',
         headers: getAuthHeaders(),
-        body: JSON.stringify({ usuario_destino_id: publicanteId }), // DTO esperado
+        body: JSON.stringify({ usuario_destino_id: publicanteId }), 
       });
       if (!response.ok) throw new Error('Error al iniciar conversación');
       return await response.json();
@@ -50,28 +51,8 @@ export const iniciarConversacion = createAsyncThunk(
   }
 );
 
-// 3. Enviar mensaje (POST /chat/mensaje)
-export const enviarMensaje = createAsyncThunk(
-  'chat/enviarMensaje',
-  async ({ conversacionId, contenido }, { rejectWithValue }) => {
-    try {
-      const response = await fetch(`${API_URL}/mensaje`, {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({ conversacion_id: conversacionId, contenido }), // DTO esperado
-      });
-      if (!response.ok) throw new Error('Error al enviar mensaje');
-      return await response.json();
-    } catch (error) {
-      console.log(error.message);
-      
-      return rejectWithValue(error.message);
-    }
-  }
-);
-
-// 4. Obtener mensajes de un chat específico (GET /chat/mensajes?conversacionId=X)
-// Esto es útil para actualizar el chat al abrirlo
+// 3. Obtener mensajes de un chat específico (GET /chat/mensajes)
+// Al llamar a esto, el backend marca los mensajes como LEÍDOS automáticamente
 export const obtenerMensajesDelChat = createAsyncThunk(
   'chat/obtenerMensajes',
   async (conversacionId, { rejectWithValue }) => {
@@ -88,90 +69,123 @@ export const obtenerMensajesDelChat = createAsyncThunk(
   }
 );
 
-// --- SLICE ---
+// --- SLICE (ESTADO GLOBAL) ---
 const chatSlice = createSlice({
   name: 'chat',
   initialState: {
-    isOpen: false,
-    activeChat: null,
-    conversaciones: [], // Ya no usamos mocks
+    isOpen: false,       // ¿El sidebar está visible?
+    activeChat: null,    // Objeto de la conversación abierta actualmente
+    conversaciones: [],  // Lista de todas las conversaciones
     loading: false,
     error: null,
   },
   reducers: {
+    // Abrir/Cerrar Sidebar manualmente
     toggleSidebar: (state, action) => {
       state.isOpen = action.payload !== undefined ? action.payload : !state.isOpen;
     },
+
+    // Cerrar la ventana de chat (volver a la lista)
     cerrarChatActivo: (state) => {
       state.activeChat = null;
     },
+
+    // Abrir un chat específico desde la lista
+    abrirChatEspecifico: (state, action) => {
+      //const chatSeleccionado = action.payload;
+      
+      if (action.payload === null) {
+        state.activeChat = null;
+        return;
+      }
+
+      state.activeChat = action.payload;
+      state.isOpen = true;
+
+      // LÓGICA DE LECTURA: 
+      // Al abrirlo, visualmente reseteamos el contador a 0 inmediatamente
+      if (state.activeChat) {
+         state.activeChat.unread_count = 0;
+      }
+
+      // También buscamos en la lista general para apagar la bolita roja
+      const chatEnLista = state.conversaciones.find(c => c.id === chatSeleccionado.id);
+      if (chatEnLista) {
+        chatEnLista.unread_count = 0;
+      }
+    },
+
     abrirChatEspecifico: (state, action) => {
       state.activeChat = action.payload;
       state.isOpen = true;
     },
-    // Acción opcional para recibir mensajes en tiempo real (Sockets) en el futuro
-    recibirMensajeEnVivo: (state, action) => {
-        const mensaje = action.payload;
-        // Si el chat está abierto, lo agregamos
-        if (state.activeChat && state.activeChat.id === mensaje.conversacion_id) {
-            state.activeChat.mensajes.push(mensaje);
-        }
-        // También actualizamos la lista general si es necesario
-        // ... lógica para actualizar preview en lista ...
-    },
+
+    // ACCIÓN CLAVE: Recibir mensaje en tiempo real (Socket)
     agregarMensajeEnVivo: (state, action) => {
-        const nuevoMensaje = action.payload;
-        
-        // 1. Si tengo el chat abierto y es el mismo ID, lo agrego a la vista
-        if (state.activeChat && state.activeChat.id === nuevoMensaje.conversacion_id) {
-          state.activeChat.mensajes.push(nuevoMensaje);
-        }
-  
-        // 2. Actualizo la lista de conversaciones (para que se vea el último mensaje en el sidebar)
-        const chatEnLista = state.conversaciones.find(c => c.id === nuevoMensaje.conversacion_id);
-        if (chatEnLista) {
-          if (!chatEnLista.mensajes) chatEnLista.mensajes = [];
-          chatEnLista.mensajes.push(nuevoMensaje);
-          // Opcional: Mover este chat al principio de la lista (tipo WhatsApp)
-          state.conversaciones = [
-              chatEnLista, 
-              ...state.conversaciones.filter(c => c.id !== nuevoMensaje.conversacion_id)
-          ];
-        }
+      const nuevoMensaje = action.payload;
+      
+      // A. Si tengo este chat ABIERTO ahora mismo:
+      if (state.activeChat && state.activeChat.id === nuevoMensaje.conversacion_id) {
+        // Lo agrego a la lista de mensajes visibles
+        state.activeChat.mensajes.push(nuevoMensaje);
+        // NO incremento el contador (porque lo estoy viendo)
       }
+
+      // B. Actualizar la lista lateral de conversaciones
+      const index = state.conversaciones.findIndex(c => c.id === nuevoMensaje.conversacion_id);
+      
+      if (index !== -1) {
+        const chat = state.conversaciones[index];
+        
+        // 1. Agrego el mensaje al array (para la preview)
+        if (!chat.mensajes) chat.mensajes = [];
+        chat.mensajes.push(nuevoMensaje);
+
+        // 2. Si NO es el chat activo, incremento el contador de no leídos
+        const esChatActivo = state.activeChat && state.activeChat.id === chat.id;
+        if (!esChatActivo) {
+             const currentCount = typeof chat.unread_count === 'number' ? chat.unread_count : 0;
+             chat.unread_count = currentCount + 1;
+        }
+
+        // 3. REORDENAMIENTO: Mover este chat al inicio de la lista (UX tipo WhatsApp)
+        state.conversaciones.splice(index, 1); // Lo sacamos de donde esté
+        state.conversaciones.unshift(chat);    // Lo ponemos primero
+      } else {
+        // Opcional: Si el chat no existía (ej: es nuevo y alguien me escribió), 
+        // deberíamos volver a pedir la lista completa o agregarlo manualmente.
+        // Por simplicidad, aquí no hacemos nada, pero en el siguiente refresh aparecerá.
+      }
+    }
   },
+  
   extraReducers: (builder) => {
     builder
-      // OBTENER CONVERSACIONES
+      // OBTENER LISTA DE CHATS
       .addCase(obtenerConversaciones.pending, (state) => { state.loading = true; })
       .addCase(obtenerConversaciones.fulfilled, (state, action) => {
         state.loading = false;
         state.conversaciones = action.payload;
       })
-      
-      // INICIAR CONVERSACION
+      .addCase(obtenerConversaciones.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // INICIAR CONVERSACIÓN
       .addCase(iniciarConversacion.fulfilled, (state, action) => {
         const chat = action.payload;
         state.activeChat = chat;
         state.isOpen = true;
-        // Si no existe en la lista, lo agregamos
+        // Si no estaba en la lista, lo agregamos al principio
         if (!state.conversaciones.find(c => c.id === chat.id)) {
-            state.conversaciones.push(chat);
+            state.conversaciones.unshift(chat);
         }
       })
 
-      // ENVIAR MENSAJE
-      .addCase(enviarMensaje.fulfilled, (state, action) => {
-        // Agregamos el mensaje retornado por el server al chat activo
-        if (state.activeChat) {
-             // Aseguramos que el array mensajes exista
-             if(!state.activeChat.mensajes) state.activeChat.mensajes = [];
-             state.activeChat.mensajes.push(action.payload);
-        }
-      })
-
-      // OBTENER MENSAJES (HISTORIAL)
+      // OBTENER HISTORIAL (Y MARCAR LEÍDO)
       .addCase(obtenerMensajesDelChat.fulfilled, (state, action) => {
+         // Solo actualizamos si seguimos viendo el mismo chat
          if (state.activeChat && state.activeChat.id === action.payload.conversacionId) {
              state.activeChat.mensajes = action.payload.mensajes;
          }
@@ -179,5 +193,11 @@ const chatSlice = createSlice({
   }
 });
 
-export const { toggleSidebar, agregarMensajeEnVivo, cerrarChatActivo, abrirChatEspecifico, recibirMensajeEnVivo } = chatSlice.actions;
+export const { 
+  toggleSidebar, 
+  cerrarChatActivo, 
+  abrirChatEspecifico, 
+  agregarMensajeEnVivo 
+} = chatSlice.actions;
+
 export default chatSlice.reducer;
