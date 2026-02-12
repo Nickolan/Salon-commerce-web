@@ -80,15 +80,6 @@ const DetallesSalon = ({ isLoaded }) => {
     return <div className='detalles-Salon' style={{ paddingTop: '100px' }}><h1>Error: Salón no encontrado</h1><p>{error}</p></div>;
   }
 
-  console.log('=== DEBUG DETALLES SALON ===');
-  console.log('Usuario autenticado:', isAuthenticated);
-  console.log('Usuario completo:', user);
-  console.log('Usuario ID:', user?.id_usuario);
-  console.log('Salon ID:', id);
-  console.log('=== VERIFICACIÓN USUARIO ACTUAL ===');
-  console.log('Usuario en Redux:', user);
-  console.log('¿Es el dueño del salón?', user?.id_usuario === selectedSalon?.publicador?.id_usuario);
-
   return (
     <div className='detalles-Salon'>
       <div className='titulo'>
@@ -125,11 +116,11 @@ const DetallesSalon = ({ isLoaded }) => {
       <div className='detalles'>
         <DatosSalonCompleto salon={selectedSalon} isLoaded={isLoaded} />
 
-        {/* AÑADIR COMPONENTE DE PREGUNTAS Y RESPUESTAS */}
         <PreguntasComponent
           salonId={id}
           usuarioAutenticado={isAuthenticated}
           usuarioId={user?.id_usuario}
+          esDuenoSalon={user?.id_usuario === selectedSalon?.publicador?.id_usuario}
         />
         
         {/* Pasamos las reseñas obtenidas de la API al componente */}

@@ -1,0 +1,260 @@
+.moderation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.moderation-popup {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: slideUp 0.3s ease;
+}
+
+.moderation-header {
+  background: #6a0dad;
+  color: white;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.moderation-icon {
+  font-size: 24px;
+}
+
+.moderation-header h3 {
+  margin: 0;
+  flex: 1;
+  font-size: 18px;
+  color: white;
+}
+
+.moderation-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.moderation-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.moderation-content {
+  padding: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.moderation-confirm {
+  text-align: center;
+}
+
+.moderation-confirm p {
+  margin: 0 0 16px;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.moderation-warning {
+  background: #fffaf0;
+  border: 1px solid #fed7d7;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.moderation-warning strong {
+  color: #c53030;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.moderation-warning p {
+  color: #718096;
+  margin: 0;
+  font-size: 14px;
+}
+
+.moderation-reasons p {
+  margin: 0 0 16px;
+  color: #4a5568;
+}
+
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.reason-option {
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.reason-option:hover {
+  border-color: #cbd5e0;
+  background: #edf2f7;
+}
+
+.reason-option.selected {
+  border-color: #4299e1;
+  background: #ebf8ff;
+}
+
+.reason-icon {
+  font-size: 20px;
+}
+
+.reason-label {
+  flex: 1;
+  font-size: 14px;
+  color: #2d3748;
+}
+
+.reason-detail {
+  margin-top: 20px;
+}
+
+.reason-detail label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.reason-detail textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.reason-detail textarea:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.char-counter {
+  text-align: right;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #a0aec0;
+}
+
+.moderation-actions {
+  padding: 20px;
+  background: #f7fafc;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.moderation-btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.cancel-btn {
+  background: #e2e8f0;
+  color: #4a5568;
+}
+
+.cancel-btn:hover:not(:disabled) {
+  background: #cbd5e0;
+}
+
+.confirm-btn {
+  background: linear-gradient(135deg, #f56565, #c53030);
+  color: white;
+}
+
+.confirm-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e53e3e, #9b2c2c);
+}
+
+.confirm-btn.disabled,
+.confirm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .reasons-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .moderation-popup {
+    width: 95%;
+    margin: 10px;
+  }
+
+  .moderation-actions {
+    flex-direction: column;
+  }
+
+  .moderation-btn {
+    width: 100%;
+  }
+}
