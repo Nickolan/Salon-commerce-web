@@ -29,12 +29,12 @@
         },
         "dataMode": "defineBelow",
         "columnToMatchOn": "session_id",
-        "valueToMatchOn": "={{ $json.sessionId }}",
+        "valueToMatchOn": "={{ $json.body.sessionId }}",
         "valuesToSend": {
           "values": [
             {
               "column": "=util",
-              "value": "={{ $json.util }}"
+              "value": "={{ $json.body.util }}"
             }
           ]
         },
@@ -100,10 +100,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "ff69d530-e829-40db-952a-38f0b6b3fa78",
+  "versionId": "1bf3d320-6356-42dc-8fb1-5478c5b8a1d4",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "c1ec98b65a4de7fd53377c8532714ea0d92d7f3f29cc3cf5e2e36f1727d4abc9"
+    "instanceId": "e62bdfbf2f2fdd5d0627bfa392938c1030414d66755b7f954b70be52e69121e2"
   },
   "id": "wSCKMXji5g67JnJ5",
   "tags": []
