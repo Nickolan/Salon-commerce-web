@@ -16,9 +16,31 @@ function Navbar() {
   const currentPath = location.pathname;
 
   const handleLogout = () => {
+    // 1. Limpiamos Redux como ya lo hacías
     dispatch(logout());
-    navigate('/')
+
+    // 2. LIMPIEZA MANUAL DEL CHAT (La solución definitiva)
+    // Borramos los historiales de ambos tipos de usuario
+    localStorage.removeItem('chat_history_user');
+    localStorage.removeItem('chat_history_guest');
+
+    // Borramos el token y el usuario por si acaso Redux no llegó a tiempo al storage
+    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('isAuthenticated');
+
+    // Borramos el ID de invitado para que n8n reciba una sesión nueva la próxima vez
+    sessionStorage.removeItem('guest_session_id');
+
+    // 3. Navegamos al inicio y cerramos menú
+    navigate('/');
     setMenuOpen(false);
+
+    // OPCIONAL: Forzar una recarga rápida ayuda a que todos los componentes
+    // se reseteen a su estado inicial de "invitado".
+    window.location.reload();
   };
 
   return (

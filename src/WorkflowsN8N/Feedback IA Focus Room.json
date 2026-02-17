@@ -1,0 +1,110 @@
+{
+  "name": "Feedback IA Focus Room",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "feedback",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8d11a687-bd2f-4cf4-bd6a-82bec8f93863",
+      "name": "Webhook",
+      "webhookId": "65a9718f-7dc6-4970-8978-30fb48f90944"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "chatbot_conversaciones",
+          "mode": "list",
+          "cachedResultName": "chatbot_conversaciones"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "session_id",
+        "valueToMatchOn": "={{ $json.sessionId }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "=util",
+              "value": "={{ $json.util }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        208,
+        0
+      ],
+      "id": "daad6ca6-7a9d-4e9e-a17c-8ca12c73b47c",
+      "name": "Update rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "MX3AltV8UossHUoR",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"status\": \"success\",\n  \"message\": \"Feedback recibido\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "827f1360-ac5f-4e90-8608-d0d632fa2c72",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update rows in a table": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ff69d530-e829-40db-952a-38f0b6b3fa78",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c1ec98b65a4de7fd53377c8532714ea0d92d7f3f29cc3cf5e2e36f1727d4abc9"
+  },
+  "id": "wSCKMXji5g67JnJ5",
+  "tags": []
+}

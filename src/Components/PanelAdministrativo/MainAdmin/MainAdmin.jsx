@@ -3,41 +3,46 @@ import PanelUsuarios from '../PanelUsuarios/PanelUsuarios';
 import PanelSalones from '../PanelSalones/PanelSalones';
 import PanelReservas from '../PanelReservas/PanelReservas';
 import PanelIngresos from '../PanelIngresos/PanelIngresos';
+import PanelChatbot from '../PanelChatbot/PanelChatbot';
 import './MainAdmin.css'; //
 
 const MainAdmin = ({ activePanel, data, fullData, selectedMonth }) => { //
 
   console.log(data.transacciones);
-  
+
 
   const renderPanel = () => { //
     switch (activePanel) { //
       case 'Usuarios': //
         return <PanelUsuarios
-                  usuarios={data.usuarios} //
-                  selectedMonth={selectedMonth} //
-                />;
+          usuarios={data.usuarios} //
+          selectedMonth={selectedMonth} //
+        />;
       case 'Salones': //
         return <PanelSalones
-                  salones={data.salones} //
-                  usuarios={fullData.usuarios} //
-                  selectedMonth={selectedMonth} //
-                />;
+          salones={data.salones} //
+          usuarios={fullData.usuarios} //
+          selectedMonth={selectedMonth} //
+        />;
       case 'Reservas': //
         return <PanelReservas
-                  reservas={data.reservas} //
-                  salones={fullData.salones} //
-                  usuarios={fullData.usuarios} //
-                  selectedMonth={selectedMonth} //
-                />;
+          reservas={data.reservas} //
+          salones={fullData.salones} //
+          usuarios={fullData.usuarios} //
+          selectedMonth={selectedMonth} //
+        />;
       case 'Ingresos': //
         return <PanelIngresos
-                  transacciones={data.transacciones} //
-                  reservas={fullData.reservas} //
-                  salones={fullData.salones} //
-                  usuarios={fullData.usuarios} //
-                  selectedMonth={selectedMonth} //
-                />;
+          transacciones={data.transacciones} //
+          reservas={fullData.reservas} //
+          salones={fullData.salones} //
+          usuarios={fullData.usuarios} //
+          selectedMonth={selectedMonth} //
+        />;
+      case 'Chatbot': //
+        return <PanelChatbot
+          conversaciones={data.conversaciones}
+          selectedMonth={selectedMonth} />;
       default: //
         return null; //
     }

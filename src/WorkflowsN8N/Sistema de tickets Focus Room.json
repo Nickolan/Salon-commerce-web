@@ -1,0 +1,150 @@
+{
+  "name": "Sistema de tickets Focus Room",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "6ea964b7-0722-4cb7-9748-c0cc3bcf742b",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a1d702a0-4e1d-46d4-b659-c064b217f797",
+      "name": "Webhook",
+      "webhookId": "6ea964b7-0722-4cb7-9748-c0cc3bcf742b"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "tickets_soporte",
+          "mode": "list",
+          "cachedResultName": "tickets_soporte"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "email",
+              "value": "={{$json.body.userEmail}}"
+            },
+            {
+              "column": "mensaje",
+              "value": "={{$json.body.chatInput}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        208,
+        0
+      ],
+      "id": "7356fffa-9b23-4c8d-8a01-65cf03085dca",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "MX3AltV8UossHUoR",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "rafa.legendsss@gmail.com",
+        "toEmail": "rafa.legendsss@gmail.com",
+        "subject": "=Necesidad de soporte para {{ $node[\"Webhook\"].json.body.userEmail }}",
+        "emailFormat": "text",
+        "text": "=El usuario {{ $node[\"Webhook\"].json.body.userEmail }} solicita ayuda humana inmediata. La conversacion con el asistente de IA fue la siguiente: \n{{ $node[\"Webhook\"].json.body.chatInput }}",
+        "options": {
+          "replyTo": "={{ $node[\"Webhook\"].json.body.userEmail }}"
+        }
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "56b0f222-a3a4-430d-b485-f50823aabcbb",
+      "name": "Send email",
+      "webhookId": "eead7aa8-823c-4269-86ac-8f68a6ab8c84",
+      "credentials": {
+        "smtp": {
+          "id": "adlWUgRnoj7ZoL1U",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        624,
+        0
+      ],
+      "id": "9fe8c885-aa4a-47a5-9cdc-c8dcca18f62d",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send email": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8df6b758-59d5-4c47-8649-e7cd4e7b14fb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c1ec98b65a4de7fd53377c8532714ea0d92d7f3f29cc3cf5e2e36f1727d4abc9"
+  },
+  "id": "u2dZlrqkq7zHYGTA",
+  "tags": []
+}

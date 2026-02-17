@@ -1,0 +1,138 @@
+.panel-chatbot-principal {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 20px;
+}
+
+.panel-chatbot-encabezado {
+    display: flex;
+    color: var(--primary-color);
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-conversaciones {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    gap: 50px;
+}
+
+.panel-chatbot-principal h1 {
+    color: var(--primary-color);
+    font-size: 2.4rem !important;
+    font-weight: 900;
+
+}
+
+.panelizquierdo-conversaciones {
+    width: 30%;
+    height: 100%;
+    border: 2px solid var(--primary-color);
+    border-radius: 20px;
+}
+
+.panelizquierdo-conversaciones h2 {
+    color: var(--primary-color);
+    font-size: 1.8rem !important;
+    font-weight: 900;
+    text-align: center;
+    border-bottom: 2px solid var(--primary-color);
+    padding: 10px;
+}
+
+.sesion-item {
+    padding: 10px;
+    margin: 5px;
+    border-bottom: 1px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    color: var(--primary-color);
+}
+
+.sesion-item.verde {
+    border: 2px solid #00ff00;
+}
+
+.sesion-item.rojo {
+    border: 2px solid #ff0000;
+}
+
+.sesion-item.neutral {
+    border: 2px solid gray;
+}
+
+.sesion-item-msg {
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.sesion-item:hover {
+    background-color: #f8f8f8;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+
+}
+
+.sesion-item.active {
+    background-color: #f8f8f8;
+    border-left: 5px solid var(--primary-color);
+}
+
+.panelderecho-conversaciones {
+    width: 70%;
+    height: 100%;
+    border: 2px solid var(--primary-color);
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.tabla-conversacionpuntual {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.head-tablaconversacionpuntual {
+    background-color: #f8f8f8;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.tabla-conversacionpuntual th,
+.tabla-conversacionpuntual td {
+    text-align: center;
+    color: var(--primary-color);
+    padding: 15px;
+
+}
+
+.tabla-conversacionpuntual th {
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    /* Mantiene el encabezado arriba al hacer scroll */
+    top: 0;
+    background: white;
+}
+
+/* Para que la tabla no se estire hacia abajo de forma forzada */
+.tabla-conversacionpuntual tbody tr {
+    height: auto;
+    font-size: 1.2rem;
+}
+
+.td-mensaje {
+    font-weight: 800;
+}
+
+/* Ajuste de anchos para que el mensaje tenga más espacio */
+.tabla-conversacionpuntual th:nth-child(2),
+.tabla-conversacionpuntual td:nth-child(2) {
+    width: 60%;
+}
