@@ -1,15 +1,14 @@
-import React from 'react';
+// src/Components/ListasResenias/ListasResenias.jsx
+import React, { useState } from 'react';
 import './ListasResenias.css';
 import { format, parseISO } from 'date-fns';
 import es from 'date-fns/locale/es';
 
-// 1. Renombramos el prop a 'resenias' para más claridad
-const ListasResenias = ({ resenias, renderizarEstrellas }) => {
+const ListasResenias = ({ resenias }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Función interna para formatear la fecha
   const formatearFecha = (fechaISO) => { 
     try {
-      // Formatear la fecha a un formato legible
       return format(parseISO(fechaISO), "dd 'de' MMMM, yyyy", { locale: es });
     } catch (error) {
       console.error("Error formateando fecha:", error);
@@ -17,34 +16,61 @@ const ListasResenias = ({ resenias, renderizarEstrellas }) => {
     }
   };
 
+  const handlePrev = () => {
+    if (resenias?.length > 4) {
+      setCurrentIndex((prev) => Math.max(0, prev - 1));
+    }
+  };
+
+  const handleNext = () => {
+    if (resenias?.length > 4) {
+      setCurrentIndex((prev) => Math.min(resenias.length - 4, prev + 1));
+    }
+  };
+
+  const mostrarResenias = resenias?.slice(currentIndex, currentIndex + 4) || [];
 
   return (
-    <div className='opiniones-destacadas'>
-      <h2>Opiniones Destacadas</h2>
+    <div className='listas-resenias-container'>
+      <div className="resenias-header">
+        <h2>OPINIONES DESTACADAS</h2>
+        {resenias?.length > 4 && (
+          <div className="resenias-carousel-controls">
+            <div 
+              className={`carousel-arrow ${currentIndex === 0 ? 'disabled' : ''}`}
+              onClick={handlePrev}
+            >
+              &lt;
+            </div>
+            <div 
+              className={`carousel-arrow ${currentIndex >= resenias.length - 4 ? 'disabled' : ''}`}
+              onClick={handleNext}
+            >
+              &gt;
+            </div>
+          </div>
+        )}
+      </div>
 
-      {/* 2. Verificamos si el array 'resenias' está vacío */}
       {!resenias || resenias.length === 0 ? (
         <p className="sin-resenias-msg">Este salón aún no tiene reseñas. ¡Sé el primero en dejar una!</p>
       ) : (
-        <div className="opiniones-grid">
-          {resenias.map((opinion) => (
-            <div key={opinion.id_resenia} className="opinion-card">
-              <div className="opinion-header">
-                {/* 3. Corregimos el origen del nombre del usuario */}
-                <span className="usuario-nombre">
-                  {opinion.reserva?.arrendatario?.nombre || 'Usuario'}{' '}
-                  {opinion.reserva?.arrendatario?.apellido || ''}
+        <div className="resenias-grid">
+          {mostrarResenias.map((opinion) => (
+            <div key={opinion.id_resenia} className="resenia-card">
+              <div className="resenia-header">
+                <span className="resenia-nombre">
+                  {opinion.reserva?.arrendatario?.nombre || 'Usuario'}
                 </span>
-                {/* 4. Usamos la función 'renderizarEstrellas' recibida por props */}
-                <div className="opinion-estrellas">
-                  {renderizarEstrellas(opinion.calificacion)}
+                <div className="resenia-rating-circle">
+                  {opinion.calificacion}
                 </div>
               </div>
-              <p className="opinion-comentario">{opinion.comentario}</p>
-              {/* 5. Añadimos la fecha de la reseña */}
-              <p className="opinion-fecha">
-                {formatearFecha(opinion.fecha_creacion)}
-              </p>
+              <div className="resenia-contenido">
+                <span className="resenia-comilla">"</span>
+                <p className="resenia-comentario">{opinion.comentario}</p>
+                <span className="resenia-comilla">"</span>
+              </div>
             </div>
           ))}
         </div>

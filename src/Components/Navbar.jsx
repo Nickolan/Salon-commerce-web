@@ -9,7 +9,6 @@ function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const location = useLocation();
-  // Leemos el estado de autenticación y los datos del usuario del store
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -24,22 +23,19 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="container-fluid">
-        {/* Logo normal como en tu versión original */}
+        {/* Logo con nuevo color */}
         <Link to="/" className="navbar-title">
-          <h2>Focus Room</h2>
+          <h2 style={{ color: '#C8AD7F !important' }}>Focus Room</h2>
         </Link>
 
-        {/* Botón hamburguesa (solo visible en pantallas pequeñas) */}
         <button
           className="menu-toggle"
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+          {menuOpen ? <FiX size={24} color="#C8AD7F" /> : <FiMenu size={24} color="#C8AD7F" />}
         </button>
 
-        {/* Contenedor de botones */}
         <div className={`buttons-container ${menuOpen ? "active" : ""}`}>
-
           {
             isAuthenticated && user && user.es_administrador && (
               <Link to="/admin" onClick={() => setMenuOpen(false)}>

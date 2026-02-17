@@ -1,492 +1,358 @@
-.datosSalonCompleto {
+.datos-salon-completo {
+  background-color: #FFFFFF;
   width: 100%;
+  max-width: 1382px;
+  margin: 0 auto;
+  border-radius: 24px;
+  padding: 31px 32px;
+  display: flex;
+  gap: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Columna izquierda - Galería */
+.datos-salon-gallery {
+  flex: 0 0 830px;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.datosSalonCompleto .contenedor-principal {
-  display: flex;
-  gap: 30px;
-  width: 100%;
-  align-items: flex-start;
-}
-
-.datosSalonCompleto .columna-izquierda {
-  flex: 0.4;
-  /* Reduce el espacio de la columna izquierda */
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.datosSalonCompleto .columna-derecha {
-  flex: 0.6;
-  /* Aumenta el espacio de la columna derecha */
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.datosSalonCompleto .imagen-salon img {
-  width: 100%;
-  height: 350px;
-  /* Aumenta el alto de la imagen */
-  object-fit: cover;
-  border-radius: 10px;
-  display: block;
-}
-
-.datosSalonCompleto .columna-derecha {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.datosSalonCompleto .mapa-ubicacion {
-  border-radius: 10px;
-  overflow: hidden;
-  height: 300px;
+.datos-gallery-main {
   position: relative;
+  width: 830px;
+  height: 453px;
+  border-radius: 24px;
+  overflow: hidden;
 }
 
-.datosSalonCompleto .mapa-contenedor {
+.datos-gallery-main img {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  object-fit: cover;
 }
 
-.datosSalonCompleto .mapa-cargando,
-.datosSalonCompleto .mapa-error-placeholder {
+.datos-gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 20px;
+  pointer-events: none;
+}
+
+.gallery-nav-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  display: flex;
   align-items: center;
   justify-content: center;
-  height: 300px;
-  background-color: #fff3cd;
-  border: 2px dashed #ffc107;
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  color: #856404;
+  pointer-events: auto;
+  transition: all 0.3s ease;
+  color: #C8AD7F;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-.datosSalonCompleto .mapa-error-placeholder .error-icon {
-  font-size: 48px;
-  color: #ffc107;
-  margin-bottom: 15px;
+.gallery-nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
-.datosSalonCompleto .mapa-error-placeholder h3 {
-  margin: 0 0 10px 0;
-  font-size: 18px;
-  color: #856404;
+.datos-gallery-thumbnails {
+  display: flex;
+  gap: 20px;
 }
 
-.datosSalonCompleto .mapa-error-placeholder p {
-  margin: 0 0 15px 0;
-  font-size: 14px;
+.datos-gallery-thumbnails img {
+  width: 277px;
+  height: 151px;
+  border-radius: 16px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.datos-gallery-thumbnails img:hover {
   opacity: 0.8;
 }
 
-.datosSalonCompleto .mapa-error-placeholder .error-details {
+.datos-gallery-thumbnails img.active {
+  border-color: #C8AD7F;
+}
+
+/* Columna derecha - Información */
+.datos-salon-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 6px;
+}
+
+.datos-salon-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.datos-salon-header h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  color: #2D241E;
+  margin: 0 0 12px 0;
+}
+
+.datos-rating-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #C8AD7F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: #2D241E;
+}
+
+.datos-salon-location,
+.datos-salon-capacity,
+.datos-connect-business {
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: #fff;
-  padding: 8px 15px;
-  border-radius: 20px;
-  border: 1px solid #ffc107;
 }
 
-.datosSalonCompleto .mapa-error-placeholder .map-icon {
-  color: #6A0DAD;
-}
-
-.datosSalonCompleto .mapa-cargando-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 300px;
-  background-color: #f8f9fa;
-  border: 2px dashed #dee2e6;
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  color: #6c757d;
-}
-
-.datosSalonCompleto .gm-style iframe+div {
-  border-radius: 10px;
-}
-
-.datosSalonCompleto .info-ubicacion {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 15px;
-  background-color: #f8f8f8;
-  border-radius: 10px;
-  border: 1px solid #e0e0e0;
-}
-
-.datosSalonCompleto .ubicacion-icono {
-  color: #6A0DAD;
+.datos-salon-location svg,
+.datos-salon-capacity svg,
+.datos-connect-business svg {
+  color: #C8AD7F;
   font-size: 16px;
 }
 
-.datosSalonCompleto .precio-salon {
-  text-align: center;
-  padding: 15px 20px;
-  border-radius: 10px;
-  background-color: #fff;
-  min-height: auto;
-  height: auto;
-  border: 2px solid #6A0DAD;
-}
-
-.datosSalonCompleto .precio-texto {
-  font-size: 28px;
-  font-weight: bold;
-  color: #6A0DAD;
-  display: block;
-  line-height: 1.2;
-}
-
-.datosSalonCompleto .precio-label {
-  font-size: 14px;
-  color: #6A0DAD;
-  display: block;
-  margin-top: 4px;
-  font-weight: normal;
-}
-
-
-.datosSalonCompleto .imagen-salon {
-  width: 100%;
-}
-
-.datosSalonCompleto .detalles-secundarios {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.datosSalonCompleto .equipamiento {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-}
-
-.datosSalonCompleto .equipamiento h3 {
-  background-color: #fff;
-  padding: 6px 12px;
-  border-radius: 20px;
-  margin: 0;
-  white-space: nowrap;
-  color: #6A0DAD;
-  font-weight: normal;
-  border: 2px solid #6A0DAD;
-  font-size: 12px;
-}
-
-.datosSalonCompleto .reglas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-}
-
-.datosSalonCompleto .reglas h3 {
-  background-color: #6A0DAD;
-  padding: 6px 12px;
-  border-radius: 20px;
-  margin: 0;
-  white-space: nowrap;
-  color: #fff;
-  font-weight: normal;
-  font-size: 12px;
-}
-
-.datosSalonCompleto .descripcion {
-  color: #6A0DAD;
-  border: 2px solid #6A0DAD;
-  background-color: #FFFFFF;
-  border-radius: 25px;
-  padding: 25px;
-  margin: 10px 0;
-  min-height: auto;
-  height: auto;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.datosSalonCompleto .descripcion p {
-  margin: 0;
-  line-height: 1.6;
-  word-wrap: break-word;
+.datos-salon-location span {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
   font-size: 15px;
+  color: #2D241E;
+  opacity: 0.9;
 }
 
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #6A0DAD;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 15px;
+.datos-salon-capacity span {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: #2D241E;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
+.datos-connect-business span {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: #2D241E;
+  opacity: 0.9;
 }
 
-.imagen-placeholder {
+.datos-divider {
   width: 100%;
-  height: 250px;
-  background-color: #f8f9fa;
-  border: 2px dashed #dee2e6;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6c757d;
-  font-style: italic;
+  max-width: 504px;
+  height: 1px;
+  background-color: #C8AD7F;
+  opacity: 0.5;
+  margin: 8px 0 20px 0;
 }
 
-
-.mapa-error-placeholder,
-.mapa-cargando-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 300px;
-  background-color: #f8f9fa;
-  border: 2px dashed #dee2e6;
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
+.datos-equipamientos-section,
+.datos-reglas-section {
+  margin-bottom: 20px;
 }
 
-.mapa-error-placeholder {
-  background-color: #fff3cd;
-  border-color: #ffc107;
-  color: #856404;
-}
-
-.mapa-error-placeholder .error-icon {
-  font-size: 48px;
-  color: #ffc107;
-  margin-bottom: 15px;
-}
-
-/* Estilos para el contenedor del mapa nativo */
-#map-container {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-}
-
-/* Asegurar que el mapa se vea correctamente */
-.mapa-contenedor {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-}
-
-/* Mejorar los placeholders */
-.mapa-cargando-placeholder,
-.mapa-error-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 300px;
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-}
-
-.mapa-cargando-placeholder {
-  background-color: #f8f9fa;
-  border: 2px dashed #dee2e6;
-  color: #6c757d;
-}
-
-.mapa-error-placeholder {
-  background-color: #fff3cd;
-  border: 2px dashed #ffc107;
-  color: #856404;
-}
-
-.galeria-imagenes {
-  display: flex;
-  flex-direction: column;
-  /* Apila imagen principal y thumbnails */
-  gap: 15px;
-  /* Espacio entre imagen principal y thumbnails */
-  width: 100%;
-}
-
-/* Contenedor de la imagen principal */
-.imagen-principal-salon {
-  width: 100%;
-  height: 350px;
-  /* O el alto que prefieras */
-  background-color: #f0f0f0;
-  /* Color de fondo mientras carga o si no hay imagen */
-  border-radius: 10px;
-  overflow: hidden;
-  /* Asegura que la imagen no se salga */
-  display: flex;
-  /* Para centrar el placeholder si es necesario */
-  align-items: center;
-  justify-content: center;
-}
-
-.imagen-principal-salon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Cubre el área manteniendo la proporción */
-  display: block;
-  /* Evita espacio extra debajo de la imagen */
-}
-
-/* Placeholder si no hay imagen principal válida */
-.imagen-principal-salon .imagen-placeholder {
-  width: 100%;
-  height: 100%;
-  /* Ocupa el espacio de la imagen principal */
-  background-color: #f8f9fa;
-  border: 2px dashed #dee2e6;
-  border-radius: 10px;
-  /* Redondeado igual que la imagen principal */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6c757d;
-  font-style: italic;
-  font-size: 1rem;
-}
-
-/* Contenedor de los thumbnails */
-.galeria-thumbnails {
+.datos-equipamientos-list,
+.datos-reglas-list {
   display: flex;
   flex-wrap: wrap;
-  /* Permite que los thumbnails pasen a la siguiente línea */
   gap: 10px;
-  /* Espacio entre thumbnails */
-  justify-content: flex-start;
-  /* Alinea los thumbnails al inicio */
+}
+
+.datos-equipamiento-item {
+  background-color: #F4F4F6;
+  border: 1px solid #C8AD7F;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #2D241E;
+  opacity: 0.9;
+}
+
+.datos-regla-item {
+  background-color: rgba(200, 173, 127, 0.2);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #2D241E;
+  border: none;
+}
+
+/* Precio y acciones */
+.datos-salon-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto;
+}
+
+.datos-price-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.datos-price {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 35px;
+  color: #2D241E;
+  line-height: 1;
+}
+
+.datos-per-hour {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: #000000;
+}
+
+.datos-action-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.datos-action-buttons .boton-favorito {
+  width: 51px;
+  height: 51px;
+  padding: 0;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  border: 1px solid #2D241E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: static;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.datos-reserve-btn {
+  background-color: #C8AD7F;
+  border: 1px solid #2D241E;
+  border-radius: 10px;
+  padding: 14px 32px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #2D241E;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.datos-reserve-btn:hover {
+  background-color: #b89b6f;
+  transform: translateY(-2px);
+}
+
+/* Descripción */
+.datos-descripcion {
+  margin-top: 30px;
   width: 100%;
 }
 
-/* Estilo individual de cada thumbnail */
-.thumbnail {
-  width: 80px;
-  /* Ancho fijo para los thumbnails */
-  height: 60px;
-  /* Alto fijo para los thumbnails */
-  object-fit: cover;
-  border-radius: 5px;
-  cursor: pointer;
-  border: 2px solid transparent;
-  /* Borde inicial transparente */
-  transition: border-color 0.2s ease, transform 0.2s ease;
+.datos-descripcion h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: #2D241E;
+  margin-bottom: 24px;
+}
+
+.datos-descripcion p {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #000000;
   opacity: 0.7;
-  /* Ligeramente opaco por defecto */
-}
-
-.thumbnail:hover {
-  opacity: 1;
-  /* Opacidad completa al pasar el mouse */
-  transform: scale(1.05);
-  /* Ligero zoom al pasar el mouse */
-}
-
-/* Estilo del thumbnail activo (seleccionado) */
-.thumbnail.active {
-  border-color: var(--primary-color);
-  /* Usa tu color primario */
-  opacity: 1;
-  transform: scale(1.08);
-  /* Un poco más grande para destacar */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .datosSalonCompleto .contenedor-principal {
+@media (max-width: 1400px) {
+  .datos-salon-completo {
     flex-direction: column;
-    gap: 20px;
+    max-width: 100%;
   }
-
-  .datosSalonCompleto .columna-izquierda,
-  .datosSalonCompleto .columna-derecha {
+  
+  .datos-salon-gallery {
+    flex: 0 0 auto;
     width: 100%;
   }
-
-  .datosSalonCompleto .imagen-salon img {
-    height: 200px;
+  
+  .datos-gallery-main {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 830/453;
   }
-
-  .datosSalonCompleto .mapa-ubicacion {
-    height: 250px;
+  
+  .datos-gallery-thumbnails {
+    flex-wrap: wrap;
   }
-
-  .datosSalonCompleto .mapa-cargando,
-  .datosSalonCompleto .mapa-error {
-    height: 250px;
+  
+  .datos-gallery-thumbnails img {
+    width: calc(33.333% - 14px);
+    height: auto;
+    aspect-ratio: 277/151;
   }
+}
 
-  .imagen-principal-salon {
-    height: 250px;
-    /* Reducir altura en pantallas medianas */
+@media (max-width: 768px) {
+  .datos-salon-completo {
+    padding: 20px;
   }
-
-  .thumbnail {
-    width: 60px;
-    height: 45px;
+  
+  .datos-salon-header h1 {
+    font-size: 24px;
   }
 }
 
 @media (max-width: 480px) {
-  .datosSalonCompleto .mapa-ubicacion {
-    height: 200px;
+  .datos-salon-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
   }
+  
+  .datos-action-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .datos-gallery-thumbnails img {
+    width: 100%;
+  }
+}
 
-  .datosSalonCompleto .mapa-cargando,
-  .datosSalonCompleto .mapa-error {
-    height: 200px;
-    font-size: 14px;
-    padding: 0 15px;
-    text-align: center;
-  }
-
-  .imagen-principal-salon {
-    height: 200px;
-    /* Reducir más altura en móviles */
-  }
-
-  .thumbnail {
-    width: 50px;
-    height: 40px;
-  }
-
-  .galeria-thumbnails {
-    justify-content: center;
-    /* Centrar thumbnails en móvil si prefieres */
-  }
+.datos-salon-error {
+  padding: 40px;
+  text-align: center;
+  color: #666;
+  font-family: 'Montserrat', sans-serif;
 }

@@ -5,40 +5,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchSalonById, fetchReseniasBySalonId } from '../store/features/salones/salonSlice';
 
 import '../styles/DetallesSalon.css';
-import { CiShoppingCart } from "react-icons/ci";
-import { FaRegMap } from "react-icons/fa";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
 import DatosSalonCompleto from '../Components/DatosSalonCompleto/DatosSalonCompleto';
-import BotonFavoritos from '../Components/BotonFavoritos/BotonFavoritos.jsx';
+import MapaSalon from '../Components/DatosSalonCompleto/MapaSalon';
 import ListasResenias from '../Components/ListasResenias/ListasResenias';
-import { IoMdStar, IoMdStarHalf, IoMdStarOutline } from 'react-icons/io';
-import PreguntasComponent from '../Components/Q&A/Questions/PreguntasComponent.jsx'; 
+import PreguntasComponent from '../Components/Q&A/Questions/PreguntasComponent.jsx';
 
 const DetallesSalon = ({ isLoaded }) => {
-  const { id } = useParams(); // Obtenemos el ID de la URL
+  const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Obtenemos los datos del estado global de Redux
   const { selectedSalon, resenias, status, error } = useSelector((state) => state.salones);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
 
-  const {
-    isAuthenticated,
-    user
-  } = useSelector((state) => state.auth);
+  const soyElPublicante = user && selectedSalon?.publicador?.id_usuario === user.id_usuario;
 
-  const [esFavorito, setEsFavorito] = useState(false);
-
-  const calcularPromedio = () => {
-    if (!resenias || resenias.length === 0) return 0;
-    const suma = resenias.reduce((total, opinion) => total + opinion.calificacion, 0);
-    const promedio = suma / resenias.length;
-    return Math.round(promedio * 10) / 10;
-  };
-
-  const promedioCalificacion = calcularPromedio();
-
-  // Usamos useEffect para cargar los datos cuando el componente se monta o el ID cambia
   useEffect(() => {
     if (id) {
       dispatch(fetchSalonById(id));
@@ -46,88 +27,92 @@ const DetallesSalon = ({ isLoaded }) => {
     }
   }, [id, dispatch]);
 
-  const renderizarEstrellas = (calificacion) => {
-    const estrellas = [];
-    const estrellasLlenas = Math.floor(calificacion);
-    const tieneMediaEstrella = calificacion - estrellasLlenas >= 0.5;
-    for (let i = 0; i < estrellasLlenas; i++) {
-      estrellas.push(<IoMdStar key={`full-${i}`} className="logo" />);
-    }
-    if (tieneMediaEstrella) {
-      estrellas.push(<IoMdStarHalf key="half" className="logo" />);
-    }
-    const estrellasVacias = 5 - estrellas.length;
-    for (let i = 0; i < estrellasVacias; i++) {
-      estrellas.push(<IoMdStarOutline key={`empty-${i}`} className="logo" />);
-    }
-    return estrellas;
-  };
-
   const handleReservarClick = () => {
     navigate(`/reservar/${id}`);
   };
 
-  const toggleFavorito = () => {
-    setEsFavorito(!esFavorito);
+  const handleEditarSalonClick = () => {
+    navigate(`/editar-salon/${id}`);
   };
 
-  // Renderizado condicional mientras cargan los datos
+  // Calcular promedio para el rating
+  const calcularPromedio = () => {
+    if (!resenias || resenias.length === 0) return 0;
+    const suma = resenias.reduce((total, opinion) => total + opinion.calificacion, 0);
+    const promedio = suma / resenias.length;
+    return Math.round(promedio * 10) / 10;
+  };
+
+  // Añadir el promedio al objeto del salón
+  const salonConPromedio = selectedSalon ? {
+    ...selectedSalon,
+    promedioCalificacion: calcularPromedio()
+  } : null;
+
   if (status === 'loading') {
-    return <div className='detalles-Salon' style={{ paddingTop: '100px' }}><h1>Cargando...</h1></div>;
+    return (
+      <div className='detalles-Salon'>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Cargando información del salón...</p>
+        </div>
+      </div>
+    );
   }
 
   if (status === 'failed' || !selectedSalon) {
-    return <div className='detalles-Salon' style={{ paddingTop: '100px' }}><h1>Error: Salón no encontrado</h1><p>{error}</p></div>;
+    return (
+      <div className='detalles-Salon'>
+        <div className="error-container">
+          <h2>Error</h2>
+          <p>{error || 'Salón no encontrado'}</p>
+          <div className="error-action" onClick={() => navigate('/')}>
+            Volver al inicio
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className='detalles-Salon'>
-      <div className='titulo'>
-        <div className="titulo-izquierda">
-          <h1>{selectedSalon.nombre}</h1>
-          <div className="direccion">
-            <FaRegMap className="logo" />
-            <h2>{selectedSalon.direccion}</h2>
+      <div className="detalles-salon-container">
+        {/* Componente principal con toda la información del salón */}
+        <DatosSalonCompleto 
+          salon={salonConPromedio}
+          isLoaded={isLoaded}
+          esDueno={soyElPublicante}
+          onReservar={handleReservarClick}
+          onEditar={handleEditarSalonClick}
+        />
+
+        {/* Sección de descripción */}
+        <div className="detalles-descripcion-section">
+          <h2>SOBRE ESTE ESPACIO</h2>
+          <p>{selectedSalon.descripcion || 'No hay descripción disponible'}</p>
+        </div>
+
+        {/* Sección del mapa */}
+        <div className="detalles-mapa-section">
+          <h2>DÓNDE ESTUDIARÁS</h2>
+          <div className="detalles-mapa-contenedor">
+            <MapaSalon 
+              salon={selectedSalon} 
+              isLoaded={isLoaded}
+            />
           </div>
         </div>
-        <div className="titulo-derecha">
-          {
-            user == null || user.id_usuario !== selectedSalon.publicador.id_usuario && (
-              <div className="derecha-superior">
-                <BotonFavoritos
-                  id_salon={selectedSalon.id_salon}
-                  showText={true}
-                />
 
-                <div className="reservar-button" onClick={handleReservarClick}>
-                  <span className="reservar-texto">Reservar</span>
-                </div>
-              </div>
-            )
-          }
-
-          <div className="estrellas">
-            {renderizarEstrellas(promedioCalificacion)}
-            <span className="promedio-texto">({promedioCalificacion})</span>
-          </div>
-        </div>
-      </div>
-
-      <div className='detalles'>
-        <DatosSalonCompleto salon={selectedSalon} isLoaded={isLoaded} />
-
+        {/* Sección de preguntas */}
         <PreguntasComponent
           salonId={id}
           usuarioAutenticado={isAuthenticated}
           usuarioId={user?.id_usuario}
-          esDuenoSalon={user?.id_usuario === selectedSalon?.publicador?.id_usuario}
+          esDuenoSalon={soyElPublicante}
         />
-        
-        {/* Pasamos las reseñas obtenidas de la API al componente */}
-        <ListasResenias
-          resenias={resenias}
-          renderizarEstrellas={renderizarEstrellas}
-        />
+
+        {/* Sección de reseñas */}
+        <ListasResenias resenias={resenias} />
       </div>
     </div>
   );

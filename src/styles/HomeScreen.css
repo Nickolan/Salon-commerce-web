@@ -1,51 +1,319 @@
+/* Importar la fuente Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary-dark: #2D241E;
+  --accent-gold: #C8AD7F;
+  --bg-light: #F2F0EB;
+  --text-dark: #3E2723;
+  --text-white: #F4F4F6;
+  --card-bg: #FFFFFF;
+  --overlay-bg: rgba(0, 0, 0, 1);
+}
+
 /* Contenedor principal de la pantalla */
 .homescreen-wrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 4rem; /* Espacio para el footer */
+  padding-bottom: 4rem;
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--bg-light);
 }
 
-/* Sección del título y bienvenida */
-.homescreen-header {
+/* --- SECCIÓN HERO --- */
+.hero-section {
   width: 100%;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 8rem 2rem 5rem 2rem; /* Aumentamos el padding para más impacto visual */
-  text-align: center;
-  box-sizing: border-box;
+  position: relative;
+  height: 904px;
+  background-color: #000000;
 }
 
-.homescreen-header h1 {
-  font-size: 2.5rem;
+.hero-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 1);
+  z-index: 1;
+}
+
+.hero-title {
+  position: absolute;
+  top: 373px;
+  left: 170px;
+  width: 1106px;
+  color: var(--text-white);
+  font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  margin: 0 0 0.5rem 0;
-}
-
-.homescreen-header h2 {
-  font-size: 1.2rem;
-  font-weight: 300;
+  font-size: 4rem;
+  line-height: 1.2;
+  text-align: left;
   margin: 0;
-  opacity: 0.9;
+  z-index: 2;
 }
 
-/* Contenedor de la barra de búsqueda */
-.homescreen-searchbar {
-  margin-top: 1rem; /* Efecto de superposición sobre el header */
+.hero-searchbar-wrapper {
+  position: absolute;
+  top: 708px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
-  max-width: 800px;
-  padding: 0 1rem;
+  max-width: 1344px;
+  z-index: 20;
+  padding: 0 20px;
   box-sizing: border-box;
-  position: relative; /* Le dice al navegador que este elemento participa en el apilamiento */
-  z-index: 10
 }
 
-/* Contenedor para las secciones de carruseles */
+.features-section {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: var(--bg-light);
+}
+
+.feature-container {
+  flex: 1;
+  max-width: 427px;
+  background-color: var(--card-bg);
+  border-radius: 30px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: auto;
+}
+
+.feature-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.feature-container .feature-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.feature-container .feature-icon-bg {
+  width: 100px;
+  height: 100px;
+  background-color: var(--accent-gold);
+  opacity: 0.6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.feature-container:hover .feature-icon-bg {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.feature-container .feature-icon {
+  color: var(--primary-dark);
+  font-size: 2.5rem;
+  opacity: 1;
+}
+
+.feature-container .feature-title {
+  color: var(--primary-dark);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.feature-description-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, margin 0.3s ease;
+  width: 100%;
+}
+
+.feature-description-wrapper.show {
+  max-height: 200px; 
+  margin-top: 1.5rem;
+}
+
+.feature-container .feature-description {
+  color: var(--primary-dark);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  opacity: 0.8;
+  margin: 0;
+  line-height: 1.6;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+/* --- SECCIÓN ¿CÓMO PUEDES RESERVAR? --- */
+.how-to-reserve-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background-color: var(--bg-light);
+}
+
+.reserve-container {
+  width: 100%;
+  max-width: 1375px;
+  background-color: var(--primary-dark);
+  opacity: 0.9;
+  border: 1px solid var(--accent-gold);
+  border-radius: 30px;
+  padding: 3rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  position: relative;
+}
+
+.reserve-main-title {
+  color: var(--text-white);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  text-align: center;
+  margin: 0 0 3rem 0;
+  width: 100%;
+  max-width: 843px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reserve-step {
+  width: 100%;
+  max-width: 1270px;
+  height: 124px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  margin: 1rem auto;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.step-1, .step-3 {
+  justify-content: flex-start;
+}
+
+.step-2 {
+  justify-content: space-between;
+}
+
+.step-3 {
+  max-width: 757px;
+  margin-left: 347px;
+}
+
+.step-number {
+  color: var(--text-white);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 4rem;
+  margin-right: 1.5rem;
+}
+
+.step-2 .step-number {
+  margin-right: 0;
+  margin-left: 1.5rem;
+}
+
+.step-content {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.step-2 .step-content {
+  justify-content: flex-end;
+}
+
+.step-action {
+  color: var(--text-white);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  white-space: nowrap;
+}
+
+.step-icon {
+  color: var(--accent-gold);
+  width: 48px;
+  height: 48px;
+}
+
+.step-description {
+  color: var(--accent-gold);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  margin: 0;
+  max-width: 796px;
+}
+
+.step-1 .step-description {
+  margin-left: 1rem;
+}
+
+.step-2 .step-description {
+  order: -1;
+}
+
+/* --- SECCIÓN MEJORES PUNTUADOS --- */
+.top-rated-section {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+  background-color: var(--bg-light);
+}
+
+.top-rated-title {
+  color: var(--primary-dark);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 3.125rem;
+  margin: 0 0 2rem 0;
+  padding-left: 76px;
+}
+
+/* --- ESTILOS DE LOS CARRUSELES --- */
 .homescreen-content {
   width: 100%;
-  max-width: 1200px; /* Ancho máximo para el contenido */
-  padding: 2rem 1rem;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -54,44 +322,256 @@
 }
 
 .carousel-section h3 {
-  color: var(--primary-color);
+  color: var(--primary-dark);
   font-size: 1.8rem;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 1.5rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #f0e6ff;
+  border-bottom: 2px solid var(--accent-gold);
 }
 
-/* Estilos para los mensajes de estado (Cargando, Error, etc.) */
-.status-message {
-  padding: 2rem;
+/* Estilos para las flechas del carrusel */
+.slick-prev:before,
+.slick-next:before {
+  color: var(--accent-gold) !important;
+  font-size: 30px !important;
+  opacity: 1 !important;
+}
+
+/* --- ESTILOS PARA LOS BOTONES DE UBICACIÓN --- */
+.ubicacion-prompt {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 16px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   text-align: center;
-  font-size: 1.1rem;
-  color: #666;
-  background-color: #f9f9f9;
+}
+
+.ubicacion-prompt.no-auth {
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.ubicacion-prompt-texto {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: var(--primary-dark);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.ubicacion-prompt-botones {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ubicacion-prompt-botones.vertical {
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* Estilo base para todos los botones de ubicación */
+.btn-ubicacion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  text-align: center;
+  outline: none;
+  min-width: 200px;
+}
+
+/* Botón primario - fondo blanco con borde */
+.btn-ubicacion.btn-primario {
+  background-color: #FFFFFF;
+  border: 2px solid var(--primary-dark);
+  color: var(--primary-dark);
+}
+
+.btn-ubicacion.btn-primario:hover {
+  background-color: #F4F4F6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón secundario - fondo dorado */
+.btn-ubicacion.btn-secundario {
+  background-color: var(--accent-gold);
+  border: 2px solid var(--primary-dark);
+  color: var(--primary-dark);
+}
+
+.btn-ubicacion.btn-secundario:hover {
+  background-color: #b89b6f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón para dejar de compartir ubicación */
+.btn-limpiar-ubicacion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  background-color: var(--accent-gold);
+  border: 2px solid var(--primary-dark);
+  border-radius: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--primary-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 16px auto 0;
+}
+
+.btn-limpiar-ubicacion:hover {
+  background-color: #b89b6f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Mensajes de estado */
+.ubicacion-mensaje {
+  margin-top: 16px;
+  padding: 12px;
   border-radius: 8px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.status-message.error {
-  color: #d8000c;
-  background-color: #ffd2d2;
+.ubicacion-mensaje.exito {
+  background-color: rgba(200, 173, 127, 0.2);
+  color: var(--primary-dark);
+  border: 1px solid var(--accent-gold);
 }
 
-/* Media Queries para responsividad */
+.ubicacion-mensaje.error {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #d32f2f;
+  border: 1px solid #d32f2f;
+}
+
+.ubicacion-temporal-info {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.spinner-small {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(45, 36, 30, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--primary-dark);
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --- MEDIA QUERIES --- */
+@media (max-width: 1200px) {
+  .hero-title {
+    left: 5%;
+    width: 90%;
+    font-size: 3rem;
+    top: 300px;
+  }
+
+  .hero-searchbar-wrapper {
+    top: 650px;
+    padding: 0 1rem;
+  }
+
+  .features-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feature-container {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .step-3 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .top-rated-title {
+    padding-left: 2rem;
+  }
+
+  .ubicacion-prompt-botones {
+    flex-direction: column;
+  }
+
+  .btn-ubicacion {
+    min-width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
-  .homescreen-header {
-    padding: 6rem 1rem 4rem 1rem;
+  .hero-section {
+    height: 700px;
   }
 
-  .homescreen-header h1 {
+  .hero-title {
     font-size: 2rem;
+    top: 200px;
   }
 
-  .homescreen-header h2 {
-    font-size: 1rem;
+  .hero-searchbar-wrapper {
+    top: 500px;
   }
 
-  .carousel-section h3 {
-    font-size: 1.5rem;
+  .reserve-step {
+    height: auto;
+    flex-direction: column;
+    padding: 2rem;
+  }
+
+  .step-content {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .step-description {
+    font-size: 1.2rem;
+  }
+
+  .top-rated-title {
+    font-size: 2.5rem;
+    padding-left: 1rem;
+  }
+
+  .ubicacion-prompt-botones {
+    flex-direction: column;
+  }
+
+  .btn-ubicacion {
+    min-width: 100%;
+    padding: 10px;
   }
 }

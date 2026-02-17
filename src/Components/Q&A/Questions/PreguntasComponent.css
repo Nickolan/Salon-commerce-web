@@ -10,8 +10,8 @@
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
-  color: #333;
-  border-bottom: 2px solid #f0f0f0;
+  color: #2D241E;
+  border-bottom-color: rgba(200, 173, 127, 0.3);
   padding-bottom: 0.75rem;
 }
 
@@ -85,8 +85,8 @@
 }
 
 .qa-submit-button {
-  background: #4299e1;
-  color: white;
+  background-color: #C8AD7F;
+  color: #2D241E;
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
@@ -96,7 +96,7 @@
 }
 
 .qa-submit-button:hover:not(:disabled) {
-  background: #3182ce;
+  background-color: #b89b6f;
 }
 
 .qa-submit-button:disabled {
@@ -192,8 +192,8 @@
 .qa-author-avatar {
   width: 24px;
   height: 24px;
-  background: #4299e1;
-  color: white;
+  background-color: #C8AD7F;
+  color: #2D241E;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -215,6 +215,8 @@
 }
 
 .qa-moderation-status {
+  background-color: rgba(200, 173, 127, 0.2);
+  color: #2D241E;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -286,8 +288,9 @@
 }
 
 .qa-moderation-info {
-  background: #f0f9ff;
-  border: 1px solid #e0f2fe;
+  background-color: rgba(200, 173, 127, 0.1);
+  border-color: #C8AD7F;
+  color: #2D241E;
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1.5rem;
@@ -295,7 +298,6 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: #0891b2;
 }
 
 .qa-login-prompt {
@@ -403,7 +405,7 @@
 .qa-reject-button {
   background: none;
   border: none;
-  color: #e53e3e;
+  color: #C8AD7F;
   cursor: pointer;
   font-size: 18px;
   padding: 5px;
@@ -468,8 +470,8 @@
 }
 
 .qa-edit-save {
-  background: #4299e1;
-  color: white;
+  background-color: #C8AD7F;
+  color: #2D241E;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;

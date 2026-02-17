@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { searchSalones } from '../../store/features/salones/salonSlice';
 import Autocomplete from 'react-google-autocomplete';
-import { FaSearch } from 'react-icons/fa';
+import { LuMapPin } from "react-icons/lu";
 import './searchbar.css';
 
 const Searchbar = () => {
-  const [capacidad, setCapacidad] = useState(1);
   const [ubicacion, setUbicacion] = useState(null);
+  const [ubicacionTexto, setUbicacionTexto] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -17,6 +17,7 @@ const Searchbar = () => {
       const lat = place.geometry.location.lat();
       const lng = place.geometry.location.lng();
       setUbicacion({ lat, lng });
+      setUbicacionTexto(place.formatted_address || place.name);
     }
   };
 
@@ -29,39 +30,32 @@ const Searchbar = () => {
     dispatch(searchSalones({
       lat: ubicacion.lat,
       lng: ubicacion.lng,
-      capacidad: capacidad > 0 ? capacidad : 1,
+      // Capacidad ya no se envía
     }));
 
-    navigate('/resultados'); // Navegamos a la página de resultados
+    navigate('/resultados');
   };
 
   return (
-    <div className="search-bar-container">
-      <div className="search-input-wrapper">
+    <div className="searchbar-figma">
+      <div className="searchbar-field location-field">
+        <LuMapPin className="searchbar-icon" />
         <Autocomplete
-          apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} // Asegúrate de tener tu key en .env
+          apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
           onPlaceSelected={handlePlaceSelected}
           options={{
             types: ["geocode"],
-            componentRestrictions: { country: "ar" }, // Limita la búsqueda a Argentina
+            componentRestrictions: { country: "ar" },
           }}
-          placeholder="¿Dónde quieres estudiar?"
-          className="search-input location"
+          placeholder="¿Dónde?"
+          className="searchbar-input"
+          value={ubicacionTexto}
+          onChange={(e) => setUbicacionTexto(e.target.value)}
         />
       </div>
-      {/* <div className="search-input-wrapper capacity">
-        <input
-          type="number"
-          value={capacidad}
-          onChange={(e) => setCapacidad(Number(e.target.value))}
-          min="1"
-          className="search-input"
-        />
-        <span>personas</span>
-      </div> */}
-      <button className="search-button" onClick={handleSearch}>
-        <FaSearch />
-        <span>Buscar</span>
+
+      <button className="search-button-figma" onClick={handleSearch}>
+        Buscar
       </button>
     </div>
   );
