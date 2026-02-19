@@ -82,6 +82,10 @@ function App() {
         isAuthenticated && <ChatListSidebar/>
       }
 
+      {
+        <Chatbot/>
+      }
+
       <Routes>
         <Route path="/" element={<><Navbar/><HomeScreen isLoaded={isLoaded} />   <Footer /></>} />
         <Route path="/login" element={<> <LoginScreen /> </>} />

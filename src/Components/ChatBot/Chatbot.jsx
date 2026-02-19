@@ -200,8 +200,8 @@ const Chatbot = () => {
 
       {isOpen && (
         <div className="chatbot-container">
-          <div className='cabeza-chatbot'>
-            <div className="chatbot-header">Focus Room AI</div>
+          <div onClick={() => setIsOpen(false)} className='cabeza-chatbot'>
+            <div  className="chatbot-header">Focus Room AI</div>
             <button onClick={LimpiarChat}><IoReload /></button>
           </div>
           <div className="chatbot-messages">
