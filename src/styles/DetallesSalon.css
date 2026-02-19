@@ -1,15 +1,18 @@
-.detalles-Salon{
+/* Estilos base */
+.detalles-Salon {
   padding: 3% 5%;
   margin-left: auto;
   margin-right: auto;
+  max-width: 1400px;
 }
 
+/* Título y encabezado */
 .detalles-Salon .titulo {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   gap: 20px;
   flex-wrap: nowrap;
 }
@@ -22,310 +25,9 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-}
-.detalles-Salon h2{
-  font-size: 14px ;
-}
-
-.detalles-Salon .titulo-izquierda h1 {
-  margin: 0 0 8px 0; 
-  color: #6A0DAD;
-  visibility: visible;
-  opacity: 1;
-  display: block;
-  position: relative;
-  z-index: 1;
-  font-size: 36px;
-}
-
-.detalles-Salon .h1{
-  font-size: 24px;
-}
-
-.detalles-Salon .titulo-derecha {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-  min-width: 120px;
-  margin-top: 0;
-}
-
-.detalles-Salon .direccion {
-  display: flex;
-  align-items: center; 
   gap: 8px;
-  margin-top: 0;
-  flex-wrap: wrap;
 }
 
-.detalles-Salon .direccion .logo {
-  margin-bottom: 2px; 
-  font-size: 16px;
-}
-
-.detalles-Salon .direccion h2 {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  font-size: 16px;
-}
-
-
-.detalles-Salon .derecha-superior {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.detalles-Salon .reservar-button {
-  background-color: #6A0DAD;
-  color: #FFFFFF;
-  border: none;
-  padding: 2px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1.5rem;
-
-  font-weight: bold;
-}
-
-.detalles-Salon h1,
-.detalles-Salon h2,
-.detalles-Salon h3 {
-  color: #6A0DAD;
-}
-
-.detalles-Salon h3{
-    font-weight:normal;
-}
-
-.detalles-Salon .reservar-button:hover {
-  opacity: 0.9;
-}
-
-.detalles-Salon .favorito-lleno {
-  color: #6A0DAD;
-  cursor: pointer;
-}
-
-.detalles-Salon .favorito-vacio {
-  cursor: pointer;
-  color: #6A0DAD;
-}
-
-.detalles-Salon .derecha-superior .logo {
-  transition: transform 0.2s ease;
-}
-
-.detalles-Salon .derecha-superior .logo:hover {
-  transform: scale(1.1);
-}
-
-.detalles-Salon .estrellas {
-  display: flex;
-  gap: 2px;
-  align-items: center;
-}
-
-.detalles-Salon .promedio-texto {
-  margin-left: 8px;
-  font-size: 14px;
-  color: #6A0DAD;
-  font-weight: bold;
-}
-
-.detalles-Salon .detalles {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  overflow: visible;
-}
-
-.detalles-Salon .icon,
-.detalles-Salon .logo,
-.detalles-Salon .estrella {
-  color: #6A0DAD;
-  font-size: 18px;
-}
-
-CSS
-
-/* Estilos existentes (se mantienen para pantallas grandes) */
-.detalles-Salon {
-  padding: 3% 5%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.detalles-Salon .titulo {
-  display: flex; /* Elementos lado a lado por defecto */
-  justify-content: space-between; /* Espacio entre izquierda y derecha */
-  align-items: flex-start; /* Alinea arriba por defecto */
-  width: 100%;
-  margin-bottom: 20px;
-  gap: 20px; /* Espacio entre columna izquierda y derecha */
-  flex-wrap: nowrap; /* Evita que se envuelvan en pantallas grandes */
-}
-
-.detalles-Salon .titulo .titulo-izquierda {
-  text-align: start;
-  flex: 1; /* Permite que crezca */
-  min-width: 0; /* Permite que se encoja si es necesario */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* Alinea el contenido interno arriba */
-  gap: 8px; /* Espacio entre h1 y dirección */
-}
-
-.detalles-Salon .titulo-izquierda h1 {
-  margin: 0;
-  color: #6A0DAD;
-  font-size: 32px; /* Tamaño ajustado ligeramente */
-  line-height: 1.2; /* Mejora el espaciado entre líneas si el título es largo */
-}
-
-.detalles-Salon .titulo .titulo-derecha {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end; /* Alinea a la derecha en escritorio */
-  gap: 10px;
-  /* min-width: 120px; /* Quitar min-width para permitir que se encoja */
-  /* margin-top: 0; // No necesario */
-  flex-shrink: 0; /* Evita que la columna derecha se encoja demasiado rápido */
-}
-
-.detalles-Salon .direccion {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  /* margin-top: 0; // No necesario */
-  flex-wrap: wrap; /* Permite que la dirección se envuelva si es muy larga */
-}
-
-.detalles-Salon .direccion .logo {
-  font-size: 16px;
-  flex-shrink: 0; /* Evita que el icono se encoja */
-}
-
-.detalles-Salon .direccion h2 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: normal; /* Asegura que no sea negrita por defecto */
-  color: #6A0DAD;
-  line-height: 1.4;
-}
-
-/* Estilos de la parte derecha superior (botones) */
-.detalles-Salon .derecha-superior {
-  display: flex;
-  align-items: center;
-  gap: 15px; /* Aumentar un poco el espacio */
-  flex-wrap: wrap; /* Permitir que los botones se envuelvan si no caben */
-  justify-content: flex-end; /* Mantener alineado a la derecha en escritorio */
-}
-
-.detalles-Salon .reservar-button {
-  background-color: #6A0DAD;
-  color: #FFFFFF;
-  border: none;
-  padding: 8px 16px; /* Ajustar padding */
-  border-radius: 6px; /* Redondear un poco más */
-  cursor: pointer;
-  font-size: 1rem; /* Tamaño de fuente relativo */
-  font-weight: bold;
-  text-align: center;
-  white-space: nowrap; /* Evitar que el texto se rompa */
-  transition: opacity 0.2s ease;
-}
-.detalles-Salon .reservar-button:hover {
-  opacity: 0.9;
-}
-
-/* Estilos de Estrellas y Favoritos (sin cambios relevantes, se mantienen) */
-.detalles-Salon .estrellas {
-  display: flex;
-  gap: 2px;
-  align-items: center;
-}
-.detalles-Salon .promedio-texto {
-  margin-left: 8px;
-  font-size: 14px;
-  color: #6A0DAD;
-  font-weight: bold;
-}
-/* ... (otros estilos de estrellas, favorito-lleno, favorito-vacio, etc.) ... */
-
-/* --- 👇 AJUSTES RESPONSIVOS --- */
-
-@media (max-width: 768px) { /* Tabletas y móviles */
-  .detalles-Salon .titulo {
-    flex-direction: column; /* Apila izquierda y derecha */
-    align-items: stretch; /* Ocupa todo el ancho */
-    gap: 15px; /* Espacio entre las secciones apiladas */
-  }
-
-  .detalles-Salon .titulo .titulo-izquierda {
-    align-items: center; /* Centra el título y la dirección */
-    text-align: center; /* Centra el texto */
-  }
-
-  .detalles-Salon .titulo-izquierda h1 {
-    font-size: 28px; /* Reducir tamaño del título */
-  }
-
-   .detalles-Salon .direccion {
-     justify-content: center; /* Centra el icono y el texto de dirección */
-   }
-
-   .detalles-Salon .direccion h2 {
-     font-size: 15px; /* Ligeramente más pequeño */
-   }
-
-
-  .detalles-Salon .titulo .titulo-derecha {
-    align-items: center; /* Centra los elementos de la derecha */
-    width: 100%; /* Ocupa todo el ancho */
-  }
-
-  .detalles-Salon .derecha-superior {
-    justify-content: center; /* Centra los botones horizontalmente */
-    width: 100%; /* Asegura que ocupe el ancho para centrar bien */
-    gap: 10px; /* Ajustar espacio si es necesario */
-  }
-
-   .detalles-Salon .reservar-button {
-      padding: 6px 14px; /* Un poco más pequeño */
-      font-size: 0.95rem;
-   }
-}
-
-@media (max-width: 480px) { /* Móviles más pequeños */
-  .detalles-Salon {
-    padding: 3% 4%; /* Menos padding lateral */
-  }
-
-  .detalles-Salon .titulo-izquierda h1 {
-    font-size: 24px; /* Aún más pequeño */
-  }
-
-  .detalles-Salon .direccion h2 {
-    font-size: 14px;
-  }
-
-  .detalles-Salon .derecha-superior {
-    flex-direction: column; /* Apila Favorito y Reservar si es muy estrecho */
-    gap: 10px;
-  }
-
-   .detalles-Salon .reservar-button {
-      width: 100%; /* Botón de reservar ocupa todo el ancho */
-      max-width: 250px; /* Pero con un máximo */
-   }
-}
-
-/* Resto de estilos generales (sin cambios) */
 .detalles-Salon h1,
 .detalles-Salon h2,
 .detalles-Salon h3 {
@@ -335,9 +37,435 @@ CSS
 .detalles-Salon h3 {
   font-weight: normal;
 }
+
+.detalles-Salon .titulo-izquierda h1 {
+  margin: 0 0 8px 0;
+  color: #6A0DAD;
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.detalles-Salon .h1 {
+  font-size: 24px;
+}
+
+.detalles-Salon .direccion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+  flex-wrap: wrap;
+}
+
+.detalles-Salon .direccion .logo {
+  margin-bottom: 2px;
+  font-size: 16px;
+  color: #6A0DAD;
+}
+
+.detalles-Salon .direccion h2 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 16px;
+  color: #6A0DAD;
+  font-weight: normal;
+}
+
+/* Sección derecha */
+.detalles-Salon .titulo-derecha {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 15px;
+  min-width: 150px;
+  margin-top: 0;
+}
+
+.detalles-Salon .derecha-superior {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Botón de reservar */
+.detalles-Salon .reservar-button {
+  background-color: #6A0DAD;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+}
+
+.detalles-Salon .reservar-button:hover {
+  background-color: #5a0c9d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(106, 13, 173, 0.3);
+}
+
+.detalles-Salon .reservar-texto {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Botón de favoritos */
+.detalles-Salon .favorito-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detalles-Salon .favorito-lleno {
+  color: #6A0DAD;
+  cursor: pointer;
+  font-size: 24px;
+  transition: transform 0.3s ease;
+}
+
+.detalles-Salon .favorito-vacio {
+  cursor: pointer;
+  color: #6A0DAD;
+  font-size: 24px;
+  transition: transform 0.3s ease;
+}
+
+.detalles-Salon .favorito-lleno:hover,
+.detalles-Salon .favorito-vacio:hover {
+  transform: scale(1.1);
+}
+
+.detalles-Salon .favorito-texto {
+  font-size: 0.9rem;
+  color: #6A0DAD;
+  font-weight: 500;
+}
+
+/* Estrellas y calificación */
+.detalles-Salon .estrellas {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  background: rgba(106, 13, 173, 0.05);
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(106, 13, 173, 0.1);
+}
+
+.detalles-Salon .estrellas .logo {
+  color: #FFD700;
+  font-size: 20px;
+  transition: transform 0.2s;
+}
+
+.detalles-Salon .estrellas .logo:hover {
+  transform: scale(1.2);
+}
+
+.detalles-Salon .promedio-texto {
+  margin-left: 8px;
+  font-size: 16px;
+  color: #6A0DAD;
+  font-weight: bold;
+  background: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(106, 13, 173, 0.2);
+}
+
+/* Sección de detalles */
+.detalles-Salon .detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  overflow: visible;
+  margin-top: 20px;
+}
+
+/* Componentes internos */
+.detalles-Salon .datosSalonCompleto,
+.detalles-Salon .qa-container,
+.detalles-Salon .listas-resenias {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(106, 13, 173, 0.1);
+}
+
+/* Iconos generales */
 .detalles-Salon .icon,
 .detalles-Salon .logo,
 .detalles-Salon .estrella {
   color: #6A0DAD;
   font-size: 18px;
+}
+
+/* Estado de carga y error */
+.detalles-Salon .cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 20px;
+}
+
+.detalles-Salon .cargando-spinner {
+  border: 4px solid rgba(106, 13, 173, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #6A0DAD;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.detalles-Salon .error {
+  text-align: center;
+  padding: 40px 20px;
+  color: #ff4444;
+  background: rgba(255, 68, 68, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 68, 68, 0.2);
+}
+
+/* Mensajes informativos */
+.detalles-Salon .info-message {
+  padding: 16px;
+  background: rgba(106, 13, 173, 0.05);
+  border-radius: 8px;
+  border-left: 4px solid #6A0DAD;
+  margin: 16px 0;
+}
+
+.detalles-Salon .info-message p {
+  margin: 0;
+  color: #6A0DAD;
+  font-size: 0.95rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .detalles-Salon {
+    padding: 20px 15px;
+  }
+
+  .detalles-Salon .titulo {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .detalles-Salon .titulo .titulo-izquierda {
+    text-align: center;
+    align-items: center;
+  }
+
+  .detalles-Salon .titulo-izquierda h1 {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .detalles-Salon .direccion {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .detalles-Salon .direccion h2 {
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .detalles-Salon .titulo .titulo-derecha {
+    align-items: center;
+    width: 100%;
+  }
+
+  .detalles-Salon .derecha-superior {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .detalles-Salon .reservar-button {
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    min-width: 110px;
+  }
+
+  .detalles-Salon .estrellas {
+    padding: 6px 14px;
+  }
+
+  .detalles-Salon .estrellas .logo {
+    font-size: 18px;
+  }
+
+  .detalles-Salon .promedio-texto {
+    font-size: 14px;
+  }
+
+  .detalles-Salon .detalles {
+    gap: 20px;
+  }
+
+  .detalles-Salon .datosSalonCompleto,
+  .detalles-Salon .qa-container,
+  .detalles-Salon .listas-resenias {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .detalles-Salon {
+    padding: 15px 10px;
+  }
+
+  .detalles-Salon .titulo-izquierda h1 {
+    font-size: 24px;
+  }
+
+  .detalles-Salon .direccion h2 {
+    font-size: 14px;
+  }
+
+  .detalles-Salon .derecha-superior {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .detalles-Salon .reservar-button {
+    width: 100%;
+    max-width: 250px;
+    padding: 12px;
+  }
+
+  .detalles-Salon .favorito-container {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .detalles-Salon .estrellas {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .detalles-Salon .detalles {
+    gap: 15px;
+  }
+
+  .detalles-Salon .datosSalonCompleto,
+  .detalles-Salon .qa-container,
+  .detalles-Salon .listas-resenias {
+    padding: 16px;
+  }
+}
+
+/* Estados interactivos */
+.detalles-Salon .interactive-element {
+  transition: all 0.3s ease;
+}
+
+.detalles-Salon .interactive-element:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.detalles-Salon .datosSalonCompleto .mapa-ubicacion,
+.detalles-Salon .datosSalonCompleto .galeria-imagenes,
+.detalles-Salon .datosSalonCompleto .detalles-secundarios {
+  margin-bottom: 20px;
+}
+
+.detalles-Salon .qa-container .qa-item {
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(106, 13, 173, 0.1);
+  padding-bottom: 16px;
+}
+
+.detalles-Salon .qa-container .qa-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Ajustes para scroll suave */
+.detalles-Salon * {
+  box-sizing: border-box;
+}
+
+.detalles-Salon a {
+  color: #6A0DAD;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.detalles-Salon a:hover {
+  color: #5a0c9d;
+  text-decoration: underline;
+}
+
+/* Estilos para botones generales */
+.detalles-Salon button {
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.detalles-Salon button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Animaciones suaves */
+.detalles-Salon .fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar personalizado */
+.detalles-Salon ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.detalles-Salon ::-webkit-scrollbar-track {
+  background: rgba(106, 13, 173, 0.05);
+  border-radius: 4px;
+}
+
+.detalles-Salon ::-webkit-scrollbar-thumb {
+  background: rgba(106, 13, 173, 0.2);
+  border-radius: 4px;
+}
+
+.detalles-Salon ::-webkit-scrollbar-thumb:hover {
+  background: rgba(106, 13, 173, 0.3);
 }

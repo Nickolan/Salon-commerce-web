@@ -1,0 +1,231 @@
+.qa-expanded-content {
+  padding: 0 0 1.5rem;
+}
+
+.qa-no-answers {
+  background: #f7fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.qa-no-answers-text {
+  color: #718096;
+  margin-bottom: 0.5rem;
+}
+
+.qa-owner-hint {
+  color: #4299e1;
+  font-size: 0.875rem;
+}
+
+/* Lista de respuestas */
+.qa-answers-list {
+  margin-bottom: 1.5rem;
+}
+
+.qa-answer {
+  background: #f7fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.qa-answer-highlighted {
+  background: #fffaf0;
+  border-left: 4px solid #ed8936;
+}
+
+.qa-answer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.qa-answer-author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.qa-answer-author-name {
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.qa-owner-badge {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 0.5rem;
+}
+
+.qa-star-icon {
+  font-size: 0.75rem;
+}
+
+.qa-answer-date {
+  font-size: 0.75rem;
+  color: #a0aec0;
+}
+
+.qa-answer-content {
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+/* Formulario de respuesta */
+.qa-answer-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.qa-answer-textarea {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  resize: vertical;
+  min-height: 60px;
+}
+
+.qa-answer-textarea:focus {
+  outline: none;
+  border-color: #4299e1;
+}
+
+.qa-answer-submit {
+  background: #48bb78;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  align-self: flex-end;
+}
+
+.qa-answer-submit:hover:not(:disabled) {
+  background: #38a169;
+}
+
+.qa-answer-submit:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+}
+
+/* Estilos para edición */
+.qa-edit-container {
+  width: 100%;
+}
+
+.qa-edit-textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  margin-bottom: 8px;
+}
+
+.qa-edit-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.qa-edit-save,
+.qa-edit-cancel {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.qa-edit-save {
+  background: #4CAF50;
+  color: white;
+}
+
+.qa-edit-save:hover {
+  background: #45a049;
+}
+
+.qa-edit-save:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+.qa-edit-cancel {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.qa-edit-cancel:hover {
+  background: #e0e0e0;
+}
+
+/* Botones de acción */
+.qa-edit-button {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qa-edit-button:hover {
+  color: #333;
+  background: #f0f0f0;
+}
+
+.qa-delete-button {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qa-delete-button:hover {
+  color: #ff3333;
+  background: #ffe6e6;
+}
+
+.qa-delete-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.qa-deleting {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
