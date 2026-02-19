@@ -3,10 +3,14 @@
 /* --- Base Styles (Desktop First) --- */
 
 .reservar-salon-screen {
-  padding: 100px 2rem 4rem 2rem; /* Initial padding */
-  max-width: 1200px; /* Max width for content */
-  margin: 0 auto; /* Center content */
-  min-height: calc(100vh - 80px); /* Ensure minimum height below navbar */
+  padding: 100px 2rem 4rem 2rem;
+  /* Initial padding */
+  max-width: 1200px;
+  /* Max width for content */
+  margin: 0 auto;
+  /* Center content */
+  min-height: calc(100vh - 80px);
+  /* Ensure minimum height below navbar */
   box-sizing: border-box;
 }
 
@@ -14,15 +18,23 @@
 .reservar-salon-screen.loading,
 .reservar-salon-screen.error {
   display: flex;
-  flex-direction: column; /* Allow text below title */
+  flex-direction: column;
+  /* Allow text below title */
   justify-content: center;
   align-items: center;
   text-align: center;
   min-height: calc(100vh - 80px);
-  padding: 2rem; /* Add padding here too */
+  padding: 2rem;
+  /* Add padding here too */
 }
-.reservar-salon-screen.error h1 { color: #d8000c; }
-.reservar-salon-screen.error p { color: #721c24; }
+
+.reservar-salon-screen.error h1 {
+  color: #d8000c;
+}
+
+.reservar-salon-screen.error p {
+  color: #721c24;
+}
 
 
 /* Main title */
@@ -31,7 +43,8 @@
   margin-bottom: 1rem;
   text-align: center;
   font-size: 2rem;
-  font-weight: 700; /* Bolder */
+  font-weight: 700;
+  /* Bolder */
 }
 
 /* Instructions below title */
@@ -47,31 +60,42 @@
   background-color: #fff;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); /* Softer shadow */
-  margin-bottom: 2.5rem; /* More space below calendar */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  /* Softer shadow */
+  margin-bottom: 2.5rem;
+  /* More space below calendar */
 }
 
 /* --- react-big-calendar Specific Styles --- */
 .rbc-calendar {
-  border: 1px solid #e0e0e0; /* Lighter border */
+  border: 1px solid #e0e0e0;
+  /* Lighter border */
   border-radius: 8px;
   overflow: hidden;
 }
 
 .rbc-toolbar {
-  background-color: #f9f5ff; /* Lighter purple background */
+  background-color: #f9f5ff;
+  /* Lighter purple background */
   border-bottom: 1px solid #e0e0e0;
   padding: 0.8rem 1rem;
   border-radius: 8px 8px 0 0;
-  display: flex; /* Enable flexbox for better responsive handling */
-  flex-wrap: wrap; /* Allow wrapping */
-  gap: 0.5rem; /* Space between items */
-  justify-content: space-between; /* Space out elements */
+  display: flex;
+  /* Enable flexbox for better responsive handling */
+  flex-wrap: wrap;
+  /* Allow wrapping */
+  gap: 0.5rem;
+  /* Space between items */
+  justify-content: space-between;
+  /* Space out elements */
 }
+
 .rbc-toolbar .rbc-btn-group {
-    display: inline-flex; /* Keep button groups together */
-    gap: 0.4rem;
+  display: inline-flex;
+  /* Keep button groups together */
+  gap: 0.4rem;
 }
+
 .rbc-toolbar button {
   background-color: white;
   border: 1px solid #ccc;
@@ -80,65 +104,90 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  font-size: 0.9rem; /* Slightly smaller */
+  font-size: 0.9rem;
+  /* Slightly smaller */
 }
+
 .rbc-toolbar button:hover:not(.rbc-active) {
   background-color: #eee;
 }
+
 .rbc-toolbar button.rbc-active {
   background-color: var(--primary-color);
   color: white;
   border-color: var(--primary-color);
 }
-.rbc-toolbar .rbc-toolbar-label {
-  font-size: 1.2rem; /* Slightly smaller */
-  font-weight: 600; /* Less bold */
-  color: #444;
-  text-align: center; /* Center label */
-  flex-grow: 1; /* Allow label to take space */
-  order: 0; /* Ensure label is typically in the middle */
-}
-/* Ensure navigation buttons are on the sides */
-.rbc-toolbar .rbc-btn-group:first-of-type { order: -1; }
-.rbc-toolbar .rbc-btn-group:last-of-type { order: 1; }
 
-.rbc-header { /* Day names */
-  background-color: #fafafa; /* Lighter background */
+.rbc-toolbar .rbc-toolbar-label {
+  font-size: 1.2rem;
+  /* Slightly smaller */
+  font-weight: 600;
+  /* Less bold */
+  color: #444;
+  text-align: center;
+  /* Center label */
+  flex-grow: 1;
+  /* Allow label to take space */
+  order: 0;
+  /* Ensure label is typically in the middle */
+}
+
+/* Ensure navigation buttons are on the sides */
+.rbc-toolbar .rbc-btn-group:first-of-type {
+  order: -1;
+}
+
+.rbc-toolbar .rbc-btn-group:last-of-type {
+  order: 1;
+}
+
+.rbc-header {
+  /* Day names */
+  background-color: #fafafa;
+  /* Lighter background */
   padding: 0.5rem 0;
   text-align: center;
-  font-weight: 600; /* Less bold */
+  font-weight: 600;
+  /* Less bold */
   color: #666;
   border-bottom: 1px solid #e0e0e0;
-  font-size: 0.85rem; /* Smaller day names */
+  font-size: 0.85rem;
+  /* Smaller day names */
 }
 
-.rbc-event { /* Available slots */
+.rbc-event {
+  /* Available slots */
   padding: 3px 6px;
   font-size: 0.8em;
   cursor: pointer;
   border: none !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  background-color: #8e44ad; /* Default event color */
-  border-radius: 4px; /* Slightly rounded */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: #8e44ad;
+  /* Default event color */
+  border-radius: 4px;
+  /* Slightly rounded */
   color: white;
 }
+
 .rbc-event:focus {
   outline: 2px solid var(--primary-color);
   outline-offset: 1px;
 }
-.rbc-selected { /* User selected slot */
+
+.rbc-selected {
+  /* User selected slot */
   background-color: #5a1a8b !important;
-  box-shadow: 0 0 5px rgba(0,0,0,0.3) !important;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* Error message within calendar container */
 .calendar-container .error-message {
-    color: #d8000c;
-    background-color: #ffd2d2;
-    padding: 1rem;
-    border-radius: 5px;
-    margin-bottom: 1rem;
-    text-align: center;
+  color: #d8000c;
+  background-color: #ffd2d2;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 
@@ -150,9 +199,11 @@
 
 .titulo-pago {
   text-align: center;
-  color: var(--primary-color); /* Match main title color */
+  color: var(--primary-color);
+  /* Match main title color */
   margin-bottom: 1.5rem;
-  font-size: 1.6rem; /* Slightly smaller */
+  font-size: 1.6rem;
+  /* Slightly smaller */
   font-weight: 600;
 }
 
@@ -160,37 +211,46 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 450px; /* Slightly wider */
+  max-width: 450px;
+  /* Slightly wider */
   margin: 0 auto;
 }
 
 .payment-label {
-  display: flex; /* Keep content aligned */
+  display: flex;
+  /* Keep content aligned */
   align-items: center;
-  padding: 1rem 1.2rem; /* Adjust padding */
+  padding: 1rem 1.2rem;
+  /* Adjust padding */
   border: 2px solid #ddd;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  position: relative; /* For nested elements */
+  position: relative;
+  /* For nested elements */
 }
+
 .payment-label:hover {
   border-color: #bbb;
   background-color: #f9f9f9;
 }
+
 .payment-label.selected {
   border-color: var(--primary-color);
   background-color: #f8f0ff;
-  box-shadow: 0 0 8px rgba(126, 42, 138, 0.15); /* Softer shadow */
+  box-shadow: 0 0 8px rgba(126, 42, 138, 0.15);
+  /* Softer shadow */
 }
 
 .payment-label input[type="radio"] {
   margin-right: 1rem;
-  flex-shrink: 0; /* Prevent radio from shrinking */
+  flex-shrink: 0;
+  /* Prevent radio from shrinking */
   /* Custom radio styles (existing) */
   appearance: none;
   background-color: #fff;
-  width: 1.25em; /* Slightly larger */
+  width: 1.25em;
+  /* Slightly larger */
   height: 1.25em;
   border: 0.15em solid #ccc;
   border-radius: 50%;
@@ -198,58 +258,49 @@
   place-content: center;
   transition: border-color 0.1s ease-in-out;
 }
+
 .payment-label.selected input[type="radio"] {
   border-color: var(--primary-color);
 }
+
 .payment-label input[type="radio"]::before {
   content: "";
-  width: 0.7em; /* Adjusted size */
+  width: 0.7em;
+  /* Adjusted size */
   height: 0.7em;
   border-radius: 50%;
   transform: scale(0);
   transition: 120ms transform ease-in-out;
   box-shadow: inset 1em 1em var(--primary-color);
 }
+
 .payment-label input[type="radio"]:checked::before {
   transform: scale(1);
 }
 
 .payment-text {
-  font-size: 1.05rem; /* Slightly adjusted */
+  font-size: 1.05rem;
+  /* Slightly adjusted */
   font-weight: 500;
   color: #333;
-  flex-grow: 1; /* Take available space */
+  flex-grow: 1;
+  /* Take available space */
 }
 
-/* Coinbase specific options */
-.coinbase-options {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-left: auto; /* Push to the right */
-    flex-shrink: 0; /* Prevent shrinking */
-}
-.coinbase-options select {
-    padding: 0.3rem 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    font-size: 0.9rem;
-}
-.coinbase-rate-display {
-    font-size: 0.8rem;
-    color: #555;
-    white-space: nowrap; /* Prevent rate from breaking line */
-}
 
 
 /* --- Confirmation Panel --- */
 .confirmacion-reserva {
-  margin-top: 2.5rem; /* More space above */
-  padding: 1.5rem 2rem; /* Adjust padding */
-  background-color: #f9f5ff; /* Lighter purple */
-  border: 1px solid #e0d0f0; /* Lighter border */
-  border-radius: 12px; /* Consistent rounding */
+  margin-top: 2.5rem;
+  /* More space above */
+  padding: 1.5rem 2rem;
+  /* Adjust padding */
+  background-color: #f9f5ff;
+  /* Lighter purple */
+  border: 1px solid #e0d0f0;
+  /* Lighter border */
+  border-radius: 12px;
+  /* Consistent rounding */
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
@@ -258,62 +309,75 @@
   color: var(--primary-color);
   margin-top: 0;
   margin-bottom: 1.2rem;
-  font-size: 1.4rem; /* Adjusted size */
+  font-size: 1.4rem;
+  /* Adjusted size */
 }
 
 .confirmacion-reserva p {
-  font-size: 1rem; /* Adjusted size */
-  line-height: 1.7; /* Increased line height */
+  font-size: 1rem;
+  /* Adjusted size */
+  line-height: 1.7;
+  /* Increased line height */
   margin-bottom: 1.5rem;
   color: #333;
 }
+
 .confirmacion-reserva p strong {
-    color: #000;
-    font-weight: 600; /* Standard bold */
+  color: #000;
+  font-weight: 600;
+  /* Standard bold */
 }
+
 .confirmacion-reserva hr {
-    border: none;
-    height: 1px;
-    background-color: #e0d0f0; /* Match border color */
-    margin: 1rem auto;
-    width: 80%;
-}
-.confirmacion-reserva .precio-crypto {
-    font-size: 0.95rem; /* Slightly smaller for crypto */
-    color: #444;
-    margin-top: -0.5rem; /* Bring closer to ARS price */
+  border: none;
+  height: 1px;
+  background-color: #e0d0f0;
+  /* Match border color */
+  margin: 1rem auto;
+  width: 80%;
 }
 
 .confirmacion-botones {
   display: flex;
-  flex-wrap: wrap; /* Allow buttons to wrap */
+  flex-wrap: wrap;
+  /* Allow buttons to wrap */
   justify-content: center;
   gap: 1rem;
 }
 
 .confirmacion-reserva button {
-  padding: 0.7rem 1.4rem; /* Slightly smaller padding */
+  padding: 0.7rem 1.4rem;
+  /* Slightly smaller padding */
   border: none;
-  border-radius: 8px; /* More rounded */
-  font-size: 0.95rem; /* Adjusted font size */
-  font-weight: 600; /* Less bold */
+  border-radius: 8px;
+  /* More rounded */
+  font-size: 0.95rem;
+  /* Adjusted font size */
+  font-weight: 600;
+  /* Less bold */
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 140px; /* Adjusted min-width */
-  flex: 1 1 auto; /* Allow buttons to grow and shrink */
-  max-width: 200px; /* Max width on larger screens */
+  min-width: 140px;
+  /* Adjusted min-width */
+  flex: 1 1 auto;
+  /* Allow buttons to grow and shrink */
+  max-width: 200px;
+  /* Max width on larger screens */
 }
 
 .boton-confirmar {
   background-color: var(--primary-color);
   color: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.boton-confirmar:hover:not(:disabled) { /* Add :not(:disabled) */
+
+.boton-confirmar:hover:not(:disabled) {
+  /* Add :not(:disabled) */
   background-color: #5a1a8b;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
+
 .boton-confirmar:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
@@ -324,145 +388,180 @@
 .boton-cancelar-seleccion {
   background-color: #6c757d;
   color: white;
-   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.boton-cancelar-seleccion:hover:not(:disabled) { /* Add :not(:disabled) */
+
+.boton-cancelar-seleccion:hover:not(:disabled) {
+  /* Add :not(:disabled) */
   background-color: #5a6268;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
-.boton-cancelar-seleccion:disabled { /* Style disabled cancel button */
-    background-color: #cccccc;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+
+.boton-cancelar-seleccion:disabled {
+  /* Style disabled cancel button */
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 
 /* --- Tablet Styles --- */
 @media (max-width: 992px) {
-    .reservar-salon-screen {
-        padding: 80px 1.5rem 3rem 1.5rem; /* Adjust padding */
-    }
+  .reservar-salon-screen {
+    padding: 80px 1.5rem 3rem 1.5rem;
+    /* Adjust padding */
+  }
 
-    .calendar-container {
-        padding: 1rem;
-    }
+  .calendar-container {
+    padding: 1rem;
+  }
 
-    .rbc-toolbar .rbc-toolbar-label {
-        font-size: 1.1rem;
-    }
-     .rbc-toolbar button {
-         padding: 0.3rem 0.6rem;
-         font-size: 0.85rem;
-     }
+  .rbc-toolbar .rbc-toolbar-label {
+    font-size: 1.1rem;
+  }
 
-    .confirmacion-reserva {
-        padding: 1.5rem;
-    }
+  .rbc-toolbar button {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .confirmacion-reserva {
+    padding: 1.5rem;
+  }
 }
 
 
 /* --- Mobile Styles --- */
 @media (max-width: 600px) {
-    .reservar-salon-screen {
-        padding: 70px 1rem 3rem 1rem; /* Adjust padding further */
-    }
+  .reservar-salon-screen {
+    padding: 70px 1rem 3rem 1rem;
+    /* Adjust padding further */
+  }
 
-    .reservar-salon-screen h1 {
-        font-size: 1.6rem; /* Smaller title */
-    }
+  .reservar-salon-screen h1 {
+    font-size: 1.6rem;
+    /* Smaller title */
+  }
 
-    .instrucciones-calendario {
-        font-size: 1rem;
-        margin-bottom: 1.5rem;
-    }
+  .instrucciones-calendario {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
 
-    .calendar-container {
-        padding: 0.5rem; /* Minimal padding */
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Lighter shadow */
-    }
+  .calendar-container {
+    padding: 0.5rem;
+    /* Minimal padding */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    /* Lighter shadow */
+  }
 
-    /* Adjust calendar toolbar for mobile */
-    .rbc-toolbar {
-        padding: 0.5rem;
-        gap: 0.3rem;
-    }
-     .rbc-toolbar .rbc-toolbar-label {
-        font-size: 1rem;
-        order: -1; /* Move label to the start */
-        flex-grow: 0; /* Don't let it grow too much */
-        margin-right: auto; /* Push buttons to the right */
-    }
-     .rbc-toolbar button {
-         padding: 0.3rem 0.5rem;
-         font-size: 0.8rem;
-     }
-     /* Hide view buttons on mobile for simplicity? */
-     /* .rbc-toolbar .rbc-btn-group:last-of-type { display: none; } */
+  /* Adjust calendar toolbar for mobile */
+  .rbc-toolbar {
+    padding: 0.5rem;
+    gap: 0.3rem;
+  }
 
+  .rbc-toolbar .rbc-toolbar-label {
+    font-size: 1rem;
+    order: -1;
+    /* Move label to the start */
+    flex-grow: 0;
+    /* Don't let it grow too much */
+    margin-right: auto;
+    /* Push buttons to the right */
+  }
 
-     /* Reduce height of calendar events */
-    .rbc-event {
-        font-size: 0.75em;
-        padding: 2px 4px;
-    }
+  .rbc-toolbar button {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+  }
 
-    /* Payment section adjustments */
-    .payment-section-wrapper {
-        margin-top: 2rem;
-    }
-    .titulo-pago {
-        font-size: 1.4rem;
-    }
-    .payment-section {
-        max-width: 100%; /* Full width */
-    }
-    .payment-label {
-        padding: 0.8rem 1rem;
-    }
-    .payment-text {
-        font-size: 1rem;
-    }
-    .coinbase-options {
-        flex-direction: column; /* Stack select and rate */
-        align-items: flex-end; /* Align to the right */
-        gap: 0.3rem;
-        margin-left: 0.5rem; /* Adjust margin */
-    }
-     .coinbase-options select {
-         font-size: 0.85rem;
-     }
-     .coinbase-rate-display {
-         font-size: 0.75rem;
-     }
+  /* Hide view buttons on mobile for simplicity? */
+  /* .rbc-toolbar .rbc-btn-group:last-of-type { display: none; } */
 
 
-    /* Confirmation panel adjustments */
-    .confirmacion-reserva {
-        padding: 1rem;
-        margin-top: 2rem;
-    }
-    .confirmacion-reserva h2 {
-        font-size: 1.2rem;
-    }
-    .confirmacion-reserva p {
-        font-size: 0.9rem;
-        line-height: 1.6;
-    }
-    .confirmacion-reserva .precio-crypto {
-        font-size: 0.85rem;
-    }
+  /* Reduce height of calendar events */
+  .rbc-event {
+    font-size: 0.75em;
+    padding: 2px 4px;
+  }
 
-    .confirmacion-botones {
-        flex-direction: column; /* Stack buttons */
-        gap: 0.8rem;
-    }
-    .confirmacion-reserva button {
-        width: 100%; /* Full width buttons */
-        max-width: none; /* Remove max-width */
-        padding: 0.8rem; /* Consistent padding */
-        font-size: 1rem;
-    }
+  /* Payment section adjustments */
+  .payment-section-wrapper {
+    margin-top: 2rem;
+  }
+
+  .titulo-pago {
+    font-size: 1.4rem;
+  }
+
+  .payment-section {
+    max-width: 100%;
+    /* Full width */
+  }
+
+  .payment-label {
+    padding: 0.8rem 1rem;
+  }
+
+  .payment-text {
+    font-size: 1rem;
+  }
+
+  .coinbase-options {
+    flex-direction: column;
+    /* Stack select and rate */
+    align-items: flex-end;
+    /* Align to the right */
+    gap: 0.3rem;
+    margin-left: 0.5rem;
+    /* Adjust margin */
+  }
+
+  .coinbase-options select {
+    font-size: 0.85rem;
+  }
+
+  .coinbase-rate-display {
+    font-size: 0.75rem;
+  }
+
+
+  /* Confirmation panel adjustments */
+  .confirmacion-reserva {
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+
+  .confirmacion-reserva h2 {
+    font-size: 1.2rem;
+  }
+
+  .confirmacion-reserva p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .confirmacion-reserva .precio-crypto {
+    font-size: 0.85rem;
+  }
+
+  .confirmacion-botones {
+    flex-direction: column;
+    /* Stack buttons */
+    gap: 0.8rem;
+  }
+
+  .confirmacion-reserva button {
+    width: 100%;
+    /* Full width buttons */
+    max-width: none;
+    /* Remove max-width */
+    padding: 0.8rem;
+    /* Consistent padding */
+    font-size: 1rem;
+  }
 
 }

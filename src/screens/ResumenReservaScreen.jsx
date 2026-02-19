@@ -47,7 +47,7 @@ const ResumenReservaScreen = () => {
       if (response.ok && result.urlPago) {
         // 2️⃣ Éxito: Redirige al link de pago generado (MercadoPago o Coinbase)
         window.location.href = result.urlPago;
-        
+
         // No hay 'finally' porque la página es redirigida
       } else if (response.ok && result.estado === "completado") {
         // 3️⃣ Caso Sandbox/Test: Si el backend ya confirma el pago instantáneamente
@@ -66,8 +66,6 @@ const ResumenReservaScreen = () => {
   const metodoPagoTexto =
     metodoPago === "mercadoPago"
       ? "Mercado Pago"
-      : metodoPago === "coinbase"
-      ? "Coinbase Commerce"
       : metodoPago;
 
   return (
@@ -81,7 +79,7 @@ const ResumenReservaScreen = () => {
         <p><span>Horario:</span> {horaInicio}:00 - {horaFin}:00</p>
         <p><span>Vendedor:</span> {vendedor}</p>
         <p><span>Método de Pago:</span> {metodoPagoTexto}</p>
-        
+
         <hr className="detalle-divider" />
         <p className="total-final"><span>Total a Pagar:</span> <strong>${totalPagar}</strong></p>
 
