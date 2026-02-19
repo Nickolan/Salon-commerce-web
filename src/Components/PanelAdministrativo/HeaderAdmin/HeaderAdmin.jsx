@@ -13,9 +13,9 @@ const HeaderAdmin = ({ adminName, stats, setActivePanel, activePanel, selectedMo
   return (
     <div className="header-admin">
       <h2 className="header-welcome">¡Hola {adminName}!</h2>
-      
+
       <div className="header-controls">
-        
+
         {/* El <label> ha sido eliminado de aquí. El input queda solo. */}
         <div className="month-selector-wrapper">
           <input
@@ -28,29 +28,35 @@ const HeaderAdmin = ({ adminName, stats, setActivePanel, activePanel, selectedMo
         </div>
 
         <div className="header-stats-buttons">
-          <button 
+          <button
             onClick={() => setActivePanel('Usuarios')}
             className={activePanel === 'Usuarios' ? 'active' : ''}
           >
             {stats.usuarios} Usuarios
           </button>
-          <button 
+          <button
             onClick={() => setActivePanel('Salones')}
             className={activePanel === 'Salones' ? 'active' : ''}
           >
             {stats.salones} Salones
           </button>
-          <button 
+          <button
             onClick={() => setActivePanel('Reservas')}
             className={activePanel === 'Reservas' ? 'active' : ''}
           >
             {stats.reservas} Reservas
           </button>
-          <button 
+          <button
             onClick={() => setActivePanel('Ingresos')}
             className={activePanel === 'Ingresos' ? 'active' : ''}
           >
             {formatCurrency(stats.ingresos)} Ingresos
+          </button>
+          <button
+            onClick={() => setActivePanel('Chatbot')}
+            className={activePanel === 'Chatbot' ? 'active' : ''}
+          >
+            Asistente Virtual
           </button>
         </div>
       </div>

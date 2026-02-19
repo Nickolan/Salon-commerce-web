@@ -1,0 +1,508 @@
+{
+  "name": "Chatbot FocusRoom",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {
+          "allowedOrigins": "*",
+          "subtitle": "Start a chat. We're here to help you 24/7.",
+          "responseMode": "lastNode"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -288,
+        112
+      ],
+      "id": "f2e5f67f-f778-403f-a375-d6b15aa4e97b",
+      "name": "When chat message received",
+      "webhookId": "43971ebb-4027-4bc2-9e37-022d34cd3ca4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        272,
+        208
+      ],
+      "id": "01f06b3c-de41-448e-a37e-de399ddb89ca",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "NyeZdJmKUYfdJEMo",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1.1,
+      "position": [
+        576,
+        208
+      ],
+      "id": "f1abcb48-d493-42e5-b4a0-89a0a22448b6",
+      "name": "Answer questions with a vector store"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        704,
+        368
+      ],
+      "id": "8841e727-6ed6-4514-b04a-1373e4720563",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "NyeZdJmKUYfdJEMo",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fileSelector": "C:\\Users\\rafan\\OneDrive\\Desktop\\Base de Conocimiento del Asistente Virtual - Focus Room.pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        704
+      ],
+      "id": "912ded11-f375-4a3f-a8b2-c5ce56dd2e97",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "url": "https://drive.google.com/uc?export=download&id=1JbniOz3gQPBM7mMj5fGnMzN3r7u6Nf3j",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1344,
+        688
+      ],
+      "id": "040e1cdb-9864-4f85-9268-f30626a4bd12",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "Base de Conocimiento del Asistente\nVirtual - Focus Room\n\n1. Información General sobre Focus Room\n¿Qué es Focus Room?\nFocus Room es una plataforma en línea que conecta a personas que necesitan un espacio\npara estudiar, trabajar o reunirse (llamados \"Arrendatarios\") con personas que tienen\nsalones disponibles para alquilar (llamados \"Publicadores\"). Es un marketplace para\nreservar espacios por hora.\n¿Cómo funciona?\n1. Publicadores: Publican sus salones con fotos, ubicación, precio por hora,\ncapacidad y reglas.\n2. Arrendatarios: Usan el buscador para encontrar un salón que se ajuste a sus\nnecesidades (ubicación, capacidad, etc.).\n3. Reserva: El arrendatario selecciona una fecha y un horario disponible en el\ncalendario del salón.\n4. Pago: El arrendatario paga la reserva de forma segura a través de la plataforma.\n5. Confirmación: Ambos (arrendatario y publicador) reciben una confirmación por\ncorreo electrónico.\n¿Es seguro pagar en la plataforma?\nSí. Todos los pagos se procesan a través de pasarelas de pago seguras como Mercado\nPago y Coinbase. Focus Room no almacena la información de tu tarjeta de crédito.\n\n2. Para Arrendatarios (Quiero reservar un salón)\n¿Cómo me registro?\nEs fácil. Haz clic en \"Registrarse\", completa tu nombre, apellido, correo electrónico y crea\nuna contraseña. También puedes registrarte usando tu cuenta de Google o Facebook.\n¿Cómo busco un salón?\nUsa la barra de búsqueda principal en la página de inicio. Ingresa la ubicación donde\nnecesitas el salón (una ciudad o dirección) y la cantidad de personas que asistirán.\n\n¿Cómo puedo filtrar los resultados?\nEn la página de resultados, verás filtros en el costado. Puedes filtrar por:\n● Rango de Precios: Para ajustarlo a tu presupuesto.\n● Capacidad Mínima: Para asegurar que quepan todos.\n● Equipamientos: Para encontrar salones con WiFi, proyector, pizarra, etc.\n● Orden: Puedes ordenar por los más cercanos, más baratos, más caros o mejor\nvalorados.\n¿Cómo reservo un salón?\n1. Entra a la página del salón que te gusta.\n2. Verás un calendario con todos los horarios disponibles.\n3. Haz clic en la franja horaria que te interese.\n4. Selecciona tu método de pago (Mercado Pago o Coinbase).\n5. Haz clic en \"Confirmar Reserva\" y serás dirigido a la plataforma de pago para\nfinalizar.\n¿Dónde veo las reservas que ya hice?\nPuedes ver todas tus reservas (próximas y pasadas) en la sección \"Mis Reservas\" dentro\nde tu perfil.\n¿Cómo dejo una reseña de un salón?\nSolo puedes dejar reseñas de salones que ya hayas utilizado.\n1. Ve a \"Mis Reservas\".\n2. Busca la reserva que ya esté marcada como \"Completada\".\n3. Verás un botón que dice \"Dejar Reseña\". Podrás asignar una calificación de 1 a 5\nestrellas y escribir un comentario.\n¿Cómo guardo un salón que me gustó?\nHaz clic en el ícono de corazón (❤️) que aparece en la foto del salón (ya sea en la lista de\nresultados o en la página de detalle). Esto lo guardará en tu lista de \"Favoritos\", la cual\npuedes consultar desde tu perfil.\n¿Cuál es la política de cancelación?\n● Reembolso Completo (100%): Si cancelas tu reserva con más de 24 horas de\nanticipación.\n● Sin Reembolso (0%): Si cancelas con menos de 24 horas de anticipación.\nPuedes cancelar desde la sección \"Mis Reservas\".\n\n3. Para Publicadores (Quiero alquilar mi salón)\n¿Cómo publico mi salón?\n1. Debes estar registrado e haber iniciado sesión.\n2. Haz clic en el botón \"Publicar Salón\" o \"Registra tu salón\".\n3. Sigue el formulario paso a paso. Llenarás información como nombre, descripción,\nprecio, etc.\n¿Qué información necesito para publicar?\n● General: Nombre del salón y una buena descripción.\n● Fotos: ¡Muy importante! Puedes subir hasta 5 fotos.\n● Ubicación: Ingresa la dirección y márcala en el mapa para que los usuarios te\nencuentren.\n● Detalles: El precio que quieres cobrar por hora y la capacidad máxima de personas.\n● Extras: Una lista de equipamientos (ej. \"WiFi\", \"Proyector\") y las reglas de tu salón\n(ej. \"No fumar\").\n● Disponibilidad: El paso más importante.\n¿Cómo configuro mi disponibilidad?\nEn el formulario de publicación, tienes 3 controles:\n1. Disponibilidad Semanal: Marcas los días de la semana en que tu salón está\ndisponible y el horario (ej. \"Lunes de 09:00 a 18:00\").\n2. Duración de Reserva (Granularidad): Defines la duración de cada \"bloque\" de\nreserva (ej. 60 minutos). Esto significa que los usuarios podrán reservar a las 9:00,\n10:00, 11:00, etc.\n3. Horizonte de Reservas: Eliges con cuántos meses de anticipación los usuarios\npueden ver tu calendario (ej. 3 meses, 6 meses).\n¿Por qué mi salón no aparece en las búsquedas?\nTodas las publicaciones nuevas pasan por un proceso de revisión de nuestro equipo de\nadministradores. Esto es para asegurar la calidad y seguridad de la plataforma. Recibirás un\ncorreo electrónico una vez que tu salón sea aprobado y publicado.\n¿Cómo veo las reservas que recibí?\nPuedes ver todas las reservas que han hecho en tus salones en la sección \"Mis Ventas\"\n(también llamada \"Reservaciones Recibidas\") en tu perfil.\n¿Cuánto gano por cada reserva?\n\nTú defines el precio por hora. Focus Room cobra una comisión de gestión del 10% sobre\nel total de la reserva. Por ejemplo, si tu precio es $1000, tú recibirás $900 y la plataforma\n$100.\nDudas frecuentes y sus respuestas:\n-Retrasos: ¿Qué pasa si, por ejemplo, el inquilino llega 15 minutos tarde? (\"El tiempo no es recuperable\").\n-Extensión de tiempo: ¿Cómo puede un usuario quedarse, por ejemplo, una hora más si el salón está libre? (\"Debe realizar una nueva reserva desde la web\").\n-Acceso al local: Ya sea con llave, QR o recepción, estos detalles deben ser aclarados entre el arrendatario y el publicador.\n-Disputas: Si, por ejemplo, el salón no coincide con las fotos publicadas, y/o el usuario esta disconforme o tiene problemas, puede reportar problemas.\n-Focus Room no ofrece servicios de catering, transporte ni gestión de eventos masivos (fiestas).",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        544,
+        544
+      ],
+      "id": "9e85c5be-70e1-44df-9356-16f615400e4d",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n    '{{$json.sessionId }}' AS sessionId,\n    u.id_usuario, \n    u.nombre, \n    u.es_publicador, \n    u.ciudad AS mi_ciudad,\n    (SELECT GROUP_CONCAT(nombre) FROM salones WHERE publicadorIdUsuario = u.id_usuario) AS mis_propiedades,\n    (SELECT GROUP_CONCAT(nombre) FROM salones WHERE direccion LIKE CONCAT('%', u.ciudad, '%') LIMIT 3) AS cerca_de_mi\nFROM (SELECT '{{ $json.userEmail }}' AS email_input) AS temp\nLEFT JOIN usuarios u ON u.email = temp.email_input\nLIMIT 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        80,
+        112
+      ],
+      "id": "cfa3dfe5-08ac-4f00-8724-91acc65b28ff",
+      "name": "Execute a SQL query",
+      "alwaysOutputData": false,
+      "credentials": {
+        "mySql": {
+          "id": "MX3AltV8UossHUoR",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId }}",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        432,
+        208
+      ],
+      "id": "c3d910fc-b8ff-4814-9aaf-a543d652e44b",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "chatbot_conversaciones",
+          "mode": "list",
+          "cachedResultName": "chatbot_conversaciones"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "session_id",
+              "value": "={{ $('When chat message received').item.json.sessionId }}"
+            },
+            {
+              "column": "mensaje",
+              "value": "={{ $json.chatInput }}"
+            },
+            {
+              "column": "usuario_nombre",
+              "value": "={{ $('When chat message received').item.json.userEmail || 'Invitado' }}"
+            },
+            {
+              "column": "rol",
+              "value": "USUARIO"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -48,
+        -48
+      ],
+      "id": "38e5a75c-c9bf-45e9-a9a2-5c28a8bb132a",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "MX3AltV8UossHUoR",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "chatbot_conversaciones",
+          "mode": "list",
+          "cachedResultName": "chatbot_conversaciones"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "session_id",
+              "value": "={{ $('When chat message received').item.json.sessionId }}"
+            },
+            {
+              "column": "rol",
+              "value": "IA"
+            },
+            {
+              "column": "mensaje",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        752,
+        0
+      ],
+      "id": "d49b133a-1d80-405c-9141-c5f7ff2866e0",
+      "name": "Insert rows in a table1",
+      "credentials": {
+        "mySql": {
+          "id": "MX3AltV8UossHUoR",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $node[\"When chat message received\"].json.chatInput }}",
+        "options": {
+          "systemMessage": "=Eres el asistente de Focus Room.\nEl usuario es: {{ $('Execute a SQL query').item.json.nombre || 'Invitado' }}\nSu perfil es: {{ $('Execute a SQL query').item.json.es_publicador ? 'Dueño' : 'Inquilino' }}.\n\nContexto de Base de Datos:\nSus propiedades: {{ $('Execute a SQL query').item.json.mis_propiedades || 'Ninguna' }}\nSalones cerca de él: {{ $json.cerca_de_mi || 'Sin datos en su ciudad' }}\nSalones destacados: {{ $json.destacados }}\nCiudad: {{ $('Execute a SQL query').item.json.mi_ciudad }}\n\nComportamiento según intención:\nValidación: Si el nombre es 'invitado', pide iniciar sesión amablemente.\nSi es Inquilino: Recomienda salones 'cerca de él' o 'destacados'. Si pregunta cómo reservar o reglas, usa Supabase.\nSi es Dueño: Prioriza sus propiedades. Dale tips como completar fotos o equipamientos para alquilar más. Si no tiene salones, guíalo para publicar el primero.\n\nDudas frecuentes y sus respuestas:\n-Retrasos: ¿Qué pasa si, por ejemplo, el inquilino llega 15 minutos tarde? (\"El tiempo no es recuperable\").\n-Extensión de tiempo: ¿Cómo puede un usuario quedarse, por ejemplo, una hora más si el salón está libre? (\"Debe realizar una nueva reserva desde la web\").\n-Acceso al local: Ya sea con llave, QR o recepción, estos detalles deben ser aclarados entre el arrendatario y el publicador.\n-Disputas: Si, por ejemplo, el salón no coincide con las fotos publicadas, y/o el usuario esta disconforme o tiene problemas, puede reportar problemas.\n-Focus Room no ofrece servicios de catering, transporte ni gestión de eventos masivos (fiestas).\n\nIMPORTANTE: Si la información necesaria para responder se encuentra en los documentos de Supabase (como comisiones, precios específicos o términos), RESPONDE utilizando esos datos. Estos temas NO deben ser rechazados.\n\nPersonalización: En el primer mensaje, saluda por su nombre: {{ $json.nombre }}.\nReglas de Estilo:\nBrevedad: Máximo 50 palabras.\nCierre (CTA): Termina SIEMPRE con una pregunta de acción.\nVeracidad: Prohibido inventar datos.\nSi el nombre del usuario es NULL o está vacío, trátalo como un 'Invitado'. No menciones sus propiedades y recomiéndale registrarse para ver salones cerca de su ciudad. Si tiene nombre, salúdalo personalmente.\n\nSi el usuario está frustrado (por ejemplo, dice \"no me sirve\"), pide contactarse con un humano o repite la misma duda 2 o 3 veces sin solución, responde con empatía y añade EXACTAMENTE el código: [TRIGGER_SUPPORT]. Ofrece crear un ticket de contacto.\n\nPuedes ayudar al usuario, por ejemplo, recordandole sus mensajes o haciendo calculos de precios, pero no debes exponer datos privados del sitio, de dueños, inquilinos, etc.\n\nTemas Permitidos: \n- Información del Servicio: Horarios, ubicación de salas, tipos de membresías y TODA la información operativa contenida en Supabase (incluyendo comisiones).\n- Gestión de Reservas: Cómo reservar, cancelar o consultar disponibilidad.\n- Soporte Técnico de la App: Inicio de sesión, contraseñas o errores de interfaz.\n- Precios y Facturación: Costo por hora, comisiones del sitio, métodos de pago y facturas.\n- Reglas de Convivencia: Ruido, comida, tiempo de tolerancia.\n- Beneficios de la Plataforma: Productividad y enfoque.\n\nPOLÍTICA DE RECHAZO (ESTRICTA): Solo aplica si el tema NO está en la lista de temas permitidos Y NO existe información en Supabase al respecto.\n- Si pregunta por temas prohibidos (Política, medicina, tareas externas como química o contenido ofensivo), debes responder: \"Lo siento, como asistente de Focus Room no puedo ayudarte con eso.\"\n- En caso de que el tema prohibido tenga que ver con datos personales privados de otros usuarios o asuntos críticos, añade: \"Para eso necesitás hablar con soporte\", y el código: [TRIGGER_SUPPORT].\nSi has finalizado una explicación compleja, resolviste una duda sobre reglas/comisiones o el usuario te da las gracias, añade EXACTAMENTE el código: [TRIGGER_FEEDBACK] al final de tu respuesta para que el usuario pueda calificarla."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "c35d6b96-ed5c-4d3d-a2b0-f908524c3299",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "message": "={{ $json.output }}",
+        "waitUserReply": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        -208
+      ],
+      "id": "5131710d-113e-409f-adc5-fd8f6a674dbf",
+      "name": "Respond to Chat"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1136,
+        0
+      ],
+      "id": "6b7e95ee-80ba-46f1-8744-7cccb6888a62",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3204a4d0-81af-48ab-b79a-69549fb7e575",
+              "name": "output",
+              "value": "={{ $node[\"AI Agent\"].json[\"output\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        0
+      ],
+      "id": "d98175e6-5184-4528-9e5e-6495c1d4ad0c",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        416,
+        400
+      ],
+      "id": "411b06d0-0e6c-4d54-88df-916b268f909f",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "ap26hPSFWqoDokaq",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "embed-multilingual-v3.0"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
+      "typeVersion": 1,
+      "position": [
+        368,
+        560
+      ],
+      "id": "e2ecbb53-2a27-40d6-9d20-7be8ace934f5",
+      "name": "Embeddings Cohere",
+      "credentials": {
+        "cohereApi": {
+          "id": "drrGDr5MY9ABT0SN",
+          "name": "CohereApi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table": {
+      "main": [
+        []
+      ]
+    },
+    "Insert rows in a table1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        []
+      ]
+    },
+    "Embeddings Cohere": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "696b88d7-7ca6-48ba-9b9a-f1a14c11d9af",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c1ec98b65a4de7fd53377c8532714ea0d92d7f3f29cc3cf5e2e36f1727d4abc9"
+  },
+  "id": "bGwyrlFFYazXxpe8",
+  "tags": []
+}

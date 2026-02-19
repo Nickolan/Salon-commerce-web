@@ -2,7 +2,7 @@ import React from 'react';
 import './SidebarAdmin.css';
 // 1. Importamos los íconos que vamos a usar
 import { FiUsers, FiHome, FiCalendar, FiDollarSign } from 'react-icons/fi';
-
+import { RiRobot2Line } from 'react-icons/ri'
 const SidebarAdmin = ({ activePanel, setActivePanel }) => {
   // 2. Usamos los componentes de los íconos directamente en el array
   const menuItems = [
@@ -10,6 +10,7 @@ const SidebarAdmin = ({ activePanel, setActivePanel }) => {
     { name: 'Salones', icon: <FiHome /> },
     { name: 'Reservas', icon: <FiCalendar /> },
     { name: 'Ingresos', icon: <FiDollarSign /> },
+    { name: 'Chatbot', icon: <RiRobot2Line /> },
   ];
 
   return (
