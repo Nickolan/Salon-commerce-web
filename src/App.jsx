@@ -33,6 +33,7 @@ import Cancelacion from './screens/Cancelacion';
 import ReservarSalonScreen from './screens/ReservarSalonScreen';
 import EditarSalonScreen from './screens/EditarSalonScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import ChatListSidebar from './Components/Chat/ChatListSidebar/ChatListSidebar';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -77,33 +78,37 @@ function App() {
 
     <div style={{ "--primary-color": "#6A0DAD", "--second-color": "#7B2FF7", "--background-color": "#f3f3fe" }}>
 
+      {
+        isAuthenticated && <ChatListSidebar/>
+      }
+
       <Routes>
-        <Route path="/" element={<><Navbar/><HomeScreen isLoaded={isLoaded} /> <Chatbot /> <Footer /></>} />
+        <Route path="/" element={<><Navbar/><HomeScreen isLoaded={isLoaded} />   <Footer /></>} />
         <Route path="/login" element={<> <LoginScreen /> </>} />
         <Route path="/registro" element={<> <RegistroScreen /> </>} />
         <Route path="/resultados" element={<> <Navbar/> <ResultadosScreen isLoaded={isLoaded} /> <Footer /> </>} />
 
-        <Route path="/publicar" element={<><Navbar/><NuevoSalonScreen isLoaded={isLoaded} /><Chatbot /><Footer /></>} />
+        <Route path="/publicar" element={<><Navbar/><NuevoSalonScreen isLoaded={isLoaded} /> <Footer /></>} />
 
-        <Route path="/terminos&condiciones" element={<><Navbar/> <TerminosYCondicionesScreen /> <Chatbot /><Footer /></>} />
-        <Route path="/mis-salones" element={<> <Navbar/> <MisSalonesScreen /> <Chatbot /> <Footer /> </>} />
-        <Route path="/mis_ventas" element={<><Navbar/><Reservacionesrec /> <Chatbot /><Footer /></>} />
-        <Route path="/perfil" element={<><Navbar/><Perfil /><Footer /> <Chatbot /></>} />
-        <Route path='/editar-perfil' element={<><Navbar/><EditarPerfil isLoaded={isLoaded} /> <Chatbot /><Footer /></>} />
+        <Route path="/terminos&condiciones" element={<><Navbar/> <TerminosYCondicionesScreen />  <Footer /></>} />
+        <Route path="/mis-salones" element={<> <Navbar/> <MisSalonesScreen />   <Footer /> </>} />
+        <Route path="/mis_ventas" element={<><Navbar/><Reservacionesrec />  <Footer /></>} />
+        <Route path="/perfil" element={<><Navbar/><Perfil /><Footer />  </>} />
+        <Route path='/editar-perfil' element={<><Navbar/><EditarPerfil isLoaded={isLoaded} />  <Footer /></>} />
         {/* <Route path='/reservar/:id_salon' element={<><Navbar user={null}/><ReservarScreen/> <Chatbot/><Footer/></>}/> */}
-        <Route path='/resumen-reserva/:id_salon' element={<><Navbar/><ResumenReservaScreen /><Chatbot /><Footer /></>} />
-        <Route path='/confirmacion-reserva' element={<><Navbar/><ConfirmacionReservaScreen /><Chatbot /><Footer /></>} />
-        <Route path="/salon/:id" element={<> <Navbar/> <DetallesSalon isLoaded={isLoaded} /> <Chatbot /> <Footer /> </>} />
-        <Route path="/mis-reservas" element={<> <Navbar/> <MisReservas /> <Chatbot /> <Footer /> </>} />
-        <Route path="/reservas_detalles/:id" element={<><Navbar/> <ReservasDetalles /> <Chatbot /> <Footer /> </>} />
+        <Route path='/resumen-reserva/:id_salon' element={<><Navbar/><ResumenReservaScreen /> <Footer /></>} />
+        <Route path='/confirmacion-reserva' element={<><Navbar/><ConfirmacionReservaScreen /> <Footer /></>} />
+        <Route path="/salon/:id" element={<> <Navbar/> <DetallesSalon isLoaded={isLoaded} />   <Footer /> </>} />
+        <Route path="/mis-reservas" element={<> <Navbar/> <MisReservas />   <Footer /> </>} />
+        <Route path="/reservas_detalles/:id" element={<><Navbar/> <ReservasDetalles />   <Footer /> </>} />
 
-        <Route path='/favoritos' element={<><Navbar/><FavoritosScreen /> <Chatbot /><Footer /></>} />
-        <Route path="/cancelar_salon/:idUsuario/:idReserva" element={<><Navbar/><Cancelacion /><Chatbot /><Footer /></>} />
+        <Route path='/favoritos' element={<><Navbar/><FavoritosScreen />  <Footer /></>} />
+        <Route path="/cancelar_salon/:idUsuario/:idReserva" element={<><Navbar/><Cancelacion /> <Footer /></>} />
 
-        <Route path="/reservar/:id" element={<><Navbar/><ReservarSalonScreen /><Chatbot /><Footer /></>} />
+        <Route path="/reservar/:id" element={<><Navbar/><ReservarSalonScreen /> <Footer /></>} />
 
-        <Route path='/reseniar/:id_salon' element={<><Navbar/><ReseniarScreen /><Chatbot /><Footer /></>} />
-        <Route path="/politica-de-privacidad" element={<><Navbar/> <PoliticaPrivacidadScreen /> <Chatbot /><Footer /></>} />
+        <Route path='/reseniar/:id_salon' element={<><Navbar/><ReseniarScreen /> <Footer /></>} />
+        <Route path="/politica-de-privacidad" element={<><Navbar/> <PoliticaPrivacidadScreen />  <Footer /></>} />
 
         <Route
           path="/admin"
@@ -113,7 +118,7 @@ function App() {
         {/* <Route path="/admin/usuarios" element={isAuthenticated && isAdmin ? <UsuariosAdmin /> : <Navigate to="/" />} /> */}
         {/* <Route path="/admin/salones" element={isAuthenticated && isAdmin ? <SalonesAdmin /> : <Navigate to="/" />} /> */}
 
-        <Route path="/editar-salon/:id" element={<><Navbar/> <EditarSalonScreen isLoaded={isLoaded} /> <Chatbot /><Footer /> </> } />
+        <Route path="/editar-salon/:id" element={<><Navbar/> <EditarSalonScreen isLoaded={isLoaded} />  <Footer /> </> } />
 
         <Route path='forgot-password' element={<ForgotPasswordScreen/>} />
       </Routes>

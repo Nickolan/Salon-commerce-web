@@ -13,6 +13,7 @@ import BotonFavoritos from '../Components/BotonFavoritos/BotonFavoritos.jsx';
 import ListasResenias from '../Components/ListasResenias/ListasResenias';
 import { IoMdStar, IoMdStarHalf, IoMdStarOutline } from 'react-icons/io';
 import PreguntasComponent from '../Components/Q&A/Questions/PreguntasComponent.jsx'; 
+import BotonContactar from '../Components/Botones/BotonContactar/BotonContactar.jsx';
 
 const DetallesSalon = ({ isLoaded }) => {
   const { id } = useParams(); // Obtenemos el ID de la URL
@@ -27,7 +28,10 @@ const DetallesSalon = ({ isLoaded }) => {
     user
   } = useSelector((state) => state.auth);
 
-  const [esFavorito, setEsFavorito] = useState(false);
+  const soyElPublicante = selectedSalon?.publicador?.id_usuario == user?.id_usuario;
+  
+
+  const [esFavorito, setEsFavorito] = useState(false); // La lógica de favoritos se mantiene local por ahora
 
   const calcularPromedio = () => {
     if (!resenias || resenias.length === 0) return 0;
@@ -94,11 +98,14 @@ const DetallesSalon = ({ isLoaded }) => {
           {
             user == null || user.id_usuario !== selectedSalon.publicador.id_usuario && (
               <div className="derecha-superior">
+
+                {
+                  isAuthenticated && !soyElPublicante && <BotonContactar publicanteId={selectedSalon.publicador.id_usuario} usuarioLogueadoId={user.id_usuario} />
+                }
                 <BotonFavoritos
                   id_salon={selectedSalon.id_salon}
                   showText={true}
                 />
-
                 <div className="reservar-button" onClick={handleReservarClick}>
                   <span className="reservar-texto">Reservar</span>
                 </div>
@@ -106,10 +113,13 @@ const DetallesSalon = ({ isLoaded }) => {
             )
           }
 
+          
+
           <div className="estrellas">
             {renderizarEstrellas(promedioCalificacion)}
             <span className="promedio-texto">({promedioCalificacion})</span>
           </div>
+          
         </div>
       </div>
 
