@@ -1,68 +1,68 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import SearchbarAdmin from '../SearchbarAdmin/SearchbarAdmin';
-import BloquearButton from '../BloquearButton/BloquearButton';
+import React, { useState, useEffect } from 'react';
+import SearchbarSalones from './ComponenteSalonesAdmin/SearchbarSalones';
+import ItemSalonAdmin from './ComponenteSalonesAdmin/ItemSalonAdmin';
+import './PanelSalones.css';
 
-const formatDisplayMonth = (yyyyMm) => {
-    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-    const [year, monthIndex] = yyyyMm.split('-').map(Number);
-    return `${monthNames[monthIndex - 1]} ${year}`;
-};
+const PanelSalones = ({ 
+  salones, 
+  onEliminarSalon 
+}) => {
+  const [filterValue, setFilterValue] = useState('');
+  const [expandedSalonId, setExpandedSalonId] = useState(null);
+  const [filteredSalones, setFilteredSalones] = useState(salones || []);
 
-const PanelSalones = ({ salones, usuarios, selectedMonth }) => {
-  const [selectedSalon, setSelectedSalon] = useState(null);
-
+  // Filtrar salones por nombre
   useEffect(() => {
-    if (selectedSalon && !salones.find(s => s.id_salon === selectedSalon.id_salon)) {
-      setSelectedSalon(null);
+    if (!salones) return;
+    
+    if (!filterValue.trim()) {
+      setFilteredSalones(salones);
+    } else {
+      const filtered = salones.filter(salon =>
+        salon.nombre?.toLowerCase().includes(filterValue.toLowerCase())
+      );
+      setFilteredSalones(filtered);
     }
-  }, [salones, selectedSalon]);
+  }, [salones, filterValue]);
 
-  const handleSelectSalon = (salon) => {
-    setSelectedSalon(salon);
+  const handleFilterChange = (value) => {
+    setFilterValue(value);
   };
 
-  const vendedor = useMemo(() => {
-    if (!selectedSalon || !usuarios) return null;
-    
-    // --- CAMBIO 1: VENDEDOR ---
-    // Ajustamos la ruta para que coincida con la estructura del backend
-    return usuarios.find(u => u.id_usuario === selectedSalon.publicador.id_usuario);
-    
-  }, [selectedSalon, usuarios]);
+  const handleApplyFilter = () => {
+    // Filtrado ya aplicado en tiempo real
+  };
+
+  const handleToggleExpand = (salonId) => {
+    setExpandedSalonId(expandedSalonId === salonId ? null : salonId);
+  };
 
   return (
-    <div className="admin-panel">
-      <h2 className="panel-title">Salones ({formatDisplayMonth(selectedMonth)})</h2>
-      <SearchbarAdmin
-        items={salones}
-        onSelect={handleSelectSalon}
-        placeholder="Buscar por ID de salón..."
-        displayKey="id_salon"
+    <div className="panel-salones">
+      <SearchbarSalones
+        filterValue={filterValue}
+        onFilterChange={handleFilterChange}
+        onApplyFilter={handleApplyFilter}
+        totalResultados={filteredSalones?.length || 0}
       />
 
-      {salones.length > 0 && selectedSalon && (
-        <div className="details-container">
-          <div className="detail-item"><strong>ID del Salón</strong><span>{selectedSalon.id_salon}</span></div>
-          <div className="detail-item"><strong>Vendedor</strong><span>{vendedor ? `${vendedor.nombre} ${vendedor.apellido}` : 'No encontrado'}</span></div>
-          
-          {/* --- CAMBIO 2: DIRECCIÓN --- */}
-          {/* Cambiamos 'ubicacion' por 'direccion' para que coincida con el backend */}
-          <div className="detail-item"><strong>Dirección</strong><span>{selectedSalon.direccion}</span></div>
-          
-          <div className="detail-item"><strong>Capacidad</strong><span>{selectedSalon.capacidad} personas</span></div>
-          <div className="detail-item"><strong>Valor</strong><span>${selectedSalon.precio_por_hora} por hora</span></div>
-          {/* NOTA: Tu JSON de backend no tiene 'resenia' ni 'reservas'. 
-               Esos campos mostrarán "Sin puntaje" y "0", lo cual está bien. */}
-          <div className="detail-item"><strong>Puntaje General</strong><span>{selectedSalon.resenia || 'Sin puntaje'}</span></div>
-          <div className="detail-item"><strong>Cantidad de Reservas</strong><span>{selectedSalon.reservas ? selectedSalon.reservas.length : 0}</span></div>
-          
-          <BloquearButton type="salón" id={selectedSalon.id_salon} />
-        </div>
-      )}
-
-      {salones.length === 0 && (
-        <p>No se encontraron salones para el período seleccionado.</p>
-      )}
+      <div className="salones-list">
+        {filteredSalones?.length > 0 ? (
+          filteredSalones.map(salon => (
+            <ItemSalonAdmin
+              key={salon.id_salon}
+              salon={salon}
+              isExpanded={expandedSalonId === salon.id_salon}
+              onToggleExpand={() => handleToggleExpand(salon.id_salon)}
+              onEliminar={onEliminarSalon}
+            />
+          ))
+        ) : (
+          <div className="no-resultados">
+            <p>No se encontraron salones</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

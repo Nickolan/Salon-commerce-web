@@ -1,0 +1,155 @@
+.searchbar-usuarios-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 2rem;
+  justify-content: center;
+  position: relative;
+}
+
+.searchbar-usuarios-container {
+  display: flex;
+  align-items: stretch;
+  border-radius: 30px;
+  height: 40px;
+  background-color: #ffffff;
+  overflow: hidden;
+  min-width: 400px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Zona izquierda clickeable */
+.filtros-usuarios-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 0 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  gap: 0;
+  user-select: none;
+}
+
+.filtros-usuarios-container:hover {
+  background-color: #f5f0ea;
+}
+
+/* SOLO CAMBIAR ESTO: hacer el color dorado más intenso cuando está activo */
+.filtros-usuarios-container.clicked-odd {
+  background-color: #C8AD7F; /* Color más intenso */
+}
+
+/* Mejorar contraste del texto cuando está activo */
+.filtros-usuarios-container.clicked-odd .usuario-filtro-icono,
+.filtros-usuarios-container.clicked-odd .usuario-filtro-texto {
+  color: #FFFFFF; /* Blanco para mejor visibilidad */
+}
+
+.usuario-filtro-icono {
+  color: #C8AD7F;
+  font-size: 1rem;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.usuario-filtro-texto {
+  font-family: 'Montserrat', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 15px;
+  color: #2D241E;
+  margin-left: 0.5rem;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+/* Botón Aplicar */
+.usuario-boton-aplicar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2D241E;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  padding: 0 1.5rem;
+  color: #C8AD7F;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.usuario-boton-aplicar:hover:not(.disabled) {
+  opacity: 1;
+}
+
+.usuario-boton-aplicar.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Dropdown input */
+.usuario-filtro-dropdown {
+  position: absolute;
+  top: calc(40px + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 0.6rem 0.8rem;
+  z-index: 200;
+}
+
+.usuario-filtro-text-input {
+  width: 100%;
+  border: 1px solid #e0d9cf;
+  border-radius: 8px;
+  padding: 0.45rem 0.7rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #2D241E;
+  outline: none;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.usuario-filtro-text-input:focus {
+  border-color: #C8AD7F;
+}
+
+.usuario-filtro-text-input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+.usuario-contador-resultados {
+  font-size: 0.9rem;
+  color: #666;
+  white-space: nowrap;
+  font-family: 'Montserrat', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .searchbar-usuarios-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchbar-usuarios-container {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .usuario-filtro-dropdown {
+    width: 100%;
+    left: 0;
+    transform: none;
+  }
+}

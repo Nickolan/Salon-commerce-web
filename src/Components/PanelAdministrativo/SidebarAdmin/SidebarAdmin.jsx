@@ -1,10 +1,9 @@
 import React from 'react';
 import './SidebarAdmin.css';
-// 1. Importamos los íconos que vamos a usar
-import { FiUsers, FiHome, FiCalendar, FiDollarSign } from 'react-icons/fi';
+import { FiUsers, FiHome, FiCalendar, FiDollarSign, FiMenu } from 'react-icons/fi';
 
 const SidebarAdmin = ({ activePanel, setActivePanel }) => {
-  // 2. Usamos los componentes de los íconos directamente en el array
+  
   const menuItems = [
     { name: 'Usuarios', icon: <FiUsers /> },
     { name: 'Salones', icon: <FiHome /> },
@@ -12,19 +11,31 @@ const SidebarAdmin = ({ activePanel, setActivePanel }) => {
     { name: 'Ingresos', icon: <FiDollarSign /> },
   ];
 
+  const handleItemClick = (itemName) => {
+    setActivePanel(itemName);
+  };
+
+  const handleHeaderClick = () => {
+    // Opcional: Podrías resetear al panel principal o simplemente mantener el actual
+    setActivePanel('Reservas'); // Por defecto a Reservas
+  };
+
   return (
     <div className="adminSidebar">
-      <h1 className="sidebar-title">Administrador</h1>
+      <div className="sidebar-header" onClick={handleHeaderClick}>
+        <FiMenu className="menu-icon" />
+        <h1 className="sidebar-title">PANEL DE ADMINISTRACIÓN</h1>
+      </div>
       <ul className="sidebar-menu">
         {menuItems.map((item) => (
           <li
             key={item.name}
             className={`sidebar-item ${activePanel === item.name ? 'active' : ''}`}
-            onClick={() => setActivePanel(item.name)}
+            onClick={() => handleItemClick(item.name)}
           >
-            {/* El span ahora envuelve al componente del ícono */}
+            {activePanel === item.name && <div className="active-indicator"></div>}
             <span className="sidebar-icon">{item.icon}</span>
-            {item.name}
+            <span className="sidebar-text">{item.name}</span>
           </li>
         ))}
       </ul>

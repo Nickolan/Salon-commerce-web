@@ -1,56 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import SearchbarAdmin from '../SearchbarAdmin/SearchbarAdmin';
-import BloquearButton from '../BloquearButton/BloquearButton';
+import React, { useState, useMemo } from 'react';
+import SearchbarUsuarios from './ComponenteUserAdmin/SearchbarUsuarios';
+import UserCard from './ComponenteUserAdmin/UserCard';
+import './PanelUsuarios.css';
 
-// Helper function to format the month string for display
-const formatDisplayMonth = (yyyyMm) => { //
-    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]; //
-    const [year, monthIndex] = yyyyMm.split('-').map(Number); //
-    return `${monthNames[monthIndex - 1]} ${year}`; //
-};
+const PanelUsuarios = ({ usuarios, selectedMonth, onUserDeleted }) => { // <-- Añadir onUserDeleted
+  const [filterValue, setFilterValue] = useState("");
 
-const PanelUsuarios = ({ usuarios, selectedMonth }) => { //
-  const [selectedUser, setSelectedUser] = useState(null); //
+  console.log('PanelUsuarios - usuarios recibidos:', usuarios);
 
-  useEffect(() => { //
-    // If the selected user is no longer in the filtered list (e.g., month changed), deselect them
-    if (selectedUser && !usuarios.find(u => u.id_usuario === selectedUser.id_usuario)) { //
-        setSelectedUser(null); //
+  // Filtrar usuarios
+  const filteredUsers = useMemo(() => {
+    if (!filterValue.trim()) return usuarios;
+
+    const searchTerm = filterValue.toLowerCase().trim();
+    return usuarios.filter(user => 
+      user.nombre?.toLowerCase().includes(searchTerm) ||
+      user.apellido?.toLowerCase().includes(searchTerm) ||
+      `${user.nombre} ${user.apellido}`.toLowerCase().includes(searchTerm) ||
+      user.email?.toLowerCase().includes(searchTerm)
+    );
+  }, [filterValue, usuarios]);
+
+  const handleFilterChange = (value) => {
+    setFilterValue(value);
+  };
+
+  const handleApplyFilter = () => {
+    console.log('Filtro aplicado:', filterValue);
+  };
+
+  // NUEVO: Manejador para cuando se elimina un usuario
+  const handleDeleteUser = (userId) => {
+    if (onUserDeleted) {
+      onUserDeleted(userId);
     }
-  }, [usuarios, selectedUser]); //
-
-  const handleSelectUser = (user) => { //
-    setSelectedUser(user); //
   };
 
   return (
-    <div className="admin-panel"> {/* */}
-      <h2 className="panel-title">Usuarios ({formatDisplayMonth(selectedMonth)})</h2> {/* */}
-      <SearchbarAdmin //
-        items={usuarios} //
-        onSelect={handleSelectUser} //
-        placeholder="Buscar por ID de usuario..." //
-        displayKey="id_usuario" //
+    <div className="panel-usuarios">
+      <SearchbarUsuarios
+        filterValue={filterValue}
+        onFilterChange={handleFilterChange}
+        onApplyFilter={handleApplyFilter}
+        totalResultados={filteredUsers.length}
       />
 
-      {/* Display user details only if users exist and one is selected */}
-      {usuarios.length > 0 && selectedUser && ( //
-         <div className="details-container"> {/* */}
-          <div className="detail-item"><strong>ID del Usuario</strong><span>{selectedUser.id_usuario}</span></div> {/* */}
-          <div className="detail-item"><strong>Nombre de Usuario</strong><span>{selectedUser.nombre_usuario}</span></div> {/* */}
-          <div className="detail-item"><strong>Nombre</strong><span>{`${selectedUser.nombre} ${selectedUser.apellido}`}</span></div> {/* */}
-          <div className="detail-item"><strong>Correo Electrónico</strong><span>{selectedUser.email}</span></div> {/* */}
-          <div className="detail-item"><strong>Teléfono</strong><span>{selectedUser.telefono}</span></div> {/* */}
-          {/* Ensure reservas is an array before accessing length */}
-          <div className="detail-item"><strong>Cantidad de Reservas</strong><span>{Array.isArray(selectedUser.reservas) ? selectedUser.reservas.length : 0}</span></div> {/* */}
-          <BloquearButton type="usuario" id={selectedUser.id_usuario} /> {/* */}
-        </div>
-      )}
-
-      {/* Message when no users are found for the selected month */}
-      {usuarios.length === 0 && ( //
-        <p>No se encontraron usuarios para el período seleccionado.</p> //
-      )}
+      <div className="usuarios-cards-container">
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map(user => (
+            <UserCard
+              key={user.id_usuario}
+              user={user}
+              selectedMonth={selectedMonth}
+              onDeleteUser={handleDeleteUser} // <-- Pasar el manejador
+            />
+          ))
+        ) : (
+          <div className="no-results">
+            {filterValue.trim() 
+              ? `No se encontraron usuarios con "${filterValue}"`
+              : 'No se encontraron usuarios para el período seleccionado.'
+            }
+          </div>
+        )}
+      </div>
     </div>
   );
 };

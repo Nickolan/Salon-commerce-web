@@ -17,6 +17,7 @@ import { FaRegClock } from "react-icons/fa";
 import { IoWifi } from "react-icons/io5";
 import { LuMapPin } from "react-icons/lu";
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+import heroImage from '../utils/images/Gemini_Generated_Image_bkrvskbkrvskbkrv.png';
 
 const HomeScreen = ({ isLoaded }) => {
   const dispatch = useDispatch();
@@ -25,6 +26,19 @@ const HomeScreen = ({ isLoaded }) => {
   const [salonesCercanosCalculados, setSalonesCercanosCalculados] = useState([]);
   const [ubicacionTemporal, setUbicacionTemporal] = useState(null);
   
+  // Estados para controlar la animación de los pasos
+  const [stepClicks, setStepClicks] = useState({
+    1: 0, // contador de clicks para paso 1
+    2: 0, // contador de clicks para paso 2
+    3: 0  // contador de clicks para paso 3
+  });
+  
+  const [animatingSteps, setAnimatingSteps] = useState({
+    1: false,
+    2: false,
+    3: false
+  });
+
   const { 
     destacados, 
     visitados, 
@@ -46,6 +60,25 @@ const HomeScreen = ({ isLoaded }) => {
   const salonesFavoritos = favoritos?.map(fav => fav.salon) || [];
   
   const tieneUbicacionUsuario = user?.latitud && user?.longitud;
+
+  const handleStepClick = (stepNumber) => {
+    setStepClicks(prev => {
+      const newCount = prev[stepNumber] + 1;
+      
+      if (newCount % 2 === 1) {
+        setAnimatingSteps(prev => ({ ...prev, [stepNumber]: true }));
+        setTimeout(() => {
+          setAnimatingSteps(prev => ({ ...prev, [stepNumber]: false }));
+        }, 500);
+      }
+      
+      return { ...prev, [stepNumber]: newCount };
+    });
+  };
+
+  const shouldShowOnlyNumber = (stepNumber) => {
+    return stepClicks[stepNumber] % 2 === 0;
+  };
 
     useEffect(() => {
     dispatch(fetchDestacados());
@@ -346,7 +379,7 @@ const HomeScreen = ({ isLoaded }) => {
       <section className='hero-section'>
         <div 
           className='hero-image' 
-          style={{ backgroundImage: 'url(/images/imagen_generada.png)' }}
+          style={{ backgroundImage: `url(${heroImage})` }}
         >
           <h1 className='hero-title'>TU ESPACIO DE ESTUDIO IDEAL ESTÁ AQUÍ</h1>
         </div>
@@ -429,41 +462,49 @@ const HomeScreen = ({ isLoaded }) => {
           <h2 className="reserve-main-title">¿Cómo puedes reservar?</h2>
           
           {/* Paso 1 - EXPLORA */}
-          <div className="reserve-step step-1">
+          <div 
+            className={`reserve-step step-1 ${shouldShowOnlyNumber(1) ? 'only-number' : ''} ${animatingSteps[1] ? 'animating' : ''}`}
+            onClick={() => handleStepClick(1)}
+            role="button"
+            tabIndex={0}
+          >
             <div className="step-number">1</div>
-            <div className="step-content">
-              <span className="step-action">EXPLORA</span>
-              <ChevronRight className="step-icon" size={48} />
-              <p className="step-description">
-                Filtra por ubicación, precio o capacidad. Mira las fotos y 
-                elige el ambiente perfecto para ti.
-              </p>
-            </div>
+            {!shouldShowOnlyNumber(1) && (
+              <div className="step-content slide-in">
+                <span className="step-action">EXPLORA</span>
+                <ChevronRight className="step-icon" size={48} />
+                <p className="step-description">
+                  Filtra por ubicación, precio o capacidad. Mira las fotos y 
+                  elige el ambiente perfecto para ti.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Paso 2 - RESERVA */}
-          <div className="reserve-step step-2">
-            <div className="step-content">
-              <p className="step-description">
-                Elige el horario y asegura tu lugar pagando de forma 100% segura 
-                a través de Mercado Pago.
-              </p>
-              <ChevronLeft className="step-icon" size={48} />
-              <span className="step-action">RESERVA</span>
-            </div>
+          <div 
+            className={`reserve-step step-2 ${shouldShowOnlyNumber(2) ? 'only-number' : ''} ${animatingSteps[2] ? 'animating' : ''}`}
+            onClick={() => handleStepClick(2)}
+            role="button"
+            tabIndex={0}
+          >
+            {!shouldShowOnlyNumber(2) && (
+              <div className="step-content slide-in">
+                <p className="step-description">
+                  Elige el horario y asegura tu lugar pagando de forma 100% segura 
+                  a través de Mercado Pago.
+                </p>
+                <ChevronLeft className="step-icon" size={48} />
+                <span className="step-action">RESERVA</span>
+              </div>
+            )}
             <div className="step-number">2</div>
           </div>
 
-          {/* Paso 3 - DISFRUTA (Contenedor más pequeño) */}
           <div className="reserve-step step-3">
             <div className="step-number">3</div>
             <div className="step-content">
               <span className="step-action">DISFRUTA</span>
-              <ChevronRight className="step-icon" size={48} />
-              <p className="step-description">
-                Llega al salón, comienza tu sesión de estudio y aprovecha al máximo 
-                el espacio reservado.
-              </p>
             </div>
           </div>
         </div>

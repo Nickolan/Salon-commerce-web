@@ -40,23 +40,32 @@ const AdminScreen = () => {
   // --- FIN LECTURA REDUX ---
 
   useEffect(() => {
-    // Obtener nombre del admin desde el usuario logueado
-    if (user && user.es_administrador) {
-      setAdminName(user.nombre || 'Admin');
-    }
-    // Si no es admin, podrías redirigir aquí
-    // else { navigate('/'); }
-  }, [user]);
-
-  // --- EFECTO PARA DISPARAR THUNKS AL CAMBIAR EL MES ---
-  useEffect(() => {
     if (selectedMonth) {
-      dispatch(fetchAdminUsersByMonth(selectedMonth));
-      dispatch(fetchAdminSalonsByMonth(selectedMonth));
+      console.log('🔴 CALENDARIO - Mes seleccionado:', selectedMonth);
+      console.log('🔴 Disparando thunks para el mes:', selectedMonth);
+      
+      console.log('▶️ Llamando a fetchAdminReservasByMonth con:', selectedMonth);
       dispatch(fetchAdminReservasByMonth(selectedMonth));
+      
+      console.log('▶️ Llamando a fetchAdminUsersByMonth con:', selectedMonth);
+      dispatch(fetchAdminUsersByMonth(selectedMonth));
+      
+      console.log('▶️ Llamando a fetchAdminSalonsByMonth con:', selectedMonth);
+      dispatch(fetchAdminSalonsByMonth(selectedMonth));
+      
+      console.log('▶️ Llamando a fetchAdminTransaccionesByMonth con:', selectedMonth);
       dispatch(fetchAdminTransaccionesByMonth(selectedMonth));
     }
-  }, [selectedMonth, dispatch]); // Se ejecuta cuando selectedMonth o dispatch cambian
+  }, [selectedMonth, dispatch]);
+
+  // También añade logs para ver qué llega de Redux:
+  useEffect(() => {
+    console.log('📊 DATOS RECIBIDOS DE REDUX:');
+    console.log('adminUsers:', adminUsers?.length || 0, 'usuarios');
+    console.log('adminReservas:', adminReservas?.length || 0, 'reservas');
+    console.log('adminTransacciones:', adminTransacciones?.length || 0, 'transacciones');
+    console.log('adminSalones:', adminSalones?.length || 0, 'salones');
+  }, [adminUsers, adminReservas, adminTransacciones, adminSalones]); // Se ejecuta cuando selectedMonth o dispatch cambian
   // --- FIN EFECTO ---
 
   // --- CALCULAR ESTADÍSTICAS ---
@@ -92,7 +101,7 @@ const AdminScreen = () => {
           setActivePanel={setActivePanel} // Función para cambiar el panel activo
           activePanel={activePanel} // Panel activo actual
           selectedMonth={selectedMonth} // Mes seleccionado
-          setSelectedMonth={setSelectedMonth} // Función para cambiar el mes
+          onMonthChange={setSelectedMonth} // Función para cambiar el mes
         />
         {/* Opcional: Mostrar un loader global si algo está cargando */}
         {isLoadingData && <div className="admin-loading-indicator">Cargando datos...</div>}

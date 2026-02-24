@@ -1,0 +1,272 @@
+.user-card {
+  width: 100%;
+  max-width: 1100px;
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  margin: 1rem auto;
+  font-family: 'Montserrat', sans-serif;
+  transition: all 0.3s ease;
+  padding: clamp(15px, 2vw, 20px);
+  box-sizing: border-box;
+}
+
+.user-card.expanded {
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+.user-card-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 100px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Avatar */
+.user-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #C8AD7F;
+  flex-shrink: 0;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Información del usuario */
+.user-info {
+  flex: 1;
+  min-width: 250px;
+}
+
+.user-name {
+  font-weight: 700;
+  font-size: clamp(18px, 2vw, 22px);
+  color: #2D241E;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+.user-email {
+  font-weight: 400;
+  font-size: clamp(13px, 1.4vw, 15px);
+  color: #787878;
+  opacity: 0.7;
+  margin: 0 0 2px 0;
+}
+
+.user-phone {
+  font-weight: 400;
+  font-size: clamp(13px, 1.4vw, 15px);
+  color: #787878;
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* Estado del usuario */
+.user-status {
+  width: 95px;
+  height: 24px;
+  border-radius: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.user-status.activo {
+  background-color: #55AB52;
+  color: white;
+}
+
+.user-status.bloqueado {
+  background-color: #AD1519;
+  color: white;
+}
+
+/* Acciones */
+.user-actions {
+  display: flex;
+  gap: 20px;
+  margin-left: 20px;
+  flex-shrink: 0;
+}
+
+.action-icon {
+  width: 20px;
+  height: 20px;
+  color: #2D241E;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-icon:hover {
+  transform: scale(1.1);
+  color: #C8AD7F;
+}
+
+/* Menú desplegable */
+.menu-container {
+  position: relative;
+}
+
+.menu-desplegable {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 200px;
+  padding: 4px 0;
+}
+
+.menu-item {
+  padding: 10px 15px;
+  font-size: 13px;
+  color: #2D241E;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.menu-item:hover {
+  background-color: #F4F4F6;
+  color: #C8AD7F;
+}
+
+.menu-item.delete-item {
+  color: #AD1519;
+  font-weight: 500;
+}
+
+.menu-item.delete-item:hover {
+  background-color: #ffebee;
+  color: #AD1519;
+}
+
+/* CONTENIDO EXPANDIBLE (se muestra al hacer click en el ojo) */
+.user-expanded-content {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #F2F0EB;
+}
+
+.actividad-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.actividad-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.actividad-texto {
+  font-size: 13px;
+  color: #2D241E;
+  line-height: 1.5;
+}
+
+.actividad-destacado {
+  font-weight: 700;
+  color: #2D241E;
+}
+
+.actividad-normal {
+  font-weight: 400;
+  color: #2D241E;
+}
+
+.actividad-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.actividad-id {
+  font-size: 13px;
+  color: #787878;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+.actividad-tiempo {
+  font-size: 13px;
+  color: #C8AD7F;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+.actividad-linea {
+  width: 100%;
+  height: 1px;
+  background-color: #F2F0EB;
+  margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+  .user-card {
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .user-card {
+    width: 95%;
+  }
+
+  .user-card-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .user-info {
+    width: 100%;
+  }
+
+  .user-status {
+    margin-left: 0;
+  }
+
+  .user-actions {
+    margin-top: 10px;
+    margin-left: 0;
+  }
+  
+  .actividad-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-card {
+    padding: 15px;
+  }
+
+  .user-avatar {
+    width: 60px;
+    height: 60px;
+  }
+}

@@ -7,50 +7,20 @@
   padding: 0 2.5rem;
   box-sizing: border-box;
   margin-top: 2%;
+  background-color: #F4F4F6; /* Mismo fondo que MisReservas */
 }
 
 .header-welcome {
-  font-size: 2em;
-  color: var(--primary-color);
+  font-size: 2.2rem; /* Mismo tamaño que MisReservas */
+  color: #2D241E; /* Mismo color que MisReservas */
   font-weight: 600;
+  margin: 0;
 }
 
 .header-controls {
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 0.9375rem;
-}
-
-.header-stats-buttons {
-  display: flex;
-  align-items: center;
-  gap: 0.9375rem;
-}
-
-.header-stats-buttons button {
-  min-width: 9.375rem;
-  padding: 0.75rem 1.25rem;
-  border-radius: 0.5rem;
-  border: none;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: bold;
-  color: white;
-  background-color: var(--primary-color);
-  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-}
-
-.header-stats-buttons button:hover,
-.header-stats-buttons button.active {
-  background-color: var(--second-color);
-  transform: translateY(-0.125rem);
-  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.15);
-}
-
-.header-stats-buttons button:active {
-  transform: scale(0.95);
-  box-shadow: none;
 }
 
 .month-selector-wrapper {
@@ -59,29 +29,29 @@
 }
 
 .month-selector-input {
-  font-family: Arial, sans-serif;
-  font-size: 1em;
-  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
   padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  border: 0.0625rem solid var(--second-color);
-  color: var(--primary-color);
-  background-color: #fff;
+  border-radius: 30px;
+  border: 1px solid #B3B3B3;
+  color: #2D241E;
+  background-color: #FFFFFF;
   cursor: pointer;
-  text-transform: capitalize; /* Pone la primera letra del mes en mayúscula */
+  opacity: 0.8;
+  height: 35px;
 }
 
 .month-selector-input:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: #C8AD7F;
+  opacity: 1;
 }
 
-/* --- ESTILOS RESPONSIVOS --- */
 @media (max-width: 1300px) {
   .header-admin {
     flex-direction: column;
-    /* 1. Alineamos todo al centro */
-    align-items: center; 
+    align-items: center;
     height: auto;
     gap: 1.5rem;
     padding: 1.5rem;
@@ -89,27 +59,13 @@
   }
 
   .header-welcome {
-    font-size: 1.8em;
-    /* 2. Centramos el texto del saludo */
+    font-size: 1.8rem;
     text-align: center;
     width: 100%;
   }
 
-  /* 3. El contenedor de controles también se centra */
   .header-controls {
-    align-items: center;
     width: 100%;
-  }
-
-  .header-stats-buttons {
-    flex-wrap: wrap;
-    /* 4. Centramos los botones cuando pasan a la siguiente línea */
     justify-content: center;
-    width: 100%;
-  }
-
-  .header-stats-buttons button {
-    flex-grow: 1;
-    min-width: 120px;
   }
 }

@@ -1,57 +1,34 @@
 import React from 'react';
 import './HeaderAdmin.css';
 
-const HeaderAdmin = ({ adminName, stats, setActivePanel, activePanel, selectedMonth, setSelectedMonth }) => {
-  const formatCurrency = (number) => {
-    return new Intl.NumberFormat('es-AR', {
-      style: 'currency',
-      currency: 'ARS',
-      minimumFractionDigits: 0,
-    }).format(number);
+const HeaderAdmin = ({ activePanel, selectedMonth, onMonthChange }) => {
+  const getHeaderTitle = () => {
+    switch(activePanel) {
+      case 'Reservas':
+        return 'GESTIÓN DE RESERVAS';
+      case 'Usuarios':
+        return 'GESTIÓN DE USUARIOS';
+      case 'Salones':
+        return 'GESTIÓN DE SALONES';
+      case 'Ingresos':
+        return 'GESTIÓN DE INGRESOS';
+      default:
+        return 'PANEL DE ADMINISTRACIÓN';
+    }
   };
 
   return (
     <div className="header-admin">
-      <h2 className="header-welcome">¡Hola {adminName}!</h2>
+      <h1 className="header-welcome">{getHeaderTitle()}</h1>
       
       <div className="header-controls">
-        
-        {/* El <label> ha sido eliminado de aquí. El input queda solo. */}
         <div className="month-selector-wrapper">
           <input
             type="month"
-            id="month-select"
-            className="month-selector-input"
             value={selectedMonth}
-            onChange={(e) => setSelectedMonth(e.target.value)}
+            onChange={(e) => onMonthChange(e.target.value)}
+            className="month-selector-input"
           />
-        </div>
-
-        <div className="header-stats-buttons">
-          <button 
-            onClick={() => setActivePanel('Usuarios')}
-            className={activePanel === 'Usuarios' ? 'active' : ''}
-          >
-            {stats.usuarios} Usuarios
-          </button>
-          <button 
-            onClick={() => setActivePanel('Salones')}
-            className={activePanel === 'Salones' ? 'active' : ''}
-          >
-            {stats.salones} Salones
-          </button>
-          <button 
-            onClick={() => setActivePanel('Reservas')}
-            className={activePanel === 'Reservas' ? 'active' : ''}
-          >
-            {stats.reservas} Reservas
-          </button>
-          <button 
-            onClick={() => setActivePanel('Ingresos')}
-            className={activePanel === 'Ingresos' ? 'active' : ''}
-          >
-            {formatCurrency(stats.ingresos)} Ingresos
-          </button>
         </div>
       </div>
     </div>
