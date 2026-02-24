@@ -5,6 +5,7 @@ import usuariosData from "../utils/Usuarios.json";
 import { LiaEditSolid } from "react-icons/lia";
 import Sidebar from '../components/Sidebar/Sidebar';
 import { useSelector } from 'react-redux';
+import VistaMP from '../Components/VistaMP/VistaMP';
 
 const Perfil = () => {
     const navigate = useNavigate();
@@ -78,6 +79,8 @@ const Perfil = () => {
                         </div>
                     </div>
                 </div>
+
+                <VistaMP usuario={user} />
             </div>
         </div>
     );

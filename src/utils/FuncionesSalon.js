@@ -1,6 +1,6 @@
 import Salones from './Salones.json'
 // La URL base de tu API de backend
-const API_URL = 'http://localhost:3000'; // O el puerto que estés usando
+const API_URL = 'https://salon-commerce-server.onrender.com'; // O el puerto que estés usando
 
 export async function AgregarSalon(salon, photos, reglas, equipamiento, disponibilidad) {
     // Extraemos los datos del objeto 'salon' que viene del formulario

@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/salones'; // URL del endpoint de salones
-const RESENIAS_API_URL = 'http://localhost:3000/resenias';
+const API_URL = 'https://salon-commerce-server.onrender.com/salones'; // URL del endpoint de salones
+const RESENIAS_API_URL = 'https://salon-commerce-server.onrender.com/resenias';
 
 const initialState = {
   salones: [],
@@ -144,7 +144,7 @@ export const fetchReseniasBySalonId = createAsyncThunk(
   'salones/fetchReseniasBySalonId',
   async (salonId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://localhost:3000/resenias/salon/${salonId}`);
+      const response = await axios.get(`https://salon-commerce-server.onrender.com/resenias/salon/${salonId}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Error al cargar las reseñas.');

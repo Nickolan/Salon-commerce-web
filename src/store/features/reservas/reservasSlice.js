@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/reservas';
-const FRANJAS_API_URL = 'http://localhost:3000/franjas-horarias';
-const CANCELACIONES_API_URL = 'http://localhost:3000/cancelaciones';
-const API_URL_TRANSACCIONES = 'http://localhost:3000/transacciones';
+const API_URL = 'https://salon-commerce-server.onrender.com/reservas';
+const FRANJAS_API_URL = 'https://salon-commerce-server.onrender.com/franjas-horarias';
+const CANCELACIONES_API_URL = 'https://salon-commerce-server.onrender.com/cancelaciones';
+const API_URL_TRANSACCIONES = 'https://salon-commerce-server.onrender.com/transacciones';
 
 export const fetchAdminReservasByMonth = createAsyncThunk(
   'reservas/fetchAdminReservasByMonth',
@@ -94,7 +94,7 @@ export const generarLinkDePago = createAsyncThunk(
 
       // Llamamos a un NUEVO endpoint del backend que crearemos
       // Nota: No llamamos a /api/reservas, sino a un endpoint de pago
-      const response = await axios.post('http://localhost:3000/pagos/crear-checkout', // <-- NUEVO ENDPOINT
+      const response = await axios.post('https://salon-commerce-server.onrender.com/pagos/crear-checkout', // <-- NUEVO ENDPOINT
         datosParaPago,
         config
       );

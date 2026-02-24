@@ -16,7 +16,7 @@ const initialState = {
   adminUsersError: null, // <-- NUEVO ESTADO
 };
 
-const API_URL = 'http://localhost:3000/usuarios';
+const API_URL = 'https://salon-commerce-server.onrender.com/usuarios';
 // --- Thunk Asíncrono para el Login ---
 export const loginUser = createAsyncThunk(
   'auth/loginUser',

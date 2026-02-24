@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/favoritos';
+const API_URL = 'https://salon-commerce-server.onrender.com/favoritos';
 
 // THUNK para OBTENER los favoritos del usuario
 export const fetchFavoritos = createAsyncThunk(

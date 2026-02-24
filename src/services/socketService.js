@@ -6,7 +6,7 @@ let socket;
 export const socketService = {
   connect: (token) => {
     if (!socket) {
-      socket = io('http://localhost:3000', { // Asegúrate que el puerto sea el correcto
+      socket = io('https://salon-commerce-server.onrender.com', { // Asegúrate que el puerto sea el correcto
         auth: { token },
         transports: ['websocket'],
       });

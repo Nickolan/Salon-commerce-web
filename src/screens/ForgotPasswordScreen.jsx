@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import "../styles/ForgotPasswordScreen.css"; // Crear este archivo CSS
 
 // URL base de tu API (mejor si viene de una variable de entorno)
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://salon-commerce-server.onrender.com';
 
 const ForgotPasswordScreen = () => {
   const navigate = useNavigate();

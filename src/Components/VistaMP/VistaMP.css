@@ -1,0 +1,90 @@
+@charset "UTF-8";
+/* --- Variables de color (ajusta según tu paleta) --- */
+/* --- Estilo de la Tarjeta Principal --- */
+.mp-card {
+  background-color: rgba(152, 63, 255, 0.1411764706);
+  border: 1px solid #eee;
+  border-radius: 0.5rem;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+/* Título (Pagos (Mercado Pago)) */
+.mp-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+/* --- Estado Vinculado (Pill Verde) --- */
+.mp-vinculado {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #e6f7ec;
+  border: 1px solid #b7ebc9;
+  color: #0f5132;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.mp-vinculado svg {
+  color: inherit;
+}
+
+/* --- Botón de Acción (Vincular) --- */
+.button-vincular-mp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background-color: var(--primary-shadow);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+  max-width: 300px;
+  /* Estado de Carga (disabled) */
+}
+.button-vincular-mp:hover {
+  background-color: var(--primary-shadow);
+}
+.button-vincular-mp:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* Animación de Spinner para el botón de carga */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner-icon {
+  animation: spin 1s linear infinite;
+}
+
+/* Texto de ayuda (subtítulo) */
+.mp-info-text {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+  text-align: center;
+  max-width: 400px;
+}/*# sourceMappingURL=VistaMP.css.map */

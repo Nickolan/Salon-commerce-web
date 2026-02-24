@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // URL BASE DE TU BACKEND (Ajusta si usas otro puerto)
-const API_URL = 'http://localhost:3000/chat'; 
+const API_URL = 'https://salon-commerce-server.onrender.com/chat'; 
 
 // --- HELPER PARA HEADERS CON TOKEN ---
 const getAuthHeaders = () => {

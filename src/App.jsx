@@ -83,7 +83,7 @@ function App() {
       }
 
       {
-        <Chatbot/>
+        isAuthenticated && <Chatbot/>
       }
 
       <Routes>

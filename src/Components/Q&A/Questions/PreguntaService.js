@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://salon-commerce-server.onrender.com';
 
 const PreguntaService = {
   getToken() {
