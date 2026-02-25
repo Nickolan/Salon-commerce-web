@@ -22,6 +22,8 @@ const VistaMP = ({ usuario }) => {
             
             // Verificamos que el backend nos devuelva la URL
             if (response.data && response.data.url) {
+                console.log(response.data);
+                
                 // Redirigimos la ventana completa hacia Mercado Pago
                 window.location.href = response.data.url;
             } else {
