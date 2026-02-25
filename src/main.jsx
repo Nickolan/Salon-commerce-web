@@ -5,6 +5,14 @@ import { Provider } from 'react-redux'; // <-- Importar Provider
 import { store } from './store/store'; // <-- Importar nuestro store
 import App from './App.jsx';
 import './index.css';
+import { initMercadoPago } from '@mercadopago/sdk-react';
+
+// 2. Inicializar Mercado Pago con tu Public Key\
+
+const key = import.meta.env.VITE_MP_PUBLIC_KEY
+console.log(key);
+
+initMercadoPago(key);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
