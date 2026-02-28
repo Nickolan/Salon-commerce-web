@@ -1,0 +1,75 @@
+/* PanelAdmin/AdminComponents/RendimientoDiario.css */
+.rendimiento-diario {
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  height: 475px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rendimiento-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.rendimiento-titulo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #2D241E;
+  margin: 0;
+}
+
+/* 🔧 ESTILOS PARA EL CALENDARIO MÁS PEQUEÑO */
+.month-selector-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.month-selector-input {
+  padding: 0.4rem 0.8rem;  /* Reducido el padding */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;          /* Texto más pequeño */
+  color: #2D241E;
+  cursor: pointer;
+  width: 140px;             /* Ancho fijo más pequeño */
+  background-color: white;
+}
+
+.month-selector-input:focus {
+  outline: none;
+  border-color: #C8AD7F;
+}
+
+.month-selector-input:hover {
+  border-color: #C8AD7F;
+}
+
+.rendimiento-contenido {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #757575;
+}
+
+.placeholder-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  margin-bottom: 0.5rem;
+}
+
+.placeholder-subtext {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #B3B3B3;
+}

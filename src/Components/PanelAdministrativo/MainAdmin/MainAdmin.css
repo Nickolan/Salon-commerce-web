@@ -1,9 +1,11 @@
 .main-admin-content {
-  height: 85%;
   width: 100%;
-  padding: 1.875rem 2.5rem; /* 30px 40px */
+  padding: 1.875rem 2.5rem;
   box-sizing: border-box;
-  overflow-y: auto;
+  overflow-y: auto;  /* el scroll va aquí */
+  flex: 1;
+  min-height: 0;     /* CRÍTICO: sin esto flex no limita la altura y el scroll no funciona */
+  /* nada más, sin height, sin max-height */
 }
 
 .admin-panel {

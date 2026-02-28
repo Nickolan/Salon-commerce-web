@@ -1,22 +1,116 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import es from 'date-fns/locale/es';
-import { FiCalendar, FiClock, FiDollarSign, FiUser, FiHome, FiMapPin, FiEye, FiEyeOff, FiCreditCard, FiCheckCircle, FiXCircle, FiClock as FiPending } from "react-icons/fi";
+import { FiCalendar, FiClock, FiDollarSign, FiUser, FiHome, FiMapPin, FiEye, FiEyeOff, FiCreditCard, FiCheckCircle, FiXCircle, FiClock as FiPending, FiStar } from "react-icons/fi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import './ItemReservaAdmin.css';
 
-const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, onCancelar, esReservaFutura, estadoPago, }) => {
-  const [showMenu, setShowMenu] = useState(false);
-    console.log('🎨 Renderizando ItemReservaAdmin:', {
-    id: reserva.id_reserva,
-    fecha: reserva.fecha_reserva,
-    salon: reserva.salon?.nombre,
-    estado: reserva.estado_reserva
-  });
+const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, esReservaFutura, estadoPago }) => {
+  // Función para formatear ID con 8 dígitos
+  const formatId = (id) => {
+    return String(id).padStart(8, '0');
+  };
 
-  // Formatear fecha
-  const fechaFormateada = reserva.fecha_reserva 
-    ? format(parseISO(reserva.fecha_reserva), 'dd-MM-yyyy') 
+  // Función para tiempo relativo detallado
+  const getRelativeTimeDetailed = (dateString) => {
+    if (!dateString) return 'Sin actividad';
+    
+    try {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffTime = Math.abs(now - date);
+      const diffMinutes = Math.floor(diffTime / (1000 * 60));
+      const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const diffWeeks = Math.floor(diffDays / 7);
+      const diffMonths = Math.floor(diffDays / 30);
+
+      if (diffMinutes < 60) {
+        return `Hace ${diffMinutes} ${diffMinutes === 1 ? 'minuto' : 'minutos'}`;
+      } else if (diffHours < 24) {
+        return `Hace ${diffHours} ${diffHours === 1 ? 'hora' : 'horas'}`;
+      } else if (diffDays < 7) {
+        return `Hace ${diffDays} ${diffDays === 1 ? 'día' : 'días'}`;
+      } else if (diffWeeks < 4) {
+        return `Hace ${diffWeeks} ${diffWeeks === 1 ? 'semana' : 'semanas'}`;
+      } else {
+        return `Hace ${diffMonths} ${diffMonths === 1 ? 'mes' : 'meses'}`;
+      }
+    } catch (error) {
+      return 'Fecha inválida';
+    }
+  };
+
+  // Función para obtener la URL de la imagen
+  const getImagenSalon = () => {
+    try {
+      if (!reserva.salon) {
+        return 'https://via.placeholder.com/195x106?text=Salón';
+      }
+
+      if (typeof reserva.salon === 'object' && reserva.salon !== null) {
+        if (Array.isArray(reserva.salon.fotos) && reserva.salon.fotos.length > 0) {
+          return reserva.salon.fotos[0];
+        }
+        
+        if (typeof reserva.salon.fotos === 'string' && reserva.salon.fotos) {
+          if (reserva.salon.fotos.startsWith('http')) {
+            return reserva.salon.fotos;
+          }
+          
+          if (reserva.salon.fotos.includes(',')) {
+            const fotosArray = reserva.salon.fotos.split(',').map(f => f.trim());
+            return fotosArray[0];
+          }
+        }
+
+        if (reserva.salon.foto_portada) {
+          return reserva.salon.foto_portada;
+        }
+      }
+
+      return 'https://via.placeholder.com/195x106?text=Salón';
+    } catch (error) {
+      console.error('Error procesando imagen:', error);
+      return 'https://via.placeholder.com/195x106?text=Salón';
+    }
+  };
+
+  // Función para obtener la foto de perfil del usuario
+  const getFotoPerfil = () => {
+    try {
+      if (!reserva.arrendatario) {
+        return 'https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp';
+      }
+
+      if (reserva.arrendatario.foto_perfil) {
+        const foto = reserva.arrendatario.foto_perfil;
+        
+        if (foto.startsWith('http')) {
+          return foto;
+        }
+        
+        if (foto.startsWith('/')) {
+          return `http://localhost:3000${foto}`;
+        }
+        
+        return `http://localhost:3000/uploads/usuarios/${foto}`;
+      }
+
+      if (reserva.arrendatario.foto) {
+        return reserva.arrendatario.foto;
+      }
+
+      return 'https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp';
+    } catch (error) {
+      console.error('Error procesando foto de perfil:', error);
+      return 'https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp';
+    }
+  };
+
+  // Formatear fecha de creación
+  const fechaCreacionFormateada = reserva.fecha_creacion
+    ? format(parseISO(reserva.fecha_creacion), 'dd-MM-yyyy')
     : 'Fecha no disponible';
 
   // Obtener ubicación
@@ -45,24 +139,11 @@ const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, onCance
     return colores[estado?.toLowerCase()] || '#787878';
   };
 
-  // Función para obtener icono de estado de transacción
-  const getTransaccionIcono = (estado) => {
-    switch(estado?.toLowerCase()) {
-      case 'aprobado': return <FiCheckCircle color="#55AB52" />;
-      case 'rechazado': return <FiXCircle color="#AD1519" />;
-      case 'pendiente': return <FiPending color="#787878" />;
-      case 'reembolso': return <FiDollarSign color="#FFA500" />; 
-      default: return <FiDollarSign color="#787878" />;
-    }
-  };
-  
   const getPrecioReserva = () => {
-    // Si tenemos precio por prop y es mayor a 0, lo usamos
     if (precio && precio > 0) {
       return precio;
     }
-    
-    // Si hay transacciones en la reserva, usamos el monto
+
     if (reserva.transacciones && reserva.transacciones.length > 0) {
       const transaccionesOrdenadas = [...reserva.transacciones].sort(
         (a, b) => new Date(b.fecha_transaccion) - new Date(a.fecha_transaccion)
@@ -70,38 +151,36 @@ const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, onCance
       const monto = transaccionesOrdenadas[0].monto_pagado;
       return monto || 0;
     }
-    
-    // Si hay transacción singular
+
     if (reserva.transaccion) {
       return reserva.transaccion.monto_pagado || 0;
     }
 
-    // Verificar si es reserva futura
     const fechaReserva = new Date(reserva.fecha_reserva);
     const hoy = new Date();
     if (fechaReserva > hoy) {
-      return 'Pendiente';  // 👈 Retorna string para reservas futuras
+      return 'Pendiente';
     }
 
     return 0;
   };
 
-  // Determinar si se puede cancelar
-  const puedeCancelar = !['completada', 'cancelada', 'rechazada'].includes(reserva.estado_reserva?.toLowerCase());
-
   // Obtener la transacción asociada
   const transaccion = reserva.transacciones && reserva.transacciones.length > 0 ? reserva.transacciones[0] : null;
 
+  // Obtener la reseña asociada (si existe)
+  const resenia = reserva.resenias && reserva.resenias.length > 0 ? reserva.resenias[0] : null;
+
   return (
     <div className={`item-reserva-admin ${isExpanded ? 'expanded' : ''}`}>
-      {/* Fecha en esquina superior izquierda */}
+      {/* Fecha de creación en esquina superior izquierda */}
       <div className="reserva-fecha-top">
-        {fechaFormateada}
+        {fechaCreacionFormateada}
       </div>
 
       {/* Estado en esquina superior derecha */}
-      <div 
-        className="reserva-estado-badge" 
+      <div
+        className="reserva-estado-badge"
         style={{ backgroundColor: getEstadoColor(reserva.estado_reserva) }}
       >
         {reserva.estado_reserva}
@@ -111,10 +190,13 @@ const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, onCance
       <div className="reserva-content">
         {/* Imagen */}
         <div className="reserva-imagen-wrapper">
-          <img 
-            src={reserva.salon?.fotos?.[0] || 'https://via.placeholder.com/195x106'} 
-            alt={reserva.salon?.nombre}
+          <img
+            src={getImagenSalon()}
+            alt={reserva.salon?.nombre || 'Salón'}
             className="reserva-imagen"
+            onError={(e) => {
+              e.target.src = 'https://via.placeholder.com/195x106?text=Salón';
+            }}
           />
         </div>
 
@@ -131,9 +213,12 @@ const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, onCance
         {/* Info del cliente */}
         <div className="cliente-wrapper">
           <div className="cliente-avatar">
-            <img 
-              src={reserva.arrendatario?.foto_perfil || 'https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp'} 
+            <img
+              src={getFotoPerfil()}
               alt={reserva.arrendatario?.nombre}
+              onError={(e) => {
+                e.target.src = 'https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp';
+              }}
             />
           </div>
           <div className="cliente-detalles">
@@ -150,7 +235,7 @@ const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, onCance
         <div className="reserva-detalles-wrapper">
           <div className="detalle-item">
             <FiCalendar className="detalle-icono" />
-            <span className="detalle-texto">{fechaFormateada}</span>
+            <span className="detalle-texto">{fechaCreacionFormateada}</span>
           </div>
           <div className="detalle-item">
             <FiClock className="detalle-icono" />
@@ -159,8 +244,8 @@ const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, onCance
           <div className="detalle-item">
             <FiDollarSign className="detalle-icono" />
             <span className="detalle-texto">
-              {typeof getPrecioReserva() === 'number' 
-                ? `$${getPrecioReserva()}` 
+              {typeof getPrecioReserva() === 'number'
+                ? `$${getPrecioReserva()}`
                 : getPrecioReserva()}
             </span>
           </div>
@@ -168,135 +253,64 @@ const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, onCance
 
         {/* Acciones */}
         <div className="acciones-wrapper">
-          {/* Botón Ver/Ocultar detalles */}
           <div className="accion-icono" onClick={onToggleExpand} title={isExpanded ? "Ocultar detalles" : "Ver detalles"}>
             {isExpanded ? <FiEyeOff size={20} color="#2D241E" /> : <FiEye size={20} color="#2D241E" />}
           </div>
-          
-          {/* Menú de 3 puntos (solo si se puede cancelar) */}
-          {puedeCancelar && (
-            <div className="accion-icono menu-container" onClick={() => setShowMenu(!showMenu)}>
-              <BsThreeDotsVertical size={20} color="#2D241E" />
-              {showMenu && (
-                <div className="menu-desplegable">
-                  <div className="menu-item" onClick={() => onCancelar(reserva)}>Cancelar/Rechazar reserva</div>
-                </div>
-              )}
-            </div>
-          )}
         </div>
       </div>
 
-      {/* Sección expandible con historial detallado */}
+      {/* SECCIÓN EXPANDIBLE - CON 3 ITEMS */}
       {isExpanded && (
-        <div className="reserva-historial">
-          <h4 className="historial-titulo">Historial de la reserva</h4>
-          
-          <div className="historial-grid">
-            {/* Información de la reserva */}
-            <div className="historial-seccion">
-              <h5 className="historial-seccion-titulo">Detalles de la Reserva</h5>
-              <div className="historial-item">
-                <span className="historial-label">ID Reserva:</span>
-                <span className="historial-valor">#{reserva.id_reserva}</span>
+        <div className="reserva-expanded-content">
+          <div className="actividad-lista">
+            
+            {/* ITEM 1: Detalles del Salón */}
+            <div className="actividad-item">
+              <div className="actividad-texto">
+                <span className="actividad-destacado">{reserva.salon?.nombre || 'Salón'}</span>
+                <span className="actividad-normal"> tiene un precio por hora de </span>
+                <span className="actividad-destacado">${reserva.salon?.precio_por_hora || 0}</span>
               </div>
-              <div className="historial-item">
-                <span className="historial-label">Fecha de creación:</span>
-                <span className="historial-valor">{format(parseISO(reserva.fecha_creacion), 'dd/MM/yyyy HH:mm')}</span>
+              <div className="actividad-footer">
+                <span className="actividad-id">Salón #{formatId(reserva.salon?.id_salon || 0)}</span>
+                <span className="actividad-tiempo">{getRelativeTimeDetailed(reserva.fecha_creacion)}</span>
               </div>
-              <div className="historial-item">
-                <span className="historial-label">Estado actual:</span>
-                <span className="historial-valor" style={{ color: getEstadoColor(reserva.estado_reserva) }}>
-                  {reserva.estado_reserva}
-                </span>
-              </div>
+              <div className="actividad-linea"></div>
             </div>
 
-            {/* Información del salón */}
-            <div className="historial-seccion">
-              <h5 className="historial-seccion-titulo">Detalles del Salón</h5>
-              <div className="historial-item">
-                <span className="historial-label">ID Salón:</span>
-                <span className="historial-valor">#{reserva.salon?.id_salon}</span>
-              </div>
-              <div className="historial-item">
-                <span className="historial-label">Nombre:</span>
-                <span className="historial-valor">{reserva.salon?.nombre}</span>
-              </div>
-              <div className="historial-item">
-                <span className="historial-label">Capacidad:</span>
-                <span className="historial-valor">{reserva.salon?.capacidad} personas</span>
-              </div>
-              <div className="historial-item">
-                <span className="historial-label">Precio por hora:</span>
-                <span className="historial-valor">${reserva.salon?.precio_por_hora}</span>
-              </div>
-              <div className="historial-item">
-                <span className="historial-label">Dirección:</span>
-                <span className="historial-valor">{reserva.salon?.direccion}</span>
-              </div>
-            </div>
-
-            {/* Información de la transacción */}
+            {/* ITEM 2: Detalles del Pago (si existe transacción) */}
             {transaccion && (
-              <div className="historial-seccion">
-                <h5 className="historial-seccion-titulo">Detalles del Pago</h5>
-                <div className="historial-item">
-                  <span className="historial-label">ID Transacción:</span>
-                  <span className="historial-valor">#{transaccion.id_transaccion}</span>
+              <div className="actividad-item">
+                <div className="actividad-texto">
+                  <span className="actividad-normal">Se ha confirmado la reserva a mediante </span>
+                  <span className="actividad-destacado">{transaccion.detalles_pago || 'Mercado Pago'}</span>
                 </div>
-                <div className="historial-item">
-                  <span className="historial-label">Monto pagado:</span>
-                  <span className="historial-valor">${transaccion.monto_pagado}</span>
+                <div className="actividad-footer">
+                  <span className="actividad-id">Transacción #{formatId(transaccion.id_transaccion)}</span>
+                  <span className="actividad-tiempo">{getRelativeTimeDetailed(transaccion.fecha_transaccion)}</span>
                 </div>
-                <div className="historial-item">
-                  <span className="historial-label">Método de pago:</span>
-                  <span className="historial-valor">{transaccion.metodo_pago}</span>
-                </div>
-                <div className="historial-item">
-                  <span className="historial-label">Estado del pago:</span>
-                  <span className="historial-valor" style={{ 
-                    color: transaccion.estado_transaccion?.toLowerCase() === 'aprobado' ? '#55AB52' : 
-                          transaccion.estado_transaccion?.toLowerCase() === 'rechazado' ? '#AD1519' :
-                          transaccion.estado_transaccion?.toLowerCase() === 'reembolso' ? '#FFA500' : '#787878'
-                  }}>
-                    {getTransaccionIcono(transaccion.estado_transaccion)} {transaccion.estado_transaccion}
-                  </span>
-                </div>
-                <div className="historial-item">
-                  <span className="historial-label">Fecha del pago:</span>
-                  <span className="historial-valor">{format(parseISO(transaccion.fecha_transaccion), 'dd/MM/yyyy HH:mm')}</span>
-                </div>
-                {transaccion.detalles_pago && (
-                  <div className="historial-item">
-                    <span className="historial-label">Detalles:</span>
-                    <span className="historial-valor">{transaccion.detalles_pago}</span>
-                  </div>
-                )}
+                <div className="actividad-linea"></div>
               </div>
             )}
 
-            {/* Equipamiento del salón (si existe) */}
-            {reserva.salon?.equipamientos && reserva.salon.equipamientos.length > 0 && (
-              <div className="historial-seccion">
-                <h5 className="historial-seccion-titulo">Equipamiento</h5>
-                <div className="historial-equipamientos">
-                  {reserva.salon.equipamientos.map((equipo, index) => (
-                    <span key={index} className="equipamiento-tag">{equipo}</span>
-                  ))}
+            {/* ITEM 3: Reseña (si existe) */}
+            {resenia && (
+              <div className="actividad-item">
+                <div className="actividad-texto">
+                  <span className="actividad-destacado">{reserva.arrendatario?.nombre || 'Usuario'}</span>
+                  <span className="actividad-normal"> dio una calificación de </span>
+                  <span className="actividad-destacado">{resenia.calificacion} estrellas</span>
                 </div>
-              </div>
-            )}
-
-            {/* Reglas del salón (si existe) */}
-            {reserva.salon?.reglas && reserva.salon.reglas.length > 0 && (
-              <div className="historial-seccion">
-                <h5 className="historial-seccion-titulo">Reglas</h5>
-                <ul className="historial-reglas">
-                  {reserva.salon.reglas.map((regla, index) => (
-                    <li key={index}>{regla}</li>
-                  ))}
-                </ul>
+                <div className="actividad-texto" style={{ marginTop: '4px', marginBottom: '4px' }}>
+                  <span className="actividad-normal">"</span>
+                  <span className="actividad-destacado">{resenia.comentario}</span>
+                  <span className="actividad-normal">"</span>
+                </div>
+                <div className="actividad-footer">
+                  <span className="actividad-id">Reseña #{formatId(resenia.id_resenia)}</span>
+                  <span className="actividad-tiempo">{getRelativeTimeDetailed(resenia.fecha_creacion)}</span>
+                </div>
+                <div className="actividad-linea"></div>
               </div>
             )}
           </div>

@@ -1,61 +1,59 @@
+/* ItemReservaAdmin.css - VERSIÓN COMPACTA */
+
 .item-reserva-admin {
-  width: 100%;
-  max-width: 1200px;
+  width: 95%;
+  max-width: 1100px;
   background-color: #FFFFFF;
-  border-radius: 20px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-  margin: 1rem auto;
-  padding: clamp(15px, 2vw, 20px);
+  border-radius: 16px;
+  box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.08);
+  margin: 0.75rem auto;
+  padding: 12px 16px;
   font-family: 'Montserrat', sans-serif;
   transition: all 0.3s ease;
   position: relative;
   box-sizing: border-box;
 }
 
-.item-reserva-admin.expanded {
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* Fecha en esquina superior izquierda */
+/* Fecha más pequeña */
 .reserva-fecha-top {
   position: absolute;
-  top: 15px;
-  left: 20px;
-  font-size: 14px;
+  top: 8px;
+  left: 16px;
+  font-size: 11px;
   color: #787878;
-  font-weight: 500;
+  font-weight: 400;
   z-index: 1;
 }
 
-/* Estado en esquina superior derecha */
+/* Estado más pequeño */
 .reserva-estado-badge {
   position: absolute;
-  top: 15px;
-  right: 20px;
-  padding: 4px 12px;
-  border-radius: 20px;
+  top: 8px;
+  right: 16px;
+  padding: 3px 10px;
+  border-radius: 16px;
   color: white;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 500;
   text-transform: uppercase;
   z-index: 1;
 }
 
-/* Contenedor principal del contenido */
+/* Contenedor principal */
 .reserva-content {
   display: flex;
   align-items: center;
-  gap: clamp(10px, 1.5vw, 20px);
-  margin-top: 30px;
+  gap: 12px;
+  margin-top: 25px;
   width: 100%;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* Evitar wrap en desktop */
 }
 
-/* Estilos para cada sección */
+/* Imagen - tamaño fijo */
 .reserva-imagen-wrapper {
-  width: 195px;
-  height: 106px;
-  border-radius: 10px;
+  width: 140px; /* Reducido */
+  height: 80px; /* Reducido */
+  border-radius: 8px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -66,53 +64,62 @@
   object-fit: cover;
 }
 
-/* Info del salón */
+/* Info del salón - más compacto */
 .info-salon-wrapper {
   flex: 1;
-  min-width: 200px;
+  min-width: 160px;
 }
 
 .salon-nombre {
-  font-size: clamp(16px, 1.8vw, 18px);
+  font-size: 15px;
   font-weight: 600;
   color: #2D241E;
-  margin: 0 0 5px 0;
+  margin: 0 0 3px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .salon-ubicacion {
-  font-size: clamp(12px, 1.4vw, 14px);
+  font-size: 11px;
   color: #787878;
-  margin: 0 0 5px 0;
+  margin: 0 0 3px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .salon-anfitrion {
-  font-size: clamp(12px, 1.4vw, 14px);
+  font-size: 11px;
   color: #C8AD7F;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Separadores verticales */
+/* Separadores verticales - más pequeños */
 .separador-vertical,
 .separador-vertical-derecho {
   width: 1px;
-  height: 60px;
+  height: 45px; /* Reducido */
   background-color: #B3B3B3;
   opacity: 0.3;
   flex-shrink: 0;
 }
 
-/* Info del cliente */
+/* Info del cliente - más compacto */
 .cliente-wrapper {
   display: flex;
   align-items: center;
-  gap: 15px;
-  min-width: 200px;
+  gap: 10px;
+  min-width: 160px;
   flex-shrink: 0;
 }
 
 .cliente-avatar {
-  width: 50px;
-  height: 50px;
+  width: 35px; /* Reducido */
+  height: 35px; /* Reducido */
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid #C8AD7F;
@@ -125,287 +132,143 @@
   object-fit: cover;
 }
 
-.cliente-detalles {
-  flex: 1;
-}
-
 .cliente-nombre {
-  font-size: clamp(14px, 1.6vw, 16px);
+  font-size: 13px;
   font-weight: 600;
   color: #2D241E;
   margin: 0 0 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cliente-email,
 .cliente-telefono {
-  font-size: clamp(11px, 1.3vw, 13px);
+  font-size: 10px;
   color: #787878;
   margin: 0;
   opacity: 0.8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Detalles de reserva */
+/* Detalles de reserva - más compacto */
 .reserva-detalles-wrapper {
-  min-width: 150px;
+  min-width: 120px;
   flex-shrink: 0;
 }
 
 .detalle-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 6px;
+  margin-bottom: 4px;
 }
 
 .detalle-icono {
   color: #C8AD7F;
-  font-size: 14px;
+  font-size: 12px;
   flex-shrink: 0;
 }
 
 .detalle-texto {
-  font-size: clamp(12px, 1.4vw, 14px);
+  font-size: 11px;
   color: #2D241E;
   white-space: nowrap;
 }
 
-/* Acciones */
+/* Acciones - más pequeñas */
 .acciones-wrapper {
   display: flex;
-  gap: 15px;
+  gap: 10px;
   margin-left: auto;
   flex-shrink: 0;
 }
 
 .accion-icono {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   cursor: pointer;
   transition: transform 0.2s ease;
   color: #2D241E;
 }
 
-.accion-icono:hover {
-  transform: scale(1.1);
-  color: #C8AD7F;
+.accion-icono svg {
+  width: 18px;
+  height: 18px;
 }
 
-/* Menú desplegable */
-.menu-container {
-  position: relative;
-}
+/* Añadir al final de ItemReservaAdmin.css */
 
-.menu-desplegable {
-  position: absolute;
-  top: 25px;
-  right: 0;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  min-width: 200px;
-  padding: 4px 0;
-}
-
-.menu-item {
-  padding: 10px 15px;
-  font-size: 13px;
-  color: #2D241E;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  white-space: nowrap;
-}
-
-.menu-item:hover {
-  background-color: #F4F4F6;
-  color: #C8AD7F;
-}
-
-/* Historial (sección expandible) */
-.reserva-historial {
-  padding: 20px;
-  border-top: 1px solid #B3B3B3;
-  background-color: #F9F9F9;
-  border-radius: 0 0 20px 20px;
+/* CONTENIDO EXPANDIBLE - IGUAL QUE USER CARD */
+.reserva-expanded-content {
   margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #F2F0EB;
 }
 
-.historial-titulo {
-  font-size: 16px;
-  font-weight: 600;
-  color: #2D241E;
-  margin: 0 0 20px 0;
-}
-
-.historial-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.historial-seccion {
-  background-color: white;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.historial-seccion-titulo {
-  font-size: 14px;
-  font-weight: 600;
-  color: #C8AD7F;
-  margin: 0 0 15px 0;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #B3B3B3;
-}
-
-.historial-item {
+.actividad-lista {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  font-size: 13px;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.historial-label {
-  color: #787878;
-  font-weight: 500;
-}
-
-.historial-valor {
-  color: #2D241E;
-  font-weight: 400;
-}
-
-/* Equipamiento tags */
-.historial-equipamientos {
+.actividad-item {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 8px;
 }
 
-.equipamiento-tag {
-  background-color: #F4F4F6;
+.actividad-texto {
+  font-size: 13px;
   color: #2D241E;
-  padding: 4px 10px;
-  border-radius: 15px;
-  font-size: 12px;
+  line-height: 1.5;
 }
 
-/* Reglas lista */
-.historial-reglas {
-  margin: 0;
-  padding-left: 20px;
+.actividad-destacado {
+  font-weight: 700;
+  color: #2D241E;
 }
 
-.historial-reglas li {
+.actividad-normal {
+  font-weight: 400;
+  color: #2D241E;
+}
+
+.actividad-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.actividad-id {
   font-size: 13px;
   color: #787878;
-  margin-bottom: 5px;
+  opacity: 0.7;
+  font-weight: 400;
 }
 
-/* Responsive */
-@media (max-width: 1400px) {
-  .item-reserva-admin {
-    max-width: 1100px;
-  }
-
-  .reserva-content {
-    gap: clamp(10px, 1.5vw, 20px);
-  }
-
-  .salon-nombre {
-    font-size: clamp(16px, 1.8vw, 18px);
-  }
-
-  .salon-ubicacion,
-  .salon-anfitrion {
-    font-size: clamp(12px, 1.4vw, 14px);
-  }
-
-  .cliente-nombre {
-    font-size: clamp(14px, 1.6vw, 16px);
-  }
-
-  .cliente-email,
-  .cliente-telefono {
-    font-size: clamp(11px, 1.3vw, 13px);
-  }
-
-  .detalle-texto {
-    font-size: clamp(12px, 1.4vw, 14px);
-  }
+.actividad-tiempo {
+  font-size: 13px;
+  color: #C8AD7F;
+  opacity: 0.7;
+  font-weight: 400;
 }
 
+.actividad-linea {
+  width: 100%;
+  height: 1px;
+  background-color: #F2F0EB;
+  margin-top: 10px;
+}
+
+/* Responsive para expandido */
 @media (max-width: 1200px) {
-  .item-reserva-admin {
-    max-width: 95%;
-  }
-
-  .reserva-content {
+  .actividad-footer {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .reserva-imagen-wrapper {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 195/106;
-  }
-
-  .info-salon-wrapper,
-  .cliente-wrapper,
-  .reserva-detalles-wrapper {
-    width: 100%;
-    min-width: auto;
-  }
-
-  .separador-vertical,
-  .separador-vertical-derecho {
-    display: none;
-  }
-
-  .acciones-wrapper {
-    margin-left: 0;
-    width: 100%;
-    justify-content: flex-end;
-  }
-}
-
-@media (max-width: 768px) {
-  .item-reserva-admin {
-    padding: 15px;
-  }
-
-  .cliente-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .cliente-avatar {
-    width: 60px;
-    height: 60px;
-  }
-
-  .historial-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .reserva-fecha-top {
-    position: static;
-    margin-bottom: 10px;
-  }
-
-  .reserva-estado-badge {
-    position: static;
-    margin-bottom: 10px;
-    display: inline-block;
-  }
-}
-
-/* Para pantallas muy grandes */
-@media (min-width: 1920px) {
-  .item-reserva-admin {
-    max-width: 1400px;
+    gap: 5px;
   }
 }

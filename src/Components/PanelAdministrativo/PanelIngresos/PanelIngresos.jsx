@@ -1,100 +1,194 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import SearchbarAdmin from '../SearchbarAdmin/SearchbarAdmin';
+import React, { useState, useMemo } from 'react';
+import SearchbarIngresos from './IngresosComponentes/SearchbarIngresos';
+import ItemTransaccion from './IngresosComponentes/ItemTransaccion';
+import ComprobanteView from '../../ItemReserva/ComprobanteView';
+import './PanelIngresos.css';
 
-// Helper function to format the month string
-const formatDisplayMonth = (yyyyMm) => { 
-   const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]; 
-    const [year, monthIndex] = yyyyMm.split('-').map(Number); 
-    return `${monthNames[monthIndex - 1]} ${year}`; 
-};
+const PanelIngresos = ({ 
+  transacciones = [], 
+  reservas = [], 
+  salones = [], 
+  usuarios = [], 
+  selectedMonth 
+}) => {
+  const [activeFilter, setActiveFilter] = useState(null);
+  const [filterValue, setFilterValue] = useState("");
+  const [expandedTransaccionId, setExpandedTransaccionId] = useState(null);
+  const [comprobanteVisible, setComprobanteVisible] = useState(null);
 
-const PanelIngresos = ({ transacciones, reservas, salones, usuarios, selectedMonth }) => { 
-  const [selectedTransaccion, setSelectedTransaccion] = useState(null); 
+  // Filtrar transacciones del mes seleccionado
+  const transaccionesDelMes = useMemo(() => {
+    if (!transacciones || !selectedMonth) return [];
+    
+    const [year, month] = selectedMonth.split('-').map(Number);
+    
+    return transacciones.filter(t => {
+      if (!t.fecha_transaccion) return false;
+      const fecha = new Date(t.fecha_transaccion);
+      return fecha.getFullYear() === year && fecha.getMonth() + 1 === month;
+    });
+  }, [transacciones, selectedMonth]);
 
-  const transaccionesAprobadas = useMemo(() => {
-    if (!transacciones) return [];
-    return transacciones.filter(t => t.estado_transaccion === 'aprobado');
-  }, [transacciones]); 
+  // Aplicar filtros
+  const transaccionesFiltradas = useMemo(() => {
+    let filtradas = [...transaccionesDelMes];
 
-  useEffect(() => { 
-    if (selectedTransaccion && !transaccionesAprobadas.find(t => t.id_transaccion === selectedTransaccion.id_transaccion)) { 
-        setSelectedTransaccion(null); 
+    if (activeFilter && filterValue) {
+      switch(activeFilter) {
+        case 'fecha':
+          filtradas = filtradas.filter(t => 
+            t.fecha_transaccion?.includes(filterValue)
+          );
+          break;
+        case 'metodo':
+          filtradas = filtradas.filter(t => 
+            t.metodo_pago?.toLowerCase().includes(filterValue.toLowerCase())
+          );
+          break;
+      }
     }
-  }, [transaccionesAprobadas, selectedTransaccion]); 
 
-  const formatCurrency = (number) => { 
-    return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(number); 
+    return filtradas;
+  }, [transaccionesDelMes, activeFilter, filterValue]);
+
+  // Función para obtener datos relacionados a una transacción
+  const getDatosRelacionados = (transaccion) => {
+    console.log('🔍 Transacción completa:', {
+      id: transaccion.id_transaccion,
+      tieneReserva: !!transaccion.reserva,
+      reservaId: transaccion.reserva?.id_reserva,
+      tieneSalon: !!transaccion.reserva?.salon,
+      salonNombre: transaccion.reserva?.salon?.nombre,
+      tieneVendedor: !!transaccion.reserva?.salon?.publicador,
+      vendedorNombre: transaccion.reserva?.salon?.publicador ? 
+        `${transaccion.reserva.salon.publicador.nombre} ${transaccion.reserva.salon.publicador.apellido}` : null,
+      tieneCliente: !!transaccion.reserva?.arrendatario,
+      clienteNombre: transaccion.reserva?.arrendatario ? 
+        `${transaccion.reserva.arrendatario.nombre} ${transaccion.reserva.arrendatario.apellido}` : null
+    });
+
+    // Si la transacción ya viene con reserva y sus relaciones, usamos eso directamente
+    if (transaccion.reserva) {
+      const reserva = transaccion.reserva;
+      const salon = reserva.salon || null;
+      const vendedor = salon?.publicador || null;
+      const cliente = reserva.arrendatario || null;
+
+      return { reserva, salon, vendedor, cliente };
+    }
+
+    // FALLBACK: Si no viene con relaciones, intentamos con los arrays separados
+    console.warn('⚠️ Transacción sin reserva anidada, usando fallback');
+    
+    const idReserva = transaccion.reservaIdReserva;
+    if (!idReserva) return { reserva: null, salon: null, vendedor: null, cliente: null };
+
+    const reserva = reservas.find(r => r?.id_reserva === Number(idReserva));
+    if (!reserva) return { reserva: null, salon: null, vendedor: null, cliente: null };
+
+    const salon = reserva.salon || null;
+    const vendedor = salon?.publicador || null;
+    const cliente = reserva.arrendatario || null;
+
+    return { reserva, salon, vendedor, cliente };
   };
 
-  // --- LÓGICA CORREGIDA AQUÍ ---
-  const ingresoDetails = useMemo(() => { 
-    if (!selectedTransaccion) return null; 
-
-    // 1. Obtenemos los IDs directamente de 'detalles_pago' (según tu JSON de backend)
-    const idSalonAsociado = selectedTransaccion.detalles_pago?.id_salon;
-    const idClienteAsociado = selectedTransaccion.detalles_pago?.id_arrendatario;
-
-    // 2. Verificamos que existan
-    if (!idSalonAsociado) {
-      return { error: `La transacción ${selectedTransaccion.id_transaccion} no tiene un id_salon en detalles_pago.` };
+  const handleFilterClick = (filter) => {
+    if (activeFilter === filter) {
+      setActiveFilter(null);
+      setFilterValue("");
+    } else {
+      setActiveFilter(filter);
+      setFilterValue("");
     }
-    if (!idClienteAsociado) {
-      return { error: `La transacción ${selectedTransaccion.id_transaccion} no tiene un id_arrendatario en detalles_pago.` };
-    }
+  };
 
-    // 3. Buscamos el salón en la lista completa de 'salones' (la prop)
-    const salon = salones.find(s => s.id_salon === idSalonAsociado);
-    if (!salon) return { error: `No se encontró el salón con ID ${idSalonAsociado}` }; 
-    
-    // 4. Buscamos al cliente en la lista completa de 'usuarios' (la prop)
-    const cliente = usuarios.find(u => u.id_usuario === idClienteAsociado);
-    if (!cliente) return { error: `No se encontró el cliente con ID ${idClienteAsociado}` };
-    
-    // 5. Buscamos al vendedor (publicador) usando el salón que encontramos
-    const vendedor = usuarios.find(u => u.id_usuario === salon.publicador.id_usuario);
-    if (!vendedor) return { error: `No se encontró el vendedor (publicador) con ID ${salon.publicador.id_usuario}`};
-    
-    return { 
-      vendedor: `${vendedor.nombre} ${vendedor.apellido}`, 
-      cliente: `${cliente.nombre} ${cliente.apellido}`, 
-      salon: salon.nombre, 
-      montoPropio: selectedTransaccion.monto_pagado * 0.10, 
-    };
-  }, [selectedTransaccion, salones, usuarios]); // Ya no dependemos de 'reservas'
+  const handleFilterChange = (value) => {
+    setFilterValue(value);
+  };
+
+  const handleApplyFilter = () => {
+    console.log('Filtro aplicado:', activeFilter, filterValue);
+  };
+
+  const handleToggleExpand = (transaccionId) => {
+    setExpandedTransaccionId(expandedTransaccionId === transaccionId ? null : transaccionId);
+  };
+
+  const handleVerComprobante = (transaccion, reserva) => {
+    setComprobanteVisible({ transaccion, reserva });
+  };
+
+  console.log('📦 TRANSACCIONES CON DATOS COMPLETOS:', 
+    transaccionesFiltradas.map(t => ({
+      id: t.id_transaccion,
+      monto: t.monto_pagado,
+      // Esto es lo CRUCIAL - ver si viene la reserva con todo
+      reserva: t.reserva ? {
+        id: t.reserva.id_reserva,
+        salon: t.reserva.salon ? {
+          id: t.reserva.salon.id_salon,
+          nombre: t.reserva.salon.nombre,
+          publicador: t.reserva.salon.publicador ? {
+            nombre: t.reserva.salon.publicador.nombre,
+            apellido: t.reserva.salon.publicador.apellido
+          } : null
+        } : null,
+        arrendatario: t.reserva.arrendatario ? {
+          nombre: t.reserva.arrendatario.nombre,
+          apellido: t.reserva.arrendatario.apellido
+        } : null
+      } : null
+    }))
+  );
 
   return (
-    <div className="admin-panel"> 
-      <h2 className="panel-title">Ingresos ({formatDisplayMonth(selectedMonth)})</h2> 
-      <SearchbarAdmin
-        items={transaccionesAprobadas} 
-        onSelect={setSelectedTransaccion} 
-        placeholder="Buscar por ID de transacción..." 
-        displayKey="id_transaccion" 
+    <div className="panel-ingresos">
+      <SearchbarIngresos
+        activeFilter={activeFilter}
+        filterValue={filterValue}
+        onFilterClick={handleFilterClick}
+        onFilterChange={handleFilterChange}
+        onApplyFilter={handleApplyFilter}
+        totalResultados={transaccionesFiltradas.length}
       />
 
-      {transaccionesAprobadas.length > 0 && selectedTransaccion && ( 
-        <div className="details-container"> 
-          {ingresoDetails.error ? <p style={{color: 'red'}}>{ingresoDetails.error}</p> : 
-            <> 
-              <div className="detail-item"><strong>ID Transacción</strong><span>{selectedTransaccion.id_transaccion}</span></div> 
-              <div className="detail-item"><strong>Vendedor</strong><span>{ingresoDetails.vendedor}</span></div> 
-              <div className="detail-item"><strong>Cliente</strong><span>{ingresoDetails.cliente}</span></div> 
-              <div className="detail-item"><strong>Sala Reservada</strong><span>{ingresoDetails.salon}</span></div> 
-              <div className="detail-item"><strong>Estado</strong><span>{selectedTransaccion.estado_transaccion}</span></div> 
-              <div className="detail-item"><strong>Monto Total</strong><span>{formatCurrency(selectedTransaccion.monto_pagado)}</span></div> 
-              <div className="detail-item"><strong>Monto Propio (10%)</strong><span>{formatCurrency(ingresoDetails.montoPropio)}</span></div> 
-              <div className="detail-item"><strong>Método de Pago</strong><span>{selectedTransaccion.metodo_pago}</span></div>
-            </>
-          }
-        </div>
-      )}
+      <div className="transacciones-list">
+        {transaccionesFiltradas.length > 0 ? (
+          transaccionesFiltradas.map(transaccion => {
+            const { reserva, salon, vendedor, cliente } = getDatosRelacionados(transaccion);
 
-      {transaccionesAprobadas.length === 0 && ( 
-        <p>No se encontraron ingresos (transacciones aprobadas) para el mes seleccionado.</p> 
+            return (
+              <ItemTransaccion
+                key={transaccion.id_transaccion}
+                transaccion={transaccion}
+                reserva={reserva}
+                salon={salon}
+                vendedor={vendedor}
+                cliente={cliente}
+                isExpanded={expandedTransaccionId === transaccion.id_transaccion}
+                onToggleExpand={() => handleToggleExpand(transaccion.id_transaccion)}
+                onVerComprobante={() => handleVerComprobante(transaccion, reserva)}
+              />
+            );
+          })
+        ) : (
+          <div className="no-resultados">
+            <p>No se encontraron transacciones para el mes seleccionado.</p>
+          </div>
+        )}
+      </div>
+
+      {/* Modal de comprobante completo */}
+      {comprobanteVisible && (
+        <ComprobanteView
+          reserva={comprobanteVisible.reserva}
+          transaccion={comprobanteVisible.transaccion}
+          onClose={() => setComprobanteVisible(null)}
+        />
       )}
     </div>
   );
 };
 
 export default PanelIngresos;
-

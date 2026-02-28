@@ -3,20 +3,23 @@
   width: 100vw;
   height: 100vh;
   font-family: Arial, sans-serif;
-  background-color: transparent;
+  background-color: #F4F4F6;
+  overflow: hidden;
 }
 
 .admin-screen .sidebar-container {
   width: 20%;
   height: 100%;
   background-color: transparent;
+  flex-shrink: 0;
 }
 
 .admin-screen .main-content-container {
   width: 80%; 
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* esto está bien */
 }
 
 /* Ejemplo de estilos para el panel de admin */

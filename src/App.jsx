@@ -107,8 +107,9 @@ function App() {
 
         <Route
           path="/admin"
-          element={ isAuthenticated ? (<> <Navbar /> <AdminScreen /> </> ) : 
-            ( <Navigate to="/" />) } />
+          element={ isAuthenticated ? (<> <AdminScreen /> </> ) : 
+            ( <Navigate to="/" />) } 
+        />
         {/* Opcional: Rutas hijas si AdminScreen tiene sub-navegación */}
         {/* <Route path="/admin/usuarios" element={isAuthenticated && isAdmin ? <UsuariosAdmin /> : <Navigate to="/" />} /> */}
         {/* <Route path="/admin/salones" element={isAuthenticated && isAdmin ? <SalonesAdmin /> : <Navigate to="/" />} /> */}

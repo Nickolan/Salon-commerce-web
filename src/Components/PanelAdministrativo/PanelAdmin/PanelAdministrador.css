@@ -1,0 +1,52 @@
+.panel-administrador {
+  padding: 1.5rem 0 1.5rem 2rem; /* Padding derecho 0 */
+  background-color: #F4F4F6;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding-right: 2rem; /* Padding derecho para las stats */
+  width: 100%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.paneles-inferiores {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-right: 0; /* Sin padding derecho */
+  box-sizing: border-box;
+}
+
+.rendimiento-diario {
+  width: 100%;
+  min-width: 0;
+  padding-right: 0;
+}
+
+.actividad-reciente {
+  width: 100%;
+  min-width: 295px;
+  max-width: 360px; /* Aumentado ligeramente para dar más espacio */
+  margin-right: 0; /* Eliminar margen negativo */
+  justify-self: end; /* Alinear a la derecha */
+}
+
+@media (max-width: 1200px) {
+  .actividad-reciente {
+    max-width: 340px;
+  }
+}

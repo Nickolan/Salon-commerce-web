@@ -27,7 +27,7 @@ const getDefaultMonth = () => {
 
 const AdminScreen = () => {
   const dispatch = useDispatch(); // <-- Hook
-  const [activePanel, setActivePanel] = useState(null); // Panel a mostrar (Usuarios, Salones, etc.)
+  const [activePanel, setActivePanel] = useState('PanelAdministrador'); // Default al panel admin
   const [adminName, setAdminName] = useState('Administrador');
   const [selectedMonth, setSelectedMonth] = useState(getDefaultMonth()); 
 
@@ -65,7 +65,19 @@ const AdminScreen = () => {
     console.log('adminReservas:', adminReservas?.length || 0, 'reservas');
     console.log('adminTransacciones:', adminTransacciones?.length || 0, 'transacciones');
     console.log('adminSalones:', adminSalones?.length || 0, 'salones');
-  }, [adminUsers, adminReservas, adminTransacciones, adminSalones]); // Se ejecuta cuando selectedMonth o dispatch cambian
+
+    console.log('📊 VERIFICACIÓN DE TRANSACCIONES POR MES:');
+    console.log('Mes seleccionado:', selectedMonth);
+    console.log('Transacciones recibidas:', adminTransacciones?.length || 0);
+    console.log('Detalle de transacciones:', adminTransacciones?.map(t => ({
+      id: t.id_transaccion,
+      fecha: t.fecha_transaccion,
+      monto: t.monto_pagado,
+      estado: t.estado_transaccion,
+      reservaId: t.reservaIdReserva || t.id_reserva
+  })));
+
+  }, [adminUsers, adminReservas, selectedMonth, adminTransacciones, adminSalones,]); // Se ejecuta cuando selectedMonth o dispatch cambian
   // --- FIN EFECTO ---
 
   // --- CALCULAR ESTADÍSTICAS ---
@@ -90,47 +102,47 @@ const AdminScreen = () => {
   const isLoadingData = adminUsersStatus === 'loading' || adminSalonesStatus === 'loading' || adminReservasStatus === 'loading' || adminTransaccionesStatus === 'loading';
 
   return (
-    <div className="admin-screen"> {/* Contenedor principal de la pantalla */}
-      <div className="sidebar-container"> {/* Contenedor para la barra lateral */}
-        <SidebarAdmin activePanel={activePanel} setActivePanel={setActivePanel} /> {/* Componente de barra lateral */}
+    <div className="admin-screen">
+      <div className="sidebar-container">
+        <SidebarAdmin activePanel={activePanel} setActivePanel={setActivePanel} />
       </div>
-      <div className="main-content-container"> {/* Contenedor para el contenido principal */}
-        <HeaderAdmin
-          adminName={adminName} // Nombre del administrador
-          stats={stats} // Estadísticas calculadas
-          setActivePanel={setActivePanel} // Función para cambiar el panel activo
-          activePanel={activePanel} // Panel activo actual
-          selectedMonth={selectedMonth} // Mes seleccionado
-          onMonthChange={setSelectedMonth} // Función para cambiar el mes
-        />
-        {/* Opcional: Mostrar un loader global si algo está cargando */}
-        {isLoadingData && <div className="admin-loading-indicator">Cargando datos...</div>}
-
-        {/* --- PASAR DATOS DE REDUX AL MAINADMIN --- */}
-        {!isLoadingData && ( // Renderizar MainAdmin solo si no hay carga global
-          <MainAdmin
-            activePanel={activePanel} // Panel activo
-            // Pasamos los datos específicos del mes desde Redux
-            data={{
-              usuarios: adminUsers,
-              salones: adminSalones,
-              reservas: adminReservas,
-              transacciones: adminTransacciones,
-            }}
-            // Pasamos las listas completas (cargadas para el mes) por si se necesitan
-            // para buscar relaciones entre diferentes tipos de datos dentro de los paneles.
-            fullData={{
-                 usuarios: adminUsers,
-                 salones: adminSalones,
-                 reservas: adminReservas,
-                 // No necesitamos pasar transacciones aquí usualmente
-            }}
-            selectedMonth={selectedMonth} // Pasar el mes seleccionado
+      
+      <div className="main-content-container">
+        {/* HeaderAdmin - SOLO se muestra si NO es PanelAdministrador */}
+        {activePanel !== 'PanelAdministrador' && (
+          <HeaderAdmin
+            adminName={user?.nombre || 'Administrador'}
+            stats={stats}
+            setActivePanel={setActivePanel}
+            activePanel={activePanel}
+            selectedMonth={selectedMonth}
+            onMonthChange={setSelectedMonth}
           />
         )}
-        {/* --- FIN PASO DE DATOS --- */}
+        
+        {/* Contenido principal - siempre visible */}
+          {isLoadingData ? (
+            <div className="admin-loading-indicator">Cargando datos...</div>
+          ) : (
+            <MainAdmin
+              activePanel={activePanel}
+              selectedMonth={selectedMonth}
+              data={{
+                usuarios: adminUsers,
+                salones: adminSalones,
+                reservas: adminReservas,
+                transacciones: adminTransacciones,
+              }}
+              fullData={{
+                usuarios: adminUsers,
+                salones: adminSalones,
+                reservas: adminReservas,
+              }}
+              onMonthChange={setSelectedMonth}
+            />
+          )}
+        </div>
       </div>
-    </div>
   );
 };
 

@@ -40,46 +40,100 @@ const TransaccionService = {
     return null;
   },
 
-  combinarReservasConTransacciones(reservas, transacciones) {
-    console.log('🔄 Combinando reservas con transacciones...');
+  combinarReservasConTransacciones(reservas, transacciones, salones = [], usuarios = [], resenias = []) {
+    console.log('🔄 Combinando reservas con transacciones y enriqueciendo...');
     console.log('Reservas:', reservas?.length || 0);
     console.log('Transacciones:', transacciones?.length || 0);
+    console.log('Salones:', salones?.length || 0);
+    console.log('Usuarios:', usuarios?.length || 0);
+    console.log('Reseñas:', resenias?.length || 0);
     
     if (!reservas || reservas.length === 0) {
       return [];
     }
     
-    if (!transacciones || transacciones.length === 0) {
-      console.log('⚠️ No hay transacciones, devolviendo reservas sin combinar');
-      return reservas.map(r => ({ ...r, transacciones: [] }));
+    // Crear mapa de salones
+    const salonesMap = new Map();
+    if (salones && salones.length > 0) {
+      salones.forEach(salon => {
+        salonesMap.set(salon.id_salon, salon);
+      });
     }
     
-    const transaccionesPorReserva = new Map();
+    // Crear mapa de usuarios
+    const usuariosMap = new Map();
+    if (usuarios && usuarios.length > 0) {
+      usuarios.forEach(usuario => {
+        usuariosMap.set(usuario.id_usuario, usuario);
+      });
+    }
     
-    transacciones.forEach(trans => {
-      const reservaId = this.getReservaIdFromTransaccion(trans);
-      if (reservaId) {
-        if (!transaccionesPorReserva.has(reservaId)) {
-          transaccionesPorReserva.set(reservaId, []);
+    // Crear mapa de reseñas por ID de reserva
+    const reseniasPorReserva = new Map();
+    if (resenias && resenias.length > 0) {
+      resenias.forEach(resenia => {
+        if (resenia.id_reserva) {
+          if (!reseniasPorReserva.has(resenia.id_reserva)) {
+            reseniasPorReserva.set(resenia.id_reserva, []);
+          }
+          reseniasPorReserva.get(resenia.id_reserva).push(resenia);
+          console.log(`⭐ Reseña ${resenia.id_resenia} → Reserva ${resenia.id_reserva}`);
         }
-        transaccionesPorReserva.get(reservaId).push(trans);
-        console.log(`✅ Transacción ${trans.id_transaccion} → Reserva ${reservaId}`);
-      } else {
-        console.log(`❌ Transacción ${trans.id_transaccion} no tiene ID de reserva válido`);
-      }
-    });
+      });
+    }
+    
+    // Mapa de transacciones por reserva
+    const transaccionesPorReserva = new Map();
+    if (transacciones && transacciones.length > 0) {
+      transacciones.forEach(trans => {
+        const reservaId = this.getReservaIdFromTransaccion(trans);
+        if (reservaId) {
+          if (!transaccionesPorReserva.has(reservaId)) {
+            transaccionesPorReserva.set(reservaId, []);
+          }
+          transaccionesPorReserva.get(reservaId).push(trans);
+        }
+      });
+    }
     
     const resultado = reservas.map(reserva => {
-      const transaccionesReserva = transaccionesPorReserva.get(reserva.id_reserva) || [];
-      console.log(`Reserva ${reserva.id_reserva}: ${transaccionesReserva.length} transacciones`);
-      
-      return {
+      const reservaEnriquecida = {
         ...reserva,
-        transacciones: transaccionesReserva
+        transacciones: transaccionesPorReserva.get(reserva.id_reserva) || [],
+        resenias: reseniasPorReserva.get(reserva.id_reserva) || []  // AÑADIR RESEÑAS
       };
+      
+      // Enriquecer salón
+      if (reserva.salon && typeof reserva.salon === 'object') {
+        const salonId = reserva.salon.id_salon;
+        if (salonId) {
+          const salonCompleto = salonesMap.get(salonId);
+          if (salonCompleto) {
+            reservaEnriquecida.salon = salonCompleto;
+          }
+        }
+      }
+      
+      // Enriquecer arrendatario
+      if (reserva.arrendatario && typeof reserva.arrendatario === 'object') {
+        const usuarioId = reserva.arrendatario.id_usuario;
+        if (usuarioId) {
+          const usuarioCompleto = usuariosMap.get(usuarioId);
+          if (usuarioCompleto) {
+            reservaEnriquecida.arrendatario = usuarioCompleto;
+          }
+        }
+      }
+      
+      // Log para verificar reseñas
+      if (reservaEnriquecida.resenias.length > 0) {
+        console.log(`📝 Reserva ${reserva.id_reserva} tiene ${reservaEnriquecida.resenias.length} reseñas`);
+      }
+      
+      return reservaEnriquecida;
     });
     
-    console.log('✅ Combinación completada');
+    console.log('✅ Enriquecimiento completado');
     return resultado;
   },
 
@@ -112,7 +166,6 @@ const TransaccionService = {
     return null;
   },
 
-  // Obtener transacciones por mes (admin)
   async fetchTransaccionesByMonth(month) {
     try {
       console.log(`🔄 Obteniendo transacciones del mes: ${month}`);
@@ -124,7 +177,6 @@ const TransaccionService = {
     }
   },
 
-  // Actualizar una transacción por ID
   async updateTransaccion(id_transaccion, data) {
     const token = this.getToken();
     
@@ -151,7 +203,6 @@ const TransaccionService = {
     }
   },
 
-  // Actualizar estado de transacción por ID de reserva
   async updateEstadoByReservaId(id_reserva, nuevoEstado) {
     const token = this.getToken();
     
@@ -162,11 +213,7 @@ const TransaccionService = {
     try {
       console.log(`🔄 Actualizando estado de transacción para reserva ${id_reserva} a: ${nuevoEstado}`);
       
-      // Prueba con diferentes formatos de URL si es necesario
       const url = `${API_URL}/transacciones/reserva/${id_reserva}/estado`;
-      // Alternativas:
-      // const url = `${API_URL}/transacciones/reserva/${id_reserva}`;
-      // const url = `${API_URL}/transacciones/por-reserva/${id_reserva}`;
       
       console.log('📡 URL:', url);
       
@@ -191,7 +238,6 @@ const TransaccionService = {
     }
   },
 
-  // Método combinado para cancelar reserva y actualizar transacción
   async cancelarReservaYTransaccion(reserva, nuevoEstadoReserva, nuevoEstadoTransaccion = 'rechazado') {
     const token = this.getToken();
     
@@ -206,12 +252,10 @@ const TransaccionService = {
         nuevoEstadoTransaccion
       });
 
-      // URL que estamos intentando
       const url = `${API_URL}/reservas/${reserva.id_reserva}`;
       console.log('📡 Intentando PATCH a:', url);
       console.log('📦 Datos a enviar:', { estado_reserva: nuevoEstadoReserva });
 
-      // 1. Actualizar estado de la reserva
       const reservaResponse = await axios.patch(
         url,
         { estado_reserva: nuevoEstadoReserva },
@@ -225,7 +269,6 @@ const TransaccionService = {
 
       console.log('✅ Reserva actualizada:', reservaResponse.data);
 
-      // 2. Si hay transacción asociada, actualizar su estado
       let transaccionResponse = null;
       if (reserva.transacciones && reserva.transacciones.length > 0) {
         transaccionResponse = await this.updateEstadoByReservaId(
@@ -251,6 +294,45 @@ const TransaccionService = {
       });
       throw error;
     }
+  },
+
+  calcularEstadisticasTransacciones(transacciones, reservasDelSalon) {
+    if (!transacciones || transacciones.length === 0 || !reservasDelSalon || reservasDelSalon.length === 0) {
+      return {
+        totalTransacciones: 0,
+        ingresosTotales: 0,
+        ultimoIngreso: 0,
+        ultimaTransaccion: null
+      };
+    }
+
+    const reservasIds = reservasDelSalon.map(r => r.id_reserva);
+    
+    const transaccionesSalon = transacciones.filter(t => 
+      reservasIds.includes(t.id_reserva) || 
+      reservasIds.includes(t.reservaIdReserva) ||
+      reservasIds.includes(t.reserva_id_reserva)
+    );
+
+    const ingresosTotales = transaccionesSalon.reduce((sum, t) => sum + (t.monto_pagado || 0), 0);
+
+    const transaccionesOrdenadas = [...transaccionesSalon].sort(
+      (a, b) => new Date(b.fecha_transaccion) - new Date(a.fecha_transaccion)
+    );
+
+    const ultimaTransaccion = transaccionesOrdenadas[0];
+
+    return {
+      totalTransacciones: transaccionesSalon.length,
+      ingresosTotales,
+      ultimoIngreso: ultimaTransaccion?.monto_pagado || 0,
+      ultimaTransaccion: ultimaTransaccion ? {
+        id: ultimaTransaccion.id_transaccion,
+        fecha: ultimaTransaccion.fecha_transaccion,
+        monto: ultimaTransaccion.monto_pagado,
+        metodo: ultimaTransaccion.metodo_pago
+      } : null
+    };
   }
 };
 

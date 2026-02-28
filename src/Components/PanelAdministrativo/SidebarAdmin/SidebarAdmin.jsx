@@ -1,6 +1,6 @@
 import React from 'react';
 import './SidebarAdmin.css';
-import { FiUsers, FiHome, FiCalendar, FiDollarSign, FiMenu } from 'react-icons/fi';
+import { FiBarChart2, FiUsers, FiHome, FiCalendar, FiDollarSign } from 'react-icons/fi';
 
 const SidebarAdmin = ({ activePanel, setActivePanel }) => {
   
@@ -16,15 +16,14 @@ const SidebarAdmin = ({ activePanel, setActivePanel }) => {
   };
 
   const handleHeaderClick = () => {
-    // Opcional: Podrías resetear al panel principal o simplemente mantener el actual
-    setActivePanel('Reservas'); // Por defecto a Reservas
+    setActivePanel('PanelAdministrador'); 
   };
 
   return (
     <div className="adminSidebar">
       <div className="sidebar-header" onClick={handleHeaderClick}>
-        <FiMenu className="menu-icon" />
-        <h1 className="sidebar-title">PANEL DE ADMINISTRACIÓN</h1>
+        <FiBarChart2 className="menu-icon" />
+        <h1 className="sidebar-title">PANEL</h1>
       </div>
       <ul className="sidebar-menu">
         {menuItems.map((item) => (
@@ -33,9 +32,9 @@ const SidebarAdmin = ({ activePanel, setActivePanel }) => {
             className={`sidebar-item ${activePanel === item.name ? 'active' : ''}`}
             onClick={() => handleItemClick(item.name)}
           >
-            {activePanel === item.name && <div className="active-indicator"></div>}
             <span className="sidebar-icon">{item.icon}</span>
             <span className="sidebar-text">{item.name}</span>
+            {activePanel === item.name && <div className="active-indicator"></div>}
           </li>
         ))}
       </ul>
