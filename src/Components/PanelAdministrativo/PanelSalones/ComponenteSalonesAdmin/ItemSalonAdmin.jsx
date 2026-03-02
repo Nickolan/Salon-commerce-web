@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { FiStar, FiUsers, FiKey, FiEye, FiEyeOff, FiDollarSign } from "react-icons/fi";
+import { FiStar, FiUsers, FiKey, FiEye, FiEyeOff} from "react-icons/fi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Swal from 'sweetalert2';
 import './ItemSalonAdmin.css';
@@ -75,15 +75,6 @@ const ItemSalonAdmin = ({
     totalResenias: 0,
     transaccionesCount: 0
   });
-
-  // 🔍 LOG PARA VERIFICAR RESEÑAS
-  useEffect(() => {
-    console.log(`🏨 ItemSalonAdmin - Salón ${salon.id_salon}:`, {
-      nombre: salon.nombre,
-      reseniasDelSalon: reseniasDelSalon?.length || 0,
-      reseniasDelSalon
-    });
-  }, [reseniasDelSalon, salon.id_salon]);
 
   useEffect(() => {
     if (estadisticas) {
@@ -254,7 +245,6 @@ const ItemSalonAdmin = ({
               </p>
 
               <div className="reservas-monto-container">
-                <FiDollarSign size={14} color="#2D241E" />
                 <span className="reservas-monto">
                   ${Number(salonStats.ultimoIngreso || 0).toLocaleString('es-CL')}
                 </span>

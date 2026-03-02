@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from "../store/features/auth/authSlice";
 import "../styles/RegistroScreen.css";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Swal from 'sweetalert2'
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { CiUser } from "react-icons/ci";
+import { CiMail } from "react-icons/ci";
+import { FiLock } from "react-icons/fi";
+import Swal from 'sweetalert2';
 
 function RegistroScreen() {
   const [formData, setFormData] = useState({
@@ -23,7 +26,6 @@ function RegistroScreen() {
   const navigate = useNavigate();
   const { status, error: errorApi } = useSelector((state) => state.auth);
 
-  // Un solo manejador para todos los inputs de texto
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -37,7 +39,6 @@ function RegistroScreen() {
     const { nombre, apellido, email, contraseña, contraseña2, aceptaTerminos } = formData;
     let nuevosErrores = {};
 
-    // Validaciones (sin cambios)
     if (!nombre.trim()) nuevosErrores.nombre = "El nombre es obligatorio";
     if (!apellido.trim()) nuevosErrores.apellido = "El apellido es obligatorio";
     if (!/\S+@\S+\.\S+/.test(email)) nuevosErrores.email = "El correo no es válido";
@@ -48,12 +49,11 @@ function RegistroScreen() {
     setErrores(nuevosErrores);
 
     if (Object.keys(nuevosErrores).length === 0) {
-      // Despachamos la acción con los datos del formulario
       dispatch(registerUser({ nombre, apellido, email, contraseña }));
     }
   };
 
-   useEffect(() => {
+  useEffect(() => {
     if (status === 'succeeded') {
       Swal.fire({
         title: '¡Registro Exitoso!',
@@ -70,111 +70,136 @@ function RegistroScreen() {
   return (
     <div className="registro-page">
       <div className="registro-container">
-        <h1>Bienvenido, Regístrate</h1>
+        {/* Logo igual que en login */}
+        <h1 className="logo">FOCUS ROOM</h1>
 
+        {/* Títulos */}
+        <h2 className="registro-subtitle">Crear Cuenta</h2>
+        <p className="registro-welcome">Únete para publicar o reservar espacios únicos</p>
+        
         <form className="registro-form" onSubmit={handleSubmit} noValidate>
-          <div className="form-group-row"> {/* Contenedor para ponerlos en la misma línea */}
-            <div className="form-group">
-              <label htmlFor="nombre" className="sr-only">Nombre</label>
+          
+          {/* FILA DE NOMBRE Y APELLIDO */}
+          <div className="form-row">
+            <div className="input-group">
+              <CiUser className="input-icon" />
               <input
                 type="text"
-                id="nombre"
                 name="nombre"
                 placeholder="Nombre"
                 value={formData.nombre}
                 onChange={handleChange}
                 required
               />
-              <p className={`error ${errores.nombre ? "active" : ""}`}>{errores.nombre}</p>
             </div>
-            <div className="form-group">
-              <label htmlFor="apellido" className="sr-only">Apellido</label>
+            <div className="input-group">
+              <CiUser className="input-icon" />
               <input
                 type="text"
-                id="apellido"
                 name="apellido"
                 placeholder="Apellido"
                 value={formData.apellido}
                 onChange={handleChange}
                 required
               />
-              <p className={`error ${errores.apellido ? "active" : ""}`}>{errores.apellido}</p>
             </div>
           </div>
+          {/* Errores de nombre y apellido */}
+          <div className="error-row">
+            <p className={`error ${errores.nombre ? "active" : ""}`}>{errores.nombre}</p>
+            <p className={`error ${errores.apellido ? "active" : ""}`}>{errores.apellido}</p>
+          </div>
 
-          <div className="form-group">
-            <label htmlFor="email" className="sr-only">Correo Electrónico</label>
+          {/* INPUT DE EMAIL */}
+          <div className="input-group">
+            <CiMail className="input-icon" />
             <input
               type="email"
-              id="email"
               name="email"
               placeholder="Correo Electrónico"
               value={formData.email}
               onChange={handleChange}
               required
             />
-            <p className={`error ${errores.email ? "active" : ""}`}>{errores.email}</p>
           </div>
+          <p className={`error ${errores.email ? "active" : ""}`}>{errores.email}</p>
 
-          <div className="form-group password-group">
-            <label htmlFor="contraseña" className="sr-only">Contraseña</label>
+          {/* INPUT DE CONTRASEÑA */}
+          <div className="password-group">
+            <FiLock className="input-icon" />
             <input
               type={mostrarContraseña ? "text" : "password"}
-              id="contraseña"
               name="contraseña"
               placeholder="Contraseña"
               value={formData.contraseña}
               onChange={handleChange}
               required
             />
-            <button type="button" className="toggle-password" onClick={() => setMostrarContraseña(!mostrarContraseña)}>
-              {mostrarContraseña ? <FaEyeSlash /> : <FaEye />}
+            <span className="input-divider"></span>
+            <button 
+              type="button" 
+              className="toggle-password" 
+              onClick={() => setMostrarContraseña(!mostrarContraseña)}
+              aria-label={mostrarContraseña ? "Ocultar contraseña" : "Mostrar contraseña"}
+            >
+              {mostrarContraseña ? <FiEyeOff /> : <FiEye />}
             </button>
-            <p className={`error ${errores.contraseña ? "active" : ""}`}>{errores.contraseña}</p>
           </div>
+          <p className={`error ${errores.contraseña ? "active" : ""}`}>{errores.contraseña}</p>
 
-          <div className="form-group password-group">
-            <label htmlFor="contraseña2" className="sr-only">Repetir Contraseña</label>
+          {/* INPUT DE REPETIR CONTRASEÑA */}
+          <div className="password-group">
+            <FiLock className="input-icon" />
             <input
               type={mostrarContraseña2 ? "text" : "password"}
-              id="contraseña2"
               name="contraseña2"
               placeholder="Repetir Contraseña"
               value={formData.contraseña2}
               onChange={handleChange}
               required
             />
-            <button type="button" className="toggle-password" onClick={() => setMostrarContraseña2(!mostrarContraseña2)}>
-              {mostrarContraseña2 ? <FaEyeSlash /> : <FaEye />}
+            <span className="input-divider"></span>
+            <button 
+              type="button" 
+              className="toggle-password" 
+              onClick={() => setMostrarContraseña2(!mostrarContraseña2)}
+              aria-label={mostrarContraseña2 ? "Ocultar contraseña" : "Mostrar contraseña"}
+            >
+              {mostrarContraseña2 ? <FiEyeOff /> : <FiEye />}
             </button>
-            <p className={`error ${errores.contraseña2 ? "active" : ""}`}>{errores.contraseña2}</p>
           </div>
+          <p className={`error ${errores.contraseña2 ? "active" : ""}`}>{errores.contraseña2}</p>
 
-          {status === 'failed' && <p className="error-api active">{errorApi}</p>}
-
-          <div className="form-group checkbox-group">
-            <label htmlFor="aceptaTerminos">
+          {/* CHECKBOX DE TÉRMINOS */}
+          <div className="checkbox-group">
+            <label className="checkbox-label">
               <input
                 type="checkbox"
-                id="aceptaTerminos"
                 name="aceptaTerminos"
                 checked={formData.aceptaTerminos}
                 onChange={handleChange}
-                required
               />
               <span className="custom-checkbox"></span>
-              Acepto los <Link to={'/terminos&condiciones'} target="_blank" rel="noopener noreferrer">términos y condiciones</Link>
+              <p>
+                Acepto los <Link to='/terminos&condiciones' target="_blank" rel="noopener noreferrer">Términos y Condiciones</Link>
+              </p>
             </label>
             <p className={`error ${errores.aceptaTerminos ? "active" : ""}`}>{errores.aceptaTerminos}</p>
           </div>
 
+          {status === 'failed' && <p className="error-api active">{errorApi}</p>}
+
+          {/* BOTÓN "INGRESAR" (REGISTRARSE) */}
           <button type="submit" className="btn-primary" disabled={status === 'loading'}>
-            {status === 'loading' ? "Registrando..." : "Continuar"}
+            {status === 'loading' ? "Registrando..." : "INGRESAR"}
           </button>
         </form>
 
+        {/* LINK A LOGIN */}
         <div className="registro-links">
-          <Link to="/login">Ya tengo una cuenta</Link>
+          <p>
+            ¿Ya tienes una cuenta? <Link to="/login">Inicia sesión aquí</Link>
+          </p>
         </div>
       </div>
     </div>

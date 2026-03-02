@@ -1,4 +1,3 @@
-/* Clase de utilidad para ocultar elementos visualmente pero mantenerlos accesibles */
 .sr-only {
     position: absolute;
     width: 1px;
@@ -16,183 +15,329 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid black;
-    height: 100vh;
+    min-height: 100vh;
+    background-color: #F4F4F6;
+    padding: 1rem;
+    box-sizing: border-box;
 }
 
+/* --- Tarjeta de Login --- */
 .login-container {
-    background-color: #fff;
-    border: 0.13rem solid var(--primary-color);
-    border-radius: 1.25rem;
-    padding: 2.5rem; /* Padding uniforme */
+    background-color: #ffffff;
+    border-radius: 1.1rem;
+    padding: 2.64rem 2.24rem;
     width: 100%;
-    max-width: 25rem; /* Un poco más de ancho máximo */
-    box-shadow: 0 0 0.95rem rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    min-height: 616px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 3rem; /* Espaciado uniforme entre h1, form y links */
+    gap: 1.76rem;
 }
 
-.login-container h1 {
-    color: var(--primary-color);
-    font-size: 1.7rem;
-    margin: 0; /* Reseteamos margen para que 'gap' controle el espacio */
+/* --- Estilos del Logo --- */
+.login-container .logo {
+    font-family: 'Island Moments', cursive;
+    font-size: 2.64rem;
+    font-weight: 400;
+    color: #2D241E;
+    margin: 0 0 0.88rem 0;
+    line-height: 1.2;
+}
+
+/* --- Títulos y Subtítulos --- */
+.login-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.32rem;
+    font-weight: 700;
+    color: #2D241E;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.login-welcome {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #B3B3B3;
+    margin: 0 0 0.88rem 0;
 }
 
 /* --- Formulario --- */
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Espaciado uniforme entre los inputs y el botón */
+    gap: 0.176rem;
 }
 
-.form-group {
-  margin-bottom: 0.8rem; /* <-- AJUSTA ESTE VALOR (antes probablemente era 1rem o más) */
-  position: relative;
-  width: 100%;
-}
-
-.form-group input {
+/* --- INPUT GROUPS --- */
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
     width: 100%;
-    padding: 10px 5px;
+    height: 44px;
+    background-color: #FAFAFA;
+    border: 1px solid #E0E0E0;
+    border-radius: 8.8px;
+    padding: 0 8.8px;
+    box-sizing: border-box;
+    margin-top: 0.44rem;
+}
+
+/* Icono a la izquierda */
+.input-icon {
+    font-size: 1.32rem;
+    color: #C8AD7F;
+    margin-right: 8.8px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+/* Input field */
+.input-group input {
+    flex: 1;
+    height: 100%;
     border: none;
-    border-bottom: 2px solid var(--primary-color);
-    background-color: transparent;
-    font-size: 1rem;
-    outline: none;
-    color: var(--primary-color);
-    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
-}
-
-.form-group input::placeholder {
+    background: transparent;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.792rem;
+    font-weight: 300;
     font-style: italic;
-    font-size: 1rem;
-    color: rgba(106, 13, 173, 0.3);
+    color: #2D241E;
+    outline: none;
+    padding: 0;
 }
 
-/* --- Grupo de Contraseña y Toggle --- */
+.input-group input::placeholder {
+    color: rgba(45, 36, 30, 0.9);
+    font-style: italic;
+    font-weight: 300;
+    opacity: 1;
+}
+
+/* --- GRUPO DE CONTRASEÑA --- */
+.password-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 44px;
+    background-color: #FAFAFA;
+    border: 1px solid #E0E0E0;
+    border-radius: 8.8px;
+    padding: 0 8.8px;
+    box-sizing: border-box;
+    margin-top: 0.44rem;
+}
+
+/* Input de contraseña */
 .password-group input {
-    padding-right: 2.5rem; /* Espacio para el icono del ojo */
+    flex: 1;
+    height: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.792rem;
+    font-weight: 300;
+    font-style: italic;
+    color: #2D241E;
+    outline: none;
+    padding: 0;
+    line-height: normal;
 }
 
-.toggle-password {
-    position: absolute;
-    right: 0.5rem;
-    top: 10px; /* Alineado con el padding del input */
-    cursor: pointer;
+.password-group input::placeholder {
+    color: rgba(45, 36, 30, 0.9);
+    font-style: italic;
+    font-weight: 300;
+    opacity: 1;
+    line-height: normal;
+}
+
+/* Línea divisoria VERTICAL */
+.password-group .input-divider {
+    width: 1px;
+    height: 22px; /* Ajustado para que no sea tan alto */
+    background-color: #E0E0E0;
+    margin: 0 8.8px;
+    flex-shrink: 0;
+    display: block;
+    align-self: center; /* Centrado vertical */
+}
+
+/* Botón de mostrar/ocultar contraseña */
+.password-group .toggle-password {
     background: none;
     border: none;
-    font-size: 1.2rem;
-    color: var(--primary-color);
-    padding: 0; /* Reseteo de padding para el botón */
+    cursor: pointer;
+    font-size: 1.144rem;
+    color: #B3B3B3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26.4px;
+    height: 26.4px;
+    padding: 0;
+    flex-shrink: 0;
+    margin: 0;
+    line-height: 1;
+    align-self: center; /* Centrado vertical */
 }
 
-.toggle-password:hover {
-    color: var(--second-color);
+.password-group .toggle-password:hover {
+    color: #C8AD7F;
+}
+
+/* --- Enlace "Olvidé mi contraseña" --- */
+.forgot-password-link {
+    text-align: right;
+    margin: 0.44rem 0 0.88rem 0;
+}
+
+.forgot-password-link a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.704rem;
+    font-weight: 400;
+    color: #C8AD7F;
+    text-decoration: none;
+    opacity: 0.7;
+}
+
+.forgot-password-link a:hover {
+    text-decoration: underline;
+    opacity: 1;
+}
+
+/* --- Botón Primario "INGRESAR" --- */
+.login-form .btn-primary {
+    width: 100%;
+    height: 44px;
+    background-color: #C8AD7F;
+    color: #2D241E;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.968rem;
+    border: 2px solid transparent;
+    border-radius: 8.8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0.88rem;
+}
+
+.login-form .btn-primary:hover:not(:disabled) {
+    background-color: #C8AD7F;
+    color: #2D241E;
+    border: 2px solid #2D241E;
+}
+
+.login-form .btn-primary:active:not(:disabled) {
+    background-color: #C8AD7F;
+    color: #2D241E;
+    border: 2px solid #2D241E;
+}
+
+.login-form .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #C8AD7F;
+    color: #2D241E;
+}
+
+/* --- Links inferiores --- */
+.login-links {
+    text-align: center;
+    margin-top: 0.88rem;
+}
+
+.login-links p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.792rem;
+    font-weight: 500;
+    color: #2D241E;
+    opacity: 0.7;
+    margin: 0;
+}
+
+.login-links a {
+    font-weight: 700;
+    color: #C8AD7F;
+    text-decoration: none;
+    margin-left: 0.176rem;
+}
+
+.login-links a:hover {
+    text-decoration: underline;
 }
 
 /* --- Mensajes de Error --- */
-.form-group .error {
+.error {
     color: red;
-    font-size: 0.8rem;
-    margin-top: 0.3rem;
-    min-height: 1rem; /* Ocupa espacio para evitar saltos en el layout */
-    visibility: hidden; /* Oculto por defecto */
+    font-size: 0.66rem;
+    min-height: 0.88rem;
+    margin: 0.176rem 0 0 0.44rem;
+    text-align: left;
+    visibility: hidden;
     opacity: 0;
     transition: opacity 0.2s ease;
 }
 
-.form-group .error.active {
+.error.active {
     visibility: visible;
     opacity: 1;
-}
-
-/* --- Botón Principal y Links --- */
-.btn-primary {
-    width: 100%;
-    padding: 0.88rem;
-    background-color: var(--primary-color);
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    font-size: 1rem;
-    /* margin-top ya no es necesario gracias a 'gap' */
-}
-
-.btn-primary:hover {
-    background-color: var(--second-color);
-}
-
-.btn-primary:active {
-    background-color: #8734C9;
-}
-
-.login-links {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem; /* Espaciado consistente */
-    margin-top: 0.5rem; /* Pequeño margen superior para separar del formulario */
-}
-
-.login-links a {
-    color: var(--primary-color);
-    text-decoration: none; /* Mejor sin subrayado por defecto */
-    font-weight: normal;
-}
-
-.login-links a:hover {
-    text-decoration: underline; /* Subrayado solo al pasar el mouse */
 }
 
 .error-api {
     color: #e74c3c;
     background-color: #fdd;
     border: 1px solid #e74c3c;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 8.8px;
+    border-radius: 4.4px;
     text-align: center;
-    margin-bottom: 15px;
-    font-size: 0.9em;
+    margin: 0.44rem 0;
+    font-size: 0.792em;
 }
 
-
-/* --- ESTILOS RESPONSIVOS PARA MÓVILES --- */
-/* Se aplicarán en pantallas de 768px de ancho o menos */
-@media (max-width: 768px) {
-
-    /* Hacemos que la página no necesite centrar, el contenedor ocupará todo */
-    .login-page {
-        align-items: flex-start; /* Alineamos arriba */
-        background-color: #fff; /* El fondo de la página será blanco */
-        border: none; /* Quitamos el borde negro de la página */
-    }
-
+/* --- ESTILOS RESPONSIVOS --- */
+@media (max-width: 600px) {
     .login-container {
-        /* Hacemos que el contenedor ocupe toda la pantalla */
+        padding: 1.76rem 1.2rem;
+        min-height: auto;
         max-width: 100%;
-        height: 100vh;
-        
-        /* Removemos estilos de "caja" para un look más de app nativa */
-        border: none;
-        box-shadow: none;
-        border-radius: 0;
-
-        /* Ajustamos el padding para dar más espacio al contenido */
-        padding: 4rem 1.5rem;
-
-        /* Reducimos el espaciado vertical general para que quepa mejor */
-        gap: 2.5rem;
-        justify-content: center; /* Centramos el contenido verticalmente */
     }
 
-    .login-container h1 {
-        font-size: 1.6rem; /* Hacemos el título un poco más pequeño */
+    .login-container .logo {
+        font-size: 2.2rem;
     }
 
-    .login-form {
-        gap: 1.2rem; /* Reducimos el espacio entre los inputs */
+    .login-subtitle {
+        font-size: 1.144rem;
+    }
+
+    .login-welcome {
+        font-size: 0.792rem;
+    }
+
+    .input-group,
+    .password-group {
+        height: 39.6px;
+    }
+
+    .login-form .btn-primary {
+        height: 39.6px;
+    }
+
+    .password-group .input-divider {
+        margin: 0 7.04px;
+        height: 22px;
+    }
+
+    .password-group .toggle-password {
+        width: 22px;
+        height: 22px;
+        font-size: 1.056rem;
     }
 }
