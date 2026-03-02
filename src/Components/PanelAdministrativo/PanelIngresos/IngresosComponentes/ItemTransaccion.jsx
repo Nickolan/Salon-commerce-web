@@ -10,6 +10,36 @@ const formatId = (id) => {
   return String(id).padStart(8, '0');
 };
 
+// Función para tiempo relativo detallado (NUEVA)
+const getRelativeTimeDetailed = (dateString) => {
+  if (!dateString) return 'Sin actividad';
+  
+  try {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffMinutes = Math.floor(diffTime / (1000 * 60));
+    const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffWeeks = Math.floor(diffDays / 7);
+    const diffMonths = Math.floor(diffDays / 30);
+
+    if (diffMinutes < 60) {
+      return `Hace ${diffMinutes} ${diffMinutes === 1 ? 'minuto' : 'minutos'}`;
+    } else if (diffHours < 24) {
+      return `Hace ${diffHours} ${diffHours === 1 ? 'hora' : 'horas'}`;
+    } else if (diffDays < 7) {
+      return `Hace ${diffDays} ${diffDays === 1 ? 'día' : 'días'}`;
+    } else if (diffWeeks < 4) {
+      return `Hace ${diffWeeks} ${diffWeeks === 1 ? 'semana' : 'semanas'}`;
+    } else {
+      return `Hace ${diffMonths} ${diffMonths === 1 ? 'mes' : 'meses'}`;
+    }
+  } catch (error) {
+    return 'Fecha inválida';
+  }
+};
+
 const getEstadoColor = (estado) => {
   switch(estado?.toLowerCase()) {
     case 'aprobado':
@@ -56,6 +86,18 @@ const ItemTransaccion = ({
 
   // Obtener datos del salón desde la transacción
   const salon = transaccion.reserva?.salon;
+  
+  // Obtener hora_inicio y hora_fin de la reserva (NUEVO)
+  const reserva = transaccion.reserva;
+  const horaInicio = reserva?.hora_inicio || '--';
+  const horaFin = reserva?.hora_fin || '--';
+  
+  // Obtener precio por hora del salón o calcularlo desde la reserva (NUEVO)
+  const precioPorHora = salon?.precio_por_hora || 
+    (reserva && horaInicio !== '--' && horaFin !== '--' 
+      ? Math.round((transaccion.monto_pagado || 0) / 
+          (parseInt(horaFin.split(':')[0]) - parseInt(horaInicio.split(':')[0]))) 
+      : 0);
 
   // Formatear fecha y hora con espacio extra
   const fecha = transaccion.fecha_transaccion
@@ -85,7 +127,7 @@ const ItemTransaccion = ({
         {transaccion.estado_transaccion?.toUpperCase() || 'PENDIENTE'}
       </div>
 
-      {/* Contenido principal - Grid 4 columnas con separadores verticales */}
+      {/* Contenido principal - Grid 4 columnas con separadores verticales (DISEÑO ORIGINAL) */}
       <div className="trans-content">
         {/* COLUMNA 1: Dueño (Vendedor) */}
         <div className="trans-columna trans-dueno">
@@ -108,7 +150,6 @@ const ItemTransaccion = ({
                 {salon?.nombre || 'Nombre del Salón'}
             </div>
             <div className="trans-cliente-info">
-                {/* Eliminada la flecha pequeña */}
                 <span className="trans-cliente-nombre">
                 {cliente?.nombre || 'Cliente'} {cliente?.apellido || ''}
                 </span>
@@ -173,39 +214,37 @@ const ItemTransaccion = ({
         </div>
       </div>
 
-      {/* Sección expandible */}
+      {/* NUEVA SECCIÓN EXPANDIBLE - SOLO ESTO CAMBIÓ */}
       {isExpanded && (
-        <div className="trans-historial">
-          <h4 className="trans-historial-titulo">Detalles de Transacción</h4>
-
-          <div className="trans-detalles-expandido">
-            <div className="trans-detalle-fila">
-              <span className="trans-detalle-label">ID Transacción:</span>
-              <span className="trans-detalle-valor">#{formatId(transaccion.id_transaccion)}</span>
+        <div className="trans-expanded-content">
+          <div className="expanded-actividad-lista">
+            
+            {/* ITEM 1: Horario de la reserva */}
+            <div className="expanded-actividad-item">
+              <div className="expanded-actividad-texto">
+                <span className="expanded-actividad-normal">La reserva se realizó desde las </span>
+                <span className="expanded-actividad-destacado">{horaInicio}</span>
+                <span className="expanded-actividad-normal"> hasta las </span>
+                <span className="expanded-actividad-destacado">{horaFin}</span>
+              </div>
+              <div className="expanded-actividad-footer">
+                <span className="expanded-actividad-id">Reserva #{formatId(reserva?.id_reserva || 0)}</span>
+                <span className="expanded-actividad-tiempo">{getRelativeTimeDetailed(reserva?.fecha_creacion)}</span>
+              </div>
+              <div className="expanded-actividad-linea"></div>
             </div>
 
-            <div className="trans-detalle-fila">
-              <span className="trans-detalle-label">ID Reserva:</span>
-              <span className="trans-detalle-valor">#{formatId(transaccion.reservaIdReserva)}</span>
-            </div>
-
-            <div className="trans-detalle-fila">
-              <span className="trans-detalle-label">Estado:</span>
-              <span className="trans-detalle-valor" style={{ color: getEstadoColor(transaccion.estado_transaccion) }}>
-                {transaccion.estado_transaccion}
-              </span>
-            </div>
-
-            <div className="trans-historial-linea"></div>
-
-            <div className="trans-detalle-fila">
-              <span className="trans-detalle-label">Vendedor ID:</span>
-              <span className="trans-detalle-valor">#{formatId(vendedor?.id_usuario || 'N/A')}</span>
-            </div>
-
-            <div className="trans-detalle-fila">
-              <span className="trans-detalle-label">Cliente ID:</span>
-              <span className="trans-detalle-valor">#{formatId(cliente?.id_usuario || 'N/A')}</span>
+            {/* ITEM 2: Precio por hora */}
+            <div className="expanded-actividad-item">
+              <div className="expanded-actividad-texto">
+                <span className="expanded-actividad-normal">El salón tiene un precio por hora de </span>
+                <span className="expanded-actividad-destacado">${precioPorHora.toLocaleString('es-CL')}</span>
+              </div>
+              <div className="expanded-actividad-footer">
+                <span className="expanded-actividad-id">Salón #{formatId(salon?.id_salon || 0)}</span>
+                <span className="expanded-actividad-tiempo">{getRelativeTimeDetailed(salon?.fecha_creacion)}</span>
+              </div>
+              <div className="expanded-actividad-linea"></div>
             </div>
           </div>
         </div>

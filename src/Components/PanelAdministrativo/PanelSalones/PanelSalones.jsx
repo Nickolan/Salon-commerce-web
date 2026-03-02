@@ -24,13 +24,14 @@ const PanelSalones = ({
       resenias: resenias?.length,
       selectedMonth
     });
-
-    // 🔍 LOG DETALLADO de la primera transacción
-    if (transacciones.length > 0) {
-      console.log('🔍 PRIMERA TRANSACCIÓN (completa):', transacciones[0]);
-      console.log('🔍 CAMPOS en transacción:', Object.keys(transacciones[0]));
-      console.log('🔍 VALOR de monto_pagado:', transacciones[0].monto_pagado);
-      console.log('🔍 TIPO de monto_pagado:', typeof transacciones[0].monto_pagado);
+    
+    // 🔍 LOG DETALLADO DE RESEÑAS
+    if (resenias?.length > 0) {
+      console.log('🔍 PRIMERA RESEÑA (completa):', resenias[0]);
+      console.log('🔍 CAMPOS en reseña:', Object.keys(resenias[0]));
+      console.log('🔍 RELACIÓN con reserva:', resenias[0].reserva);
+    } else {
+      console.log('❌ NO HAY RESEÑAS en PanelSalones');
     }
   }, [salones, reservas, transacciones, resenias, selectedMonth]);
 
@@ -74,16 +75,15 @@ const PanelSalones = ({
     });
   };
 
-  // Función para obtener el ID de reserva de una transacción (MANEJA TODOS LOS CASOS)
+  // Función para obtener el ID de reserva de una transacción
   const getReservaIdFromTransaccion = (transaccion) => {
     if (!transaccion) return null;
     
-    // Lista de TODOS los posibles nombres de campo para el ID de reserva
     const posiblesCampos = [
       'id_reserva',
       'reservaIdReserva',
       'reserva_id_reserva',
-      'reservalldReserva',  // Este es el que vi en tu tabla
+      'reservalldReserva',
       'reservaId',
       'reserva_id',
       'reserva'
@@ -91,11 +91,9 @@ const PanelSalones = ({
     
     for (const campo of posiblesCampos) {
       if (transaccion[campo] !== undefined && transaccion[campo] !== null) {
-        // Si el campo es un objeto (como { id_reserva: 1 }), extraemos el ID
         if (typeof transaccion[campo] === 'object' && transaccion[campo] !== null) {
           return transaccion[campo].id_reserva || transaccion[campo].id;
         }
-        // Si es un número o string, lo devolvemos
         return transaccion[campo];
       }
     }
@@ -104,58 +102,53 @@ const PanelSalones = ({
   };
 
   const calcularEstadisticasSalon = (salon) => {
-    // 1. Filtrar reservas de este salón
-    const todasReservasSalon = reservas.filter(r => r.salon?.id_salon === salon.id_salon);
+    console.log(`📊 Calculando estadísticas para salón ${salon.id_salon} - ${salon.nombre}`);
     
-    // 2. Filtrar SOLO las reservas del mes seleccionado
-    const reservasSalonDelMes = filtrarReservasDelMes(todasReservasSalon);
-    
-    // 3. Crear un Set con los IDs de reservas del mes para búsqueda rápida
-    const reservasIdsDelMes = new Set(reservasSalonDelMes.map(r => r.id_reserva));
-    
-    // 4. Filtrar transacciones que pertenezcan a estas reservas
-    const transaccionesSalon = transacciones.filter(t => {
-      const reservaId = getReservaIdFromTransaccion(t);
-      const pertenece = reservaId && reservasIdsDelMes.has(Number(reservaId));
-      
-      // 🔍 LOG para ver cada transacción y si pertenece
-      if (transacciones.length > 0 && reservaId) {
-        console.log(`🔄 Transacción ${t.id_transaccion}: reservaId=${reservaId}, pertenece a salón ${salon.id_salon}? ${pertenece}`);
+    // Filtrar reseñas de este salón
+    const reseniasSalon = resenias.filter(r => {
+      const coincide = r.reserva?.salon?.id_salon === salon.id_salon;
+      if (coincide) {
+        console.log(`🎯 Encontrada reseña para salón ${salon.id_salon}:`, r);
       }
-      
-      return pertenece;
+      return coincide;
     });
     
-    // 5. Filtrar reseñas de este salón
-    const reseniasSalon = resenias.filter(r => r.salon?.id_salon === salon.id_salon);
+    console.log(`📝 Reseñas encontradas para salón ${salon.id_salon}:`, reseniasSalon.length);
     
-    // 6. Calcular rating promedio
+    // Filtrar reservas de este salón
+    const todasReservasSalon = reservas.filter(r => r.salon?.id_salon === salon.id_salon);
+    
+    // Filtrar SOLO las reservas del mes seleccionado
+    const reservasSalonDelMes = filtrarReservasDelMes(todasReservasSalon);
+    
+    // Crear un Set con los IDs de reservas del mes para búsqueda rápida
+    const reservasIdsDelMes = new Set(reservasSalonDelMes.map(r => r.id_reserva));
+    
+    // Filtrar transacciones que pertenezcan a estas reservas
+    const transaccionesSalon = transacciones.filter(t => {
+      const reservaId = getReservaIdFromTransaccion(t);
+      return reservaId && reservasIdsDelMes.has(Number(reservaId));
+    });
+    
+    // Calcular rating promedio
     const rating = reseniasSalon.length > 0 
       ? reseniasSalon.reduce((sum, r) => sum + r.calificacion, 0) / reseniasSalon.length 
       : 0;
     
-    // 7. Encontrar última reserva del mes
+    // Encontrar última reserva del mes
     const ultimaReserva = reservasSalonDelMes.length > 0 
       ? reservasSalonDelMes.sort((a, b) => new Date(b.fecha_reserva) - new Date(a.fecha_reserva))[0]
       : null;
     
-    // 8. Calcular último ingreso del mes
+    // Calcular último ingreso del mes
     const transaccionesOrdenadas = [...transaccionesSalon].sort(
       (a, b) => new Date(b.fecha_transaccion || b.fecha_creacion) - new Date(a.fecha_transaccion || a.fecha_creacion)
     );
     const ultimaTransaccion = transaccionesOrdenadas[0];
     
-    // 9. Función para obtener el monto (VERSIÓN MEJORADA)
     const obtenerMonto = (transaccion) => {
       if (!transaccion) return 0;
       
-      console.log(`💰 Extrayendo monto de transacción ${transaccion.id_transaccion}:`, {
-        monto_pagado: transaccion.monto_pagado,
-        monto: transaccion.monto,
-        total: transaccion.total
-      });
-      
-      // Intentar diferentes campos, CONVIRTIENDO A NÚMERO
       if (transaccion.monto_pagado !== undefined && transaccion.monto_pagado !== null) {
         return Number(transaccion.monto_pagado) || 0;
       }
@@ -169,28 +162,10 @@ const PanelSalones = ({
         return Number(transaccion.amount) || 0;
       }
       
-      // Si es un string, intentar parsearlo
-      if (transaccion.monto_pagado_str) {
-        return Number(transaccion.monto_pagado_str) || 0;
-      }
-      
       return 0;
     };
 
     const ultimoIngreso = obtenerMonto(ultimaTransaccion);
-    
-    // 🔍 LOG FINAL para este salón
-    console.log(`📊 Estadísticas para salón ${salon.id_salon} (${salon.nombre}):`, {
-      reservasDelMes: reservasSalonDelMes.length,
-      transaccionesDelMes: transaccionesSalon.length,
-      idsReservasDelMes: Array.from(reservasIdsDelMes),
-      ultimoIngreso,
-      ultimaTransaccion: ultimaTransaccion ? {
-        id: ultimaTransaccion.id_transaccion,
-        monto_pagado: ultimaTransaccion.monto_pagado,
-        monto_convertido: ultimoIngreso
-      } : null
-    });
 
     return {
       rating: rating,
@@ -213,17 +188,35 @@ const PanelSalones = ({
 
       <div className="salones-list">
         {filteredSalones?.length > 0 ? (
-          filteredSalones.map(salon => (
-            <ItemSalonAdmin
-              key={salon.id_salon}
-              salon={salon}
-              isExpanded={expandedSalonId === salon.id_salon}
-              onToggleExpand={() => handleToggleExpand(salon.id_salon)}
-              onEliminar={onEliminarSalon}
-              onBloquear={onBloquearSalon}
-              estadisticas={calcularEstadisticasSalon(salon)}
-            />
-          ))
+          filteredSalones.map(salon => {
+            // Filtrar reseñas para este salón - CON MÁS LOGS
+            console.log(`🔍 Buscando reseñas para salón ID ${salon.id_salon} - ${salon.nombre}`);
+            console.log('  📝 Total reseñas disponibles:', resenias.length);
+            
+            const reseniasDelSalon = resenias.filter(r => {
+              console.log('  Revisando reseña:', r.id_resenia, 'reserva:', r.reserva);
+              const coincide = r.reserva?.salon?.id_salon === salon.id_salon;
+              if (coincide) {
+                console.log('  ✅ COINCIDE!', r);
+              }
+              return coincide;
+            });
+            
+            console.log(`📊 Resultado: ${reseniasDelSalon.length} reseñas para salón ${salon.id_salon}`);
+
+            return (
+              <ItemSalonAdmin
+                key={salon.id_salon}
+                salon={salon}
+                isExpanded={expandedSalonId === salon.id_salon}
+                onToggleExpand={() => handleToggleExpand(salon.id_salon)}
+                onEliminar={onEliminarSalon}
+                onBloquear={onBloquearSalon}
+                estadisticas={calcularEstadisticasSalon(salon)}
+                reseniasDelSalon={reseniasDelSalon}
+              />
+            );
+          })
         ) : (
           <div className="no-resultados">
             <p>No se encontraron salones</p>

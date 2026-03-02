@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { format, parseISO } from 'date-fns';
-import es from 'date-fns/locale/es';
-import { FiCalendar, FiClock, FiDollarSign, FiUser, FiHome, FiMapPin, FiEye, FiEyeOff, FiCreditCard, FiCheckCircle, FiXCircle, FiClock as FiPending, FiStar } from "react-icons/fi";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { FiCalendar, FiClock, FiDollarSign, FiEye, FiEyeOff } from "react-icons/fi";
 import './ItemReservaAdmin.css';
 
 const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, esReservaFutura, estadoPago }) => {
@@ -108,9 +106,14 @@ const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, esReser
     }
   };
 
-  // Formatear fecha de creación
+  // Fecha de creación (esquina superior izquierda)
   const fechaCreacionFormateada = reserva.fecha_creacion
     ? format(parseISO(reserva.fecha_creacion), 'dd-MM-yyyy')
+    : 'Fecha no disponible';
+
+  // Fecha de la reserva (para los detalles)
+  const fechaReservaFormateada = reserva.fecha_reserva
+    ? format(parseISO(reserva.fecha_reserva), 'dd-MM-yyyy')
     : 'Fecha no disponible';
 
   // Obtener ubicación
@@ -148,18 +151,12 @@ const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, esReser
       const transaccionesOrdenadas = [...reserva.transacciones].sort(
         (a, b) => new Date(b.fecha_transaccion) - new Date(a.fecha_transaccion)
       );
-      const monto = transaccionesOrdenadas[0].monto_pagado;
+      const monto = transaccionesOrdenadas[0]?.monto_pagado;
       return monto || 0;
     }
 
     if (reserva.transaccion) {
       return reserva.transaccion.monto_pagado || 0;
-    }
-
-    const fechaReserva = new Date(reserva.fecha_reserva);
-    const hoy = new Date();
-    if (fechaReserva > hoy) {
-      return 'Pendiente';
     }
 
     return 0;
@@ -186,7 +183,7 @@ const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, esReser
         {reserva.estado_reserva}
       </div>
 
-      {/* Contenido principal */}
+      {/* Contenido principal - EN FILA */}
       <div className="reserva-content">
         {/* Imagen */}
         <div className="reserva-imagen-wrapper">
@@ -235,7 +232,7 @@ const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, esReser
         <div className="reserva-detalles-wrapper">
           <div className="detalle-item">
             <FiCalendar className="detalle-icono" />
-            <span className="detalle-texto">{fechaCreacionFormateada}</span>
+            <span className="detalle-texto">{fechaReservaFormateada}</span>
           </div>
           <div className="detalle-item">
             <FiClock className="detalle-icono" />
@@ -259,58 +256,58 @@ const ItemReservaAdmin = ({ reserva, precio, isExpanded, onToggleExpand, esReser
         </div>
       </div>
 
-      {/* SECCIÓN EXPANDIBLE - CON 3 ITEMS */}
+      {/* SECCIÓN EXPANDIBLE - CON LA MISMA ESTRUCTURA QUE USER CARD */}
       {isExpanded && (
         <div className="reserva-expanded-content">
-          <div className="actividad-lista">
+          <div className="expanded-actividad-lista">
             
             {/* ITEM 1: Detalles del Salón */}
-            <div className="actividad-item">
-              <div className="actividad-texto">
-                <span className="actividad-destacado">{reserva.salon?.nombre || 'Salón'}</span>
-                <span className="actividad-normal"> tiene un precio por hora de </span>
-                <span className="actividad-destacado">${reserva.salon?.precio_por_hora || 0}</span>
+            <div className="expanded-actividad-item">
+              <div className="expanded-actividad-texto">
+                <span className="expanded-actividad-destacado">{reserva.salon?.nombre || 'Salón'}</span>
+                <span className="expanded-actividad-normal"> tiene un precio por hora de </span>
+                <span className="expanded-actividad-destacado">${reserva.salon?.precio_por_hora || 0}</span>
               </div>
-              <div className="actividad-footer">
-                <span className="actividad-id">Salón #{formatId(reserva.salon?.id_salon || 0)}</span>
-                <span className="actividad-tiempo">{getRelativeTimeDetailed(reserva.fecha_creacion)}</span>
+              <div className="expanded-actividad-footer">
+                <span className="expanded-actividad-id">Salón #{formatId(reserva.salon?.id_salon || 0)}</span>
+                <span className="expanded-actividad-tiempo">{getRelativeTimeDetailed(reserva.fecha_creacion)}</span>
               </div>
-              <div className="actividad-linea"></div>
+              <div className="expanded-actividad-linea"></div>
             </div>
 
             {/* ITEM 2: Detalles del Pago (si existe transacción) */}
             {transaccion && (
-              <div className="actividad-item">
-                <div className="actividad-texto">
-                  <span className="actividad-normal">Se ha confirmado la reserva a mediante </span>
-                  <span className="actividad-destacado">{transaccion.detalles_pago || 'Mercado Pago'}</span>
+              <div className="expanded-actividad-item">
+                <div className="expanded-actividad-texto">
+                  <span className="expanded-actividad-normal">Se ha confirmado la reserva mediante </span>
+                  <span className="expanded-actividad-destacado">{transaccion.detalles_pago || 'Mercado Pago'}</span>
                 </div>
-                <div className="actividad-footer">
-                  <span className="actividad-id">Transacción #{formatId(transaccion.id_transaccion)}</span>
-                  <span className="actividad-tiempo">{getRelativeTimeDetailed(transaccion.fecha_transaccion)}</span>
+                <div className="expanded-actividad-footer">
+                  <span className="expanded-actividad-id">Transacción #{formatId(transaccion.id_transaccion)}</span>
+                  <span className="expanded-actividad-tiempo">{getRelativeTimeDetailed(transaccion.fecha_transaccion)}</span>
                 </div>
-                <div className="actividad-linea"></div>
+                <div className="expanded-actividad-linea"></div>
               </div>
             )}
 
             {/* ITEM 3: Reseña (si existe) */}
             {resenia && (
-              <div className="actividad-item">
-                <div className="actividad-texto">
-                  <span className="actividad-destacado">{reserva.arrendatario?.nombre || 'Usuario'}</span>
-                  <span className="actividad-normal"> dio una calificación de </span>
-                  <span className="actividad-destacado">{resenia.calificacion} estrellas</span>
+              <div className="expanded-actividad-item">
+                <div className="expanded-actividad-texto">
+                  <span className="expanded-actividad-destacado">{reserva.arrendatario?.nombre || 'Usuario'}</span>
+                  <span className="expanded-actividad-normal"> dio una calificación de </span>
+                  <span className="expanded-actividad-destacado">{resenia.calificacion} estrellas</span>
                 </div>
-                <div className="actividad-texto" style={{ marginTop: '4px', marginBottom: '4px' }}>
-                  <span className="actividad-normal">"</span>
-                  <span className="actividad-destacado">{resenia.comentario}</span>
-                  <span className="actividad-normal">"</span>
+                <div className="expanded-actividad-texto" style={{ marginTop: '4px', marginBottom: '4px' }}>
+                  <span className="expanded-actividad-normal">"</span>
+                  <span className="expanded-actividad-destacado">{resenia.comentario}</span>
+                  <span className="expanded-actividad-normal">"</span>
                 </div>
-                <div className="actividad-footer">
-                  <span className="actividad-id">Reseña #{formatId(resenia.id_resenia)}</span>
-                  <span className="actividad-tiempo">{getRelativeTimeDetailed(resenia.fecha_creacion)}</span>
+                <div className="expanded-actividad-footer">
+                  <span className="expanded-actividad-id">Reseña #{formatId(resenia.id_resenia)}</span>
+                  <span className="expanded-actividad-tiempo">{getRelativeTimeDetailed(resenia.fecha_creacion)}</span>
                 </div>
-                <div className="actividad-linea"></div>
+                <div className="expanded-actividad-linea"></div>
               </div>
             )}
           </div>

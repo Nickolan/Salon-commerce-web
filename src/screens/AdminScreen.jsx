@@ -12,12 +12,6 @@ import { fetchAdminSalonsByMonth } from '../store/features/salones/salonSlice';
 // Asumiendo que creaste estos en reservasSlice:
 import { fetchAdminReservasByMonth, fetchAdminTransaccionesByMonth } from '../store/features/reservas/reservasSlice';
 
-// --- ELIMINAR IMPORTS DE JSON ---
-// import usuariosData from '../utils/Usuarios.json';
-// import salonesData from '../utils/Salones.json';
-// import reservasData from '../utils/Reservas.json';
-// import transaccionesData from '../utils/Transacciones.json';
-
 const getDefaultMonth = () => {
   const today = new Date();
   const year = today.getFullYear();

@@ -3,23 +3,51 @@ import SearchbarUsuarios from './ComponenteUserAdmin/SearchbarUsuarios';
 import UserCard from './ComponenteUserAdmin/UserCard';
 import './PanelUsuarios.css';
 
-const PanelUsuarios = ({ usuarios, selectedMonth, onUserDeleted }) => { // <-- Añadir onUserDeleted
+const PanelUsuarios = ({ usuarios, reservas, transacciones, selectedMonth, onUserDeleted }) => {
   const [filterValue, setFilterValue] = useState("");
 
   console.log('PanelUsuarios - usuarios recibidos:', usuarios);
+  console.log('PanelUsuarios - reservas recibidas:', reservas?.length);
+  console.log('PanelUsuarios - transacciones recibidas:', transacciones?.length);
+
+  // Enriquecer usuarios con sus transacciones
+  const usuariosEnriquecidos = useMemo(() => {
+    return usuarios.map(usuario => {
+      // Encontrar reservas del usuario
+      const reservasUsuario = reservas.filter(
+        r => r.arrendatario?.id_usuario === usuario.id_usuario
+      );
+
+      // Encontrar transacciones de esas reservas
+      const reservasConTransacciones = reservasUsuario.map(reserva => {
+        const transaccionesReserva = transacciones.filter(
+          t => t.reservaIdReserva === reserva.id_reserva || t.id_reserva === reserva.id_reserva
+        );
+        return {
+          ...reserva,
+          transacciones: transaccionesReserva
+        };
+      });
+
+      return {
+        ...usuario,
+        reservas: reservasConTransacciones
+      };
+    });
+  }, [usuarios, reservas, transacciones]);
 
   // Filtrar usuarios
   const filteredUsers = useMemo(() => {
-    if (!filterValue.trim()) return usuarios;
+    if (!filterValue.trim()) return usuariosEnriquecidos;
 
     const searchTerm = filterValue.toLowerCase().trim();
-    return usuarios.filter(user => 
+    return usuariosEnriquecidos.filter(user => 
       user.nombre?.toLowerCase().includes(searchTerm) ||
       user.apellido?.toLowerCase().includes(searchTerm) ||
       `${user.nombre} ${user.apellido}`.toLowerCase().includes(searchTerm) ||
       user.email?.toLowerCase().includes(searchTerm)
     );
-  }, [filterValue, usuarios]);
+  }, [filterValue, usuariosEnriquecidos]);
 
   const handleFilterChange = (value) => {
     setFilterValue(value);
@@ -29,7 +57,6 @@ const PanelUsuarios = ({ usuarios, selectedMonth, onUserDeleted }) => { // <-- A
     console.log('Filtro aplicado:', filterValue);
   };
 
-  // NUEVO: Manejador para cuando se elimina un usuario
   const handleDeleteUser = (userId) => {
     if (onUserDeleted) {
       onUserDeleted(userId);
@@ -52,7 +79,7 @@ const PanelUsuarios = ({ usuarios, selectedMonth, onUserDeleted }) => { // <-- A
               key={user.id_usuario}
               user={user}
               selectedMonth={selectedMonth}
-              onDeleteUser={handleDeleteUser} // <-- Pasar el manejador
+              onDeleteUser={handleDeleteUser}
             />
           ))
         ) : (

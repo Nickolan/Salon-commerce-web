@@ -1,47 +1,46 @@
 /* src/Components/DatosSalonCompleto/DatosSalonCompleto.css */
 
-/* Contenedor principal de la pantalla - esto va en la página que contiene DatosSalonCompleto */
 .detalles-salon-page {
   background-color: #F4F4F6;
   min-height: 100vh;
-  padding: 20px 0 40px 0;
+  padding: 16px 0 32px 0; /* 20*0.8=16, 40*0.8=32 */
   font-family: 'Montserrat', sans-serif;
 }
 
 /* Contenedor que centraliza todo el contenido con el mismo padding */
 .detalles-salon-container {
-  max-width: 1446px;
+  max-width: 1157px; /* 1446*0.8=1156.8 */
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 26px; /* 32*0.8=25.6 */
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 32px; /* 40*0.8=32 */
 }
 
 /* Estilos para DatosSalonCompleto */
 .datos-salon-completo {
   background-color: #FFFFFF;
   width: 100%;
-  border-radius: 24px;
-  padding: 31px 32px;
+  border-radius: 19px; /* 24*0.8=19.2 */
+  padding: 25px 26px; /* 31*0.8=24.8, 32*0.8=25.6 */
   display: flex;
-  gap: 32px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  gap: 26px; /* 32*0.8=25.6 */
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.05); /* 4*0.8=3.2, 20*0.8=16 */
 }
 
 /* Columna izquierda - Galería */
 .datos-salon-gallery {
-  flex: 0 0 830px;
+  flex: 0 0 664px; /* 830*0.8=664 */
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px; /* 20*0.8=16 */
 }
 
 .datos-gallery-main {
   position: relative;
-  width: 830px;
-  height: 453px;
-  border-radius: 24px;
+  width: 664px; /* 830*0.8=664 */
+  height: 362px; /* 453*0.8=362.4 */
+  border-radius: 19px; /* 24*0.8=19.2 */
   overflow: hidden;
 }
 
@@ -58,13 +57,13 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 16px; /* 20*0.8=16 */
   pointer-events: none;
 }
 
 .gallery-nav-btn {
-  width: 48px;
-  height: 48px;
+  width: 38px; /* 48*0.8=38.4 */
+  height: 38px; /* 48*0.8=38.4 */
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
@@ -74,7 +73,7 @@
   pointer-events: auto;
   transition: all 0.3s ease;
   color: #C8AD7F;
-  font-size: 24px;
+  font-size: 19px; /* 24*0.8=19.2 */
   font-weight: bold;
 }
 
@@ -84,17 +83,17 @@
 
 .datos-gallery-thumbnails {
   display: flex;
-  gap: 20px;
+  gap: 16px; /* 20*0.8=16 */
 }
 
 .datos-gallery-thumbnails img {
-  width: 277px;
-  height: 151px;
-  border-radius: 16px;
+  width: 222px; /* 277*0.8=221.6 */
+  height: 121px; /* 151*0.8=120.8 */
+  border-radius: 13px; /* 16*0.8=12.8 */
   object-fit: cover;
   cursor: pointer;
   transition: opacity 0.3s ease;
-  border: 2px solid transparent;
+  border: 2px solid transparent; /* Los bordes no se escalan */
 }
 
 .datos-gallery-thumbnails img:hover {
@@ -110,8 +109,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding-top: 6px;
+  gap: 13px; /* 16*0.8=12.8 */
+  padding-top: 5px; /* 6*0.8=4.8 */
 }
 
 .datos-salon-header {
@@ -123,21 +122,21 @@
 .datos-salon-header h1 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  font-size: 30px;
+  font-size: 24px; /* 30*0.8=24 */
   color: #2D241E;
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0; /* 12*0.8=9.6 */
 }
 
 .datos-rating-circle {
-  width: 40px;
-  height: 40px;
+  width: 32px; /* 40*0.8=32 */
+  height: 32px; /* 40*0.8=32 */
   border-radius: 50%;
   background-color: #C8AD7F;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 13px; /* 16*0.8=12.8 */
   color: #2D241E;
 }
 
@@ -146,20 +145,20 @@
 .datos-connect-business {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px; /* 8*0.8=6.4 */
 }
 
 .datos-salon-location svg,
 .datos-salon-capacity svg,
 .datos-connect-business svg {
   color: #C8AD7F;
-  font-size: 16px;
+  font-size: 13px; /* 16*0.8=12.8 */
 }
 
 .datos-salon-location span {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 12px; /* 15*0.8=12 */
   color: #2D241E;
   opacity: 0.9;
 }
@@ -167,56 +166,56 @@
 .datos-salon-capacity span {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 12px; /* 15*0.8=12 */
   color: #2D241E;
 }
 
 .datos-connect-business span {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 12px; /* 15*0.8=12 */
   color: #2D241E;
   opacity: 0.9;
 }
 
 .datos-divider {
   width: 100%;
-  max-width: 504px;
-  height: 1px;
+  max-width: 403px; /* 504*0.8=403.2 */
+  height: 1px; /* Los bordes no se escalan */
   background-color: #C8AD7F;
   opacity: 0.5;
-  margin: 8px 0 20px 0;
+  margin: 6px 0 16px 0; /* 8*0.8=6.4, 20*0.8=16 */
 }
 
 .datos-equipamientos-section,
 .datos-reglas-section {
-  margin-bottom: 20px;
+  margin-bottom: 16px; /* 20*0.8=16 */
 }
 
 .datos-equipamientos-list,
 .datos-reglas-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px; /* 10*0.8=8 */
 }
 
 .datos-equipamiento-item {
   background-color: #F4F4F6;
   border: 1px solid #C8AD7F;
-  border-radius: 20px;
-  padding: 8px 16px;
+  border-radius: 16px; /* 20*0.8=16 */
+  padding: 6px 13px; /* 8*0.8=6.4, 16*0.8=12.8 */
   font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
+  font-size: 11px; /* 14*0.8=11.2 */
   color: #2D241E;
   opacity: 0.9;
 }
 
 .datos-regla-item {
   background-color: rgba(200, 173, 127, 0.2);
-  border-radius: 20px;
-  padding: 8px 16px;
+  border-radius: 16px; /* 20*0.8=16 */
+  padding: 6px 13px; /* 8*0.8=6.4, 16*0.8=12.8 */
   font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
+  font-size: 11px; /* 14*0.8=11.2 */
   color: #2D241E;
   border: none;
 }
@@ -237,7 +236,7 @@
 .datos-price {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  font-size: 35px;
+  font-size: 28px; /* 35*0.8=28 */
   color: #2D241E;
   line-height: 1;
 }
@@ -245,22 +244,22 @@
 .datos-per-hour {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 12px; /* 15*0.8=12 */
   color: #000000;
 }
 
 .datos-action-buttons {
   display: flex;
-  gap: 12px;
+  gap: 10px; /* 12*0.8=9.6 */
   align-items: center;
 }
 
 /* Estilo específico para el botón de favoritos cuadrado */
 .datos-action-buttons .favorito-cuadrado {
-  width: 51px;
-  height: 51px;
+  width: 41px; /* 51*0.8=40.8 */
+  height: 41px; /* 51*0.8=40.8 */
   padding: 0;
-  border-radius: 10px !important;
+  border-radius: 8px !important; /* 10*0.8=8 */
   background-color: #FFFFFF !important;
   border: 1px solid #2D241E !important;
   display: flex;
@@ -274,7 +273,7 @@
 }
 
 .datos-action-buttons .favorito-cuadrado .fav-icon {
-  font-size: 24px !important;
+  font-size: 19px !important; /* 24*0.8=19.2 */
   color: #C8AD7F !important;
   transition: color 0.3s ease;
 }
@@ -286,11 +285,11 @@
 .datos-reserve-btn {
   background-color: #C8AD7F;
   border: 1px solid #2D241E;
-  border-radius: 10px;
-  padding: 14px 32px;
+  border-radius: 8px; /* 10*0.8=8 */
+  padding: 11px 26px; /* 14*0.8=11.2, 32*0.8=25.6 */
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 13px; /* 16*0.8=12.8 */
   color: #2D241E;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -298,7 +297,7 @@
 
 .datos-reserve-btn:hover {
   background-color: #b89b6f;
-  transform: translateY(-2px);
+  transform: translateY(-2px); /* No escalamos la transformación */
 }
 
 /* Secciones de descripción, mapa y reseñas */
@@ -306,7 +305,7 @@
 .datos-mapa-section,
 .datos-resenas-section {
   width: 100%;
-  margin-top: 40px;
+  margin-top: 32px; /* 40*0.8=32 */
 }
 
 .datos-descripcion h2,
@@ -314,15 +313,15 @@
 .datos-resenas-section h2 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  font-size: 26px;
+  font-size: 21px; /* 26*0.8=20.8 */
   color: #2D241E;
-  margin-bottom: 24px;
+  margin-bottom: 19px; /* 24*0.8=19.2 */
 }
 
 .datos-descripcion p {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 13px; /* 16*0.8=12.8 */
   line-height: 1.6;
   color: #000000;
   opacity: 0.7;
@@ -330,10 +329,10 @@
 
 .datos-mapa-container {
   width: 100%;
-  height: 589px;
-  border-radius: 24px;
+  height: 471px; /* 589*0.8=471.2 */
+  border-radius: 19px; /* 24*0.8=19.2 */
   overflow: hidden;
-  border: 2px solid rgba(106, 13, 173, 0.5);
+  border: 2px solid rgba(106, 13, 173, 0.5); /* Los bordes no se escalan */
 }
 
 .datos-mapa-container > div {
@@ -355,7 +354,7 @@
   .datos-gallery-main {
     width: 100%;
     height: auto;
-    aspect-ratio: 830/453;
+    aspect-ratio: 830/453; /* Las proporciones se mantienen */
   }
   
   .datos-gallery-thumbnails {
@@ -363,7 +362,7 @@
   }
   
   .datos-gallery-thumbnails img {
-    width: calc(33.333% - 14px);
+    width: calc(33.333% - 11px); /* 14*0.8=11.2 */
     height: auto;
     aspect-ratio: 277/151;
   }
@@ -371,19 +370,19 @@
 
 @media (max-width: 768px) {
   .detalles-salon-container {
-    padding: 0 16px;
+    padding: 0 13px; /* 16*0.8=12.8 */
   }
   
   .datos-salon-completo {
-    padding: 20px;
+    padding: 16px; /* 20*0.8=16 */
   }
   
   .datos-salon-header h1 {
-    font-size: 24px;
+    font-size: 19px; /* 24*0.8=19.2 */
   }
   
   .datos-mapa-container {
-    height: 400px;
+    height: 320px; /* 400*0.8=320 */
   }
 }
 
@@ -391,7 +390,7 @@
   .datos-salon-actions {
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
+    gap: 16px; /* 20*0.8=16 */
   }
   
   .datos-action-buttons {
@@ -404,12 +403,12 @@
   }
   
   .datos-mapa-container {
-    height: 300px;
+    height: 240px; /* 300*0.8=240 */
   }
 }
 
 .datos-salon-error {
-  padding: 40px;
+  padding: 32px; /* 40*0.8=32 */
   text-align: center;
   color: #666;
   font-family: 'Montserrat', sans-serif;

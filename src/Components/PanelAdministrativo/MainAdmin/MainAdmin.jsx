@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PanelUsuarios from '../PanelUsuarios/PanelUsuarios';
 import PanelSalones from '../PanelSalones/PanelSalones';
@@ -6,13 +6,44 @@ import PanelReservas from '../PanelReservas/PanelReservas';
 import PanelIngresos from '../PanelIngresos/PanelIngresos';
 import PanelAdministrador from '../PanelAdmin/PanelAdministrador';
 import TransaccionService from '../../../store/features/transaccion/transaccionService';
-import { updateSalonStatusAdmin, deleteSalon } from '../../../store/features/salones/salonSlice'; // Importamos las acciones
+import AdminStatsService from '../PanelAdmin/hooks/adminStatsService';
+import { updateSalonStatusAdmin, deleteSalon } from '../../../store/features/salones/salonSlice';
 import Swal from 'sweetalert2';
 import './MainAdmin.css';
 
 const MainAdmin = ({ activePanel, data, fullData, selectedMonth, onMonthChange }) => {
   const dispatch = useDispatch();
-  const [refreshTrigger, setRefreshTrigger] = useState(0); 
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [transaccionesData, setTransaccionesData] = useState({ current: [], previous: [] });
+  const [reservasData, setReservasData] = useState({ current: [], previous: [] });
+  
+  // Cargar datos adicionales usando AdminStatsService
+  useEffect(() => {
+    const cargarDatosAdicionales = async () => {
+      if (!selectedMonth) return;
+      
+      console.log('📥 Cargando datos adicionales con AdminStatsService para:', selectedMonth);
+      
+      try {
+        // Cargar transacciones comparativas
+        const transacciones = await AdminStatsService.fetchTransaccionesComparativa(selectedMonth);
+        setTransaccionesData(transacciones);
+        
+        // Cargar reservas comparativas
+        const reservas = await AdminStatsService.fetchReservasComparativa(selectedMonth);
+        setReservasData(reservas);
+        
+        console.log('✅ Datos adicionales cargados:', {
+          transacciones: transacciones.current.length,
+          reservas: reservas.current.length
+        });
+      } catch (error) {
+        console.error('❌ Error cargando datos adicionales:', error);
+      }
+    };
+    
+    cargarDatosAdicionales();
+  }, [selectedMonth]);
   
   const handleReservaActualizada = () => {
     setRefreshTrigger(prev => prev + 1);
@@ -23,7 +54,6 @@ const MainAdmin = ({ activePanel, data, fullData, selectedMonth, onMonthChange }
     console.log(`🔄 Intentando cambiar estado del salón ${idSalon} a: ${nuevoEstado}`);
     
     try {
-      // Usamos el thunk de Redux en lugar de fetch
       const resultAction = await dispatch(updateSalonStatusAdmin({ 
         salonId: idSalon, 
         nuevoEstado: nuevoEstado 
@@ -41,10 +71,8 @@ const MainAdmin = ({ activePanel, data, fullData, selectedMonth, onMonthChange }
           background: '#FFFFFF'
         });
 
-        // Forzar refresco
         setRefreshTrigger(prev => prev + 1);
       } else if (updateSalonStatusAdmin.rejected.match(resultAction)) {
-        // Si la acción fue rechazada
         throw new Error(resultAction.payload || 'Error al actualizar el estado');
       }
     } catch (error) {
@@ -90,35 +118,118 @@ const MainAdmin = ({ activePanel, data, fullData, selectedMonth, onMonthChange }
     }
   };
 
-  const reservasConTransacciones = useMemo(() => {
-    return TransaccionService.combinarReservasConTransacciones(data?.reservas || [], data?.transacciones || []);
-  }, [data?.reservas, data?.transacciones, refreshTrigger]);
+  const todasLasResenias = useMemo(() => {
+    // Asegurarse de que data?.reservas existe y es un array
+    const reservas = data?.reservas || [];
+    
+    // 🔍 LOG PARA VER LAS RESERVAS CRUDAS
+    console.log('🔍 RESERVAS CRUDAS RECIBIDAS:', reservas);
+    
+    // Verificar cada reserva individualmente
+    reservas.forEach((reserva, index) => {
+      console.log(`Reserva ${index}:`, {
+        id: reserva.id_reserva,
+        tieneResenia: !!reserva.resenia,
+        resenia: reserva.resenia
+      });
+    });
+    
+    // Mapear cada reserva para extraer su reseña si existe
+    const reseniasExtraidas = reservas
+      .map(reserva => reserva.resenia)
+      .filter(resenia => resenia != null);
+
+    console.log('📝 Reseñas extraídas de las reservas:', reseniasExtraidas.length);
+    console.log('📝 DETALLE DE RESEÑAS EXTRAÍDAS:', reseniasExtraidas);
+    
+    return reseniasExtraidas;
+  }, [data?.reservas, data?.resenias]);
+
+  // Enriquecer usuarios con sus reservas y transacciones
+  const usuariosConDatos = useMemo(() => {
+    if (!data?.usuarios) return [];
+    
+    console.log('👥 Enriqueciendo usuarios con datos de transacciones y reservas');
+    
+    return data.usuarios.map(usuario => {
+      // Encontrar todas las reservas del usuario
+      const reservasUsuario = (reservasData.current || []).filter(
+        reserva => reserva.arrendatario?.id_usuario === usuario.id_usuario
+      );
+
+      return {
+        ...usuario,
+        reservas: reservasUsuario
+      };
+    });
+  }, [data?.usuarios, reservasData.current]);
+
+  // Enriquecer salones con sus reservas
+  const salonesConDatos = useMemo(() => {
+    if (!data?.salones) return [];
+    
+    return data.salones.map(salon => {
+      const reservasSalon = (reservasData.current || []).filter(
+        reserva => reserva.salon?.id_salon === salon.id_salon
+      );
+      
+      return {
+        ...salon,
+        reservas: reservasSalon
+      };
+    });
+  }, [data?.salones, reservasData.current]);
+
+  // Transacciones enriquecidas para el panel de ingresos
+  const transaccionesEnriquecidas = useMemo(() => {
+    if (!transaccionesData.current?.length) return [];
+    
+    console.log('💰 Enriqueciendo transacciones con datos de reservas');
+    
+    return transaccionesData.current.map(transaccion => {
+      // Buscar la reserva completa en reservasData.current
+      const reservaCompleta = reservasData.current?.find(
+        r => r.id_reserva === transaccion.reservaIdReserva
+      );
+      
+      if (reservaCompleta) {
+        return {
+          ...transaccion,
+          reserva: reservaCompleta
+        };
+      }
+      return transaccion;
+    });
+  }, [transaccionesData.current, reservasData.current]);
 
   const renderPanel = () => {
-
     switch (activePanel) {
       case 'Usuarios':
+        console.log('👥 PanelUsuarios - Datos enriquecidos:', {
+          usuariosOriginales: data?.usuarios?.length || 0,
+          usuariosEnriquecidos: usuariosConDatos.length,
+          reservasDisponibles: reservasData.current?.length || 0,
+          transaccionesDisponibles: transaccionesData.current?.length || 0
+        });
+        
         return <PanelUsuarios 
-                  usuarios={data?.usuarios || []} 
+                  usuarios={usuariosConDatos} 
+                  reservas={reservasData.current || []}       
+                  transacciones={transaccionesData.current || []} 
                   selectedMonth={selectedMonth}
                   onUserDeleted={(userId) => {
                     console.log('🗑️ Usuario eliminado:', userId);
                   }}
                 />;
+                
       case 'Salones':
-        const todasLasReseniasParaSalones = 
-          fullData?.resenias ||
-          fullData?.reservas?.flatMap(r => r.resenias || []) ||
-          data?.resenias ||
-          [];
-        
-        console.log('🏨 PanelSalones - Reseñas disponibles:', todasLasReseniasParaSalones.length);
+        console.log('🏨 PanelSalones - Reseñas disponibles:', todasLasResenias.length);
         
         return <PanelSalones
-          salones={data?.salones || []}
-          reservas={data?.reservas || []}
-          transacciones={data?.transacciones || []}
-          resenias={todasLasReseniasParaSalones}  // 👈 Usar las reseñas obtenidas
+          salones={salonesConDatos}
+          reservas={reservasData.current || []}
+          transacciones={transaccionesData.current || []}
+          resenias={todasLasResenias}
           selectedMonth={selectedMonth}
           onEliminarSalon={handleEliminarSalon}
           onBloquearSalon={handleBloquearSalon}
@@ -127,60 +238,51 @@ const MainAdmin = ({ activePanel, data, fullData, selectedMonth, onMonthChange }
       case 'Reservas':
         console.log('🎯 Preparando datos para panel de reservas');
         
-        // Obtener todas las reseñas - AHORA DESDE fullData O data
-        // Intenta de diferentes maneras
-        const todasLasResenias = 
-          fullData?.resenias || // Si fullData tiene resenias directamente
-          fullData?.reservas?.flatMap(r => r.resenias || []) || // Si están anidadas en reservas
-          data?.resenias || // Si data tiene resenias
-          []; // Fallback a array vacío
-        
-        console.log('📊 Datos completos:', {
-          reservas: data?.reservas?.length || 0,
-          transacciones: data?.transacciones?.length || 0,
-          salones: data?.salones?.length || 0,
-          usuarios: data?.usuarios?.length || 0,
-          resenias: todasLasResenias.length,
-          fullDataKeys: fullData ? Object.keys(fullData) : 'no fullData',
-          dataKeys: data ? Object.keys(data) : 'no data'
-        });
-        
-        // Si todavía no hay reseñas, intenta hacer una petición aparte
-        if (todasLasResenias.length === 0 && data?.reservas?.length > 0) {
-          console.log('⚠️ No hay reseñas en los datos, verifica que el backend las esté enviando');
-        }
-        
-        // Pasar TODOS los datos al servicio
+        // Pasar TODOS los datos al servicio como en la versión que funciona
         const reservasEnriquecidas = TransaccionService.combinarReservasConTransacciones(
-          data?.reservas || [], 
-          data?.transacciones || [],
-          data?.salones || [],
-          data?.usuarios || [],
-          todasLasResenias
+          reservasData.current || [],      // Reservas del mes actual
+          transaccionesData.current || [], // Transacciones del mes actual
+          data?.salones || [],              // Salones completos (con imágenes)
+          data?.usuarios || [],             // Usuarios completos
+          todasLasResenias                   // Reseñas
         );
         
-  return <PanelReservas 
-    reservas={reservasEnriquecidas} 
-    salones={data?.salones || []} 
-    usuarios={data?.usuarios || []} 
-    selectedMonth={selectedMonth}
-    onReservaActualizada={handleReservaActualizada} 
-  />;
+        console.log('📸 Reservas enriquecidas - verificando imágenes:', 
+          reservasEnriquecidas.slice(0, 3).map(r => ({
+            id: r.id_reserva,
+            tieneSalon: !!r.salon,
+            salonNombre: r.salon?.nombre,
+            tieneFotos: !!(r.salon?.fotos?.length),
+            primeraFoto: r.salon?.fotos?.[0]
+          }))
+        );
+        
+        return <PanelReservas 
+          reservas={reservasEnriquecidas}
+          salones={data?.salones || []} 
+          usuarios={data?.usuarios || []} 
+          selectedMonth={selectedMonth}
+          onReservaActualizada={handleReservaActualizada} 
+        />;
 
       case 'Ingresos':
         return <PanelIngresos
-                  transacciones={data?.transacciones || []}
-                  reservas={data?.reservas || []}        
-                  salones={data?.salones || []}           
+                  transacciones={transaccionesEnriquecidas}
+                  reservas={reservasData.current || []}        
+                  salones={salonesConDatos}           
                   usuarios={data?.usuarios || []}         
                   selectedMonth={selectedMonth}
                 />
       default:
          return <PanelAdministrador 
-          data={data} 
+          data={{
+            ...data,
+            reservas: reservasData.current,
+            transacciones: transaccionesData.current
+          }} 
           fullData={fullData} 
           selectedMonth={selectedMonth}
-          onMonthChange={onMonthChange}  // ✅ Pasar la función
+          onMonthChange={onMonthChange}
         />;
       }
   };

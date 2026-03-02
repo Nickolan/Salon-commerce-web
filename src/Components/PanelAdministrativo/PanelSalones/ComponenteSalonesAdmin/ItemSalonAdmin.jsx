@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { format, parseISO, formatDistanceToNow } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { FiStar, FiUsers, FiKey, FiEye, FiEyeOff, FiDollarSign } from "react-icons/fi";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -62,7 +62,8 @@ const ItemSalonAdmin = ({
   onToggleExpand,
   onEliminar,
   onBloquear,
-  estadisticas
+  estadisticas,
+  reseniasDelSalon = [] // Nueva prop con valor por defecto
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [salonStats, setSalonStats] = useState(estadisticas || {
@@ -75,6 +76,15 @@ const ItemSalonAdmin = ({
     transaccionesCount: 0
   });
 
+  // 🔍 LOG PARA VERIFICAR RESEÑAS
+  useEffect(() => {
+    console.log(`🏨 ItemSalonAdmin - Salón ${salon.id_salon}:`, {
+      nombre: salon.nombre,
+      reseniasDelSalon: reseniasDelSalon?.length || 0,
+      reseniasDelSalon
+    });
+  }, [reseniasDelSalon, salon.id_salon]);
+
   useEffect(() => {
     if (estadisticas) {
       setSalonStats(estadisticas);
@@ -85,11 +95,11 @@ const ItemSalonAdmin = ({
     const estadoLower = estado?.toLowerCase() || '';
 
     if (estadoLower === 'aprobada' || estadoLower === 'aprobado') {
-      return '#55AB52'; // Verde
+      return '#55AB52';
     } else if (estadoLower === 'rechazada' || estadoLower === 'rechazado') {
-      return '#AD1519'; // Rojo (para bloqueado)
+      return '#AD1519';
     } else {
-      return '#787878'; // Gris para 'borrador', 'oculta'
+      return '#787878';
     }
   };
 
@@ -290,7 +300,7 @@ const ItemSalonAdmin = ({
         </div>
       </div>
 
-      {/* Sección expandible - NUEVO FORMATO */}
+      {/* Sección expandible */}
       {isExpanded && (
         <div className="salon-historial">
           <h4 className="historial-titulo">Detalles del Salón</h4>
@@ -362,20 +372,42 @@ const ItemSalonAdmin = ({
               </div>
             )}
 
-            {/* ITEM 4: Reseñas (si existen) */}
-            {salonStats.totalResenias > 0 && (
-              <div className="historial-item-detalle">
-                <div className="historial-texto">
-                  <span className="historial-destacado">{salonStats.rating?.toFixed(1)} ★</span>
-                  <span className="historial-normal"> en {salonStats.totalResenias} reseñas</span>
+            {/* --- ITEMS DE RESEÑAS INDIVIDUALES --- */}
+            {reseniasDelSalon && reseniasDelSalon.length > 0 ? (
+              reseniasDelSalon.map((resenia, index) => (
+                <div key={resenia.id_resenia || index} className="historial-item-detalle">
+                  <div className="historial-texto">
+                    <span className="historial-destacado">
+                      {resenia.reserva?.arrendatario?.nombre || 'Usuario Anónimo'} comentó:
+                    </span>
+                    <span className="historial-normal"> "{resenia.comentario}"</span>
+                  </div>
+                  <div className="historial-footer">
+                    <span className="historial-id">Reseña #{formatId(resenia.id_resenia)}</span>
+                    <span className="historial-tiempo">
+                      {getRelativeTimeDetailed(resenia.fecha_creacion)}
+                    </span>
+                  </div>
+                  <div className="historial-linea"></div>
                 </div>
-                <div className="historial-footer">
-                  <span className="historial-id">Rating promedio</span>
-                  <span className="historial-tiempo">{salonStats.totalResenias} reseñas</span>
+              ))
+            ) : (
+              // Mostrar rating promedio aunque no haya reseñas individuales
+              salonStats.totalResenias > 0 && (
+                <div className="historial-item-detalle">
+                  <div className="historial-texto">
+                    <span className="historial-destacado">{salonStats.rating?.toFixed(1)} ★</span>
+                    <span className="historial-normal"> en {salonStats.totalResenias} reseñas</span>
+                  </div>
+                  <div className="historial-footer">
+                    <span className="historial-id">Rating promedio</span>
+                    <span className="historial-tiempo">{salonStats.totalResenias} reseñas</span>
+                  </div>
+                  <div className="historial-linea"></div>
                 </div>
-                <div className="historial-linea"></div>
-              </div>
+              )
             )}
+            {/* --- FIN DE RESEÑAS INDIVIDUALES --- */}
           </div>
         </div>
       )}

@@ -13,7 +13,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
@@ -26,21 +26,20 @@
   margin: 0;
 }
 
-/* 🔧 ESTILOS PARA EL CALENDARIO MÁS PEQUEÑO */
 .month-selector-wrapper {
   display: flex;
   align-items: center;
 }
 
 .month-selector-input {
-  padding: 0.4rem 0.8rem;  /* Reducido el padding */
+  padding: 0.4rem 0.8rem;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 13px;          /* Texto más pequeño */
+  font-size: 13px;
   color: #2D241E;
   cursor: pointer;
-  width: 140px;             /* Ancho fijo más pequeño */
+  width: 140px;
   background-color: white;
 }
 
@@ -53,23 +52,92 @@
   border-color: #C8AD7F;
 }
 
-.rendimiento-contenido {
-  flex: 1;
+/* Nuevos estilos para el resumen */
+.rendimiento-resumen {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  margin-bottom: 1rem;
+}
+
+.resumen-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.resumen-label {
+  font-size: 13px;
+  color: #757575;
+  font-weight: 500;
+}
+
+.resumen-valor {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.resumen-valor.actual {
+  color: #C8AD7F;
+}
+
+/* Contenedor del gráfico */
+.grafico-contenedor {
+  flex: 1;
+  min-height: 0;
+  padding: 0 0.5rem;
+  position: relative;
+}
+
+.grafico-loading,
+.grafico-placeholder {
+  height: 100%;
+  display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Montserrat', sans-serif;
   color: #757575;
+  background-color: rgba(200, 173, 127, 0.02);
+  border-radius: 12px;
 }
 
-.placeholder-text {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 18px;
-  margin-bottom: 0.5rem;
-}
-
-.placeholder-subtext {
-  font-family: 'Montserrat', sans-serif;
+.grafico-placeholder p {
+  text-align: center;
   font-size: 14px;
-  color: #B3B3B3;
+}
+
+/* Ajustes para mantener el ancho original */
+.paneles-inferiores {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-right: 0;
+  box-sizing: border-box;
+}
+
+.rendimiento-diario {
+  width: 100%;
+  min-width: 0;
+  padding-right: 0;
+}
+
+.actividad-reciente {
+  width: 100%;
+  min-width: 295px;
+  max-width: 360px;
+  margin-right: 0;
+  justify-self: end;
+}
+
+@media (max-width: 1200px) {
+  .actividad-reciente {
+    max-width: 340px;
+  }
 }
