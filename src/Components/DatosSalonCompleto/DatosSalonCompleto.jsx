@@ -32,30 +32,30 @@ const DatosSalonCompleto = ({ salon, isLoaded, esDueno = false, onReservar, onEd
   }
 
   return (
-    <div className="datos-salon-completo">
+    <div className="datos-completo-card">
       {/* Columna izquierda - Galería */}
-      <div className="datos-salon-gallery">
-        <div className="datos-gallery-main">
+      <div className="datos-completo-gallery">
+        <div className="datos-completo-main">
           <img 
             src={salon.fotos?.[selectedImage] || 'placeholder.jpg'} 
             alt={salon.nombre}
           />
           {salon.fotos?.length > 1 && (
-            <div className="datos-gallery-nav">
-              <div onClick={handlePrevImage} className="gallery-nav-btn">&lt;</div>
-              <div onClick={handleNextImage} className="gallery-nav-btn">&gt;</div>
+            <div className="datos-completo-nav">
+              <div onClick={handlePrevImage} className="datos-completo-nav-btn">&lt;</div>
+              <div onClick={handleNextImage} className="datos-completo-nav-btn">&gt;</div>
             </div>
           )}
         </div>
         
         {salon.fotos?.length > 1 && (
-          <div className="datos-gallery-thumbnails">
+          <div className="datos-completo-thumbnails">
             {salon.fotos.slice(0, 3).map((foto, index) => (
               <img
                 key={index}
                 src={foto}
                 alt={`${salon.nombre} ${index + 1}`}
-                className={selectedImage === index ? 'active' : ''}
+                className={selectedImage === index ? 'datos-completo-thumb-active' : ''}
                 onClick={() => setSelectedImage(index)}
               />
             ))}
@@ -64,37 +64,37 @@ const DatosSalonCompleto = ({ salon, isLoaded, esDueno = false, onReservar, onEd
       </div>
 
       {/* Columna derecha - Información */}
-      <div className="datos-salon-info">
-        <div className="datos-salon-header">
-          <h1>{salon.nombre}</h1>
-          <div className="datos-rating-circle">
+      <div className="datos-completo-info">
+        <div className="datos-completo-header">
+          <h1 className="datos-completo-titulo">{salon.nombre}</h1>
+          <div className="datos-completo-rating">
             {salon.promedioCalificacion || '0'}
           </div>
         </div>
 
-        <div className="datos-salon-location">
+        <div className="datos-completo-location">
           <LuMapPin />
           <span>{salon.direccion}</span>
         </div>
 
-        <div className="datos-salon-capacity">
+        <div className="datos-completo-capacity">
           <FiUsers />
           <span>Para {salon.capacidad || 'N/A'} Personas</span>
         </div>
 
-        <div className="datos-connect-business">
+        <div className="datos-completo-connect">
           <FiShoppingCart />
           <span>Connect Business Rooms</span>
         </div>
 
-        <div className="datos-divider"></div>
+        <div className="datos-completo-divider"></div>
 
         {/* Equipamientos */}
         {salon.equipamientos?.length > 0 && (
-          <div className="datos-equipamientos-section">
-            <div className="datos-equipamientos-list">
+          <div className="datos-completo-equipamientos">
+            <div className="datos-completo-equipamientos-list">
               {salon.equipamientos.map((eq, index) => (
-                <span key={index} className="datos-equipamiento-item">{eq}</span>
+                <span key={index} className="datos-completo-equipamiento-item">{eq}</span>
               ))}
             </div>
           </div>
@@ -102,34 +102,34 @@ const DatosSalonCompleto = ({ salon, isLoaded, esDueno = false, onReservar, onEd
 
         {/* Reglas */}
         {salon.reglas?.length > 0 && (
-          <div className="datos-reglas-section">
-            <div className="datos-reglas-list">
+          <div className="datos-completo-reglas">
+            <div className="datos-completo-reglas-list">
               {salon.reglas.map((regla, index) => (
-                <span key={index} className="datos-regla-item">{regla}</span>
+                <span key={index} className="datos-completo-regla-item">{regla}</span>
               ))}
             </div>
           </div>
         )}
 
-        <div className="datos-divider"></div>
+        <div className="datos-completo-divider"></div>
 
         {/* Precio y acciones */}
-        <div className="datos-salon-actions">
-          <div className="datos-price-info">
-            <span className="datos-price">${salon.precio_por_hora?.toLocaleString() || '0'}</span>
-            <span className="datos-per-hour">por hora</span>
+        <div className="datos-completo-actions">
+          <div className="datos-completo-precio">
+            <span className="datos-completo-monto">${salon.precio_por_hora?.toLocaleString() || '0'}</span>
+            <span className="datos-completo-hora">por hora</span>
           </div>
 
           {!esDueno ? (
-            <div className="datos-action-buttons">
+            <div className="datos-completo-botones">
               <BotonFavoritos 
                 id_salon={salon.id_salon}
                 showText={false}
                 isIconOnly={false}
-                customClass="favorito-cuadrado" // Nueva prop para identificar el estilo
+                customClass="datos-completo-favorito"
               />
               <div 
-                className="datos-reserve-btn"
+                className="datos-completo-reservar-btn"
                 onClick={onReservar}
               >
                 Reservar
@@ -137,7 +137,7 @@ const DatosSalonCompleto = ({ salon, isLoaded, esDueno = false, onReservar, onEd
             </div>
           ) : (
             <div 
-              className="datos-reserve-btn"
+              className="datos-completo-editar-btn"
               onClick={onEditar}
             >
               Editar Salón

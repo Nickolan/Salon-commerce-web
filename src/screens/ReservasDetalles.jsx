@@ -8,7 +8,7 @@ import es from 'date-fns/locale/es';
 import { FiCalendar } from "react-icons/fi";
 import { LuMapPin } from "react-icons/lu";
 import { GoClock } from "react-icons/go";
-import ComprobanteView from '../Components/ItemReserva/ComprobanteView'; // <-- Importar el componente
+import ComprobanteView from '../Components/ItemReserva/ComprobanteView'; 
 import './../styles/ReservasDetalles.css';
 
 const ReservasDetalles = () => {
@@ -40,15 +40,44 @@ const ReservasDetalles = () => {
         ? String(selectedReserva.id_reserva).padStart(8, '0') 
         : '00000000';
 
-    // Función para obtener color del estado de transacción
-    const getEstadoTransaccionColor = (estado) => {
+    // Función para obtener color del estado de reserva
+    const getEstadoReservaColor = (estado) => {
         const colores = {
-            'aprobado': '#55AB52',
-            'pendiente': '#787878',
-            'rechazado': '#AD1519',
-            'reembolso': '#FFA500'
+            'confirmada': '#55AB52',
+            'creada': '#787878',
+            'cancelada': '#AD1519',
+            'rechazada': '#AD1519',
+            'completada': '#55AB52'
         };
         return colores[estado] || '#787878';
+    };
+
+    // Función para determinar el botón a mostrar según el estado
+    const getBotonAccion = (estado) => {
+        switch(estado) {
+            case 'creada':
+            case 'confirmada':
+                return {
+                    texto: 'CANCELAR',
+                    accion: () => console.log('Cancelar reserva - implementar después')
+                };
+            case 'completada':
+                return {
+                    texto: 'OPINAR',
+                    accion: () => console.log('Opinar sobre la experiencia - implementar después')
+                };
+            case 'cancelada':
+            case 'rechazada':
+                return {
+                    texto: 'OPINAR',
+                    accion: () => console.log('Opinar - implementar después')
+                };
+            default:
+                return {
+                    texto: 'VOLVER A RESERVAR',
+                    accion: handleVolverAReservar
+                };
+        }
     };
 
     const handleVolverAReservar = () => {
@@ -58,7 +87,7 @@ const ReservasDetalles = () => {
     };
 
     const handleVerComprobante = () => {
-        setShowComprobante(true); // <-- Mostrar el comprobante modal
+        setShowComprobante(true);
     };
 
     if (selectedReservaStatus === 'loading') {
@@ -73,7 +102,7 @@ const ReservasDetalles = () => {
         return <div className="detalles-page error"><h1>Reserva no encontrada</h1></div>;
     }
 
-    const { salon, fecha_reserva, hora_inicio, hora_fin } = selectedReserva;
+    const { salon, fecha_reserva, hora_inicio, hora_fin, estado_reserva } = selectedReserva;
     const transaccion = selectedReserva.transacciones?.[0];
     
     const fechaFormateada = fecha_reserva 
@@ -82,6 +111,8 @@ const ReservasDetalles = () => {
 
     // Puntos para el resumen de pago
     const puntos = '................................................................................';
+    
+    const botonAccion = getBotonAccion(estado_reserva);
 
     return (
         <div className="detalles-page">
@@ -92,9 +123,9 @@ const ReservasDetalles = () => {
                         <span className="reserva-id">#{formattedId}</span>
                         <div 
                             className="estado-badge"
-                            style={{ backgroundColor: getEstadoTransaccionColor(transaccion?.estado_transaccion) }}
+                            style={{ backgroundColor: getEstadoReservaColor(estado_reserva) }}
                         >
-                            {transaccion?.estado_transaccion || 'pendiente'}
+                            {estado_reserva || 'pendiente'}
                         </div>
                     </div>
 
@@ -127,9 +158,9 @@ const ReservasDetalles = () => {
                                 <span className="hora-detalle-texto">{hora_inicio} - {hora_fin}</span>
                             </div>
 
-                            {/* Botón VOLVER A RESERVAR como div onClick */}
-                            <div className="volver-reservar-boton" onClick={handleVolverAReservar}>
-                                VOLVER A RESERVAR
+                            {/* Botón dinámico según estado */}
+                            <div className="volver-reservar-boton" onClick={botonAccion.accion}>
+                                {botonAccion.texto}
                             </div>
                         </div>
                     </div>

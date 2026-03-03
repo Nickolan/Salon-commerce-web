@@ -1,46 +1,41 @@
-/* src/Components/DatosSalonCompleto/DatosSalonCompleto.css */
-
 .detalles-salon-page {
   background-color: #F4F4F6;
   min-height: 100vh;
-  padding: 16px 0 32px 0; /* 20*0.8=16, 40*0.8=32 */
+  padding: 12.6px 0 26.1px 0; 
   font-family: 'Montserrat', sans-serif;
 }
 
-/* Contenedor que centraliza todo el contenido con el mismo padding */
 .detalles-salon-container {
-  max-width: 1157px; /* 1446*0.8=1156.8 */
+  max-width: 936.9px; 
   margin: 0 auto;
-  padding: 0 26px; /* 32*0.8=25.6 */
+  padding: 0 20.7px; 
   display: flex;
   flex-direction: column;
-  gap: 32px; /* 40*0.8=32 */
+  gap: 26.1px; 
 }
 
-/* Estilos para DatosSalonCompleto */
 .datos-salon-completo {
   background-color: #FFFFFF;
   width: 100%;
-  border-radius: 19px; /* 24*0.8=19.2 */
-  padding: 25px 26px; /* 31*0.8=24.8, 32*0.8=25.6 */
+  border-radius: 15.3px; 
+  padding: 19.8px 20.7px; 
   display: flex;
-  gap: 26px; /* 32*0.8=25.6 */
-  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.05); /* 4*0.8=3.2, 20*0.8=16 */
+  gap: 20.7px; 
+  box-shadow: 0 2.7px 12.6px rgba(0, 0, 0, 0.05); 
 }
 
-/* Columna izquierda - Galería */
 .datos-salon-gallery {
-  flex: 0 0 664px; /* 830*0.8=664 */
+  flex: 0 0 538.2px; 
   display: flex;
   flex-direction: column;
-  gap: 16px; /* 20*0.8=16 */
+  gap: 12.6px; 
 }
 
 .datos-gallery-main {
   position: relative;
-  width: 664px; /* 830*0.8=664 */
-  height: 362px; /* 453*0.8=362.4 */
-  border-radius: 19px; /* 24*0.8=19.2 */
+  width: 538.2px; 
+  height: 293.4px; 
+  border-radius: 15.3px; 
   overflow: hidden;
 }
 
@@ -57,13 +52,13 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0 16px; /* 20*0.8=16 */
+  padding: 0 12.6px; 
   pointer-events: none;
 }
 
 .gallery-nav-btn {
-  width: 38px; /* 48*0.8=38.4 */
-  height: 38px; /* 48*0.8=38.4 */
+  width: 30.6px; 
+  height: 30.6px; 
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
@@ -73,7 +68,7 @@
   pointer-events: auto;
   transition: all 0.3s ease;
   color: #C8AD7F;
-  font-size: 19px; /* 24*0.8=19.2 */
+  font-size: 15.3px; 
   font-weight: bold;
 }
 
@@ -83,17 +78,17 @@
 
 .datos-gallery-thumbnails {
   display: flex;
-  gap: 16px; /* 20*0.8=16 */
+  gap: 12.6px; 
 }
 
 .datos-gallery-thumbnails img {
-  width: 222px; /* 277*0.8=221.6 */
-  height: 121px; /* 151*0.8=120.8 */
-  border-radius: 13px; /* 16*0.8=12.8 */
+  width: 180px; 
+  height: 98.1px; 
+  border-radius: 10.8px; 
   object-fit: cover;
   cursor: pointer;
   transition: opacity 0.3s ease;
-  border: 2px solid transparent; /* Los bordes no se escalan */
+  border: 1.8px solid transparent; 
 }
 
 .datos-gallery-thumbnails img:hover {
@@ -104,13 +99,12 @@
   border-color: #C8AD7F;
 }
 
-/* Columna derecha - Información */
 .datos-salon-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 13px; /* 16*0.8=12.8 */
-  padding-top: 5px; /* 6*0.8=4.8 */
+  gap: 10.8px; 
+  padding-top: 3.6px; 
 }
 
 .datos-salon-header {
@@ -122,21 +116,21 @@
 .datos-salon-header h1 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  font-size: 24px; /* 30*0.8=24 */
+  font-size: 19.8px; 
   color: #2D241E;
-  margin: 0 0 10px 0; /* 12*0.8=9.6 */
+  margin: 0 0 8.1px 0; 
 }
 
 .datos-rating-circle {
-  width: 32px; /* 40*0.8=32 */
-  height: 32px; /* 40*0.8=32 */
+  width: 26.1px; 
+  height: 26.1px; 
   border-radius: 50%;
   background-color: #C8AD7F;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 13px; /* 16*0.8=12.8 */
+  font-size: 10.8px; 
   color: #2D241E;
 }
 
@@ -145,20 +139,20 @@
 .datos-connect-business {
   display: flex;
   align-items: center;
-  gap: 6px; /* 8*0.8=6.4 */
+  gap: 4.5px; 
 }
 
 .datos-salon-location svg,
 .datos-salon-capacity svg,
 .datos-connect-business svg {
   color: #C8AD7F;
-  font-size: 13px; /* 16*0.8=12.8 */
+  font-size: 10.8px; 
 }
 
 .datos-salon-location span {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 12px; /* 15*0.8=12 */
+  font-size: 9.9px; 
   color: #2D241E;
   opacity: 0.9;
 }
@@ -166,61 +160,60 @@
 .datos-salon-capacity span {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 12px; /* 15*0.8=12 */
+  font-size: 9.9px; 
   color: #2D241E;
 }
 
 .datos-connect-business span {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 12px; /* 15*0.8=12 */
+  font-size: 9.9px; 
   color: #2D241E;
   opacity: 0.9;
 }
 
 .datos-divider {
   width: 100%;
-  max-width: 403px; /* 504*0.8=403.2 */
-  height: 1px; /* Los bordes no se escalan */
+  max-width: 326.7px; 
+  height: 0.9px; 
   background-color: #C8AD7F;
   opacity: 0.5;
-  margin: 6px 0 16px 0; /* 8*0.8=6.4, 20*0.8=16 */
+  margin: 4.5px 0 12.6px 0;
 }
 
 .datos-equipamientos-section,
 .datos-reglas-section {
-  margin-bottom: 16px; /* 20*0.8=16 */
+  margin-bottom: 12.6px; 
 }
 
 .datos-equipamientos-list,
 .datos-reglas-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px; /* 10*0.8=8 */
+  gap: 6.3px; 
 }
 
 .datos-equipamiento-item {
   background-color: #F4F4F6;
-  border: 1px solid #C8AD7F;
-  border-radius: 16px; /* 20*0.8=16 */
-  padding: 6px 13px; /* 8*0.8=6.4, 16*0.8=12.8 */
+  border: 0.9px solid #C8AD7F; 
+  border-radius: 12.6px; 
+  padding: 4.5px 10.8px; 
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px; /* 14*0.8=11.2 */
+  font-size: 9px; 
   color: #2D241E;
   opacity: 0.9;
 }
 
 .datos-regla-item {
   background-color: rgba(200, 173, 127, 0.2);
-  border-radius: 16px; /* 20*0.8=16 */
-  padding: 6px 13px; /* 8*0.8=6.4, 16*0.8=12.8 */
+  border-radius: 12.6px; 
+  padding: 4.5px 10.8px; 
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px; /* 14*0.8=11.2 */
+  font-size: 9px; 
   color: #2D241E;
   border: none;
 }
 
-/* Precio y acciones */
 .datos-salon-actions {
   display: flex;
   justify-content: space-between;
@@ -236,7 +229,7 @@
 .datos-price {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  font-size: 28px; /* 35*0.8=28 */
+  font-size: 22.5px; 
   color: #2D241E;
   line-height: 1;
 }
@@ -244,24 +237,23 @@
 .datos-per-hour {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 12px; /* 15*0.8=12 */
+  font-size: 9.9px; 
   color: #000000;
 }
 
 .datos-action-buttons {
   display: flex;
-  gap: 10px; /* 12*0.8=9.6 */
+  gap: 8.1px; 
   align-items: center;
 }
 
-/* Estilo específico para el botón de favoritos cuadrado */
 .datos-action-buttons .favorito-cuadrado {
-  width: 41px; /* 51*0.8=40.8 */
-  height: 41px; /* 51*0.8=40.8 */
+  width: 33.3px; 
+  height: 33.3px; 
   padding: 0;
-  border-radius: 8px !important; /* 10*0.8=8 */
+  border-radius: 6.3px !important; 
   background-color: #FFFFFF !important;
-  border: 1px solid #2D241E !important;
+  border: 0.9px solid #2D241E !important; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -273,7 +265,7 @@
 }
 
 .datos-action-buttons .favorito-cuadrado .fav-icon {
-  font-size: 19px !important; /* 24*0.8=19.2 */
+  font-size: 15.3px !important; 
   color: #C8AD7F !important;
   transition: color 0.3s ease;
 }
@@ -284,12 +276,12 @@
 
 .datos-reserve-btn {
   background-color: #C8AD7F;
-  border: 1px solid #2D241E;
-  border-radius: 8px; /* 10*0.8=8 */
-  padding: 11px 26px; /* 14*0.8=11.2, 32*0.8=25.6 */
+  border: 0.9px solid #2D241E; 
+  border-radius: 6.3px; 
+  padding: 9px 20.7px; 
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  font-size: 13px; /* 16*0.8=12.8 */
+  font-size: 10.8px; 
   color: #2D241E;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -297,15 +289,14 @@
 
 .datos-reserve-btn:hover {
   background-color: #b89b6f;
-  transform: translateY(-2px); /* No escalamos la transformación */
+  transform: translateY(-1.8px); 
 }
 
-/* Secciones de descripción, mapa y reseñas */
 .datos-descripcion,
 .datos-mapa-section,
 .datos-resenas-section {
   width: 100%;
-  margin-top: 32px; /* 40*0.8=32 */
+  margin-top: 26.1px; 
 }
 
 .datos-descripcion h2,
@@ -313,15 +304,15 @@
 .datos-resenas-section h2 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  font-size: 21px; /* 26*0.8=20.8 */
+  font-size: 17.1px; 
   color: #2D241E;
-  margin-bottom: 19px; /* 24*0.8=19.2 */
+  margin-bottom: 15.3px; 
 }
 
 .datos-descripcion p {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 13px; /* 16*0.8=12.8 */
+  font-size: 10.8px; 
   line-height: 1.6;
   color: #000000;
   opacity: 0.7;
@@ -329,10 +320,10 @@
 
 .datos-mapa-container {
   width: 100%;
-  height: 471px; /* 589*0.8=471.2 */
-  border-radius: 19px; /* 24*0.8=19.2 */
+  height: 381.6px; 
+  border-radius: 15.3px; 
   overflow: hidden;
-  border: 2px solid rgba(106, 13, 173, 0.5); /* Los bordes no se escalan */
+  border: 1.8px solid rgba(106, 13, 173, 0.5); 
 }
 
 .datos-mapa-container > div {
@@ -340,49 +331,34 @@
   height: 100%;
 }
 
-/* Responsive */
+.datos-salon-error {
+  padding: 26.1px; 
+  text-align: center;
+  color: #666;
+  font-family: 'Montserrat', sans-serif;
+}
+
 @media (max-width: 1400px) {
-  .datos-salon-completo {
-    flex-direction: column;
-  }
-  
-  .datos-salon-gallery {
-    flex: 0 0 auto;
-    width: 100%;
-  }
-  
-  .datos-gallery-main {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 830/453; /* Las proporciones se mantienen */
-  }
-  
-  .datos-gallery-thumbnails {
-    flex-wrap: wrap;
-  }
-  
   .datos-gallery-thumbnails img {
-    width: calc(33.333% - 11px); /* 14*0.8=11.2 */
-    height: auto;
-    aspect-ratio: 277/151;
+    width: calc(33.333% - 8.1px); 
   }
 }
 
 @media (max-width: 768px) {
   .detalles-salon-container {
-    padding: 0 13px; /* 16*0.8=12.8 */
+    padding: 0 10.8px; 
   }
   
   .datos-salon-completo {
-    padding: 16px; /* 20*0.8=16 */
+    padding: 12.6px; 
   }
   
   .datos-salon-header h1 {
-    font-size: 19px; /* 24*0.8=19.2 */
+    font-size: 15.3px; 
   }
   
   .datos-mapa-container {
-    height: 320px; /* 400*0.8=320 */
+    height: 259.2px; 
   }
 }
 
@@ -390,26 +366,10 @@
   .datos-salon-actions {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px; /* 20*0.8=16 */
-  }
-  
-  .datos-action-buttons {
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .datos-gallery-thumbnails img {
-    width: 100%;
+    gap: 12.6px; 
   }
   
   .datos-mapa-container {
-    height: 240px; /* 300*0.8=240 */
+    height: 194.4px; 
   }
-}
-
-.datos-salon-error {
-  padding: 32px; /* 40*0.8=32 */
-  text-align: center;
-  color: #666;
-  font-family: 'Montserrat', sans-serif;
 }

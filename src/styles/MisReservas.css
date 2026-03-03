@@ -1,32 +1,58 @@
-.pagina-mis-reservas {
-  max-width: 900px; /* Ancho máximo para la lista */
+.mis-reservas-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #F4F4F6;
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+}
+
+/* El contenido principal */
+.mis-reservas-content {
+  flex: 1;
+  padding: 80px 32px 2rem 32px; /* 100px * 0.8, 40px * 0.8 */
+  box-sizing: border-box;
+  width: calc(100% - 280px);
+  max-width: 1120px; /* 1400px * 0.8 */
   margin: 0 auto;
-  padding: 100px 1rem 4rem 1rem; /* Padding superior para navbar, inferior para footer */
-  min-height: calc(100vh - 80px); /* Altura mínima */
 }
 
-.titulo-mis-reservas {
-  color: var(--primary-color);
-  text-align: center;
-  margin-bottom: 2.5rem;
-  font-size: 2.2rem;
+/* Header con título y searchbar */
+.mis-reservas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.6rem; /* 2rem * 0.8 */
+  width: 100%;
 }
 
+.mis-reservas-titulo {
+  color: #2D241E;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 28px; /* 35px * 0.8 */
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* El contenedor de la lista de reservas */
 .lista-reservas {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem; /* 1.5rem * 0.8 */
+  margin-top: 0.8rem;
+  width: 100%;
 }
 
-/* Estilos para mensajes de estado (Cargando, Error, Vacío) */
+/* Estilos para mensajes de estado */
 .status-message {
-  padding: 3rem 1rem;
+  padding: 2.4rem 0.8rem; /* 3rem * 0.8 */
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 0.96rem; /* 1.2rem * 0.8 */
   color: #555;
   background-color: #f7f7f7;
-  border-radius: 12px;
-  margin-top: 2rem;
+  border-radius: 10px; /* 12px * 0.8 */
+  margin-top: 1.6rem;
+  width: 100%;
 }
 
 .status-message.error {
@@ -34,12 +60,46 @@
   background-color: #ffd2d2;
 }
 
-/* ... (tus estilos existentes) */
+/* Responsive para tablets */
+@media (max-width: 1200px) {
+  .mis-reservas-content {
+    padding: 80px 24px 2rem 24px; /* 30px * 0.8 */
+    width: calc(100% - 240px);
+  }
+  
+  .mis-reservas-titulo {
+    font-size: 22px; /* 28px * 0.8 */
+  }
+}
 
-.barra-busqueda-container-mis-salones {
-  margin-bottom: 2rem; /* O el espacio que prefieras */
-  /* Puedes añadir max-width si no quieres que ocupe todo el ancho */
-  /* max-width: 600px; */
-  /* margin-left: auto; */
-  /* margin-right: auto; */
+@media (max-width: 1024px) {
+  .mis-reservas-content {
+    padding: 80px 20px 2rem 20px; /* 25px * 0.8 */
+    width: calc(100% - 240px);
+  }
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+  .mis-reservas-layout {
+    flex-direction: column;
+  }
+  
+  .mis-reservas-content {
+    padding: 64px 16px 2rem 16px; /* 80px * 0.8, 20px * 0.8 */
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .mis-reservas-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+  
+  .mis-reservas-titulo {
+    font-size: 19px; /* 24px * 0.8 */
+    text-align: center;
+    white-space: normal;
+  }
 }

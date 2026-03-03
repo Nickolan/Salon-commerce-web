@@ -3,123 +3,136 @@ import { useNavigate } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import es from 'date-fns/locale/es';
 import { useSelector } from 'react-redux';
-// Importamos más iconos para detalles
-import { FiMapPin, FiClock, FiCalendar, FiCheckCircle, FiAlertCircle, FiXCircle, FiInfo, FiTag, FiUser } from "react-icons/fi";
-import './ItemReserva.css'; // Usaremos este archivo CSS actualizado
+import { FiCalendar, FiClock, FiKey } from "react-icons/fi";
+import './ItemReserva.css';
 
 const ItemReserva = ({ reserva }) => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
-  // Navegar al detalle del salón al hacer clic en el nombre
-  const handleVerDetalleSalon = (e) => {
-    e.stopPropagation(); // Evita que se active el clic del contenedor
-    if (reserva.salon?.id_salon) {
-      navigate(`/salon/${reserva.salon.id_salon}`);
-    }
+  // Obtener la transacción asociada a la reserva
+  const transaccion = reserva.transacciones?.[0];
+
+  const handleCardClick = () => {
+    navigate(`/reservas_detalles/${reserva.id_reserva}`);
   };
 
-  // Función para obtener icono, clase y texto según el estado (sin cambios)
+  // Función para obtener color y texto según el estado
   const getEstadoInfo = (estado) => {
     switch (estado) {
       case 'confirmada':
-        return { icon: <FiCheckCircle />, className: 'estado-confirmada', texto: 'Confirmada' };
-      case 'cancelada':
-        return { icon: <FiXCircle />, className: 'estado-cancelada', texto: 'Cancelada' };
-      case 'rechazada':
-        return { icon: <FiXCircle />, className: 'estado-cancelada', texto: 'Rechazada' };
+        return { 
+          bgColor: '#55AB52', 
+          textColor: '#085D14',
+          texto: 'Confirmada' 
+        };
       case 'completada':
-        return { icon: <FiCheckCircle />, className: 'estado-completada', texto: 'Completada' };
+        return { 
+          bgColor: '#55AB52', 
+          textColor: '#085D14',
+          texto: 'Completada' 
+        };
+      case 'cancelada':
+        return { 
+          bgColor: '#AD1519', 
+          textColor: '#AD1519',
+          texto: 'Cancelada' 
+        };
+      case 'rechazada':
+        return { 
+          bgColor: '#AD1519', 
+          textColor: '#AD1519',
+          texto: 'Rechazada' 
+        };
       case 'creada':
       default:
-        return { icon: <FiAlertCircle />, className: 'estado-pendiente', texto: 'Pendiente' };
+        return { 
+          bgColor: '#787878', 
+          textColor: '#787878',
+          texto: 'Creada' 
+        };
     }
-  };
-
-  const handleReseniarClick = (e) => {
-    e.stopPropagation();
-    // Navegamos a la pantalla de reseñar
-    navigate(`/reseniar/${reserva.salon.id_salon}`, {
-      // Pasamos el ID de la reserva en el 'state' de la navegación
-      state: {
-        id_reserva: reserva.id_reserva,
-        // Opcional: pasamos el estado 'desdeMisReservas' que ya usabas
-        desdeMisReservas: true
-      }
-    });
-  };
-
-  const handleCancelarClick = (e) => {
-    e.stopPropagation();
-    if (!user) return; // Seguridad
-    // 3. Navegar a la pantalla de cancelación con los IDs correctos
-    navigate(`/cancelar_salon/${user.id_usuario}/${reserva.id_reserva}`);
   };
 
   const estadoInfo = getEstadoInfo(reserva.estado_reserva);
 
-  // Formatear fechas y horas (sin cambios)
-  const fechaFormateada = reserva.fecha_reserva ? format(parseISO(reserva.fecha_reserva), 'PPP', { locale: es }) : 'Fecha no disponible'; // PPP -> 19 oct 2025
-  const horaInicioFormateada = reserva.hora_inicio;
-  const horaFinFormateada = reserva.hora_fin;
+  // Formatear fecha a dd-mm-aa
+  const fechaFormateada = reserva.fecha_reserva 
+    ? format(parseISO(reserva.fecha_reserva), 'dd-MM-yy') 
+    : 'Fecha no disponible';
+
+  // Formatear hora sin segundos
+  const horaInicioFormateada = reserva.hora_inicio?.substring(0, 5) || '00:00';
+  const horaFinFormateada = reserva.hora_fin?.substring(0, 5) || '00:00';
 
   return (
-    // Usamos clases similares a ItemMiSalon para reutilizar/adaptar estilos
-    <div className={`card-reserva item-reserva estado-${reserva.estado_reserva}`}>
-      <div className='card-imagen-wrapper reserva-imagen-wrapper'>
+    <div 
+      className={`item-reserva-card estado-${reserva.estado_reserva}`}
+      onClick={handleCardClick}
+      role="button"
+      tabIndex={0}
+    >
+      {/* Imagen a la izquierda */}
+      <div className="item-reserva-imagen-wrapper">
         <img
-          src={reserva.salon?.fotos?.[0] || 'https://via.placeholder.com/150'}
+          src={reserva.salon?.fotos?.[0] || 'https://via.placeholder.com/333x141?text=Salón'}
           alt={reserva.salon?.nombre || 'Salón'}
-          className='card-imagen reserva-imagen'
+          className="item-reserva-imagen"
         />
-        {/* Etiqueta de estado sobre la imagen */}
-        <span className={`reserva-estado-tag ${estadoInfo.className}`}>
-          {estadoInfo.icon} {estadoInfo.texto}
-        </span>
       </div>
-      <div className='card-contenido reserva-contenido'>
-        <div className='card-izquierda reserva-info'>
-          <p
-            className='salon-nombre reserva-salon-nombre'
-            onClick={handleVerDetalleSalon}
-            role="button"
-            title="Ver detalles del salón"
-          >
+
+      {/* Contenido a la derecha */}
+      <div className="item-reserva-contenido">
+        {/* Fila superior: Nombre del salón y estado */}
+        <div className="item-reserva-header">
+          <h3 className="item-reserva-titulo">
             {reserva.salon?.nombre || 'Salón no disponible'}
-          </p>
-          <p className='salon-caracteristica'>
-            <FiCalendar className='icono' />
-            {fechaFormateada}
-          </p>
-          <p className='salon-caracteristica'>
-            <FiClock className='icono' />
-            {horaInicioFormateada} - {horaFinFormateada}
-          </p>
-          {/* Opcional: Mostrar el publicador si lo tienes en los datos */}
-          {reserva.salon?.publicador && (
-            <p className='salon-caracteristica secondary'>
-              <FiUser className='icono' />
-              Anfitrión: {reserva.salon.publicador.nombre} {reserva.salon.publicador.apellido}
-            </p>
-          )}
-          <p className='salon-caracteristica secondary direccion' title={reserva.salon?.direccion}>
-            <FiMapPin className='icono' />
-            {reserva.salon?.direccion || 'Dirección no disponible'}
-          </p>
+          </h3>
+          <div 
+            className="item-reserva-estado"
+            style={{ backgroundColor: `${estadoInfo.bgColor}80` }}
+          >
+            <span style={{ color: estadoInfo.textColor }}>
+              {estadoInfo.texto}
+            </span>
+          </div>
         </div>
-        <div className='card-derecha reserva-acciones'>
-          {/* Aquí podrías añadir botones de acción */}
-          {reserva.estado_reserva === 'confirmada' && (
-            <button className="btn-accion cancelar" onClick={handleCancelarClick}>
-              Cancelar
-            </button>
-          )}
-          {reserva.estado_reserva === 'completada' && !reserva.resenia && (
-            <button className="btn-accion resenia" onClick={handleReseniarClick}>
-              Dejar Reseña
-            </button>
-          )}
-          <button className="btn-accion detalle" onClick={() => navigate(`/reservas_detalles/${reserva.id_reserva}`)}>Ver Detalle</button>
+
+        {/* Dirección (sin icono) */}
+        <p className="item-reserva-direccion">
+          {reserva.salon?.direccion || 'Dirección no disponible'}
+        </p>
+
+        {/* Fila de detalles: calendario */}
+        <div className="item-reserva-detalle">
+          <FiCalendar className="item-reserva-icono" />
+          <span className="item-reserva-detalle-texto">{fechaFormateada}</span>
+        </div>
+
+        {/* Fila de detalles: hora */}
+        <div className="item-reserva-detalle">
+          <FiClock className="item-reserva-icono" />
+          <span className="item-reserva-detalle-texto">
+            {horaInicioFormateada} - {horaFinFormateada}
+          </span>
+        </div>
+
+        {/* Fila de detalles: propietario */}
+        <div className="item-reserva-detalle">
+          <FiKey className="item-reserva-icono" />
+          <span className="item-reserva-detalle-texto">
+            Propietario: {reserva.salon?.publicador?.nombre || 'Usuario'} {reserva.salon?.publicador?.apellido || ''}
+          </span>
+        </div>
+
+        {/* Monto */}
+        <div className="item-reserva-footer">
+          <div className="item-reserva-monto-container">
+            <span className="item-reserva-monto">
+              ${transaccion?.monto_pagado?.toLocaleString('es-CL') || '0'}
+            </span>
+            <span className="item-reserva-monto-label">total abonado</span>
+          </div>
         </div>
       </div>
     </div>

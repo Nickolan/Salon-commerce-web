@@ -1,70 +1,48 @@
-/* src/Components/DatosSalonCompleto/DatosSalonCompleto.css */
-
-.detalles-salon-page {
-  background-color: #F4F4F6;
-  min-height: 100vh;
-  padding: 16px 0 32px 0;
-  font-family: 'Montserrat', sans-serif;
-}
-
-/* Contenedor que centraliza todo el contenido con el mismo padding */
-.detalles-salon-container {
-  max-width: 1157px;
-  margin: 0 auto;
-  padding: 0 26px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-/* Estilos para DatosSalonCompleto */
-.datos-salon-completo {
+.datos-completo-card {
   background-color: #FFFFFF;
   width: 100%;
-  border-radius: 19px;
-  padding: 25px 26px;
+  border-radius: 15.3px; 
+  padding: 19.8px 20.7px; 
   display: flex;
-  gap: 26px;
-  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.05);
+  gap: 20.7px; 
+  box-shadow: 0 2.7px 12.6px rgba(0, 0, 0, 0.05); 
 }
 
-/* Columna izquierda - Galería */
-.datos-salon-gallery {
-  flex: 0 0 65%; /* Usamos porcentaje en lugar de px fijos */
-  min-width: 0; /* Permite que flexbox reduzca el tamaño si es necesario */
+.datos-completo-gallery {
+  flex: 0 0 538.2px; 
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12.6px; 
 }
 
-.datos-gallery-main {
+.datos-completo-main {
   position: relative;
-  width: 100%; /* Ahora ocupa todo el ancho disponible en su columna */
-  height: 362px;
-  border-radius: 19px;
+  width: 538.2px; 
+  height: 293.4px; 
+  border-radius: 15.3px; 
   overflow: hidden;
 }
 
-.datos-gallery-main img {
+.datos-completo-main img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.datos-gallery-nav {
+.datos-completo-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 12.6px; 
   pointer-events: none;
 }
 
-.gallery-nav-btn {
-  width: 38px;
-  height: 38px;
+.datos-completo-nav-btn {
+  width: 30.6px; 
+  height: 30.6px; 
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
@@ -74,114 +52,242 @@
   pointer-events: auto;
   transition: all 0.3s ease;
   color: #C8AD7F;
-  font-size: 19px;
+  font-size: 15.3px; 
   font-weight: bold;
 }
 
-.gallery-nav-btn:hover {
+.datos-completo-nav-btn:hover {
   background-color: rgba(255, 255, 255, 0.8);
 }
 
-.datos-gallery-thumbnails {
+.datos-completo-thumbnails {
   display: flex;
-  gap: 16px;
-  overflow-x: auto; /* Permite scroll horizontal si no caben */
+  gap: 12.6px; 
 }
 
-.datos-gallery-thumbnails img {
-  width: 222px;
-  height: 121px;
-  border-radius: 13px;
+.datos-completo-thumbnails img {
+  width: 180px; 
+  height: 98.1px; 
+  border-radius: 10.8px; 
   object-fit: cover;
   cursor: pointer;
   transition: opacity 0.3s ease;
-  border: 2px solid transparent;
-  flex-shrink: 0; /* Evita que las miniaturas se encojan */
+  border: 1.8px solid transparent; 
 }
 
-.datos-gallery-thumbnails img:hover {
+.datos-completo-thumbnails img:hover {
   opacity: 0.8;
 }
 
-.datos-gallery-thumbnails img.active {
+.datos-completo-thumbnails img.datos-completo-thumb-active {
   border-color: #C8AD7F;
 }
 
-/* Columna derecha - Información */
-.datos-salon-info {
+.datos-completo-info {
   flex: 1;
-  min-width: 0; /* Permite que flexbox reduzca el tamaño si es necesario */
   display: flex;
   flex-direction: column;
-  gap: 13px;
-  padding-top: 5px;
+  gap: 10.8px; 
+  padding-top: 3.6px; 
 }
 
-/* ... (el resto de tus estilos internos quedan igual) ... */
+.datos-completo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
 
-/* Responsive */
+.datos-completo-titulo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 19.8px; 
+  color: #2D241E;
+  margin: 0 0 8.1px 0; 
+}
+
+.datos-completo-rating {
+  width: 26.1px; 
+  height: 26.1px; 
+  border-radius: 50%;
+  background-color: #C8AD7F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 10.8px; 
+  color: #2D241E;
+}
+
+.datos-completo-location,
+.datos-completo-capacity,
+.datos-completo-connect {
+  display: flex;
+  align-items: center;
+  gap: 4.5px; 
+}
+
+.datos-completo-location svg,
+.datos-completo-capacity svg,
+.datos-completo-connect svg {
+  color: #C8AD7F;
+  font-size: 10.8px; 
+}
+
+.datos-completo-location span,
+.datos-completo-capacity span,
+.datos-completo-connect span {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 9.9px; 
+  color: #2D241E;
+  opacity: 0.9;
+}
+
+.datos-completo-capacity span {
+  opacity: 1;
+}
+
+.datos-completo-divider {
+  width: 100%;
+  max-width: 326.7px; 
+  height: 0.9px; 
+  background-color: #C8AD7F;
+  opacity: 0.5;
+  margin: 4.5px 0 12.6px 0; 
+}
+
+.datos-completo-equipamientos,
+.datos-completo-reglas {
+  margin-bottom: 12.6px; 
+}
+
+.datos-completo-equipamientos-list,
+.datos-completo-reglas-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6.3px; 
+}
+
+.datos-completo-equipamiento-item {
+  background-color: #F4F4F6;
+  border: 0.9px solid #C8AD7F; 
+  border-radius: 12.6px; 
+  padding: 4.5px 10.8px; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px; 
+  color: #2D241E;
+  opacity: 0.9;
+}
+
+.datos-completo-regla-item {
+  background-color: rgba(200, 173, 127, 0.2);
+  border-radius: 12.6px; 
+  padding: 4.5px 10.8px; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px; 
+  color: #2D241E;
+  border: none;
+}
+
+.datos-completo-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto;
+}
+
+.datos-completo-precio {
+  display: flex;
+  flex-direction: column;
+}
+
+.datos-completo-monto {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 22.5px; 
+  color: #2D241E;
+  line-height: 1;
+}
+
+.datos-completo-hora {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 9.9px; 
+  color: #000000;
+}
+
+.datos-completo-botones {
+  display: flex;
+  gap: 8.1px; 
+  align-items: center;
+}
+
+.datos-completo-favorito {
+  width: 33.3px !important; 
+  height: 33.3px !important; 
+  padding: 0 !important;
+  border-radius: 6.3px !important; 
+  background-color: #FFFFFF !important;
+  border: 0.9px solid #2D241E !important; 
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  position: static !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+.datos-completo-favorito .fav-icon {
+  font-size: 15.3px !important; 
+  color: #C8AD7F !important;
+  transition: color 0.3s ease !important;
+}
+
+.datos-completo-favorito.es-favorito .fav-icon {
+  color: #2D241E !important;
+}
+
+.datos-completo-reservar-btn,
+.datos-completo-editar-btn {
+  background-color: #C8AD7F;
+  border: 0.9px solid #2D241E; 
+  border-radius: 6.3px; 
+  padding: 9px 20.7px; 
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 10.8px; 
+  color: #2D241E;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.datos-completo-reservar-btn:hover,
+.datos-completo-editar-btn:hover {
+  background-color: #b89b6f;
+  transform: translateY(-1.8px); 
+}
+
+.datos-salon-error {
+  padding: 26.1px; 
+  text-align: center;
+  color: #666;
+  font-family: 'Montserrat', sans-serif;
+}
+
 @media (max-width: 1400px) {
-  .datos-salon-completo {
-    flex-direction: column;
-  }
-
-  .datos-salon-gallery {
-    flex: 0 0 auto;
-    width: 100%;
-  }
-
-  .datos-gallery-main {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 830/453;
-  }
-
-  .datos-gallery-thumbnails {
-    flex-wrap: wrap;
-  }
-
-  .datos-gallery-thumbnails img {
-    width: calc(33.333% - 11px);
-    height: auto;
-    aspect-ratio: 277/151;
+  .datos-completo-thumbnails img {
+    width: calc(33.333% - 8.1px); 
   }
 }
 
 @media (max-width: 768px) {
-  .detalles-salon-container {
-    padding: 0 13px;
+  .datos-completo-card {
+    padding: 12.6px; 
   }
-
-  .datos-salon-completo {
-    padding: 16px;
-  }
-
-  .datos-salon-header h1 {
-    font-size: 19px;
-  }
-
-  .datos-mapa-container {
-    height: 320px;
-  }
-}
-
-@media (max-width: 480px) {
-  .datos-salon-actions {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .datos-action-buttons {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .datos-gallery-thumbnails img {
-    width: 100%;
-  }
-
-  .datos-mapa-container {
-    height: 240px;
+  
+  .datos-completo-titulo {
+    font-size: 15.3px; 
   }
 }

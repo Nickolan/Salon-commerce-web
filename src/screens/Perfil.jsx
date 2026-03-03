@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import "../styles/Perfil.css";
 import usuariosData from "../utils/Usuarios.json";
 import { LiaEditSolid } from "react-icons/lia";
-import Sidebar from '../components/Sidebar/Sidebar';
+import Sidebar from '../Components/Sidebar/Sidebar';
 import { useSelector } from 'react-redux';
 
 const Perfil = () => {
