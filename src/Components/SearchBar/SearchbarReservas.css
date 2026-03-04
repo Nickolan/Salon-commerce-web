@@ -7,17 +7,26 @@
   width: 100%;
   justify-content: flex-end;
   position: relative;
+  /* Convertido de px a rem para escalabilidad */
+  margin-top: 1.1875rem; /* 19px → 19/16 = 1.1875rem */
+  margin-left: 2.1875rem; /* 35px → 35/16 = 2.1875rem */
+  padding-left: 10rem; /* Este es grande, considerar si realmente lo necesitas */
 }
 
 .searchbar-reservas-container {
   display: flex;
   align-items: stretch;
-  border-radius: 30px;
-  height: 35px; /* Altura específica del figma */
+  border-radius: 1.875rem; /* 30px → 1.875rem */
+  height: 2.1875rem; /* 35px → 2.1875rem */
   background-color: #ffffff;
   overflow: hidden;
-  min-width: 374px; /* Ancho específico del figma */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  min-width: 23.375rem; /* 374px → 23.375rem */
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.12); /* 2px, 8px */
+  transition: box-shadow 0.2s ease;
+}
+
+.searchbar-reservas-container:focus-within {
+  box-shadow: 0 0.125rem 0.75rem rgba(200, 173, 127, 0.4); /* 2px, 12px */
 }
 
 /* Zona izquierda clickeable */
@@ -28,25 +37,19 @@
   padding: 0 1.2rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  gap: 0;
+  gap: 0.5rem; /* 8px → 0.5rem */
   user-select: none;
 }
 
 .filtros-reservas-container:hover {
-  background-color: #f5f0ea;
+  background-color: rgba(200, 173, 127, 0.3); 
 }
 
-/* Color dorado cuando está activo */
 .filtros-reservas-container.active {
-  background-color: #C8AD7F;
+  background-color: #ffffff;
 }
 
-/* Texto e icono blancos cuando está activo */
-.filtros-reservas-container.active .reserva-filtro-icono,
-.filtros-reservas-container.active .reserva-filtro-texto {
-  color: #FFFFFF;
-}
-
+/* Icono - siempre visible */
 .reserva-filtro-icono {
   color: #C8AD7F;
   font-size: 1rem;
@@ -54,15 +57,42 @@
   transition: color 0.2s ease;
 }
 
+.filtros-reservas-container.active .reserva-filtro-icono {
+  color: #C8AD7F; 
+}
+
 .reserva-filtro-texto {
   font-family: 'Montserrat', sans-serif;
   font-style: italic;
   font-weight: 300;
-  font-size: 14px;
+  font-size: 0.875rem; /* 14px → 0.875rem */
   color: #2D241E;
-  margin-left: 0.5rem;
   white-space: nowrap;
   transition: color 0.2s ease;
+  flex: 1;
+}
+
+.filtros-reservas-container.active .reserva-filtro-texto {
+  color: #2D241E;
+}
+
+/* Input inline cuando está activo */
+.reserva-filtro-input-inline {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.875rem; /* 14px → 0.875rem */
+  color: #2D241E; 
+  padding: 0;
+  width: 100%;
+}
+
+.reserva-filtro-input-inline::placeholder {
+  color: #B3B3B3;
+  font-style: italic;
+  font-weight: 300;
 }
 
 /* Botón Aplicar */
@@ -71,22 +101,24 @@
   align-items: center;
   justify-content: center;
   background-color: #2D241E;
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
+  border-top-right-radius: 1.875rem; /* 30px → 1.875rem */
+  border-bottom-right-radius: 1.875rem; /* 30px → 1.875rem */
   padding: 0 1.2rem;
   color: #C8AD7F;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 0.875rem; /* 14px → 0.875rem */
   cursor: pointer;
   white-space: nowrap;
-  transition: opacity 0.2s ease;
+  transition: all 0.2s ease;
   flex-shrink: 0;
   opacity: 0.7;
 }
 
 .reserva-boton-aplicar:hover:not(.disabled) {
   opacity: 1;
+  background-color: #C8AD7F;
+  color: #2D241E;
 }
 
 .reserva-boton-aplicar.disabled {
@@ -94,61 +126,41 @@
   cursor: not-allowed;
 }
 
-/* Dropdown input */
-.reserva-filtro-dropdown {
-  position: absolute;
-  top: calc(35px + 6px);
-  right: 0; /* Alineado a la derecha con el contenedor */
-  width: 374px; /* Mismo ancho que la barra */
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  padding: 0.6rem 0.8rem;
-  z-index: 200;
-}
-
-.reserva-filtro-text-input {
-  width: 100%;
-  border: 1px solid #e0d9cf;
-  border-radius: 8px;
-  padding: 0.45rem 0.7rem;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  color: #2D241E;
-  outline: none;
-  background: transparent;
-  box-sizing: border-box;
-}
-
-.reserva-filtro-text-input:focus {
-  border-color: #C8AD7F;
-}
-
-.reserva-filtro-text-input::placeholder {
-  color: #aaa;
-  font-style: italic;
-}
-
+/* Contador de resultados */
 .reserva-contador-resultados {
   font-size: 0.9rem;
-  color: #666;
+  color: #787878;
   white-space: nowrap;
   font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
 }
 
-@media (max-width: 768px) {
+/* Responsive */
+@media (max-width: 48rem) { /* 768px → 48rem */
   .searchbar-reservas-wrapper {
     flex-direction: column;
     align-items: stretch;
+    /* Resetear márgenes en móvil si es necesario */
+    margin-left: 0;
+    padding-left: 0;
   }
 
   .searchbar-reservas-container {
     min-width: auto;
     width: 100%;
+    height: 2.75rem; /* 44px → 2.75rem - un poco más grande para móvil */
   }
 
-  .reserva-filtro-dropdown {
-    width: 100%;
-    right: 0;
+  .reserva-contador-resultados {
+    text-align: right;
+  }
+}
+
+/* Para pantallas muy grandes, limitar el crecimiento */
+@media (min-width: 120rem) { /* 1920px → 120rem */
+  .searchbar-reservas-wrapper {
+    max-width: 80rem; /* 1280px → 80rem */
+    margin-left: auto;
+    margin-right: 0;
   }
 }

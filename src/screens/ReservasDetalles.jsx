@@ -9,6 +9,9 @@ import { FiCalendar } from "react-icons/fi";
 import { LuMapPin } from "react-icons/lu";
 import { GoClock } from "react-icons/go";
 import ComprobanteView from '../Components/ItemReserva/ComprobanteView'; 
+import PopupOpinion from '../Components/ItemReserva/PopupAcciones/PopupOpinion';
+import PopupCancelar from '../Components/ItemReserva/PopupAcciones/PopupCancelar';
+import PopupVerMotivo from '../Components/ItemReserva/PopupAcciones/PopupVerMotivo';
 import './../styles/ReservasDetalles.css';
 
 const ReservasDetalles = () => {
@@ -20,6 +23,9 @@ const ReservasDetalles = () => {
     const { isAuthenticated, user } = useSelector((state) => state.auth);
     
     const [showComprobante, setShowComprobante] = useState(false);
+    const [showPopupOpinion, setShowPopupOpinion] = useState(false);
+    const [showPopupCancelar, setShowPopupCancelar] = useState(false);
+    const [showPopupVerMotivo, setShowPopupVerMotivo] = useState(false);
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -59,18 +65,18 @@ const ReservasDetalles = () => {
             case 'confirmada':
                 return {
                     texto: 'CANCELAR',
-                    accion: () => console.log('Cancelar reserva - implementar después')
+                    accion: () => setShowPopupCancelar(true)
                 };
             case 'completada':
                 return {
                     texto: 'OPINAR',
-                    accion: () => console.log('Opinar sobre la experiencia - implementar después')
+                    accion: () => setShowPopupOpinion(true)
                 };
             case 'cancelada':
             case 'rechazada':
                 return {
-                    texto: 'OPINAR',
-                    accion: () => console.log('Opinar - implementar después')
+                    texto: 'VER MOTIVO',
+                    accion: () => setShowPopupVerMotivo(true)
                 };
             default:
                 return {
@@ -78,6 +84,11 @@ const ReservasDetalles = () => {
                     accion: handleVolverAReservar
                 };
         }
+    };
+
+    const handleOpinionSuccess = () => {
+        // Opcional: recargar los datos de la reserva para reflejar cambios
+        dispatch(fetchReservaById(id));
     };
 
     const handleVolverAReservar = () => {
@@ -113,6 +124,10 @@ const ReservasDetalles = () => {
     const puntos = '................................................................................';
     
     const botonAccion = getBotonAccion(estado_reserva);
+
+    const handleCancelSuccess = () => {
+        dispatch(fetchReservaById(id));
+    };
 
     return (
         <div className="detalles-page">
@@ -202,6 +217,29 @@ const ReservasDetalles = () => {
                 <ComprobanteView 
                     reserva={selectedReserva} 
                     onClose={() => setShowComprobante(false)} 
+                />
+            )}
+
+            {showPopupOpinion && (
+                <PopupOpinion
+                    reserva={selectedReserva}
+                    onClose={() => setShowPopupOpinion(false)}
+                    onSuccess={handleOpinionSuccess}
+                />
+            )}
+
+            {showPopupCancelar && (
+                <PopupCancelar
+                    reserva={selectedReserva}
+                    onClose={() => setShowPopupCancelar(false)}
+                    onSuccess={handleCancelSuccess}
+                />
+            )}
+
+            {showPopupVerMotivo && (
+                <PopupVerMotivo
+                    reserva={selectedReserva}
+                    onClose={() => setShowPopupVerMotivo(false)}
                 />
             )}
         </div>

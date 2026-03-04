@@ -18,6 +18,7 @@ const SearchbarReservas = ({
     setLocalFilterValue(filterValue);
   }, [filterValue]);
 
+  // Auto-focus cuando se activa
   useEffect(() => {
     if (isActive && inputRef.current) {
       inputRef.current.focus();
@@ -29,6 +30,7 @@ const SearchbarReservas = ({
     const handleClickOutside = (e) => {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
         setIsActive(false);
+        // Cuando se cierra sin aplicar, mantenemos el filtro actual
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -38,19 +40,17 @@ const SearchbarReservas = ({
   const handleBarClick = () => {
     if (!isActive) {
       setIsActive(true);
-      setLocalFilterValue("");
-      onFilterChange("");
     }
   };
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     setLocalFilterValue(value);
-    onFilterChange(value);
+    onFilterChange(value); // Filtro en tiempo real
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && localFilterValue) {
+    if (e.key === 'Enter') {
       onApplyFilter();
       setIsActive(false);
     }
@@ -58,48 +58,46 @@ const SearchbarReservas = ({
 
   const handleApplyClick = (e) => {
     e.stopPropagation();
-    if (localFilterValue) {
-      onApplyFilter();
-      setIsActive(false);
-    }
+    onApplyFilter();
+    setIsActive(false);
   };
 
   return (
     <div className='searchbar-reservas-wrapper' ref={wrapperRef}>
       <div className="searchbar-reservas-container">
 
-        {/* Zona clickeable */}
+        {/* Zona clickeable - AHORA CON INPUT INLINE */}
         <div
           className={`filtros-reservas-container ${isActive ? 'active' : ''}`}
           onClick={handleBarClick}
         >
           <FiCalendar className="reserva-filtro-icono" />
-          <span className="reserva-filtro-texto">Buscar por nombre del salón</span>
+          
+          {isActive ? (
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Escribe nombre del salón..."
+              value={localFilterValue}
+              onChange={handleInputChange}
+              onKeyPress={handleKeyPress}
+              className="reserva-filtro-input-inline"
+            />
+          ) : (
+            <span className="reserva-filtro-texto">
+              {localFilterValue || "Buscar por nombre del salón"}
+            </span>
+          )}
         </div>
 
-        {/* Botón Aplicar */}
+        {/* Botón Aplicar - SIEMPRE VISIBLE */}
         <div
-          className={`reserva-boton-aplicar ${!isActive || !localFilterValue ? 'disabled' : ''}`}
+          className={`reserva-boton-aplicar ${!localFilterValue ? 'disabled' : ''}`}
           onClick={handleApplyClick}
         >
           Aplicar
         </div>
       </div>
-
-      {/* Input dropdown */}
-      {isActive && (
-        <div className="reserva-filtro-dropdown">
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder="Nombre del salón..."
-            value={localFilterValue}
-            onChange={handleInputChange}
-            onKeyPress={handleKeyPress}
-            className="reserva-filtro-text-input"
-          />
-        </div>
-      )}
 
       {totalResultados !== undefined && (
         <span className='reserva-contador-resultados'>

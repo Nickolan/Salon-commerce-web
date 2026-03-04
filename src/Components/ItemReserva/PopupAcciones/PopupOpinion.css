@@ -1,0 +1,204 @@
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.popup-content {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    padding: 32px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.popup-opinion {
+    max-width: 480px;
+}
+
+.popup-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #B3B3B3;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.popup-close:hover {
+    background-color: #F4F4F6;
+    color: #2D241E;
+}
+
+.popup-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #2D241E;
+    margin-bottom: 24px;
+    text-align: center;
+    padding-right: 20px;
+}
+
+.salon-info-resumen {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background-color: #F4F4F6;
+    border-radius: 12px;
+}
+
+.salon-miniatura {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.salon-detalles-mini h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #2D241E;
+    margin: 0 0 4px 0;
+}
+
+.salon-detalles-mini p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #B3B3B3;
+    margin: 0;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: #2D241E !important; 
+    margin-bottom: 8px;
+}
+
+.estrellas-container {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    padding: 8px 0;
+}
+
+.star-icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    color: #C8AD7F; 
+    transition: all 0.2s;
+}
+
+.star-icon.active {
+    color: #C8AD7F;
+    fill: #C8AD7F;
+}
+
+.star-icon:not(.active) {
+    color: #E0E0E0;
+}
+
+.star-icon:hover {
+    transform: scale(1.1);
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: #C8AD7F;
+}
+
+.caracteres-counter {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: #B3B3B3;
+    margin-top: 4px;
+}
+
+.popup-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.btn-cancelar,
+.btn-opinar {
+    flex: 1;
+    padding: 12px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    text-align: center;
+}
+
+.btn-cancelar {
+    background-color: transparent;
+    border: 1px solid #B3B3B3;
+    color: #2D241E;
+}
+
+.btn-cancelar:hover {
+    background-color: #F4F4F6;
+}
+
+.btn-opinar {
+    background-color: #C8AD7F;
+    color: #2D241E;
+    opacity: 0.6;
+}
+
+.btn-opinar:hover:not(:disabled) {
+    opacity: 1;
+}
+
+.btn-opinar:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}

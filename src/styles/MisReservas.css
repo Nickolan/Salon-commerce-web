@@ -9,10 +9,10 @@
 /* El contenido principal */
 .mis-reservas-content {
   flex: 1;
-  padding: 80px 32px 2rem 32px; /* 100px * 0.8, 40px * 0.8 */
+  padding: 5rem 2rem 2rem 2rem; /* 80px → 5rem, 32px → 2rem */
   box-sizing: border-box;
-  width: calc(100% - 280px);
-  max-width: 1120px; /* 1400px * 0.8 */
+  width: calc(100% - 17.5rem); /* 280px → 17.5rem */
+  max-width: 70rem; /* 1120px → 70rem */
   margin: 0 auto;
 }
 
@@ -21,7 +21,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.6rem; /* 2rem * 0.8 */
+  margin-bottom: 1.6rem; /* 2rem * 0.8 - esto ya está en rem */
   width: 100%;
 }
 
@@ -29,7 +29,7 @@
   color: #2D241E;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  font-size: 28px; /* 35px * 0.8 */
+  font-size: 1.75rem; /* 28px → 1.75rem */
   margin: 0;
   white-space: nowrap;
 }
@@ -38,19 +38,19 @@
 .lista-reservas {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem; /* 1.5rem * 0.8 */
+  gap: 1.2rem;
   margin-top: 0.8rem;
   width: 100%;
 }
 
 /* Estilos para mensajes de estado */
 .status-message {
-  padding: 2.4rem 0.8rem; /* 3rem * 0.8 */
+  padding: 2.4rem 0.8rem;
   text-align: center;
-  font-size: 0.96rem; /* 1.2rem * 0.8 */
+  font-size: 0.96rem;
   color: #555;
   background-color: #f7f7f7;
-  border-radius: 10px; /* 12px * 0.8 */
+  border-radius: 0.625rem; /* 10px → 0.625rem */
   margin-top: 1.6rem;
   width: 100%;
 }
@@ -61,32 +61,32 @@
 }
 
 /* Responsive para tablets */
-@media (max-width: 1200px) {
+@media (max-width: 75rem) { /* 1200px → 75rem */
   .mis-reservas-content {
-    padding: 80px 24px 2rem 24px; /* 30px * 0.8 */
-    width: calc(100% - 240px);
+    padding: 5rem 1.5rem 2rem 1.5rem; /* 24px → 1.5rem */
+    width: calc(100% - 15rem); /* 240px → 15rem */
   }
   
   .mis-reservas-titulo {
-    font-size: 22px; /* 28px * 0.8 */
+    font-size: 1.375rem; /* 22px → 1.375rem */
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 64rem) { /* 1024px → 64rem */
   .mis-reservas-content {
-    padding: 80px 20px 2rem 20px; /* 25px * 0.8 */
-    width: calc(100% - 240px);
+    padding: 5rem 1.25rem 2rem 1.25rem; /* 20px → 1.25rem */
+    width: calc(100% - 15rem);
   }
 }
 
 /* Responsive para móviles */
-@media (max-width: 768px) {
+@media (max-width: 48rem) { /* 768px → 48rem */
   .mis-reservas-layout {
     flex-direction: column;
   }
   
   .mis-reservas-content {
-    padding: 64px 16px 2rem 16px; /* 80px * 0.8, 20px * 0.8 */
+    padding: 4rem 1rem 2rem 1rem; /* 64px → 4rem, 16px → 1rem */
     width: 100%;
     max-width: 100%;
   }
@@ -98,7 +98,7 @@
   }
   
   .mis-reservas-titulo {
-    font-size: 19px; /* 24px * 0.8 */
+    font-size: 1.1875rem; /* 19px → 1.1875rem */
     text-align: center;
     white-space: normal;
   }

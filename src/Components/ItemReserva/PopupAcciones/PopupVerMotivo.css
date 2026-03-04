@@ -1,0 +1,256 @@
+.popup-ver-motivo {
+    max-width: 500px;
+}
+
+.reserva-info-resumen {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background-color: #F4F4F6;
+    border-radius: 12px;
+}
+
+.reserva-detalles-mini {
+    flex: 1;
+}
+
+.reserva-detalles-mini h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #2D241E;
+    margin: 0 0 8px 0;
+}
+
+.reserva-fecha {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #2D241E;
+    margin: 0 0 4px 0;
+    text-transform: capitalize;
+}
+
+.reserva-hora {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    color: #C8AD7F;
+    margin: 0 0 4px 0;
+}
+
+.reserva-estado {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    margin: 0;
+}
+
+.motivo-detalle {
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.motivo-item {
+    margin-bottom: 16px;
+}
+
+.motivo-label {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: #B3B3B3;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.motivo-valor {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: #2D241E;
+    line-height: 1.4;
+}
+
+.motivo-valor.cancelado-por {
+    text-transform: capitalize;
+    color: #AD1519;
+}
+
+.motivo-valor.monto-reembolso {
+    color: #55AB52;
+    font-size: 16px;
+}
+
+.motivo-divider {
+    height: 1px;
+    background-color: #E0E0E0;
+    margin: 20px 0;
+}
+
+.motivo-texto {
+    margin-bottom: 20px;
+}
+
+.motivo-contenido {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #2D241E;
+    line-height: 1.6;
+    background-color: #F8F9FA;
+    padding: 16px;
+    border-radius: 8px;
+    border-left: 3px solid #C8AD7F;
+    margin-top: 8px;
+}
+
+.politica-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: #F4F4F6;
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+.politica-label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: #2D241E;
+}
+
+.politica-valor {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.politica-valor.total {
+    color: #55AB52;
+}
+
+.politica-valor.parcial {
+    color: #F4A261;
+}
+
+.politica-valor.nulo {
+    color: #AD1519;
+}
+
+.loading-container,
+.error-container,
+.sin-datos {
+    text-align: center;
+    padding: 30px;
+    font-family: 'Montserrat', sans-serif;
+    color: #B3B3B3;
+}
+
+.error-mensaje {
+    color: #AD1519;
+}
+
+.popup-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn-cancelar {
+    flex: 1;
+    padding: 12px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    text-align: center;
+    background-color: #C8AD7F;
+    color: #2D241E;
+    opacity: 0.8;
+}
+
+.btn-cancelar:hover {
+    opacity: 1;
+}
+
+.loading-container {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.spinner {
+    border: 3px solid #F4F4F6;
+    border-top: 3px solid #C8AD7F;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-container {
+    text-align: center;
+    padding: 30px 20px;
+    background-color: #FFF5F5;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.error-mensaje {
+    color: #AD1519;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.error-sugerencia {
+    color: #787878;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    margin: 0;
+}
+
+.sin-datos {
+    text-align: center;
+    padding: 40px 20px;
+    color: #B3B3B3;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+
+.btn-cerrar {
+    flex: 1;
+    padding: 12px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    text-align: center;
+    background-color: #C8AD7F;
+    color: #2D241E;
+    opacity: 0.8;
+}
+
+.btn-cerrar:hover {
+    opacity: 1;
+}

@@ -1,0 +1,153 @@
+.popup-cancelar {
+    max-width: 500px;
+}
+
+.reserva-info-resumen {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background-color: #F4F4F6;
+    border-radius: 12px;
+}
+
+.reserva-detalles-mini {
+    flex: 1;
+}
+
+.reserva-detalles-mini h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #2D241E;
+    margin: 0 0 8px 0;
+}
+
+.reserva-fecha {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #2D241E;
+    margin: 0 0 4px 0;
+    text-transform: capitalize;
+}
+
+.reserva-hora {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    color: #C8AD7F;
+    margin: 0;
+}
+
+.reembolso-info {
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.reembolso-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.reembolso-titulo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #2D241E;
+}
+
+.reembolso-porcentaje {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #55AB52;
+}
+
+.reembolso-porcentaje.sin-reembolso {
+    color: #AD1519;
+}
+
+.reembolso-detalle {
+    margin-bottom: 16px;
+}
+
+.reembolso-linea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: #2D241E;
+}
+
+.monto-reembolso {
+    font-weight: 700;
+    color: #55AB52;
+}
+
+.reembolso-nota {
+    background-color: #F8F9FA;
+    padding: 12px;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+}
+
+.reembolso-nota p {
+    margin: 0;
+    padding: 4px 0;
+}
+
+.reembolso-nota p:first-child {
+    color: #55AB52;
+}
+
+.reembolso-nota p:nth-child(2) {
+    color: #F4A261;
+}
+
+.reembolso-nota p:last-child {
+    color: #AD1519;
+}
+
+.btn-confirmar-cancelar {
+    flex: 1;
+    padding: 12px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    text-align: center;
+    background-color: #AD1519;
+    color: white;
+    opacity: 0.8;
+}
+
+.btn-confirmar-cancelar:hover:not(:disabled) {
+    opacity: 1;
+}
+
+.btn-confirmar-cancelar:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Para el motivo específico de cancelación */
+.motivo-ayuda {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    color: #B3B3B3;
+    margin-top: 4px;
+}
