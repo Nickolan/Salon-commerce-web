@@ -1,23 +1,18 @@
-// src/screens/EditarPerfil.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { updateUser, uploadProfilePic } from '../store/features/auth/authSlice'; // Asegúrate que la ruta sea correcta
+import { updateUser, uploadProfilePic } from '../store/features/auth/authSlice';
 import Swal from 'sweetalert2';
 import { StandaloneSearchBox } from "@react-google-maps/api";
-import "../styles/EditarPerfil.css"; // Asegúrate que la ruta sea correcta
-import { LiaEditSolid } from "react-icons/lia";
-import { IoSaveOutline } from "react-icons/io5";
-import Sidebar from '../components/Sidebar/Sidebar';
-import { FaCamera, FaMapMarkerAlt } from 'react-icons/fa';
+import "../styles/EditarPerfil.css";
+import { CiCamera } from "react-icons/ci";
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import Sidebar from '../Components/Sidebar/Sidebar';
 
-const EditarPerfil = ({ isLoaded }) => { // Asegúrate de recibir isLoaded si lo usas con Google Maps API
+const EditarPerfil = ({ isLoaded }) => {
     const { user: usuarioActual, status } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    console.log(usuarioActual);
-    
 
     const [formData, setFormData] = useState({
         nombre: '',
@@ -29,26 +24,10 @@ const EditarPerfil = ({ isLoaded }) => { // Asegúrate de recibir isLoaded si lo
         nombre_usuario: '',
         latitud: null,
         longitud: null,
-        ubicacion: ""
+        email: ''
     });
 
     const [direccionInput, setDireccionInput] = useState("");
-    const [camposEditables, setCamposEditables] = useState({});
-    const [errores, setErrores] = useState({}); // Asegúrate de implementar la lógica de errores si es necesaria
-
-    // --- CORRECCIÓN AQUÍ ---
-    const [coloresCampos, setColoresCampos] = useState({
-        nombre: 'gray',
-        apellido: 'gray',
-        dni: 'gray',
-        ciudad: 'gray',
-        provincia: 'gray',
-        telefono: 'gray',
-        nombre_usuario: 'gray', // Generalmente no editable
-        ubicacion: 'gray' // Inicializar 'ubicacion'
-    });
-    // --- FIN CORRECCIÓN ---
-
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef(null);
     const inputAutocompleteRef = useRef();
@@ -65,20 +44,22 @@ const EditarPerfil = ({ isLoaded }) => { // Asegúrate de recibir isLoaded si lo
                 nombre_usuario: usuarioActual.nombre_usuario || "",
                 latitud: usuarioActual.latitud || null,
                 longitud: usuarioActual.longitud || null,
+                email: usuarioActual.email || ""
             });
-            // Inicializar direccionInput basado en datos existentes si es posible
-            if (usuarioActual.ciudad || usuarioActual.provincia) {
-                 // Podrías intentar reconstruir una dirección o dejarla vacía
-                 // setDireccionInput(`${usuarioActual.ciudad || ''}, ${usuarioActual.provincia || ''}`);
-                 // O simplemente mostrar ciudad/provincia en sus campos si los mantienes
-            } else if (usuarioActual.latitud && usuarioActual.longitud) {
-                // Idealmente Geocoding inverso aquí para obtener la dirección
-                setDireccionInput(`Lat: ${usuarioActual.latitud}, Lng: ${usuarioActual.longitud}`); // Placeholder
-            } else {
-                setDireccionInput("");
+
+            // Inicializar direccionInput si hay latitud/longitud
+            if (usuarioActual.ciudad && usuarioActual.provincia) {
+                setDireccionInput(`${usuarioActual.ciudad}, ${usuarioActual.provincia}`);
             }
         }
     }, [usuarioActual]);
+
+    // Función para formatear la fecha
+    const formatFechaRegistro = (fecha) => {
+        if (!fecha) return 'Usuario Registrado desde 2025';
+        const año = new Date(fecha).getFullYear();
+        return `Usuario Registrado desde ${año}`;
+    };
 
     const handlePlaceChanged = () => {
         if (!inputAutocompleteRef.current) return;
@@ -90,8 +71,6 @@ const EditarPerfil = ({ isLoaded }) => { // Asegúrate de recibir isLoaded si lo
         if (place && place.geometry?.location) {
             const lat = place.geometry.location.lat();
             const lng = place.geometry.location.lng();
-
-            console.log(lat, lng);
             
             const direccionFormateada = place.formatted_address || "";
 
@@ -101,24 +80,9 @@ const EditarPerfil = ({ isLoaded }) => { // Asegúrate de recibir isLoaded si lo
                 ...prev,
                 latitud: lat,
                 longitud: lng,
-                // Opcional: auto-rellenar ciudad/provincia
                 ciudad: place.address_components?.find(c => c.types.includes('locality'))?.long_name || prev.ciudad,
                 provincia: place.address_components?.find(c => c.types.includes('administrative_area_level_1'))?.long_name || prev.provincia,
             }));
-
-            setCamposEditables(prev => ({ ...prev, ubicacion: true }));
-            setColoresCampos(prev => ({ ...prev, ubicacion: 'purple' })); // Cambiar a 'purple' al editar
-        }
-    };
-
-    const toggleEdicion = (campo) => {
-        const estaEditando = !camposEditables[campo];
-        setCamposEditables(prev => ({ ...prev, [campo]: estaEditando }));
-        // Si deja de editar (hace clic en guardar), vuelve a gris, sino a púrpura
-        setColoresCampos(prev => ({ ...prev, [campo]: estaEditando ? 'purple' : 'gray' }));
-        // Si deja de editar el campo 'ubicacion' y no hay lat/lng, resetea el input visual
-        if (campo === 'ubicacion' && !estaEditando && (!formData.latitud || !formData.longitud)) {
-             setDireccionInput("");
         }
     };
 
@@ -128,120 +92,66 @@ const EditarPerfil = ({ isLoaded }) => { // Asegúrate de recibir isLoaded si lo
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setErrores({}); // Limpia errores
+    e.preventDefault();
 
-        const datosParaActualizar = {};
-        let huboCambios = false; // Flag para saber si hay algo que guardar
+    const datosParaActualizar = {};
+    let huboCambios = false;
 
-        // Itera sobre los campos editables marcados
-        Object.keys(camposEditables).forEach(campo => {
-            if (camposEditables[campo]) { // Si este campo estaba siendo editado
-                if (campo === 'ubicacion') {
-                    // Manejo especial para ubicación (lat/lng)
-                    console.log("Manejo especial para ubicacion");
-                    
-                    if (formData.latitud !== usuarioActual.latitud || formData.longitud !== usuarioActual.longitud) {
-                        console.log("Modificando datos");
-                        
-                        datosParaActualizar.latitud = formData.latitud;
-                        datosParaActualizar.longitud = formData.longitud;
-                         // Si la ubicación cambió, también incluimos ciudad y provincia
-                        datosParaActualizar.ciudad = formData.ciudad || null; // Enviar null si está vacío
-                        datosParaActualizar.provincia = formData.provincia || null;
-                        huboCambios = true;
-                    } else {
-                        console.log("No se modifico por x o y razon");
-                        
-                    }
-                } else if (formData[campo] !== usuarioActual[campo]) {
-                    // Para otros campos, solo incluir si el valor cambió
-                    datosParaActualizar[campo] = formData[campo] === '' ? null : formData[campo]; // Enviar null si se vació un campo opcional
-                    huboCambios = true;
-                }
-            }
-        });
-
-        // Caso especial si solo se modificó ciudad o provincia sin tocar ubicación
-        if (camposEditables.ciudad && !camposEditables.ubicacion && formData.ciudad !== usuarioActual.ciudad) {
-            datosParaActualizar.ciudad = formData.ciudad || null;
-            huboCambios = true;
-        }
-         if (camposEditables.provincia && !camposEditables.ubicacion && formData.provincia !== usuarioActual.provincia) {
-            datosParaActualizar.provincia = formData.provincia || null;
-            huboCambios = true;
-        }
-
-
-        // --- CORRECCIÓN EN LA LÓGICA DE GUARDADO ---
-        if (!huboCambios) { // Usar el flag huboCambios en lugar de Object.keys
-            Swal.fire('Información', 'No hay cambios para guardar.', 'info');
-            // Opcional: resetear los colores a gris si no hay cambios
-             const resetColoresCampos = { ...coloresCampos };
-             Object.keys(resetColoresCampos).forEach(key => {
-                  if (camposEditables[key]) resetColoresCampos[key] = 'gray'; // Volver a gris solo los que se intentaron editar
-             });
-             setColoresCampos(resetColoresCampos);
-             setCamposEditables({}); // Limpiar campos editables
-
-            return; // Detener si no hay nada que guardar
-        }
-        // --- FIN CORRECCIÓN ---
-
-
-        console.log("Datos a enviar:", datosParaActualizar); // <-- Log para depuración
-
-        const resultAction = await dispatch(updateUser({
-            id: usuarioActual.id_usuario,
-            userData: datosParaActualizar // Envía solo los datos modificados
-        }));
-
-        if (updateUser.fulfilled.match(resultAction)) {
-            Swal.fire({
-                title: '¡Éxito!',
-                text: 'Tu perfil ha sido actualizado correctamente.',
-                icon: 'success',
-                timer: 2000,
-                showConfirmButton: false
-            });
-            // Resetea los campos editables a 'false' y colores a 'gray' después de guardar exitosamente
-            const resetCamposEditables = {};
-            const resetColoresCampos = { ...coloresCampos }; // Copia estado actual
-            Object.keys(camposEditables).forEach(key => {
-                 if (camposEditables[key]) { // Solo resetea los que se guardaron
-                     resetCamposEditables[key] = false;
-                     resetColoresCampos[key] = 'gray';
-                 }
-            });
-             // Asegurarse de que los no editables sigan en gris
-             resetColoresCampos.nombre_usuario = 'gray';
-             // resetColoresCampos.email = 'gray';
-
-            setCamposEditables(resetCamposEditables);
-            setColoresCampos(resetColoresCampos);
-
-            // navigate("/perfil"); // Descomentar si quieres redirigir
+    // Comparar cada campo con el valor original
+    Object.keys(formData).forEach(campo => {
+        // Incluimos email y nombre_usuario ahora
+        if (formData[campo] !== usuarioActual[campo]) {
+        if (campo === 'dni' || campo === 'ciudad' || campo === 'provincia' || campo === 'telefono') {
+            datosParaActualizar[campo] = formData[campo] === '' ? null : formData[campo];
         } else {
-            Swal.fire({
-                title: 'Error',
-                // Mostrar el mensaje específico del backend si existe
-                text: resultAction.payload?.message || resultAction.payload || 'No se pudieron guardar los cambios.',
-                icon: 'error',
-            });
-            console.error("Error al actualizar:", resultAction.payload); // Log del error
+            datosParaActualizar[campo] = formData[campo];
         }
-    };
+        huboCambios = true;
+        }
+    });
 
-    const getInputClassName = (campo) => {
-        // Asegúrate que coloresCampos[campo] siempre exista
-        return coloresCampos[campo] === 'purple' ? 'input-purple' : 'input-gray';
+    // Verificar cambios en ubicación
+    if (formData.latitud !== usuarioActual.latitud || formData.longitud !== usuarioActual.longitud) {
+        datosParaActualizar.latitud = formData.latitud;
+        datosParaActualizar.longitud = formData.longitud;
+        huboCambios = true;
+    }
+
+    if (!huboCambios) {
+        Swal.fire('Información', 'No hay cambios para guardar.', 'info');
+        return;
+    }
+
+    console.log('Datos a enviar:', datosParaActualizar); // Para debugging
+
+    const resultAction = await dispatch(updateUser({
+        id: usuarioActual.id_usuario,
+        userData: datosParaActualizar
+    }));
+
+    if (updateUser.fulfilled.match(resultAction)) {
+        Swal.fire({
+        title: '¡Éxito!',
+        text: 'Tu perfil ha sido actualizado correctamente.',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false
+        });
+        navigate("/perfil");
+    } else {
+        Swal.fire({
+        title: 'Error',
+        text: resultAction.payload?.message || 'No se pudieron guardar los cambios.',
+        icon: 'error',
+        });
+    }
     };
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
         setUploading(true);
-        const formDataApi = new FormData(); // Renombrar para evitar conflicto con formData del estado
+        const formDataApi = new FormData();
         formDataApi.append('file', file);
         const resultAction = await dispatch(uploadProfilePic(formDataApi));
         setUploading(false);
@@ -250,7 +160,6 @@ const EditarPerfil = ({ isLoaded }) => { // Asegúrate de recibir isLoaded si lo
         } else {
             Swal.fire('Error', resultAction.payload || 'No se pudo subir la imagen.', 'error');
         }
-        // Limpiar el input para permitir subir la misma imagen de nuevo si falla
         if (fileInputRef.current) {
             fileInputRef.current.value = "";
         }
@@ -262,119 +171,193 @@ const EditarPerfil = ({ isLoaded }) => { // Asegúrate de recibir isLoaded si lo
         }
     };
 
+    const handleCancelar = () => {
+        navigate("/perfil");
+    };
+
     if (!usuarioActual) {
-        return <div className="EditProfile-page"><h1>Cargando perfil...</h1></div>;
+        return <div className="edit-profile-wrapper"><h1>Cargando perfil...</h1></div>;
     }
 
     return (
-        <div className="EditProfile-page">
-            <Sidebar/>
-            <div className='edit-wrapper'>
-                <div className='titulo'>
-                    <h1>Editar Perfil</h1>
-                    <div className="profile-pic-container">
-                        <img
-                            src={usuarioActual.foto_perfil || "https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"}
-                            alt="Foto de perfil"
-                            className="profile-pic"
-                            onClick={handleImageClick} // Permitir clic en la imagen
-                            style={{ cursor: 'pointer' }} // Indicar que es clickeable
-                        />
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            onChange={handleFileChange}
-                            accept="image/png, image/jpeg, image/webp" // Aceptar webp
-                            style={{ display: 'none' }}
-                        />
-                         <button
-                            className="edit-pic-button"
-                            onClick={handleImageClick}
-                            disabled={uploading}
-                            type="button" // Evitar que envíe el formulario
-                        >
-                            {uploading ? <div className="spinner-small"></div> : <FaCamera />}
-                        </button>
+        <div className='edit-profile-wrapper'>
+            <Sidebar/> 
+            
+            <main className='edit-profile-content'>
+                {/* Header Card - similar a Perfil pero con overlay y botones diferentes */}
+                <div className='edit-profile-header-card'>
+                    <div className='edit-profile-header-content'>
+                        <div className="edit-profile-pic-container" onClick={handleImageClick}>
+                            <img 
+                                src={usuarioActual.foto_perfil || "https://storyblok-cdn.photoroom.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"} 
+                                alt="Perfil" 
+                                className="edit-profile-page-pic"
+                            />
+                            <div className="edit-profile-pic-overlay">
+                                <CiCamera className="edit-profile-camera-icon" />
+                            </div>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                                accept="image/png, image/jpeg, image/webp"
+                                style={{ display: 'none' }}
+                            />
+                        </div>
+                        <div className='edit-profile-name-section'>
+                            <h1 className="edit-profile-user-name">
+                                {usuarioActual.nombre} {usuarioActual.apellido}
+                            </h1>
+                            <p className="edit-profile-register-date">
+                                {formatFechaRegistro(usuarioActual.fecha_creacion)}
+                            </p>
+                        </div>
+                        <div className='edit-profile-buttons-container'>
+                            <div className="edit-profile-cancel-button" onClick={handleCancelar}>
+                                <span className="edit-profile-cancel-text">CANCELAR</span>
+                            </div>
+                            <div className="edit-profile-save-button" onClick={handleSubmit}>
+                                <span className="edit-profile-save-text">GUARDAR</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="containers-wrapper">
-                    {/* Contenedor Izquierdo */}
-                    <div className="Left-container">
-                        {/* Usamos un solo form para todo */}
-                        <form className="registro-form" onSubmit={handleSubmit} noValidate>
-                            {/* Nombre */}
-                            <div className="form-group">
-                                <label htmlFor="nombre">Nombre</label>
-                                <div className="input-container">
-                                    <input
-                                        type="text"
-                                        id="nombre"
-                                        name="nombre"
-                                        className={getInputClassName('nombre')}
-                                        value={formData.nombre}
-                                        onChange={handleChange}
-                                        disabled={!camposEditables.nombre}
-                                    />
-                                    {camposEditables.nombre ? (
-                                        <IoSaveOutline className="logo" onClick={() => toggleEdicion('nombre')} />
-                                    ) : (
-                                        <LiaEditSolid className="logo" onClick={() => toggleEdicion('nombre')} />
-                                    )}
+
+                {/* Formulario de edición */}
+                <form onSubmit={handleSubmit}>
+                    <div className='edit-profile-cards-grid'>
+                        {/* Container Izquierdo - Información Personal */}
+                        <div className='edit-profile-info-card'>
+                            <h2 className="edit-profile-card-title">Información Personal</h2>
+                            
+                            {/* Campo Nombre y Apellido (dividido en dos) */}
+                            <div className="edit-profile-field">
+                                <label className="edit-profile-field-label">Nombre Completo</label>
+                                <div className="edit-profile-name-fields">
+                                    <div className="edit-profile-input-wrapper">
+                                        <input
+                                            type="text"
+                                            name="nombre"
+                                            value={formData.nombre}
+                                            onChange={handleChange}
+                                            placeholder={!formData.nombre ? "Nombre" : ""}
+                                            className="edit-profile-input"
+                                        />
+                                    </div>
+                                    <div className="edit-profile-input-wrapper">
+                                        <input
+                                            type="text"
+                                            name="apellido"
+                                            value={formData.apellido}
+                                            onChange={handleChange}
+                                            placeholder={!formData.apellido ? "Apellido" : ""}
+                                            className="edit-profile-input"
+                                        />
+                                    </div>
                                 </div>
-                                {errores.nombre && <p className="error-mensaje">{errores.nombre}</p>}
                             </div>
 
-                            {/* Apellido */}
-                            <div className="form-group">
-                                <label htmlFor="apellido">Apellido</label>
-                                <div className="input-container">
+                            {/* Campo Número de Documento */}
+                            <div className="edit-profile-field">
+                                <label className="edit-profile-field-label">Número de Documento</label>
+                                <div className="edit-profile-input-wrapper">
                                     <input
                                         type="text"
-                                        id="apellido"
-                                        name="apellido"
-                                        className={getInputClassName('apellido')}
-                                        value={formData.apellido}
-                                        onChange={handleChange}
-                                        disabled={!camposEditables.apellido}
-                                    />
-                                    {camposEditables.apellido ? (
-                                        <IoSaveOutline className="logo" onClick={() => toggleEdicion('apellido')} />
-                                    ) : (
-                                        <LiaEditSolid className="logo" onClick={() => toggleEdicion('apellido')} />
-                                    )}
-                                </div>
-                                {errores.apellido && <p className="error-mensaje">{errores.apellido}</p>}
-                            </div>
-
-                             {/* DNI */}
-                             <div className="form-group">
-                                <label htmlFor="dni">DNI</label>
-                                <div className="input-container">
-                                    <input
-                                        type="text" // Usar text para permitir borrar completamente
-                                        id="dni"
                                         name="dni"
-                                        className={getInputClassName('dni')}
-                                        value={formData.dni}
+                                        value={formData.dni || ''}
                                         onChange={handleChange}
-                                        disabled={!camposEditables.dni}
-                                        inputMode="numeric" // Sugiere teclado numérico en móviles
-                                        pattern="\d*" // Acepta solo dígitos (HTML5)
+                                        placeholder={!formData.dni ? "Añadir Número de Documento" : ""}
+                                        className="edit-profile-input"
                                     />
-                                    {camposEditables.dni ? (
-                                        <IoSaveOutline className="logo" onClick={() => toggleEdicion('dni')} />
-                                    ) : (
-                                        <LiaEditSolid className="logo" onClick={() => toggleEdicion('dni')} />
-                                    )}
                                 </div>
-                                {errores.dni && <p className="error-mensaje">{errores.dni}</p>}
                             </div>
 
-                            {/* Campo de Ubicación (Autocomplete) */}
-                            <div className="form-group">
-                                <label htmlFor="ubicacion">Ubicación (para salones cercanos)</label>
-                                <div className="input-container">
-                                   {isLoaded ? ( // Renderizar solo si Google Maps API está cargada
+                            {/* Campo Ciudad */}
+                            <div className="edit-profile-field">
+                                <label className="edit-profile-field-label">Ciudad</label>
+                                <div className="edit-profile-input-wrapper">
+                                    <input
+                                        type="text"
+                                        name="ciudad"
+                                        value={formData.ciudad || ''}
+                                        onChange={handleChange}
+                                        placeholder={!formData.ciudad ? "Añadir ciudad" : ""}
+                                        className="edit-profile-input"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Campo Provincia */}
+                            <div className="edit-profile-field">
+                                <label className="edit-profile-field-label">Provincia</label>
+                                <div className="edit-profile-input-wrapper">
+                                    <input
+                                        type="text"
+                                        name="provincia"
+                                        value={formData.provincia || ''}
+                                        onChange={handleChange}
+                                        placeholder={!formData.provincia ? "Añadir provincia" : ""}
+                                        className="edit-profile-input"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Container Derecho - Datos de la Cuenta */}
+                        <div className='edit-profile-info-card'>
+                            <h2 className="edit-profile-card-title">Datos de la Cuenta</h2>
+                            
+                            {/* Campo Correo Electrónico (ahora editable visualmente) */}
+                            <div className="edit-profile-field">
+                                <label className="edit-profile-field-label">Correo Electrónico</label>
+                                <div className="edit-profile-input-wrapper">
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        placeholder="Correo electrónico"
+                                        className="edit-profile-input"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Campo Teléfono */}
+                            <div className="edit-profile-field">
+                                <label className="edit-profile-field-label">Número de Teléfono</label>
+                                <div className="edit-profile-input-wrapper">
+                                    <input
+                                        type="tel"
+                                        name="telefono"
+                                        value={formData.telefono || ''}
+                                        onChange={handleChange}
+                                        placeholder={!formData.telefono ? "Añadir teléfono" : ""}
+                                        className="edit-profile-input"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Campo Nombre de Usuario (ahora editable visualmente) */}
+                            <div className="edit-profile-field">
+                                <label className="edit-profile-field-label">Nombre de Usuario</label>
+                                <div className="edit-profile-input-wrapper">
+                                    <input
+                                        type="text"
+                                        name="nombre_usuario"
+                                        value={formData.nombre_usuario}
+                                        onChange={handleChange}
+                                        placeholder="Nombre de usuario"
+                                        className="edit-profile-input"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Campo Ubicación (para salones cercanos) con icono de mapa */}
+                            <div className="edit-profile-field">
+                                <label className="edit-profile-field-label">Ubicación (para salones cercanos)</label>
+                                <div className="edit-profile-input-wrapper with-icon">
+                                    <FaMapMarkerAlt className="edit-profile-map-icon" />
+                                    {isLoaded ? (
                                         <StandaloneSearchBox
                                             onLoad={(ref) => (inputAutocompleteRef.current = ref)}
                                             onPlacesChanged={handlePlaceChanged}
@@ -386,172 +369,32 @@ const EditarPerfil = ({ isLoaded }) => { // Asegúrate de recibir isLoaded si lo
                                         >
                                             <input
                                                 type="text"
-                                                id="ubicacion" // Añadir ID para el label
-                                                name="ubicacion" // Puede ser útil, aunque no se envíe directamente
-                                                className={getInputClassName('ubicacion') + ' autocomplete-input'} // Añadir clase
-                                                placeholder="Ingresa tu dirección"
+                                                className="edit-profile-input with-icon"
+                                                placeholder="Ingresa tu ubicación"
                                                 value={direccionInput}
                                                 onChange={(e) => {
                                                     setDireccionInput(e.target.value);
-                                                    // Si el usuario borra manualmente, resetea lat/lng
                                                     if (e.target.value === '') {
                                                         setFormData(prev => ({...prev, latitud: null, longitud: null}));
                                                     }
                                                 }}
-                                                disabled={!camposEditables.ubicacion}
-                                                // No pongas ref aquí, ya está en StandaloneSearchBox
                                             />
                                         </StandaloneSearchBox>
                                     ) : (
                                         <input
                                             type="text"
-                                            id="ubicacion"
-                                            name="ubicacion"
-                                            className={getInputClassName('ubicacion')}
+                                            className="edit-profile-input with-icon"
                                             placeholder="Cargando mapa..."
                                             value={direccionInput}
-                                            disabled={true}
+                                            disabled
                                         />
                                     )}
-                                    <FaMapMarkerAlt className="logo-mapa" />
-                                    {camposEditables.ubicacion ? (
-                                        <IoSaveOutline className="logo" onClick={() => toggleEdicion('ubicacion')} />
-                                    ) : (
-                                        <LiaEditSolid className="logo" onClick={() => toggleEdicion('ubicacion')} />
-                                    )}
                                 </div>
-                                {/* Mostrar coordenadas (opcional, para debug o info) */}
-                                <p className="info-ubicacion">
-                                    {formData.latitud && formData.longitud
-                                      ? `Lat: ${formData.latitud.toFixed(4)}, Lng: ${formData.longitud.toFixed(4)}`
-                                      : 'Ubicación no establecida'
-                                    }
-                                </p>
                             </div>
-
-                            {/* Ciudad (Opcional si usas Autocomplete para rellenar) */}
-                            <div className="form-group">
-                                <label htmlFor="ciudad">Ciudad</label>
-                                <div className="input-container">
-                                    <input
-                                        type="text"
-                                        id="ciudad"
-                                        name="ciudad"
-                                        className={getInputClassName('ciudad')}
-                                        value={formData.ciudad}
-                                        onChange={handleChange}
-                                        disabled={!camposEditables.ciudad}
-                                    />
-                                     {camposEditables.ciudad ? (
-                                        <IoSaveOutline className="logo" onClick={() => toggleEdicion('ciudad')} />
-                                    ) : (
-                                        <LiaEditSolid className="logo" onClick={() => toggleEdicion('ciudad')} />
-                                    )}
-                                </div>
-                                {errores.ciudad && <p className="error-mensaje">{errores.ciudad}</p>}
-                            </div>
-
-                            {/* Provincia (Opcional si usas Autocomplete para rellenar) */}
-                             <div className="form-group">
-                                <label htmlFor="provincia">Provincia</label>
-                                <div className="input-container">
-                                    <input
-                                        type="text"
-                                        id="provincia"
-                                        name="provincia"
-                                        className={getInputClassName('provincia')}
-                                        value={formData.provincia}
-                                        onChange={handleChange}
-                                        disabled={!camposEditables.provincia}
-                                    />
-                                    {camposEditables.provincia ? (
-                                        <IoSaveOutline className="logo" onClick={() => toggleEdicion('provincia')} />
-                                    ) : (
-                                        <LiaEditSolid className="logo" onClick={() => toggleEdicion('provincia')} />
-                                    )}
-                                </div>
-                                {errores.provincia && <p className="error-mensaje">{errores.provincia}</p>}
-                            </div>
-
-                             {/* Botón de Guardar Cambios (ahora dentro del form) */}
-                             <div className="form-group btn-guardar-container">
-                                <button type="submit" className="btn-guardar-div" disabled={status === 'loading'}>
-                                    {status === 'loading' ? 'Guardando...' : 'Guardar Cambios'}
-                                </button>
-                            </div>
-                        </form> {/* Cierre del form del contenedor izquierdo */}
+                        </div>
                     </div>
-
-                     {/* Contenedor Derecho (solo con los campos restantes) */}
-                    <div className="Right-container">
-                         {/* Usamos el mismo form, solo con los campos restantes */}
-                        <form className="registro-form" onSubmit={handleSubmit} noValidate>
-                            {/* Teléfono */}
-                            <div className="form-group">
-                                <label htmlFor="telefono">Teléfono</label>
-                                <div className="input-container">
-                                    <input
-                                        type="tel"
-                                        id="telefono"
-                                        name="telefono"
-                                        className={getInputClassName('telefono')}
-                                        value={formData.telefono}
-                                        onChange={handleChange}
-                                        disabled={!camposEditables.telefono}
-                                    />
-                                    {camposEditables.telefono ? (
-                                        <IoSaveOutline className="logo" onClick={() => toggleEdicion('telefono')} />
-                                    ) : (
-                                        <LiaEditSolid className="logo" onClick={() => toggleEdicion('telefono')} />
-                                    )}
-                                </div>
-                                {errores.telefono && <p className="error-mensaje">{errores.telefono}</p>}
-                            </div>
-
-                            {/* Nombre de Usuario */}
-                            <div className="form-group">
-                                <label htmlFor="nombre_usuario">Nombre de Usuario</label>
-                                <div className="input-container">
-                                    <input
-                                        type="text"
-                                        id="nombre_usuario"
-                                        name="nombre_usuario"
-                                        className={getInputClassName('nombre_usuario')}
-                                        value={formData.nombre_usuario}
-                                        onChange={handleChange}
-                                        disabled={true} // Generalmente no se permite cambiar el nombre de usuario
-                                    />
-                                    {/* Opcional: Icono deshabilitado o sin icono */}
-                                </div>
-                                {errores.nombre_usuario && <p className="error-mensaje">{errores.nombre_usuario}</p>}
-                            </div>
-
-                            {/* Email */}
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <div className="input-container">
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        className="input-gray" // El email no se edita aquí usualmente
-                                        value={usuarioActual.email} // Mostrar el email actual
-                                        disabled={true} // Deshabilitado
-                                    />
-                                    {/* Opcional: Sin icono de edición */}
-                                </div>
-                            </div>
-                            
-                            {/* Repetir el botón aquí NO es necesario si usamos un solo <form> */}
-                            {/* <div className="form-group">
-                                <div className="btn-guardar-div" onClick={handleSubmit}>
-                                    {status === 'loading' ? 'Guardando...' : 'Guardar Cambios'}
-                                </div>
-                            </div> */}
-                        </form> {/* Cierre del form del contenedor derecho */}
-                    </div>
-                </div>
-            </div>
+                </form>
+            </main>
         </div>
     );
 };

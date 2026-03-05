@@ -6,7 +6,7 @@ import { IoLockClosedOutline } from "react-icons/io5";
 import { IoMdCard } from "react-icons/io";
 import { LuHouse } from "react-icons/lu";
 import { FiBarChart2 } from "react-icons/fi";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/features/auth/authSlice";
 
@@ -27,6 +27,10 @@ const Sidebar = () => {
 
   // Función para determinar si un item está activo
   const isItemActive = (itemPath) => {
+    // Si estamos en /editar-perfil, consideramos /perfil como activo también
+    if (location.pathname === '/editar-perfil' && itemPath === '/perfil') {
+      return true;
+    }
     return location.pathname === itemPath;
   };
 
@@ -50,8 +54,6 @@ const Sidebar = () => {
       </div>
 
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-        {/* HEADER COMPLETAMENTE ELIMINADO - ya no hay icono ni línea divisoria superior */}
-        
         <div className="sidebar-container">
           <ul className="sidebar-menu">
             {menuItems.map((item) => (
@@ -67,7 +69,7 @@ const Sidebar = () => {
             ))}
           </ul>
 
-          {/* Línea divisoria (solo esta, entre Mis Ventas y Cerrar Sesión) */}
+          {/* Línea divisoria */}
           <div className="sidebar-divider"></div>
 
           {/* Cerrar Sesión */}

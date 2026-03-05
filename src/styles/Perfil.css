@@ -1,116 +1,277 @@
-/* Layout principal: Sidebar + Contenido */
-.profile-wrapper {
-  display: flex;
-  min-height: 80vh;
-  font-family: Arial, sans-serif;
-  color: #333;
+/* Variables de colores */
+:root {
+  --primary-brown: #2D241E;
+  --secondary-gold: #C8AD7F;
+  --text-gray: #787878;
+  --label-gray: #757575;
+  --background-light: #F4F4F6;
+  --white: #FFFFFF;
+  --sidebar-width: 280px; /* Mismo ancho que el sidebar */
 }
 
-/* Sidebar ya tiene sus propios estilos */
+/* Layout principal */
+.profile-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background-light);
+  font-family: 'Montserrat', sans-serif;
+}
+
 .profile-wrapper .profile-content {
   flex: 1;
-  padding: 20px;
+  padding: 1.5rem 2rem 2rem 2rem;
+  margin-left: 0; /* Eliminamos el margen izquierdo */
+  max-width: calc(100% - var(--sidebar-width));
+  width: 100%;
   box-sizing: border-box;
 }
 
-/* Título */
-.profile-wrapper .titulo {
-  margin-bottom: 20px;
+/* Header Card */
+.profile-header-card {
+  background-color: var(--white);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  margin-bottom: 1.5rem;
+  padding: 1.2rem 1.8rem; /* Escalado 0.8 de 1.5rem 2rem */
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.profile-wrapper .nombre_de_usuario {
+.profile-header-content {
   display: flex;
   align-items: center;
-  font-size: 32px;
-  font-weight: bold;
-  color: #6A0DAD;
-  position: relative;
-}
-
-/* Botón Editar */
-.profile-wrapper .editar-button {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background-color: #6A0DAD;
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.profile-wrapper .editar-button:hover {
-  opacity: 0.9;
-}
-
-.profile-wrapper .logo-editar {
-  width: 16px;
-  height: 16px;
-}
-
-.profile-wrapper .editar-texto {
-  font-size: 14px;
-  font-weight: bold;
-}
-
-/* Info containers */
-.profile-wrapper .containers-wrapper {
-  display: flex;
-  gap: 20px;
+  gap: 1.6rem; /* Escalado 0.8 de 2rem */
   flex-wrap: wrap;
 }
 
-.profile-wrapper .Left-container,
-.profile-wrapper .Right-container {
-  flex: 1;
-  min-width: 250px;
-  padding: 1.5rem;
-}
-
-.profile-wrapper .Left-container h2,
-.profile-wrapper .Right-container h2 {
-  color: #6A0DAD;
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-/* 👇 scoped: ya no afecta al resto */
-.profile-wrapper label {
-  display: block;
-  margin-top: 10px;
-  font-weight: 700;
-  color: #6A0DAD;
-}
-
-.profile-wrapper h3 {
-  margin: 5px 0;
-  color: #6A0DAD;
-  font-size: 16px;
-  font-weight: normal;
-  padding: 5px 0;
-}
-
-/* --- Estilos para la foto en la página de Perfil --- */
-.profile-wrapper .titulo {
-  display: flex; /* Cambiamos a flex para alinear foto y texto */
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 20px;
-}
-
+/* Foto de perfil */
 .profile-page-pic {
-  width: 100px;
-  height: 100px;
+  width: 120px; /* Escalado 0.8 de 150px */
+  height: 120px; /* Escalado 0.8 de 150px */
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--primary-color);
-  flex-shrink: 0; /* Evita que la imagen se encoja */
+  flex-shrink: 0;
 }
 
-.profile-wrapper .nombre_de_usuario {
-  align-items: flex-start; /* Alinea el botón de editar con el nombre */
-  flex-direction: column; /* Apila nombre y botón */
-  gap: 0.5rem;
+/* Sección de nombre */
+.profile-name-section {
+  flex: 1;
+  min-width: 200px; /* Escalado 0.8 de 250px */
+}
+
+.profile-user-name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 24px; /* Escalado 0.8 de 30px */
+  color: var(--primary-brown);
+  margin: 0 0 0.4rem 0; /* Escalado 0.8 de 0.5rem */
+}
+
+.profile-register-date {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 14.4px; /* Escalado 0.8 de 18px */
+  color: var(--text-gray);
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* Botón Editar */
+.profile-edit-button {
+  width: 129.6px; /* Escalado 0.8 de 162px */
+  height: 40px; /* Escalado 0.8 de 50px */
+  background-color: var(--white);
+  border: 1px solid var(--secondary-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6.4px; /* Escalado 0.8 de 8px */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  border-radius: 4px; /* Mantenemos el borde redondeado del botón */
+  flex-shrink: 0;
+}
+
+.profile-edit-button:hover {
+  background-color: var(--secondary-gold);
+}
+
+.profile-edit-icon {
+  width: 16px; /* Escalado 0.8 de 20px */
+  height: 16px; /* Escalado 0.8 de 20px */
+  color: var(--secondary-gold);
+  transition: color 0.3s ease;
+}
+
+.profile-edit-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12.8px; 
+  color: var(--secondary-gold);
+  transition: color 0.3s ease;
+}
+
+.profile-edit-button:hover .profile-edit-icon,
+.profile-edit-button:hover .profile-edit-text {
+  color: var(--white);
+  font-size: 13.5px;
+}
+
+/* Grid de cards */
+.profile-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem; /* Escalado ligeramente */
+  width: 100%;
+}
+
+/* Estilos base para las cards */
+.profile-info-card {
+  background-color: var(--white);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding: 1.6rem; /* Escalado 0.8 de 2rem */
+  box-sizing: border-box;
+  height: fit-content;
+}
+
+/* Títulos de las cards */
+.profile-card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 17.6px; /* Escalado 0.8 de 22px */
+  color: var(--primary-brown);
+  margin: 0 0 1.6rem 0; /* Escalado 0.8 de 2rem */
+  padding-bottom: 0.4rem; /* Escalado 0.8 de 0.5rem */
+}
+
+/* Campos del formulario */
+.profile-field {
+  margin-bottom: 1.6rem; /* Escalado 0.8 de 2rem */
+}
+
+.profile-field:last-child {
+  margin-bottom: 0;
+}
+
+.profile-field-label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 9.6px; /* Escalado 0.8 de 12px */
+  color: var(--label-gray);
+  display: block;
+  margin-bottom: 0.4rem; /* Escalado 0.8 de 0.5rem */
+  text-transform: uppercase;
+  letter-spacing: 0.4px; /* Escalado 0.8 de 0.5px */
+}
+
+/* Estilos para datos no nulos */
+.perfil-not-null-data {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 12.8px; /* Escalado 0.8 de 16px */
+  color: var(--primary-brown);
+  display: block;
+  line-height: 1.4;
+}
+
+/* Estilos para campos nulos */
+.perfil-null-data {
+  display: inline-flex;
+  align-items: center;
+  gap: 6.4px; /* Escalado 0.8 de 8px */
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  padding: 0.2rem 0; /* Escalado 0.8 de 0.25rem */
+}
+
+.perfil-null-data:hover {
+  opacity: 0.8;
+}
+
+.perfil-null-data .add-icon {
+  width: 19.2px; /* Escalado 0.8 de 24px */
+  height: 19.2px; /* Escalado 0.8 de 24px */
+  color: var(--secondary-gold);
+}
+
+.perfil-null-data span {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 11.2px; /* Escalado 0.8 de 14px */
+  color: var(--secondary-gold);
+}
+
+/* Estilo especial para el campo de contraseña */
+.password-field {
+  letter-spacing: 3.2px; /* Escalado 0.8 de 4px */
+  font-family: monospace;
+  font-size: 14.4px; /* Escalado 0.8 de 18px */
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .profile-wrapper .profile-content {
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  .profile-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .profile-header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-name-section {
+    text-align: center;
+  }
+
+  .profile-edit-button {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-wrapper .profile-content {
+    padding: 0.8rem;
+  }
+
+  .profile-page-pic {
+    width: 96px; /* Escalado 0.8 de 120px */
+    height: 96px; /* Escalado 0.8 de 120px */
+  }
+
+  .profile-user-name {
+    font-size: 19.2px; /* Escalado 0.8 de 24px */
+  }
+
+  .profile-register-date {
+    font-size: 12.8px; /* Escalado 0.8 de 16px */
+  }
+
+  .profile-edit-button {
+    width: 112px; /* Escalado 0.8 de 140px */
+    height: 36px; /* Escalado 0.8 de 45px */
+  }
+
+  .profile-info-card {
+    padding: 1.2rem; /* Escalado 0.8 de 1.5rem */
+  }
+}
+
+.profile-card-spacer {
+  height: 3rem; 
+  width: 100%;
+  opacity: 0; /* Invisible */
+}
+
+/* Ajuste responsive */
+@media (max-width: 1200px) {
+  .profile-card-spacer {
+    display: none; /* Ocultar en móvil cuando las cards están apiladas */
+  }
 }
