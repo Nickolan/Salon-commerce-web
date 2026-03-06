@@ -34,10 +34,16 @@
 /* Contenido a la derecha */
 .item-reserva-contenido {
   flex: 1;
-  padding: 0.8rem 1.2rem; /* 1rem * 0.8 */
+  padding: 0.8rem 1.2rem;
   display: flex;
   flex-direction: column;
-  position: relative;
+  position: relative
+}
+
+.item-reserva-top {
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* ← permite que flex lo comprima si es necesario */
 }
 
 /* Header con nombre y estado */
@@ -72,18 +78,23 @@
   letter-spacing: 0.24px;
 }
 
-/* Dirección (sin icono) */
 .item-reserva-direccion {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 14px; /* 17px * 0.8 */
+  font-size: 14px;
   color: #787878;
-  opacity: 0.5;
-  margin: 0 0 0.4rem 0;
+  margin: 0;          /* ← sin márgenes que roben espacio */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 400px; /* 500px * 0.8 */
+  max-width: 400px;
+}
+
+.item-reserva-detalles-fila {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;               /* espacio entre los dos grupos */
+  margin-bottom: 0.2rem;
 }
 
 /* Filas de detalles (icono + texto) */
@@ -112,27 +123,26 @@
 
 /* Footer con monto */
 .item-reserva-footer {
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-  top: -12px;
+  position: absolute;
+  bottom: 0.8rem;
+  right: 1.2rem;
 }
 
 .item-reserva-monto-container {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  gap: 0.1rem;   
 }
 
 .item-reserva-monto {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  font-size: 16px; /* 20px * 0.8 */
+  font-size: 16px;
   color: #2D241E;
   line-height: 1.2;
-  margin-bottom: 4px;
-  position: relative;
-  top: -2px;
+  margin: 0;       /* ← sin margin-bottom ni top negativo */
+  position: static; /* ← ya no necesita position relative */
 }
 
 .item-reserva-monto-label {

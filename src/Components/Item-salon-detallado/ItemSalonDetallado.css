@@ -1,152 +1,274 @@
-.caja { 
-  border: solid 1px var(--primary-color);
+.item-salon-detallado-card {
+  display: flex;
+  width: 100%;
+  height: 141px;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 0.8rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.item-salon-detallado-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 13px rgba(0, 0, 0, 0.12);
+}
+
+/* Imagen a la izquierda */
+.item-salon-detallado-imagen-wrapper {
+  position: relative;
+  width: 333px;
+  height: 141px;
+  flex-shrink: 0;
+  border-radius: 16px 0 0 16px;
+  overflow: hidden;
+}
+
+.item-salon-detallado-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Botón de favoritos - posicionado sobre la imagen */
+.item-salon-detallado-imagen-wrapper .boton-favoritos {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+}
+
+/* Contenido a la derecha */
+.item-salon-detallado-contenido {
+  flex: 1;
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.item-salon-detallado-top {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Header con nombre y rating */
+.item-salon-detallado-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.2rem;
+}
+
+.item-salon-detallado-titulo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #2D241E;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+/* Rating en elipse (30x30) */
+.item-salon-detallado-rating {
   display: flex;
   align-items: center;
-  width: 95%;
-  height: 180px;
-  color: var(--primary-color);
-  border-radius: 8px;
+  justify-content: center;
+  gap: 4px;
+  min-width: 30px;
+  height: 30px;
+  background-color: #C8AD7F;
+  border-radius: 15px;
+  padding: 0 0.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #2D241E;
+}
+
+.item-salon-detallado-rating-number {
+  font-weight: 600;
+  color: #2D241E;
+}
+
+/* Dirección con icono */
+.item-salon-detallado-direccion {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #787878;
+  margin: 0;
+  white-space: nowrap;
   overflow: hidden;
-  transition: all 0.4s ease;
-  margin: 10px auto;
-  background-color: white;
+  text-overflow: ellipsis;
+  max-width: 400px;
 }
 
-.caja:hover {
-  transform: scale(1.025);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  z-index: 10; 
-}
-
-.info_principal .titulo{
-    font-size:23px;
-    text-align: start;
-}
-.imagen-wrapper {
-  position: relative;
-  width: 200px;
-  height: 100%;
+.item-salon-detallado-direccion-icon {
+  color: #C8AD7F;
+  font-size: 14px;
   flex-shrink: 0;
 }
 
-.imagen_salon {
-  width: 100%;   
-  height: 100%; 
-  object-fit: cover; 
-  border-radius: 8px 0 0 8px; 
-}
-
-.info_principal {
-  flex: 1;
-  margin-left: 10px;
+/* Fila de detalles */
+.item-salon-detallado-detalles-fila {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
 }
 
-.titulo {
-  font-size: 22px !important;
-  font-weight: bold !important;
-  margin-bottom: 5px !important;
-  margin-top: 2px !important;
-  color: var(--primary-color) !important;
-  white-space: normal !important;       
-  word-break: break-word !important;    
-}
-.info_extra {
+/* Detalle individual (icono + texto) */
+.item-salon-detallado-detalle {
   display: flex;
-  flex-direction: column;  
-  align-items: flex-end;   
-  justify-content: space-between; 
-  margin-left: auto;
-  height: 100%;   
-  padding: 8px 10px; 
-  text-align: right;
+  align-items: center;
+  gap: 0.4rem;
 }
 
-.calificacion {
+.item-salon-detallado-icono {
+  color: #C8AD7F;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  stroke-width: 1.5;
+}
+
+.item-salon-detallado-detalle-texto {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: #2D241E;
+  opacity: 0.7;
+}
+
+/* Propietario (sin icono, igual que en ItemReserva) */
+.item-salon-detallado-propietario {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: #2D241E;
+  opacity: 0.7;
+  margin-left: 0;
+}
+
+/* Footer con precio */
+.item-salon-detallado-footer {
+  position: absolute;
+  bottom: 0.8rem;
+  right: 1.2rem;
+}
+
+.item-salon-detallado-precio-container {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 6px;              
-  font-size: 14px;
+  gap: 0.1rem;
 }
 
-.puntaje {
-  font-size: 20px;
-  background-color: var(--primary-color);
-  color: white;
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-weight: bold;
+.item-salon-detallado-precio {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #2D241E;
+  line-height: 1.2;
+  margin: 0;
 }
 
-.precio {
-  text-align: right;
-  font-weight: bold;
-  font-size: 20px;
+.item-salon-detallado-precio-label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 8px;
+  color: #2D241E;
+  text-transform: uppercase;
+  letter-spacing: 0.24px;
+  line-height: 1;
+  margin-top: 2px;
 }
 
-.precio small {
-  display: block;
-  font-size: 12px;
-  font-weight: normal;
-}
-
-/* 📱 RESPONSIVE: diseño tipo “card” para pantallas pequeñas */
-@media (max-width: 900px) {
-  .caja {
-    flex-direction: column;
-    height: auto;
-    text-align: center;
-    padding: 10px;
+/* Responsive */
+@media (max-width: 1200px) {
+  .item-salon-detallado-imagen-wrapper {
+    width: 240px;
   }
-
-  .imagen-wrapper {
-    width: 100%;
-    height: 180px;
-  }
-
-  .imagen_salon {
-    border-radius: 8px;
-  }
-
-  .info_principal {
-    margin: 10px 0;
-    align-items: center;
-  }
-
-  .info_extra {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    padding: 10px 0;
-  }
-
-  .calificacion {
-    align-items: center;
-  }
-
-  .precio {
-    text-align: center;
-  }
-}
-
-/* 📱 Extra pequeño (mobile) */
-@media (max-width: 480px) {
-  .titulo {
+  
+  .item-salon-detallado-titulo {
     font-size: 18px;
+    max-width: 250px;
   }
-
-  .puntaje {
-    font-size: 16px;
-    padding: 2px 4px;
+  
+  .item-salon-detallado-direccion {
+    font-size: 12px;
+    max-width: 320px;
   }
+  
+  .item-salon-detallado-rating {
+    min-width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+}
 
-  .precio {
+@media (max-width: 992px) {
+  .item-salon-detallado-card {
+    height: auto;
+    flex-direction: column;
+  }
+  
+  .item-salon-detallado-imagen-wrapper {
+    width: 100%;
+    height: 160px;
+    border-radius: 16px 16px 0 0;
+  }
+  
+  .item-salon-detallado-contenido {
+    padding: 0.8rem;
+  }
+  
+  .item-salon-detallado-titulo {
+    max-width: 100%;
+  }
+  
+  .item-salon-detallado-direccion {
+    max-width: 100%;
+  }
+  
+  .item-salon-detallado-footer {
+    position: static;
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 576px) {
+  .item-salon-detallado-titulo {
     font-size: 16px;
+  }
+  
+  .item-salon-detallado-rating {
+    min-width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+  
+  .item-salon-detallado-detalle-texto,
+  .item-salon-detallado-propietario {
+    font-size: 11px;
+  }
+  
+  .item-salon-detallado-precio {
+    font-size: 14px;
   }
 }

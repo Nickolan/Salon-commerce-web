@@ -83,38 +83,39 @@ const ItemReserva = ({ reserva }) => {
 
       {/* Contenido a la derecha */}
       <div className="item-reserva-contenido">
-        {/* Fila superior: Nombre del salón y estado */}
-        <div className="item-reserva-header">
-          <h3 className="item-reserva-titulo">
-            {reserva.salon?.nombre || 'Salón no disponible'}
-          </h3>
-          <div 
-            className="item-reserva-estado"
-            style={{ backgroundColor: `${estadoInfo.bgColor}80` }}
-          >
-            <span style={{ color: estadoInfo.textColor }}>
-              {estadoInfo.texto}
+
+        {/* Bloque superior: nombre + dirección */}
+        <div className="item-reserva-top">
+          <div className="item-reserva-header">
+            <h3 className="item-reserva-titulo">
+              {reserva.salon?.nombre || 'Salón no disponible'}
+            </h3>
+            <div 
+              className="item-reserva-estado"
+              style={{ backgroundColor: `${estadoInfo.bgColor}80` }}
+            >
+              <span style={{ color: estadoInfo.textColor }}>
+                {estadoInfo.texto}
+              </span>
+            </div>
+          </div>
+          <p className="item-reserva-direccion">
+            {reserva.salon?.direccion || 'Dirección no disponible'}
+          </p>
+        </div>
+
+        {/* Fila calendario + horario en la misma línea */}
+        <div className="item-reserva-detalles-fila">
+          <div className="item-reserva-detalle">
+            <FiCalendar className="item-reserva-icono" />
+            <span className="item-reserva-detalle-texto">{fechaFormateada}</span>
+          </div>
+          <div className="item-reserva-detalle">
+            <FiClock className="item-reserva-icono" />
+            <span className="item-reserva-detalle-texto">
+              {horaInicioFormateada} - {horaFinFormateada}
             </span>
           </div>
-        </div>
-
-        {/* Dirección (sin icono) */}
-        <p className="item-reserva-direccion">
-          {reserva.salon?.direccion || 'Dirección no disponible'}
-        </p>
-
-        {/* Fila de detalles: calendario */}
-        <div className="item-reserva-detalle">
-          <FiCalendar className="item-reserva-icono" />
-          <span className="item-reserva-detalle-texto">{fechaFormateada}</span>
-        </div>
-
-        {/* Fila de detalles: hora */}
-        <div className="item-reserva-detalle">
-          <FiClock className="item-reserva-icono" />
-          <span className="item-reserva-detalle-texto">
-            {horaInicioFormateada} - {horaFinFormateada}
-          </span>
         </div>
 
         {/* Fila de detalles: propietario */}

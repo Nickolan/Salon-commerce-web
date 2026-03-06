@@ -1,48 +1,105 @@
-.pagina-favoritos {
-    padding: 2rem;
+.favoritos-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #F4F4F6;
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
 }
 
-.titulo-favoritos {
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-    color: var(--primary-color);
-    font-size: 2rem;
-    font-weight: bold;
+/* El contenido principal */
+.favoritos-content {
+  flex: 1;
+  padding: 5rem 2rem 2rem 2rem; /* 80px → 5rem, 32px → 2rem */
+  box-sizing: border-box;
+  width: calc(100% - 17.5rem); /* 280px → 17.5rem */
+  max-width: 70rem; /* 1120px → 70rem */
+  margin: 0 auto;
 }
 
-.listado-favoritos {
-    display: grid;
-    grid-template-columns: 1fr; /* una sola columna que ocupa todo */
-    gap: 1.5rem;
-    margin-top: 2.1rem;
+/* Header con título y searchbar */
+.favoritos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.6rem;
+  width: 100%;
+}
+
+.favoritos-titulo {
+  color: #2D241E;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.75rem; /* 28px → 1.75rem */
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* El contenedor de la lista de favoritos */
+.lista-favoritos {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 0.8rem;
+  width: 100%;
+}
+
+/* Estilos para mensajes de estado */
+.status-message {
+  padding: 2.4rem 0.8rem;
+  text-align: center;
+  font-size: 0.96rem;
+  color: #555;
+  background-color: #f7f7f7;
+  border-radius: 0.625rem; /* 10px → 0.625rem */
+  margin-top: 1.6rem;
+  width: 100%;
+}
+
+.status-message.error {
+  color: #d8000c;
+  background-color: #ffd2d2;
+}
+
+/* Responsive para tablets */
+@media (max-width: 75rem) { /* 1200px → 75rem */
+  .favoritos-content {
+    padding: 5rem 1.5rem 2rem 1.5rem; /* 24px → 1.5rem */
+    width: calc(100% - 15rem); /* 240px → 15rem */
+  }
+  
+  .favoritos-titulo {
+    font-size: 1.375rem; /* 22px → 1.375rem */
+  }
+}
+
+@media (max-width: 64rem) { /* 1024px → 64rem */
+  .favoritos-content {
+    padding: 5rem 1.25rem 2rem 1.25rem; /* 20px → 1.25rem */
+    width: calc(100% - 15rem);
+  }
+}
+
+/* Responsive para móviles */
+@media (max-width: 48rem) { /* 768px → 48rem */
+  .favoritos-layout {
+    flex-direction: column;
+  }
+  
+  .favoritos-content {
+    padding: 4rem 1rem 2rem 1rem; /* 64px → 4rem, 16px → 1rem */
     width: 100%;
-}
-
-.listado-favoritos > * {
-    width: 100%; /* hace que cada card se expanda al ancho completo */
-}
-
-.sin-resultados-favoritos {
-    color: var(--primary-color);
-    font-weight: bold;
+    max-width: 100%;
+  }
+  
+  .favoritos-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+  
+  .favoritos-titulo {
+    font-size: 1.1875rem; /* 19px → 1.1875rem */
     text-align: center;
-    margin-top: 1rem;
-}
-
-/* --- ESTILOS RESPONSIVOS MEJORADOS --- */
-@media (max-width: 768px) {
-    .pagina-favoritos {
-        padding: 1.5rem 1rem; /* Menos padding en los lados, un poco más vertical */
-        padding-top: 5rem;    /* Espacio consistente para el navbar */
-    }
-
-    .titulo-favoritos {
-        font-size: 1.8rem;
-        text-align: center; /* Centrado se ve más ordenado en móvil */
-    }
-
-    .listado-favoritos {
-        gap: 1.2rem; /* Un poco menos de espacio entre elementos */
-        margin-top: 1.5rem;
-    }
+    white-space: normal;
+  }
 }

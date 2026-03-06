@@ -6,18 +6,15 @@
     gap: 0.5rem;
     cursor: pointer;
     background: none;
-    border: 2px solid var(--primary-color, #C8AD7F);
-    color: var(--primary-color, #C8AD7F);
+    border: 2px solid #2D241E;
     border-radius: 8px;
     font-weight: bold;
     font-size: 0.9rem;
     padding: 0.5rem 1rem;
     transition: all 0.2s ease-in-out;
-    outline: none; /* Para el div con rol de botón */
 }
 
 .boton-favorito:hover {
-    background-color: #f3e8fb;
     transform: translateY(-2px);
 }
 
@@ -29,8 +26,9 @@
     font-size: 1.1rem;
 }
 
-.boton-favorito.icon-only .fav-icon {
-  color: var(--primary-dark, #2D241E) !important; 
+/* Estilo para el corazón cuando es favorito */
+.boton-favorito.es-favorito .fav-icon {
+    color: #C8AD7F; /* Un color rojo/rosa para el favorito */
 }
 
 /* Variante pequeña, solo ícono (para las tarjetas) */
@@ -55,10 +53,4 @@
 
 .boton-favorito.icon-only .fav-text {
     display: none; /* Ocultamos el texto en esta variante */
-}
-
-/* Focus styles para accesibilidad */
-.boton-favorito:focus-visible {
-    outline: 2px solid #C8AD7F;
-    outline-offset: 2px;
 }

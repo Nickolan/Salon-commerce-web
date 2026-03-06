@@ -1,101 +1,113 @@
-import React, { Fragment, useMemo } from "react"; // Importar useMemo
+import React, { Fragment, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./ItemSalonDetallado.css"
+import "./ItemSalonDetallado.css";
 import { FaMap } from 'react-icons/fa';
 import { FaUserGroup } from 'react-icons/fa6';
-// import { FaShoppingCart } from 'react-icons/fa'; // No se usa
+import {FiKey} from 'react-icons/fi';
 import BotonFavoritos from "../BotonFavoritos/BotonFavoritos";
-import { FaStar } from "react-icons/fa"; // Para el ícono de estrella
+import { FaStar } from "react-icons/fa";
+import axios from 'axios';
 
 function ItemSalonDetallado({ salon }) {
   const navigate = useNavigate();
+  const [promedioRating, setPromedioRating] = useState(0);
+  const [loadingResenias, setLoadingResenias] = useState(false);
+
+  useEffect(() => {
+    const fetchResenias = async () => {
+      if (!salon?.id_salon) return;
+      
+      setLoadingResenias(true);
+      try {
+        const response = await axios.get(`http://localhost:3000/resenias/salon/${salon.id_salon}`);
+        const resenias = response.data;
+        
+        if (resenias && resenias.length > 0) {
+          const suma = resenias.reduce((total, opinion) => total + opinion.calificacion, 0);
+          const promedio = suma / resenias.length;
+          setPromedioRating(Math.round(promedio * 10) / 10);
+        } else {
+          setPromedioRating(0);
+        }
+      } catch (error) {
+        console.error("Error al cargar reseñas:", error);
+        setPromedioRating(0);
+      } finally {
+        setLoadingResenias(false);
+      }
+    };
+
+    fetchResenias();
+  }, [salon?.id_salon]);
 
   const handleClick = () => {
     navigate(`/salon/${salon.id_salon}`);
   };
 
-  // --- 👇 CÁLCULO DEL PROMEDIO DE RESEÑAS CON useMemo ---
-  const promedioRating = useMemo(() => {
-    // Verificar si hay reservas y si es un array
-    if (!salon || !Array.isArray(salon.reservas) || salon.reservas.length === 0) {
-      return 0; // Si no hay reservas, no hay promedio
-    }
-
-    let sumaCalificaciones = 0;
-    let cantidadResenias = 0;
-
-    // Iterar sobre las reservas del salón
-    salon.reservas.forEach(reserva => {
-      // Verificar si la reserva tiene una reseña y si la calificación es un número válido
-      if (reserva.resenia && typeof reserva.resenia.calificacion === 'number') {
-        sumaCalificaciones += reserva.resenia.calificacion;
-        cantidadResenias++;
-      }
-    });
-
-    // Calcular el promedio solo si hay reseñas
-    if (cantidadResenias === 0) {
-      return 0;
-    }
-
-    // Devolver el promedio redondeado a un decimal
-    return Math.round((sumaCalificaciones / cantidadResenias) * 10) / 10;
-  }, [salon]); // Recalcular solo si el objeto 'salon' cambia
-  // --- 👆 FIN DEL CÁLCULO ---
-
-  const ratingFormateado = promedioRating > 0 ? promedioRating.toFixed(1) : "-";
-
-  const calificacionTexto = (puntaje) => {
-    if (!puntaje || puntaje <= 0) return "Sin valorar";
-    if (puntaje >= 4.5) return "Excelente";
-    if (puntaje >= 3.5) return "Muy bien";
-    if (puntaje >= 2.5) return "Regular"; // Cambiado de "Mediana"
-    if (puntaje >= 1.5) return "Mala";
-    return "Muy Mala";
-  };
-
-  const textoRating = calificacionTexto(promedioRating);
+  const ratingFormateado = promedioRating > 0 ? promedioRating.toFixed(1) : "0";
 
   return (
-    <Fragment>
-      <div className="caja" onClick={handleClick} style={{ cursor: "pointer" }}>
-        <div className="imagen-wrapper">
-          <img src={salon.fotos?.length > 0 ? salon.fotos[0] : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"} alt={salon.nombre} className="imagen_salon" />
-           {/* Badge de Rating sobre la imagen */}
-           {promedioRating > 0 && (
-             <div className="salon-card-rating item-detallado-rating"> {/* Asegúrate que esta clase exista en tu CSS si quieres estilos específicos */}
-               <FaStar />
-               <span>{ratingFormateado}</span>
-             </div>
-           )}
-          <BotonFavoritos id_salon={salon.id_salon} isIconOnly={true}/>
-        </div>
-
-        <div className="info_principal">
-          <h3 className="titulo">{salon.nombre || 'Nombre no disponible'}</h3>
-          <p><FaMap /> {salon.direccion || 'Dirección no disponible'}</p>
-          <p><FaUserGroup /> {salon.capacidad || '?'} personas</p>
-        </div>
-
-        <div className="info_extra">
-          <div className="calificacion">
-            {/* Mostrar el promedio calculado */}
-            <span className="puntaje">
-                <FaStar style={{ marginRight: '4px', marginBottom: '2px', fontSize: '1.1em' }} />
-                {ratingFormateado}
-            </span>
-            {/* Mostrar el texto correspondiente al promedio */}
-            <small>{textoRating}</small>
-          </div>
-          <div className="precio">
-            {/* Formatear precio */}
-            <span>${salon.precio_por_hora ? salon.precio_por_hora.toLocaleString('es-AR') : '-'}</span>
-            <small>por hora</small>
-          </div>
-        </div>
-
+    <div className="item-salon-detallado-card" onClick={handleClick} role="button" tabIndex={0}>
+      {/* Imagen a la izquierda */}
+      <div className="item-salon-detallado-imagen-wrapper">
+        <img
+          src={salon.fotos?.length > 0 ? salon.fotos[0] : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqEx41lmw6yMNksFVU2dPXYqdciHh9CaGlw&s"}
+          alt={salon.nombre || 'Salón'}
+          className="item-salon-detallado-imagen"
+        />
+        {/* alwaysFilled=true porque esta página solo muestra salones ya guardados como favoritos */}
+        <BotonFavoritos id_salon={salon.id_salon} isIconOnly={true} alwaysFilled={true} />
       </div>
-    </Fragment>
+
+      {/* Contenido a la derecha */}
+      <div className="item-salon-detallado-contenido">
+
+        {/* Bloque superior: nombre + rating */}
+        <div className="item-salon-detallado-top">
+          <div className="item-salon-detallado-header">
+            <h3 className="item-salon-detallado-titulo">
+              {salon.nombre || 'Nombre no disponible'}
+            </h3>
+            <div className="item-salon-detallado-rating">
+              <FaStar className="item-salon-detallado-rating-icon" />
+              <span className="item-salon-detallado-rating-number">{ratingFormateado}</span>
+            </div>
+          </div>
+          <p className="item-salon-detallado-direccion">
+            <FaMap className="item-salon-detallado-direccion-icon" />
+            {salon.direccion || 'Dirección no disponible'}
+          </p>
+        </div>
+
+        {/* Fila de capacidad */}
+        <div className="item-salon-detallado-detalles-fila">
+          <div className="item-salon-detallado-detalle">
+            <FaUserGroup className="item-salon-detallado-icono" />
+            <span className="item-salon-detallado-detalle-texto">
+              {salon.capacidad_max || salon.capacidad || '?'} personas de capacidad máxima
+            </span>
+          </div>
+        </div>
+
+        {/* Fila de propietario */}
+        <div className="item-salon-detallado-detalle">
+          <FiKey className="item-salon-detallado-icono" />
+          <span className="item-salon-detallado-propietario">
+            Propietario: {salon.publicador?.nombre || 'Usuario'} {salon.publicador?.apellido || ''}
+          </span>
+        </div>
+
+        {/* Precio por hora */}
+        <div className="item-salon-detallado-footer">
+          <div className="item-salon-detallado-precio-container">
+            <span className="item-salon-detallado-precio">
+              ${salon.precio_por_hora ? salon.precio_por_hora.toLocaleString('es-AR') : '-'}
+            </span>
+            <span className="item-salon-detallado-precio-label">por hora</span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
